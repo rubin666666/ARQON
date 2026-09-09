@@ -1308,3 +1308,38 @@ footer > div a {
   display: block;
 }
 .menu-models{display:grid;grid-template-columns:1fr 1fr;gap:0 15px;padding:0 10px 8px;border-left:2px solid var(--primary)}.menu-models a{font-size:12px}
+
+/* Readable controls and consistent card rhythm across both themes. */
+.button {
+  background: #b9400d;
+  min-height: 48px;
+}
+.button:hover:not(:disabled) { filter: brightness(1.12); }
+textarea:focus-visible, summary:focus-visible {
+  outline: 2px solid var(--primary);
+  outline-offset: 4px;
+}
+.model-copy { display: flex; flex-direction: column; flex: 1; }
+.model-copy > button { margin-top: auto; min-height: 48px; }
+.model-specs { margin-bottom: 20px; }
+.model-specs > div, .model-specs dd { font-size: 14px; }
+.model-specs > div { flex-wrap: wrap; }
+.model-specs dt, .model-specs dd { overflow-wrap: anywhere; }
+.field, .form-notice, .consent, .field-explainer { font-size: 14px; }
+.menu-models a { min-height: 44px; font-size: 14px; }
+.art-top, .art-bottom { font-size: 12px; }
+.icon { width: 44px; flex-shrink: 0; }
+@media (max-width: 540px) {
+  .products, .fields { grid-template-columns: 1fr; }
+  .model-specs > div { display: flex; }
+  .model-specs dd { margin-top: 0; text-align: right; }
+  .model-copy { padding: 22px; }
+  .model-copy button, .button { font-size: 14px; }
+  .hero h1 { font-size: clamp(36px, 10.5vw, 48px); }
+  .hero-links { gap: 16px; }
+  .header-actions { gap: 4px; }
+  .art-top, .art-bottom { letter-spacing: .7px; }
+}
+@media (prefers-reduced-motion: reduce) {
+  *, *::before, *::after { animation-duration: .01ms !important; animation-iteration-count: 1 !important; }
+}

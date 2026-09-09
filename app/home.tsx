@@ -42,6 +42,7 @@ export default function Home({
 }) {
   const [en, E] = useState(initialEnglish),
     [dark, D] = useState(false),
+    [themeReady, setThemeReady] = useState(false),
     [menu, M] = useState(false),
     [modal, O] = useState('');
   const t = (a: string, b: string) => (en ? b : a);
@@ -53,6 +54,7 @@ export default function Home({
         (!readPreference('arqon-theme') &&
           matchMedia('(prefers-color-scheme: dark)').matches),
     );
+    setThemeReady(true);
     if (new URLSearchParams(location.search).get('lang') === 'en') E(true);
     const syncLocale = () =>
       E(location.pathname.replace(/\/$/, '').endsWith('/en'));
@@ -61,8 +63,8 @@ export default function Home({
   }, []);
   /* oxlint-enable react/react-compiler */
   useEffect(() => {
-    document.documentElement.classList.toggle('dark', dark);
-  }, [dark]);
+    if (themeReady) document.documentElement.classList.toggle('dark', dark);
+  }, [dark, themeReady]);
   useEffect(() => {
     document.documentElement.lang = en ? 'en' : 'uk';
     document.title = en
