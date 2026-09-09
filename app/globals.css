@@ -1397,6 +1397,6 @@ textarea:focus-visible, summary:focus-visible {
 }
 .dark .brand img {
   mix-blend-mode: screen;
-  filter: invert(1) hue-rotate(195deg) saturate(4) contrast(1.08);
+  filter: invert(1) hue-rotate(185deg) saturate(4) contrast(1.08);
   border-radius: 0;
 }
