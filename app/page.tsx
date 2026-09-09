@@ -38,7 +38,7 @@ export default function Home() {
   const [values, V] = useState(['1000', 'corn', '25', '14', '30', '150']);
   const t = (a: string, b: string) => (en ? b : a);
   // Browser preferences are read after hydration to preserve matching server markup.
-  /* oxlint-disable react(react-compiler) */
+  /* oxlint-disable react/react-compiler */
   useEffect(() => {
     D(
       localStorage.getItem('arqon-theme') === 'dark' ||
@@ -47,7 +47,7 @@ export default function Home() {
     );
     E(new URLSearchParams(location.search).get('lang') === 'en');
   }, []);
-  /* oxlint-enable react(react-compiler) */
+  /* oxlint-enable react/react-compiler */
   useEffect(() => {
     document.documentElement.classList.toggle('dark', dark);
   }, [dark]);

@@ -33,3 +33,12 @@ The supplied brief omits the actual water-removal and payback equations. It also
 ## Status
 
 The preview deliberately displays no financial results until approved constants arrive. Media, contacts and partner sections disclose missing content. The provided user GitHub repository remains the origin remote.
+
+## Verification of this review version
+
+- Production build and TypeScript check passed.
+- Five synthetic calculation tests passed.
+- Lint passes for authored app, calculation and test files. Whole-template lint reports existing issues in generated components/ui and hooks; these vendored files were not modified.
+- Initial dependency installation reported 11 audit findings (1 low, 2 moderate, 8 high). Review reachability and patched compatible versions before public launch; no forced dependency upgrades were applied.
+- Local route responded HTTP 200. Browser interaction/visual testing has not been performed.
+- Sites registration is reserved in .openai/hosting.json. No production deployment has been made: required content and live business integrations remain incomplete.
