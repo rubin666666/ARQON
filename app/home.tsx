@@ -325,7 +325,7 @@ export default function Home({
             {[1, 2, 3, 4].map((n) => (
               <article key={n} id={'sahara-' + n}>
                 <div className="model-top">
-                  <span>SAHARA / 0{n}</span>
+                  <span>{t('СЕРІЯ SAHARA', 'SAHARA SERIES')}</span>
                   <ArrowUpRight size={18} />
                 </div>
                 <Image
@@ -341,7 +341,7 @@ export default function Home({
                   loading="lazy"
                 />
                 <div className="model-copy">
-                  <h3>SAHARA {n}</h3>
+                  <h3>SAHARA <span className="model-number">{n}</span></h3>
                   <dl className="model-specs">
                     {(['capacity', 'fuel', 'efficiency'] as const).map(
                       (key, i) => (
