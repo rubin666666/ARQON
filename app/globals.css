@@ -1343,3 +1343,47 @@ textarea:focus-visible, summary:focus-visible {
 @media (prefers-reduced-motion: reduce) {
   *, *::before, *::after { animation-duration: .01ms !important; animation-iteration-count: 1 !important; }
 }
+
+/* Hero: a technical drawing on the page, rather than a coloured image tile. */
+.hero { grid-template-columns: .95fr 1.15fr; gap: 24px; }
+.hero-art {
+  background-color: transparent;
+  background-image: linear-gradient(var(--border) 1px, transparent 1px), linear-gradient(90deg, var(--border) 1px, transparent 1px);
+  background-size: 32px 32px;
+  border-radius: 0;
+  overflow: visible;
+  isolation: isolate;
+}
+.hero-art::before {
+  content: '';
+  position: absolute;
+  inset: 0;
+  z-index: -1;
+  background: radial-gradient(ellipse at center, transparent 15%, var(--background) 76%);
+}
+.hero-art > img {
+  width: 100%;
+  height: auto;
+  aspect-ratio: 1;
+  object-fit: contain;
+  filter: none;
+}
+.dark .hero-art > img { filter: invert(1); }
+.hero-art .art-top, .hero-art .art-bottom {
+  background: transparent;
+  color: var(--muted);
+  padding: 14px 0;
+  font-size: 11px;
+  letter-spacing: 1.2px;
+  border-top: 1px solid var(--border);
+}
+.hero-art .art-top span:last-child { color: var(--primary); }
+.hero-art .art-bottom svg { width: 18px; color: var(--primary); }
+@media (max-width: 680px) {
+  .hero { grid-template-columns: 1fr; gap: 26px; }
+  .hero-art { width: 100%; max-width: 500px; margin: auto; background-size: 26px 26px; }
+  .hero-art .art-top, .hero-art .art-bottom { font-size: 10px; letter-spacing: .8px; }
+}
+
+.hero-art > img { mix-blend-mode: multiply; }
+.dark .hero-art > img { mix-blend-mode: screen; }

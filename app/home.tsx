@@ -236,7 +236,7 @@ export default function Home({
             <Image
               width={1024}
               height={1024}
-              src={asset('/sahara.jpg')}
+              src={asset('/sahara-hero.png')}
               alt={t(
                 'Технічна ілюстрація зерносушарки SAHARA',
                 'SAHARA grain dryer technical illustration',
@@ -245,7 +245,7 @@ export default function Home({
             />
             <div className="art-bottom">
               <span>
-                {t('ІНЖЕНЕРІЯ В КОЖНІЙ ДЕТАЛІ', 'ENGINEERING IN EVERY DETAIL')}
+                {t('КОНЦЕПТ / ЗЕРНОСУШАРКА', 'CONCEPT / GRAIN DRYER')}
               </span>
               <ArrowUpRight />
             </div>
