@@ -24,21 +24,21 @@ const rates = {
   logisticsPerTonneKm: 2,
   storageMarginPerTonneDry: 100,
 };
-test('does not fabricate results before approval', () => {
+await test('does not fabricate results before approval', () => {
   assert.equal(calculatePayback(input, null).status, 'unconfigured');
   assert.equal(
     calculatePayback(input, { ...rates, approved: false }).status,
     'unconfigured',
   );
 });
-test('mass conservation and correct elevator tariff units', () => {
+await test('mass conservation and correct elevator tariff units', () => {
   const r = calculatePayback(input, rates);
   assert.ok(Math.abs(r.dryMassTonnes * 0.86 - 750) < 1e-8);
   assert.equal(r.dryMassTonnes + r.removedWaterTonnes, 1000);
   assert.equal(r.elevatorCost, 1712000);
   assert.ok(r.paybackSeasons > 0);
 });
-test('rejects impossible moisture and invalid inputs', () => {
+await test('rejects impossible moisture and invalid inputs', () => {
   for (const update of [
     { initialMoisture: 14 },
     { initialMoisture: 100 },
@@ -51,14 +51,21 @@ test('rejects impossible moisture and invalid inputs', () => {
       'invalid',
     );
 });
-test('non-positive savings have no payback period', () => {
+await test('non-positive savings have no payback period', () => {
   const r = calculatePayback(
     { ...input, elevatorTariff: 0, distance: 0 },
     rates,
   );
   assert.equal(r.paybackSeasons, null);
 });
-test('delayed sale is based on saleable dry mass', () => {
+await test('delayed sale is based on saleable dry mass', () => {
   const r = calculatePayback({ ...input, delayedSale: true }, rates);
   assert.equal(r.storageMargin, r.dryMassTonnes * 100);
+});
+await test('rejects overflow instead of returning infinite financial results', () => {
+  const result = calculatePayback(
+    { ...input, volume: Number.MAX_VALUE },
+    rates,
+  );
+  assert.equal(result.status, 'invalid');
 });

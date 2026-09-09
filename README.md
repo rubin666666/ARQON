@@ -1,44 +1,55 @@
 # ARQON / SAHARA
 
-Initial review implementation. Not ready for public production use.
+Двомовний сайт ARQON із калькулятором окупності. Підготовлений для GitHub Pages; серверна збірка Sites збережена окремо.
 
-## Run
+## Розробка та перевірка
 
-Node >=22.13.0. `npm ci`, then `npm run dev`. Build with `npm run build`; check types with `npx tsc --noEmit`; run calculation checks with `node --test tests/*.test.mjs`.
+Node.js 22.13+; встановлення: `npm ci`.
 
-## Included
+- `npm run dev` — розробка через Vinext.
+- `npm run build:pages` — статична збірка для `/ARQON/` та `/ARQON/en/`.
+- `node scripts/preview-pages.mjs` — перегляд на `http://localhost:4173/ARQON/`.
+- `npm run typecheck`, `npm run lint:app`, `npm test` — перевірки авторського коду.
+- `node scripts/check-static.mjs` — перевірка HTML, метаданих і локальних ресурсів.
+- `node scripts/check-pdf.mjs` — двомовні звіти на синтетичних даних у `work/`.
+- `npm run build` — серверна збірка, не призначена для GitHub Pages.
 
-Responsive UA/EN landing page, system-aware persisted light/dark themes, anchor navigation, four product cards, provisional calculator selectors, enlarged photo dialog, contact enquiry layout. The supplied logo and shared dryer concept image are in public/. The image includes the original AI-generated watermark. No invented specifications or financial claims.
+## GitHub Pages
 
-## Required before release
+Settings → Pages → Source: GitHub Actions. Workflow `.github/workflows/pages.yml` перевіряє, збирає та публікує сайт після оновлення `main`. `PAGES_BASE_PATH` надходить із configure-pages; локально типовий шлях `/ARQON`.
 
-- Approved company and technology copy, model specifications and prices, additional equipment details, UA/EN translations.
-- Final selector options and crop/model-specific coefficients with units, CAPEX, installation, maintenance and labour rates.
-- CRM provider, API documentation and server-side credentials; contact phone/email/address/messenger and social links.
-- Actual gallery assets, video URLs and partner logos; map location.
-- Approved privacy/terms copy; GA4/GTM IDs and tracking/consent requirements.
-- Implement and verify live enquiry delivery and PDF generation with approved calculations. Current enquiry submission is disabled and no contact data is transmitted.
-- Confirm both language metadata and remove noindex after approval. Current language switch preserves the anchor and updates document language/title; separate crawlable language routes are not yet implemented.
+`scripts/build-pages.mjs` збирає ті самі React-компоненти через Vite та створює готові UA/EN HTML через ReactDOMServer. У Pages немає серверного маршрутизатора або RSC-запитів. Звичайна Vinext-збірка збережена для серверного хостингу. Файли node_modules не змінюються.
 
-## Formula questions for the client
+## Контент
 
-The supplied brief omits the actual water-removal and payback equations. It also multiplies removed water mass by a tariff in UAH/t-%: those are different dimensions. `lib/calculator.mjs` contains a proposed, unconnected calculation module, tested only with synthetic fixtures. Manufacturer approval is required before enabling it:
+`config/site.json`: українські контакти, карта, месенджери, характеристики моделей, фото, відео YouTube/Vimeo, партнери, соцмережі, політики, адреса обробника заявок, GA4/GTM.
 
-- Removed water = raw tonnes * (initial moisture - final moisture) / (100 - final moisture).
-- Elevator fee = raw tonnes * moisture percentage-point difference * tariff, plus seasonal lab fee. Confirm billing basis.
-- Logistics = raw tonnes * distance * rate. Confirm whether the rate includes the return journey.
-- Delayed sale margin uses saleable dry mass, rather than raw mass. Confirm storage costs and whether both scenarios can benefit from delayed sale.
-- Payback is in seasons. Do not label as years without confirming seasons per year. Non-positive savings do not produce a payback period.
+Відсутні дані залишені порожніми. Ілюстрація сушарки спільна для серії. Відео й карта завантажуються після натискання. Аналітика працює лише після згоди та надання ID; якщо використовується GTM, GA4 налаштовується в контейнері, щоб не дублювати події. Пошукова індексація вимкнена до погодження (`readyForIndexing`). Для UA/EN є окремі HTML та метадані.
 
-## Status
+## Калькулятор
 
-The preview deliberately displays no financial results until approved constants arrive. Media, contacts and partner sections disclose missing content. The provided user GitHub repository remains the origin remote.
+`config/calculator.json` містить варіанти списків, культури та `rates[modelId][cropId]`. Числа вручну вводяться лише для вартості енергоносіїв. Після погодження клієнтом встановити загальний `approved: true` та `approved: true` у кожному затвердженому наборі коефіцієнтів. Поля набору:
 
-## Verification of this review version
+`capex`, `installation`, `dieselLitresPerTonneWater`, `electricityKwhPerTonneRaw`, `maintenancePerTonneRaw`, `labourPerSeason`, `labFeePerSeason`, `logisticsPerTonneKm`, `storageMarginPerTonneDry`.
 
-- Production build and TypeScript check passed.
-- Five synthetic calculation tests passed.
-- Lint passes for authored app, calculation and test files. Whole-template lint reports existing issues in generated components/ui and hooks; these vendored files were not modified.
-- Initial dependency installation reported 11 audit findings (1 low, 2 moderate, 8 high). Review reachability and patched compatible versions before public launch; no forced dependency upgrades were applied.
-- Local route responded HTTP 200. Browser interaction/visual testing has not been performed.
-- Sites registration is reserved in .openai/hosting.json. No production deployment has been made: required content and live business integrations remain incomplete.
+До погодження результати не показуються. Перевіряються вологість, ціни, переповнення чисел та відсутність окупності при нульовій/від’ємній економії. Тестові коефіцієнти є тільки у тестах.
+
+Потрібне підтвердження клієнта:
+
+1. Вода = сира маса × (початкова − кінцева вологість) / (100 − кінцева вологість).
+2. Тариф грн/т-% множиться на сиру масу та різницю вологості, а не на масу видаленої води — у ТЗ розбіжність одиниць.
+3. Чи включає логістичний тариф повернення транспорту.
+4. База маржі відкладеного продажу — сухе зерно; уточнити витрати зберігання та альтернативу елеватора.
+5. Окупність у сезонах. Для років потрібна кількість сезонів на рік.
+
+## Заявки й PDF
+
+Pages не запускає серверні обробники. `server/lead-worker.mjs` — окремий адаптер CRM webhook: CORS, валідація, honeypot, обмеження розміру, тайм-аут і rate limiter. `server/wrangler.example.jsonc` — приклад розгортання. Задати ALLOWED_ORIGINS і секрети CRM_WEBHOOK_URL/CRM_WEBHOOK_TOKEN через хостинг, не через frontend або Git.
+
+Контракт адаптера потрібно звірити з реальною CRM: зараз 2xx webhook означає успіх. Справжні заявки під час перевірок не надсилалися. У frontend задати HTTPS `leadEndpoint` і погоджену політику. До цього надсилання вимкнено. Успіх і PDF відкриваються лише після `{accepted:true}`. Звіт створюється у браузері, не через сторонній PDF-сервіс. Персональні дані не зберігаються в localStorage.
+
+Шрифт PDF: Noto Sans Regular з https://github.com/notofonts/noto-fonts/blob/main/hinted/ttf/NotoSans/NotoSans-Regular.ttf. SIL OFL: `public/fonts/OFL.txt`. Перевірені кирилиця, витяг тексту та візуальний рендер.
+
+## Перед запуском
+
+Див. `CLIENT-CHECKLIST.md`. Реальні CRM, контакти, відео, карта та аналітика потребують матеріалів/доступів клієнта. React оновлений до 19.2.8, Vite до 8.0.16. У транзитивних інструментах залишаються audit-попередження; статичний Pages не запускає серверний runtime. `lint:app` перевіряє авторський код; загальний lint також включає незмінені компоненти шаблону з попередніми зауваженнями.

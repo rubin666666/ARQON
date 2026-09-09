@@ -1,0 +1,15 @@
+{
+  "approved": false,
+  "revision": "awaiting-client-data",
+  "volumes": [100, 500, 1000, 2500, 5000, 10000],
+  "initialMoistures": [15, 18, 20, 25, 30, 35],
+  "finalMoistures": [8, 10, 12, 14, 15],
+  "distances": [10, 20, 30, 50, 75, 100],
+  "tariffs": [50, 100, 150, 200, 250],
+  "crops": [
+    { "id": "corn", "uk": "Кукурудза", "en": "Corn" },
+    { "id": "wheat", "uk": "Пшениця", "en": "Wheat" },
+    { "id": "sunflower", "uk": "Соняшник", "en": "Sunflower" }
+  ],
+  "rates": {}
+}

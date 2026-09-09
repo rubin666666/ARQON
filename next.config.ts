@@ -1,5 +1,7 @@
 import type { NextConfig } from 'next';
-
-const nextConfig: NextConfig = {};
-
-export default nextConfig;
+const config: NextConfig = {
+  basePath: process.env.NEXT_PUBLIC_BASE_PATH || '',
+  trailingSlash: true,
+  images: { unoptimized: true },
+};
+export default config;

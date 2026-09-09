@@ -1,11 +1,6 @@
-import type { Metadata } from 'next';
+import { metadataFor } from '@/lib/metadata';
 import './globals.css';
-export const metadata: Metadata = {
-  title: 'ARQON — Зерносушарки SAHARA',
-  description:
-    'Канадсько-українські зерносушарки ARQON SAHARA. Чотири моделі, технології сушіння зерна та калькулятор окупності.',
-  robots: { index: false, follow: false },
-};
+export const metadata = metadataFor(false);
 export default function RootLayout({
   children,
 }: Readonly<{ children: React.ReactNode }>) {

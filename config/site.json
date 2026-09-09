@@ -1,0 +1,58 @@
+{
+  "readyForIndexing": false,
+  "origin": "https://rubin666666.github.io",
+  "contact": {
+    "phone": "",
+    "email": "",
+    "address": { "uk": "", "en": "" },
+    "mapEmbedUrl": "",
+    "telegram": "",
+    "whatsapp": "",
+    "viber": ""
+  },
+  "leadEndpoint": "",
+  "privacy": { "uk": "", "en": "" },
+  "terms": { "uk": "", "en": "" },
+  "ga4Id": "",
+  "gtmId": "",
+  "socials": [],
+  "partners": [],
+  "videos": [],
+  "photos": [
+    {
+      "src": "/sahara.jpg",
+      "uk": "Концептуальна ілюстрація SAHARA",
+      "en": "SAHARA concept illustration"
+    }
+  ],
+  "models": [
+    {
+      "id": "sahara-1",
+      "name": "SAHARA 1",
+      "capacity": { "uk": "", "en": "" },
+      "fuel": { "uk": "", "en": "" },
+      "efficiency": { "uk": "", "en": "" }
+    },
+    {
+      "id": "sahara-2",
+      "name": "SAHARA 2",
+      "capacity": { "uk": "", "en": "" },
+      "fuel": { "uk": "", "en": "" },
+      "efficiency": { "uk": "", "en": "" }
+    },
+    {
+      "id": "sahara-3",
+      "name": "SAHARA 3",
+      "capacity": { "uk": "", "en": "" },
+      "fuel": { "uk": "", "en": "" },
+      "efficiency": { "uk": "", "en": "" }
+    },
+    {
+      "id": "sahara-4",
+      "name": "SAHARA 4",
+      "capacity": { "uk": "", "en": "" },
+      "fuel": { "uk": "", "en": "" },
+      "efficiency": { "uk": "", "en": "" }
+    }
+  ]
+}
