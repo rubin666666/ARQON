@@ -1387,3 +1387,16 @@ textarea:focus-visible, summary:focus-visible {
 
 .hero-art > img { mix-blend-mode: multiply; }
 .dark .hero-art > img { mix-blend-mode: screen; }
+
+/* Preserve the supplied wordmark while blending its paper background into each theme. */
+.brand { isolation: auto; }
+.brand img {
+  mix-blend-mode: multiply;
+  filter: contrast(1.08);
+  border-radius: 0;
+}
+.dark .brand img {
+  mix-blend-mode: screen;
+  filter: invert(1) hue-rotate(210deg) saturate(4) contrast(1.08);
+  border-radius: 0;
+}
