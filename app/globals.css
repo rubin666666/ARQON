@@ -1471,3 +1471,43 @@ textarea:focus-visible, summary:focus-visible {
 @media (max-width: 540px) { .calc-group { padding: 16px; margin-bottom: 22px; } .calc-group .fields { grid-template-columns: 1fr; } .calculator { gap: 20px; } }
 
 .calc-group:first-of-type .field:nth-child(3) { grid-column: 1 / -1; }
+
+/* Technical topics, editorial media and restrained interaction detail. */
+h1, h2 { text-wrap: balance; }
+p { text-wrap: pretty; }
+.technology-detail { grid-template-columns: 1.2fr 1fr; gap: 28px 56px; }
+.technology-heading { grid-column: 1 / -1; }
+.technology-drawing { margin: 0; position: relative; align-self: center; background-image: linear-gradient(var(--border) 1px, transparent 1px), linear-gradient(90deg, var(--border) 1px, transparent 1px); background-size: 36px 36px; }
+.technology-drawing img { width: 100%; height: auto; display: block; mix-blend-mode: multiply; }
+.dark .technology-drawing img { filter: invert(1); mix-blend-mode: screen; }
+.technology-drawing figcaption { padding: 15px 0; background: var(--surface); color: var(--muted); font-size: 12px; line-height: 1.5; }
+.technology-markers { display: flex; gap: 10px; padding: 12px; position: absolute; bottom: 64px; right: 0; }
+.technology-markers button { width: 44px; height: 44px; border: 1px solid var(--border); background: var(--background); color: var(--foreground); border-radius: 50%; font-size: 15px; }
+.technology-markers button.active { background: #b9400d; color: #fff; border-color: #b9400d; }
+.technology-topics { align-self: center; }
+.technology-topic { padding: 20px 0 20px 20px; border-left: 2px solid var(--border); transition: border-color .2s; }
+.technology-topic.active { border-left-color: var(--primary); }
+.technology-topic button { display: flex; gap: 16px; align-items: baseline; width: 100%; background: transparent; border: 0; color: inherit; text-align: left; padding: 0; }
+.technology-topic button span { font-size: 13px; color: var(--primary); }
+.technology-topic h3 { margin: 0; font-size: 21px; }
+.technology-topic p { margin: 12px 0 0 34px; font-size: 15px; }
+.media-grid { grid-template-columns: 1.25fr 1fr; align-items: start; gap: 48px; }
+.photo-grid .gallery { overflow: hidden; border-radius: 4px; }
+.photo-grid .gallery img { height: 340px; object-fit: contain; background: var(--surface); transition: transform .3s ease; }
+.photo-grid .gallery:hover img { transform: scale(1.025); }
+.photo-grid:has(> :nth-child(3)) { grid-template-columns: 1fr 1fr; }
+.photo-grid:has(> :nth-child(3)) .gallery:first-child { grid-column: 1 / -1; }
+.photo-grid:has(> :nth-child(3)) .gallery:first-child img { height: 360px; object-fit: cover; }
+.photo-grid:has(> :nth-child(3)) .gallery:not(:first-child) img { height: 190px; object-fit: cover; }
+.desktop-nav a, .text-link, footer a { transition: color .2s ease; }
+.desktop-nav a:hover, .text-link:hover, footer a:hover { color: var(--primary); }
+.equipment button { transition: border-color .2s, background-color .2s; }
+.equipment button:hover, .equipment button:focus-visible { border-color: var(--primary); background: var(--surface); }
+@supports (animation-timeline: view()) {
+  @media (prefers-reduced-motion: no-preference) {
+    .section-heading, .technology-heading, .technology-topic, .photo-grid { animation: section-enter linear both; animation-timeline: view(); animation-range: entry 0% entry 22%; }
+  }
+}
+@keyframes section-enter { from { opacity: .65; transform: translateY(14px); } to { opacity: 1; transform: translateY(0); } }
+@media (max-width: 800px) { .technology-detail, .media-grid { grid-template-columns: 1fr; gap: 30px; } .technology-drawing { max-width: 580px; width: 100%; margin: auto; } }
+@media (max-width: 540px) { .technology-topic { padding-left: 14px; } .technology-topic h3 { font-size: 19px; } .technology-topic p { margin-left: 0; } .photo-grid .gallery img { height: 260px; } .photo-grid:has(> :nth-child(3)) .gallery:first-child img { height: 260px; } .photo-grid:has(> :nth-child(3)) .gallery:not(:first-child) img { height: 145px; } .technology-markers { bottom: 80px; } }

@@ -3,6 +3,7 @@ import { useState, useEffect } from 'react';
 import Image from 'next/image';
 import { EnquiryForm } from './enquiry-form';
 import { Calculator } from './calculator';
+import { Technology } from './technology';
 import { ContentSections } from './content-sections';
 import { Analytics } from './analytics';
 import {
@@ -341,7 +342,9 @@ export default function Home({
                   loading="lazy"
                 />
                 <div className="model-copy">
-                  <h3>SAHARA <span className="model-number">{n}</span></h3>
+                  <h3>
+                    SAHARA <span className="model-number">{n}</span>
+                  </h3>
                   <dl className="model-specs">
                     {(['capacity', 'fuel', 'efficiency'] as const).map(
                       (key, i) => (
@@ -377,29 +380,7 @@ export default function Home({
             ))}
           </div>
         </section>
-        <section id="technology" className="section technology">
-          <div>
-            <div className="eyebrow">03 / {t('ТЕХНОЛОГІЯ', 'TECHNOLOGY')}</div>
-            <h2>
-              {t('Більше контролю.', 'More control.')}
-              <br />
-              <em>{t('На кожному етапі.', 'At every stage.')}</em>
-            </h2>
-          </div>
-          <div>
-            {[
-              t('Культура та вологість зерна', 'Crop and grain moisture'),
-              t('Енергоносії та витрати', 'Energy and operating costs'),
-              t('Сезонний обсяг та логістика', 'Seasonal volume and logistics'),
-            ].map((s, i) => (
-              <div className="tech-row" key={s}>
-                <span>0{i + 1}</span>
-                <h3>{s}</h3>
-                <ArrowUpRight />
-              </div>
-            ))}
-          </div>
-        </section>
+        <Technology en={en} />
         <Calculator en={en} />
         <section id="equipment" className="section">
           <div className="eyebrow">
