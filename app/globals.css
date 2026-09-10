@@ -1647,9 +1647,9 @@ a:focus-visible, button:focus-visible, input:focus-visible, textarea:focus-visib
 }
 
 /* Compact page rhythm, preserving readable text and touch targets. */
-.section { padding-top: 52px; padding-bottom: 52px; }
+.section { padding-top: 64px; padding-bottom: 64px; }
 .section-heading { margin-bottom: 24px; gap: 24px; }
-.hero { padding-top: 32px; padding-bottom: 32px; }
+.hero { padding-top: 40px; padding-bottom: 40px; }
 .hero-art { max-width: 480px; width: 100%; justify-self: center; }
 .hero-art > img { max-height: 350px; width: 100%; object-fit: contain; }
 .hero .eyebrow { margin-bottom: 18px; }
@@ -1681,8 +1681,8 @@ a:focus-visible, button:focus-visible, input:focus-visible, textarea:focus-visib
   .technology-detail { grid-template-columns: 1fr; }
 }
 @media (max-width: 680px) {
-  .section { padding-top: 34px; padding-bottom: 34px; }
-  .hero { padding-top: 24px; padding-bottom: 24px; gap: 20px; }
+  .section { padding-top: 42px; padding-bottom: 42px; }
+  .hero { padding-top: 30px; padding-bottom: 30px; gap: 24px; }
   .hero-art { max-width: 340px; }
   .hero-art > img { max-height: 235px; }
   .section-heading { margin-bottom: 20px; gap: 12px; }
