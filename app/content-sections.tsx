@@ -109,7 +109,23 @@ export function ContentSections({ en }: { en: boolean }) {
             </div>
           )}
         </div>}
-      </section>}(f=>localText(f.question,en)&&localText(f.answer,en)) && <section className="section faq-section" id="faq"><p className="eyebrow">FAQ</p><h2>{t('Питання та відповіді','Questions and answers')}</h2><div className="faq-list">{site.faq.filter(f=>localText(f.question,en)&&localText(f.answer,en)).map((f,i)=><details key={i}><summary>{localText(f.question,en)}</summary><p>{localText(f.answer,en)}</p></details>)}</div></section>}
+      </section>}
+      {site.faq.some(f => localText(f.question, en) && localText(f.answer, en)) && (
+        <section className="section faq-section" id="faq">
+          <p className="eyebrow">FAQ</p>
+          <h2>{t('Питання та відповіді', 'Questions and answers')}</h2>
+          <div className="faq-list">
+            {site.faq
+              .filter(f => localText(f.question, en) && localText(f.answer, en))
+              .map((f, i) => (
+                <details key={i}>
+                  <summary>{localText(f.question, en)}</summary>
+                  <p>{localText(f.answer, en)}</p>
+                </details>
+              ))}
+          </div>
+        </section>
+      )}
       {hasContacts(en) && <section id="contacts" className="section contacts">
         <div>
           <p className="eyebrow">{t('Контакти в Україні', 'Contacts in Ukraine')}</p>
