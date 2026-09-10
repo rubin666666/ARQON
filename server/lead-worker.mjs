@@ -87,6 +87,7 @@ export async function handleLead(request, env, fetcher = fetch) {
         consent: true,
         receivedAt: new Date().toISOString(),
         report: body.report || null,
+        scenario: body.scenario || null,
         source: 'ARQON website',
       }),
       signal: AbortSignal.timeout(10000),

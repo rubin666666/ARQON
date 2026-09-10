@@ -53,3 +53,11 @@ Pages не запускає серверні обробники. `server/lead-wo
 ## Перед запуском
 
 Див. `CLIENT-CHECKLIST.md`. Реальні CRM, контакти, відео, карта та аналітика потребують матеріалів/доступів клієнта. React оновлений до 19.2.8, Vite до 8.0.16. У транзитивних інструментах залишаються audit-попередження; статичний Pages не запускає серверний runtime. `lint:app` перевіряє авторський код; загальний lint також включає незмінені компоненти шаблону з попередніми зауваженнями.
+
+## Model and media content
+
+`config/site.json` supports per-model `image`, `datasheet`, localized `description`, `equipment`, `power`, and `dimensions`, alongside existing specifications. Only approved values should be entered. Comparison omits unavailable specification rows; drawers omit unavailable PDFs. `faq` accepts localized question/answer pairs. Photos and videos share one media section; video controls appear when videos exist, and playback is click-to-load.
+
+Calculator scenarios are validated against configured selector options, saved locally, and shared through the `scenario` URL parameter. They contain inputs only, never enquiry contact details. The form sends `scenario` even if approved financial results are not yet available. Live CRM delivery still requires the endpoint, server CRM configuration and approved privacy text. PDF reporting remains gated on accepted submission and approved calculation data.
+
+Outstanding client materials: real model/production photos, videos, model specifications and technical PDFs, service/warranty FAQ answers, calculator coefficients and CRM/contact settings. Existing illustrations remain explicitly conceptual.

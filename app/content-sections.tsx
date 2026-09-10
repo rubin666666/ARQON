@@ -1,5 +1,5 @@
 'use client';
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import Image from 'next/image';
 import {
   ArrowUpRight,
@@ -25,6 +25,11 @@ export function ContentSections({ en }: { en: boolean }) {
   const [photo, setPhoto] = useState<number | null>(null),
     [playing, setPlaying] = useState<string | null>(null),
     [showMap, setShowMap] = useState(false);
+  const [media, setMedia] = useState<'photo'|'video'>('photo');
+  useEffect(()=>{
+    function syncMedia(){setMedia(location.hash==='#video' && site.videos.length ? 'video':'photo');setPlaying(null);}
+    syncMedia(); window.addEventListener('hashchange',syncMedia); return ()=>window.removeEventListener('hashchange',syncMedia);
+  },[]);
   const contacts = site.contact;
   const nextPhoto = (delta: number) =>
     setPhoto((v) =>
@@ -32,12 +37,13 @@ export function ContentSections({ en }: { en: boolean }) {
     );
   return (
     <>
-      <section className="section media-grid">
-        <div id="photo">
-          <div className="eyebrow">
-            06 / {t('ФОТОГАЛЕРЕЯ', 'PHOTO GALLERY')}
-          </div>
-          <h2>{t('SAHARA в деталях.', 'SAHARA in detail.')}</h2>
+      <section className="section media-grid media-unified">
+        <div className="media-heading"><div className="eyebrow">06 / {t('МЕДІА','MEDIA')}</div><h2>{t('SAHARA в деталях.','SAHARA in detail.')}</h2>
+        {site.videos.length > 0 && <div className="media-controls" aria-label={t('Тип матеріалів','Media type')}>
+          <button className="button button-secondary" aria-pressed={media==='photo'} onClick={()=>{setMedia('photo');setPlaying(null);}}>{t('Фото','Photos')} ({site.photos.length})</button>
+          <button className="button button-secondary" aria-pressed={media==='video'} onClick={()=>setMedia('video')}>{t('Відео','Videos')} ({site.videos.length})</button>
+        </div>}</div>
+        <div id="photo" hidden={media!=='photo'}>
           <div className="photo-grid">
             {site.photos.map((p, i) => (
               <button
@@ -61,13 +67,12 @@ export function ContentSections({ en }: { en: boolean }) {
             ))}
           </div>
         </div>
-        {site.videos.length > 0 && <div id="video">
-          <div className="eyebrow">07 / {t('ВІДЕО', 'VIDEO')}</div>
-          <h2>{t('Технологія в русі.', 'Technology in motion.')}</h2>
+        {site.videos.length > 0 && <div id="video" hidden={media!=='video'}>
+
           {site.videos.length ? (
             site.videos.map((v) => (
               <div key={v.id} className="video-frame">
-                {playing === v.id ? (
+                {media === 'video' && playing === v.id ? (
                   <iframe
                     title={localText(v.title, en)}
                     src={
@@ -105,6 +110,7 @@ export function ContentSections({ en }: { en: boolean }) {
           )}
         </div>}
       </section>
+      {site.faq.some(f=>localText(f.question,en)&&localText(f.answer,en)) && <section className="section faq-section" id="faq"><div className="eyebrow">FAQ</div><h2>{t('Питання та відповіді','Questions and answers')}</h2><div className="faq-list">{site.faq.filter(f=>localText(f.question,en)&&localText(f.answer,en)).map((f,i)=><details key={i}><summary>{localText(f.question,en)}</summary><p>{localText(f.answer,en)}</p></details>)}</div></section>}
       {hasContacts(en) && <section id="contacts" className="section contacts">
         <div>
           <div className="eyebrow">

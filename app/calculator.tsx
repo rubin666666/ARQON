@@ -1,5 +1,5 @@
 'use client';
-import { useMemo, useState } from 'react';
+import { useCallback, useEffect, useMemo, useState } from 'react';
 import {
   ArrowUpRight,
   SlidersHorizontal,
@@ -27,6 +27,8 @@ import { EnquiryForm } from './enquiry-form';
 import config from '@/config/calculator.json';
 import { site, track, canSubmit } from '@/lib/site';
 import { calculatePayback } from '@/lib/calculator.mjs';
+import { defaultScenario, parseScenario, type Scenario } from '@/lib/scenario';
+import { readPreference, writePreference } from '@/lib/site';
 import type { ReportData } from '@/lib/report';
 export function Calculator({ en, model, onModelChange: setModel }: { en: boolean; model: string; onModelChange: (model: string) => void }) {
   const t = (a: string, b: string) => (en ? b : a);
@@ -40,6 +42,38 @@ export function Calculator({ en, model, onModelChange: setModel }: { en: boolean
     [electricity, setElectricity] = useState(''),
     [delayedSale, setDelayed] = useState(false),
     [open, setOpen] = useState(false);
+  const [restored, setRestored] = useState(false);
+  const [scenarioNotice, setScenarioNotice] = useState('');
+  const [manualLink, setManualLink] = useState('');
+  const applyScenario = useCallback((s: Scenario) => {
+    setModel(s.model); setCrop(s.crop); setVolume(s.volume); setInitial(s.initialMoisture); setFinal(s.finalMoisture); setDistance(s.distance); setTariff(s.elevatorTariff); setDiesel(s.diesel); setElectricity(s.electricity); setDelayed(s.delayedSale);
+  }, [setModel]);
+  const scenario = useMemo(()=>({model,crop,volume,initialMoisture,finalMoisture,distance,elevatorTariff,diesel,electricity,delayedSale}),[model,crop,volume,initialMoisture,finalMoisture,distance,elevatorTariff,diesel,electricity,delayedSale]);
+  /* oxlint-disable react/react-compiler */
+  useEffect(()=>{
+    const shared = new URLSearchParams(location.search).get('scenario');
+    const saved = parseScenario(shared ?? readPreference('arqon-scenario-v1'));
+    if (saved) applyScenario(saved);
+    if (shared && !saved) setScenarioNotice('invalid');
+    setRestored(true);
+  }, [applyScenario]);
+  /* oxlint-enable react/react-compiler */
+  useEffect(()=>{
+    if (!restored || !parseScenario(JSON.stringify(scenario))) return;
+    writePreference('arqon-scenario-v1',JSON.stringify(scenario));
+    const url = new URL(location.href);
+    if (url.searchParams.has('scenario')) { url.searchParams.set('scenario',JSON.stringify(scenario)); history.replaceState(null,'',url); }
+  },[scenario,restored]);
+  function resetScenario() {
+    applyScenario(defaultScenario); setPriceTouched({diesel:false,electricity:false}); setManualLink(''); setScenarioNotice('reset');
+    const url = new URL(location.href); url.searchParams.delete('scenario'); history.replaceState(null,'',url);
+  }
+  async function shareScenario() {
+    if (!parseScenario(JSON.stringify(scenario))) { setScenarioNotice('invalid'); return; }
+    const url = new URL(location.href); url.searchParams.set('scenario',JSON.stringify(scenario)); url.hash='calculator';
+    try { await navigator.clipboard.writeText(url.href); setManualLink(''); setScenarioNotice('copied'); }
+    catch { setManualLink(url.href); setScenarioNotice('manual'); }
+  }
   const input = useMemo(
     () => ({
       volume,
@@ -146,6 +180,12 @@ export function Calculator({ en, model, onModelChange: setModel }: { en: boolean
             'Compare on-site drying with an elevator. Choose your seasonal inputs and enter current energy prices.',
           )}
         </p>
+      </div>
+      <div className="scenario-tools">
+        <button type="button" className="button button-secondary" onClick={shareScenario}>{t('Поділитися сценарієм', 'Share scenario')}</button>
+        <button type="button" className="text-link" onClick={resetScenario}>{t('Скинути', 'Reset')}</button>
+        <output>{scenarioNotice === 'copied' ? t('Посилання скопійовано', 'Link copied') : scenarioNotice === 'reset' ? t('Параметри скинуто', 'Inputs reset') : scenarioNotice === 'invalid' ? t('Не вдалося відновити або зберегти сценарій. Перевірте параметри.', 'Unable to restore or share the scenario. Check your inputs.') : scenarioNotice === 'manual' ? t('Скопіюйте посилання нижче', 'Copy the link below') : t('Параметри зберігаються у цьому браузері', 'Inputs are saved in this browser')}</output>
+        {manualLink && <input aria-label={t('Посилання на сценарій', 'Scenario link')} value={manualLink} readOnly onFocus={e=>e.target.select()} />}
       </div>
       <div className="calculator">
         <div className="calc-fields" id="calculator-inputs">
@@ -455,6 +495,7 @@ export function Calculator({ en, model, onModelChange: setModel }: { en: boolean
             en={en}
             subject={site.models.find((m) => m.id === model)!.name}
             report={report}
+            scenario={scenario}
           />
         </DialogContent>
       </Dialog>

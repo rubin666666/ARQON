@@ -1697,3 +1697,29 @@ a:focus-visible, button:focus-visible, input:focus-visible, textarea:focus-visib
   .model-copy { padding-top: 12px; padding-bottom: 16px; }
   .photo-grid:has(> :only-child) .gallery img { height: 200px; }
 }
+
+.scenario-tools { display:flex; flex-wrap:wrap; align-items:center; gap:12px 20px; margin-bottom:22px; }
+.scenario-tools output { color:var(--muted); font-size:13px; }
+.scenario-tools input { width:100%; padding:12px; border:1px solid var(--border); border-radius:12px; }
+.compare-button { margin-bottom:20px; }
+.comparison-dialog { max-width:1050px !important; }
+.comparison-scroll { overflow-x:auto; }
+.comparison-scroll table { width:100%; min-width:680px; border-collapse:collapse; font-size:14px; }
+.comparison-scroll th,.comparison-scroll td { padding:16px 12px; text-align:left; border-bottom:1px solid var(--border); }
+.comparison-scroll .button { font-size:13px; }
+.model-copy > .model-detail-link { margin:0; padding:0; min-height:44px; border:0; text-decoration:underline; font-size:14px; }
+.model-drawer { inset:0 0 0 auto !important; transform:none !important; width:min(500px,100vw) !important; max-width:100vw !important; height:100dvh; max-height:100dvh; overflow-y:auto; border-radius:20px 0 0 20px; padding:28px !important; }
+.model-drawer > img { width:100%; height:220px; object-fit:contain; border-radius:12px; }
+.model-drawer .model-specs > div { display:flex; justify-content:space-between; gap:16px; }
+.media-unified { grid-template-columns:1fr !important; gap:20px; }
+.media-heading h2 { margin-bottom:16px; }
+.media-controls { display:flex; gap:12px; }
+.media-controls [aria-pressed="true"] { border-color:var(--primary); color:var(--primary); background:var(--surface); }
+.faq-list { border:1px solid var(--border); border-radius:16px; background:var(--surface-raised); padding:0 20px; }
+.faq-list details+details { border-top:1px solid var(--border); }
+.faq-list summary { padding:18px 0; cursor:pointer; font-size:16px; line-height:1.5; }
+.faq-list p { margin:0 0 20px; max-width:800px; }
+@media(max-width:540px){.scenario-tools .button{width:100%}.model-drawer{border-radius:0}.model-drawer > img{height:185px}}
+
+.model-drawer { translate: none !important; display: flex; flex-direction: column; align-items: stretch; justify-content: flex-start; gap: 18px; animation: none !important; }
+.model-drawer > .button { flex-shrink: 0; }

@@ -89,3 +89,14 @@ await test('worker entrypoint accepts Cloudflare ExecutionContext', async (t) =>
   assert.equal(response.status, 200);
   assert.equal((await response.json()).accepted, true);
 });
+await test('forwards calculator scenario without inventing a financial report', async () => {
+  const scenario = { model: 'sahara-2', crop: 'corn', volume: 2500, initialMoisture: 25, finalMoisture: 14, distance: 30, elevatorTariff: 150, diesel: '61.5', electricity: '8', delayedSale: false };
+  let sent;
+  const response = await handleLead(request({ ...valid, scenario }), env, async (_url, options) => {
+    sent = JSON.parse(options.body);
+    return new Response('{}', { status: 201 });
+  });
+  assert.equal(response.status, 200);
+  assert.deepEqual(sent.scenario, scenario);
+  assert.equal(sent.report, null);
+});

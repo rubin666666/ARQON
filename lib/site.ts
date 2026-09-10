@@ -2,8 +2,9 @@ import config from '@/config/site.json';
 export type Localized = { uk: string; en: string };
 export type SiteConfig = Omit<
   typeof config,
-  'videos' | 'partners' | 'socials' | 'photos'
+  'videos' | 'partners' | 'socials' | 'photos' | 'faq'
 > & {
+  faq: { question: Localized; answer: Localized }[];
   videos: { id: string; provider: 'youtube' | 'vimeo'; title: Localized }[];
   partners: { name: string; logo: string; url?: string }[];
   socials: { name: string; url: string }[];

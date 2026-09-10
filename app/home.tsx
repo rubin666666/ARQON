@@ -1,4 +1,5 @@
 'use client';
+import { ModelExplorer, ModelDetails } from './model-explorer';
 import { useState, useEffect } from 'react';
 import Image from 'next/image';
 import { EnquiryForm } from './enquiry-form';
@@ -46,7 +47,12 @@ export default function Home({
     [themeReady, setThemeReady] = useState(false),
     [menu, M] = useState(false),
     [modal, O] = useState(''),
-    [selectedModel, setSelectedModel] = useState('sahara-1');
+    [selectedModel, setSelectedModel] = useState('sahara-1'),
+    [detailModel, setDetailModel] = useState<string|null>(null);
+  function calculateModel(id:string) {
+    setSelectedModel(id);
+    requestAnimationFrame(()=>{document.getElementById('calculator')?.scrollIntoView({block:'start'});document.getElementById('calc-model')?.focus({preventScroll:true});});
+  }
   const t = (a: string, b: string) => (en ? b : a);
   // Browser preferences are read after hydration to preserve matching server markup.
   /* oxlint-disable react/react-compiler */
@@ -124,7 +130,7 @@ export default function Home({
             onClick={() => {
               const v = !en;
               E(v);
-              history.replaceState(null, '', `${localeUrl(v)}${location.hash}`);
+              history.replaceState(null, '', `${localeUrl(v)}${location.search}${location.hash}`);
               if (location.hash)
                 requestAnimationFrame(() =>
                   document
@@ -324,6 +330,7 @@ export default function Home({
               )}
             </p>
           </div>
+          <ModelExplorer en={en} onCalculate={calculateModel} />
           <div className="products">
             {[1, 2, 3, 4].map((n) => (
               <article key={n} id={'sahara-' + n}>
@@ -334,7 +341,7 @@ export default function Home({
                 <Image
                   width={1024}
                   height={1024}
-                  src={asset('/sahara.jpg')}
+                  src={asset(site.models[n - 1].image || '/sahara.jpg')}
                   alt={
                     'SAHARA ' +
                     n +
@@ -368,6 +375,7 @@ export default function Home({
                       ),
                     )}
                   </dl></details>}
+                  <button type="button" className="text-link model-detail-link" onClick={()=>setDetailModel('sahara-'+n)}>{t('Детальніше','View details')}</button>
                   <button
                     className="button button-secondary model-action"
                     aria-label={`${t('Розрахувати для', 'Calculate for')} SAHARA ${n}`}
@@ -386,6 +394,7 @@ export default function Home({
             ))}
           </div>
         </section>
+        <ModelDetails en={en} id={detailModel} onClose={()=>setDetailModel(null)} onCalculate={calculateModel} />
         <Technology en={en} />
         <Calculator en={en} model={selectedModel} onModelChange={setSelectedModel} />
         {site.equipmentPublished && <section id="equipment" className="section">

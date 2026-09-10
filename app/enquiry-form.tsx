@@ -9,6 +9,7 @@ import {
   DialogDescription,
   DialogClose,
 } from '@/components/ui/dialog';
+import type { Scenario } from '@/lib/scenario';
 import type { ReportData } from '@/lib/report';
 import { Checkbox } from '@/components/ui/checkbox';
 export function EnquiryForm({
@@ -16,11 +17,13 @@ export function EnquiryForm({
   message = false,
   subject = '',
   report,
+  scenario,
 }: {
   en: boolean;
   message?: boolean;
   subject?: string;
   report?: ReportData;
+  scenario?: Scenario;
 }) {
   const t = (a: string, b: string) => (en ? b : a);
   const id = useId();
@@ -88,6 +91,7 @@ export function EnquiryForm({
           locale: en ? 'en' : 'uk',
           consent: true,
           report,
+          scenario,
         }),
         signal: AbortSignal.timeout(15000),
       });
