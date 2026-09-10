@@ -55,3 +55,5 @@ export function track(
   w.dataLayer = w.dataLayer || [];
   w.dataLayer.push({ event, ...details });
 }
+
+export const hasContacts = (en: boolean) => !!(site.contact.phone || site.contact.email || localText(site.contact.address, en) || site.contact.telegram || site.contact.whatsapp || site.contact.viber || canSubmit(en));

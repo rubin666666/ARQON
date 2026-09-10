@@ -18,7 +18,7 @@ import {
   DialogDescription,
   DialogClose,
 } from '@/components/ui/dialog';
-import { site, asset, localText } from '@/lib/site';
+import { site, asset, localText, hasContacts, canSubmit } from '@/lib/site';
 import { EnquiryForm } from './enquiry-form';
 export function ContentSections({ en }: { en: boolean }) {
   const t = (a: string, b: string) => (en ? b : a);
@@ -61,7 +61,7 @@ export function ContentSections({ en }: { en: boolean }) {
             ))}
           </div>
         </div>
-        <div id="video">
+        {site.videos.length > 0 && <div id="video">
           <div className="eyebrow">07 / {t('ВІДЕО', 'VIDEO')}</div>
           <h2>{t('Технологія в русі.', 'Technology in motion.')}</h2>
           {site.videos.length ? (
@@ -103,9 +103,9 @@ export function ContentSections({ en }: { en: boolean }) {
               </p>
             </div>
           )}
-        </div>
+        </div>}
       </section>
-      <section id="contacts" className="section contacts">
+      {hasContacts(en) && <section id="contacts" className="section contacts">
         <div>
           <div className="eyebrow">
             08 / {t('КОНТАКТИ В УКРАЇНІ', 'CONTACTS IN UKRAINE')}
@@ -176,7 +176,7 @@ export function ContentSections({ en }: { en: boolean }) {
             </div>
           )}
         </div>
-        <div className="contact-panel">
+        {canSubmit(en) && <div className="contact-panel">
           <h3>
             {t('Обговоримо ваше господарство', 'Let’s discuss your farm')}
           </h3>
@@ -187,9 +187,9 @@ export function ContentSections({ en }: { en: boolean }) {
             )}
           </p>
           <EnquiryForm en={en} message subject="Contact enquiry" />
-        </div>
-      </section>
-      <section id="partners" className="partners">
+        </div>}
+      </section>}
+      {site.partners.length > 0 && <section id="partners" className="partners">
         <span className="eyebrow">09 / {t('ПАРТНЕРИ', 'PARTNERS')}</span>
         {site.partners.length ? (
           <div className="partner-grid">
@@ -223,9 +223,9 @@ export function ContentSections({ en }: { en: boolean }) {
             )}
           </p>
         )}
-      </section>
+      </section>}
       <section className="legal-section">
-        <details id="privacy">
+        {!!localText(site.privacy, en) && <details id="privacy">
           <summary>{t('Політика конфіденційності', 'Privacy policy')}</summary>
           <p>
             {localText(site.privacy, en) ||
@@ -234,8 +234,8 @@ export function ContentSections({ en }: { en: boolean }) {
                 'The privacy policy is awaiting ARQON approval. Enquiry submission is disabled until it is published. Theme and analytics preferences are stored only in your browser.',
               )}
           </p>
-        </details>
-        <details id="terms">
+        </details>}
+        {!!localText(site.terms, en) && <details id="terms">
           <summary>{t('Умови використання', 'Terms of use')}</summary>
           <p>
             {localText(site.terms, en) ||
@@ -244,7 +244,7 @@ export function ContentSections({ en }: { en: boolean }) {
                 'This is a preliminary website for review. Specifications and calculations require manufacturer confirmation. Commercial terms are provided separately.',
               )}
           </p>
-        </details>
+        </details>}
       </section>
       <Dialog open={photo !== null} onOpenChange={(v) => !v && setPhoto(null)}>
         <DialogContent className="image-dialog" showCloseButton={false}>

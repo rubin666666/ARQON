@@ -65,7 +65,7 @@ export function Technology({ en }: { en: boolean }) {
               type="button"
               className={active === i ? 'active' : ''}
               aria-pressed={active === i}
-              aria-controls={'technology-topic-' + i}
+              aria-controls={'technology-description-' + i}
               aria-label={`${i + 1}. ${title}`}
               onClick={() => setActive(i)}
             >
@@ -89,12 +89,13 @@ export function Technology({ en }: { en: boolean }) {
             <button
               type="button"
               onClick={() => setActive(i)}
-              aria-pressed={active === i}
+              aria-expanded={active === i}
+              aria-controls={'technology-description-' + i}
             >
               <span>0{i + 1}</span>
-              <h3>{title}</h3>
+              <span className="topic-title">{title}</span>
             </button>
-            <p>{description}</p>
+            <p id={'technology-description-' + i} hidden={active !== i}>{description}</p>
           </div>
         ))}
       </div>

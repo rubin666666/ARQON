@@ -1511,3 +1511,25 @@ p { text-wrap: pretty; }
 @keyframes section-enter { from { opacity: .65; transform: translateY(14px); } to { opacity: 1; transform: translateY(0); } }
 @media (max-width: 800px) { .technology-detail, .media-grid { grid-template-columns: 1fr; gap: 30px; } .technology-drawing { max-width: 580px; width: 100%; margin: auto; } }
 @media (max-width: 540px) { .technology-topic { padding-left: 14px; } .technology-topic h3 { font-size: 19px; } .technology-topic p { margin-left: 0; } .photo-grid .gallery img { height: 260px; } .photo-grid:has(> :nth-child(3)) .gallery:first-child img { height: 260px; } .photo-grid:has(> :nth-child(3)) .gallery:not(:first-child) img { height: 145px; } .technology-markers { bottom: 80px; } }
+
+/* Transparent brand artwork: retain red A and adapt monochrome lettering. */
+.brand { position: relative; display: block; }
+.brand img, .dark .brand img { filter: none; mix-blend-mode: normal; object-fit: contain; border-radius: 0; }
+.brand .brand-light-letters { display: none; }
+.dark .brand .brand-light-letters { display: block; position: absolute; inset: 0; filter: brightness(0) invert(1); clip-path: polygon(25% 0,100% 0,100% 100%,0 100%,0 67%,25% 67%); }
+.model-details { border-top: 1px solid var(--border); margin-bottom: 20px; }
+.model-details summary { cursor: pointer; padding: 15px 0; font-weight: 600; }
+.technology-topic button .topic-title { font-size: 21px; color: var(--foreground); font-weight: 600; }
+.technology-topic button { min-height: 44px; }
+.media-grid:not(:has(#video)) { grid-template-columns: 1fr; }
+.legal-section:empty { display: none; }
+.fields .error { font-size: 13px; line-height: 1.5; }
+[aria-invalid="true"] { border-color: #c43131 !important; }
+@media (max-width: 540px) {
+  .technology-detail { gap: 20px; }
+  .technology-drawing img { height: 245px; object-fit: contain; }
+  .technology-markers { position: static; justify-content: center; padding: 0 0 12px; }
+  .technology-topic { padding-top: 10px; padding-bottom: 10px; }
+  .technology-topic button .topic-title { font-size: 18px; }
+  .products article { padding-bottom: 20px; }
+}

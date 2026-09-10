@@ -8,6 +8,7 @@ import { ContentSections } from './content-sections';
 import { Analytics } from './analytics';
 import {
   site,
+  hasContacts,
   asset,
   localeUrl,
   localText,
@@ -45,7 +46,8 @@ export default function Home({
     [dark, D] = useState(false),
     [themeReady, setThemeReady] = useState(false),
     [menu, M] = useState(false),
-    [modal, O] = useState('');
+    [modal, O] = useState(''),
+    [selectedModel, setSelectedModel] = useState('sahara-1');
   const t = (a: string, b: string) => (en ? b : a);
   // Browser preferences are read after hydration to preserve matching server markup.
   /* oxlint-disable react/react-compiler */
@@ -93,7 +95,7 @@ export default function Home({
     ['video', t('Відео', 'Videos')],
     ['contacts', t('Контакти', 'Contacts')],
     ['partners', t('Партнери', 'Partners')],
-  ];
+  ].filter(([id]) => id !== 'video' || site.videos.length).filter(([id]) => id !== 'partners' || site.partners.length).filter(([id]) => id !== 'contacts' || hasContacts(en)).filter(([id]) => id !== 'equipment' || site.equipmentPublished);
   return (
     <>
       <a className="skip" href="#main">
@@ -102,15 +104,16 @@ export default function Home({
       <header>
         <a href="#main" className="brand">
           <Image
-            width={1024}
-            height={559}
-            src={asset('/arqon.jpg')}
+            width={1952}
+            height={816}
+            src={asset('/arqon-logo.png')}
             alt="ARQON Engineering & Innovation"
           />
+          <Image className="brand-light-letters" src={asset('/arqon-logo.png')} width={1952} height={816} alt="" aria-hidden="true" />
         </a>
         <nav className="desktop-nav">
           {nav
-            .filter((_, i) => [0, 1, 2, 7].includes(i))
+            .filter(([id]) => ['about', 'products', 'technology', 'contacts'].includes(id))
             .map(([id, label]) => (
               <a key={id} href={'#' + id}>
                 {label}
@@ -345,9 +348,9 @@ export default function Home({
                   <h3>
                     SAHARA <span className="model-number">{n}</span>
                   </h3>
-                  <dl className="model-specs">
-                    {(['capacity', 'fuel', 'efficiency'] as const).map(
-                      (key, i) => (
+                  {(['capacity', 'fuel', 'efficiency'] as const).some(key => localText(site.models[n - 1][key], en)) && <details className="model-details"><summary>{t('Характеристики', 'Specifications')}</summary><dl className="model-specs">
+                    {(['capacity', 'fuel', 'efficiency'] as const).filter(key => localText(site.models[n - 1][key], en)).map(
+                      (key) => (
                         <div key={key}>
                           <dt>
                             {
@@ -355,7 +358,7 @@ export default function Home({
                                 t('Продуктивність', 'Capacity'),
                                 t('Тип палива', 'Fuel type'),
                                 t('Енергоефективність', 'Energy efficiency'),
-                              ][i]
+                              ][['capacity', 'fuel', 'efficiency'].indexOf(key)]
                             }
                           </dt>
                           <dd>
@@ -365,14 +368,16 @@ export default function Home({
                         </div>
                       ),
                     )}
-                  </dl>
+                  </dl></details>}
                   <button
                     onClick={() => {
-                      O('SAHARA ' + n);
-                      track('product_enquiry', { model: n });
+                      setSelectedModel('sahara-' + n);
+                      history.replaceState(null, '', '#calculator');
+                      requestAnimationFrame(() => { document.getElementById('calculator')?.scrollIntoView({block: 'start'}); document.getElementById('calc-model')?.focus({preventScroll: true}); });
+                      track('product_calculator', { model: n });
                     }}
                   >
-                    {t('Замовити розрахунок', 'Request a quote')}
+                    {t('Розрахувати для', 'Calculate for')} SAHARA {n}
                     <Plus size={19} />
                   </button>
                 </div>
@@ -381,8 +386,8 @@ export default function Home({
           </div>
         </section>
         <Technology en={en} />
-        <Calculator en={en} />
-        <section id="equipment" className="section">
+        <Calculator en={en} model={selectedModel} onModelChange={setSelectedModel} />
+        {site.equipmentPublished && <section id="equipment" className="section">
           <div className="eyebrow">
             05 / {t('ДОДАТКОВЕ ОБЛАДНАННЯ', 'OPTIONAL EQUIPMENT')}
           </div>
@@ -403,7 +408,7 @@ export default function Home({
               </button>
             ))}
           </div>
-        </section>
+        </section>}
         <ContentSections en={en} />
       </main>
       <footer>
@@ -414,7 +419,7 @@ export default function Home({
           © 2026 ARQON. {t('Всі права захищені.', 'All rights reserved.')}
         </span>
         <div>
-          <a
+          {!!localText(site.privacy, en) && <a
             href="#privacy"
             onClick={() => {
               document.querySelector<HTMLDetailsElement>('#privacy')!.open =
@@ -422,15 +427,15 @@ export default function Home({
             }}
           >
             {t('Конфіденційність', 'Privacy')}
-          </a>
-          <a
+          </a>}
+          {!!localText(site.terms, en) && <a
             href="#terms"
             onClick={() => {
               document.querySelector<HTMLDetailsElement>('#terms')!.open = true;
             }}
           >
             {t('Умови використання', 'Terms of use')}
-          </a>
+          </a>}
         </div>
         <div className="footer-socials">
           {site.socials.map((s) => (
@@ -473,3 +478,4 @@ export default function Home({
     </>
   );
 }
+

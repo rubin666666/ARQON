@@ -25,13 +25,12 @@ import {
 } from '@/components/ui/dialog';
 import { EnquiryForm } from './enquiry-form';
 import config from '@/config/calculator.json';
-import { site, track } from '@/lib/site';
+import { site, track, canSubmit } from '@/lib/site';
 import { calculatePayback } from '@/lib/calculator.mjs';
 import type { ReportData } from '@/lib/report';
-export function Calculator({ en }: { en: boolean }) {
+export function Calculator({ en, model, onModelChange: setModel }: { en: boolean; model: string; onModelChange: (model: string) => void }) {
   const t = (a: string, b: string) => (en ? b : a);
-  const [model, setModel] = useState('sahara-1'),
-    [crop, setCrop] = useState('corn'),
+  const [crop, setCrop] = useState('corn'),
     [volume, setVolume] = useState(1000),
     [initialMoisture, setInitial] = useState(25),
     [finalMoisture, setFinal] = useState(14),
@@ -68,12 +67,12 @@ export function Calculator({ en }: { en: boolean }) {
   ]?.[crop];
   const result = calculatePayback(input, config.approved ? rates : null);
   const moistureError = initialMoisture <= finalMoisture;
-  const priceError =
-    (diesel !== '' &&
-      (!Number.isFinite(Number(diesel)) || Number(diesel) < 0)) ||
-    (electricity !== '' &&
-      (!Number.isFinite(Number(electricity)) || Number(electricity) < 0));
-  const ready = result.status === 'ready';
+  const [priceTouched, setPriceTouched] = useState({diesel: false, electricity: false});
+  const invalidPrice = (value: string) => value === '' || !Number.isFinite(Number(value)) || Number(value) < 0 || Number(value) > 1000000;
+  const dieselError = priceTouched.diesel && invalidPrice(diesel);
+  const electricityError = priceTouched.electricity && invalidPrice(electricity);
+  const priceError = (diesel !== '' && invalidPrice(diesel)) || (electricity !== '' && invalidPrice(electricity));
+  const ready = result.status === 'ready' && !moistureError && !invalidPrice(diesel) && !invalidPrice(electricity);
   const format = (v: number) =>
     v.toLocaleString(en ? 'en-GB' : 'uk-UA', { maximumFractionDigits: 1 });
   const report: ReportData | undefined = ready
@@ -99,7 +98,7 @@ export function Calculator({ en }: { en: boolean }) {
     <div className="field" key={id}>
       <label htmlFor={id}>{label}</label>
       <Select value={value} onValueChange={(v) => v !== null && set(v)}>
-        <SelectTrigger id={id} aria-label={label}>
+        <SelectTrigger id={id} aria-label={label} aria-invalid={id.startsWith("calc-") && ["calc-initial", "calc-final"].includes(id) && moistureError} aria-describedby={["calc-initial", "calc-final"].includes(id) && moistureError ? "moisture-error" : undefined}>
           <SelectValue>
             {options.find((o) => o.value === value)?.label}
           </SelectValue>
@@ -199,6 +198,7 @@ export function Calculator({ en }: { en: boolean }) {
                 setFinal,
               )}
             </div>
+            {moistureError && <p className="error" id="moisture-error" role="alert">{t('Початкова вологість має бути вищою за кінцеву.', 'Initial moisture must exceed final moisture.')}</p>}
           </fieldset>
           <fieldset className="calc-group">
             <legend>
@@ -210,6 +210,9 @@ export function Calculator({ en }: { en: boolean }) {
                 {t('Дизель, грн/л', 'Diesel, UAH/l')}
                 <input
                   id="diesel"
+                  aria-invalid={dieselError}
+                  aria-describedby={dieselError ? "diesel-error" : undefined}
+                  onBlur={() => setPriceTouched(v => ({...v, diesel: true}))}
                   type="number"
                   min="0"
                   max="1000000"
@@ -219,11 +222,15 @@ export function Calculator({ en }: { en: boolean }) {
                   onChange={(e) => setDiesel(e.target.value)}
                   placeholder={t('Вкажіть ціну', 'Enter price')}
                 />
+                {dieselError && <span className="error" id="diesel-error" role="alert">{t('Вкажіть ціну від 0 до 1 000 000.', 'Enter a price between 0 and 1,000,000.')}</span>}
               </label>
               <label className="field" htmlFor="electricity">
                 {t('Електроенергія, грн/кВт·год', 'Electricity, UAH/kWh')}
                 <input
                   id="electricity"
+                  aria-invalid={electricityError}
+                  aria-describedby={electricityError ? "electricity-error" : undefined}
+                  onBlur={() => setPriceTouched(v => ({...v, electricity: true}))}
                   type="number"
                   min="0"
                   max="1000000"
@@ -233,6 +240,7 @@ export function Calculator({ en }: { en: boolean }) {
                   onChange={(e) => setElectricity(e.target.value)}
                   placeholder={t('Вкажіть ціну', 'Enter price')}
                 />
+                {electricityError && <span className="error" id="electricity-error" role="alert">{t('Вкажіть ціну від 0 до 1 000 000.', 'Enter a price between 0 and 1,000,000.')}</span>}
               </label>
             </div>
           </fieldset>
@@ -390,7 +398,7 @@ export function Calculator({ en }: { en: boolean }) {
                           'Estimate based on seasonal volume. Not a commercial offer.',
                         )}
           </p>
-          <button
+          {canSubmit(en) && <button
             className="button"
             onClick={() => {
               track('calculator_report_open', { model, calculated: ready });
@@ -404,7 +412,7 @@ export function Calculator({ en }: { en: boolean }) {
                   'Request an individual calculation',
                 )}
             <ArrowUpRight size={19} />
-          </button>
+          </button>}
         </aside>
       </div>
       <Dialog open={open} onOpenChange={setOpen}>
