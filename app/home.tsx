@@ -48,7 +48,22 @@ export default function Home({
     [menu, M] = useState(false),
     [modal, O] = useState(''),
     [selectedModel, setSelectedModel] = useState('sahara-1'),
-    [detailModel, setDetailModel] = useState<string|null>(null);
+    [detailModel, setDetailModel] = useState<string|null>(null),
+    [activeSection, setActiveSection] = useState('');
+  useEffect(()=>{
+    let frame = 0;
+    const update = ()=>{
+      cancelAnimationFrame(frame);
+      frame = requestAnimationFrame(()=>{
+        const sections = [...document.querySelectorAll('main section[id], main div#photo, main div#video')].filter(el=>!el.hasAttribute('hidden'));
+        let current = '';
+        for (const el of sections) if(el.getBoundingClientRect().top <= 180) current = el.id;
+        setActiveSection(current);
+      });
+    };
+    update(); window.addEventListener('scroll',update,{passive:true}); window.addEventListener('resize',update);
+    return ()=>{cancelAnimationFrame(frame);window.removeEventListener('scroll',update);window.removeEventListener('resize',update);};
+  },[]);
   function calculateModel(id:string) {
     setSelectedModel(id);
     requestAnimationFrame(()=>{document.getElementById('calculator')?.scrollIntoView({block:'start'});document.getElementById('calc-model')?.focus({preventScroll:true});});
@@ -118,9 +133,9 @@ export default function Home({
         </a>
         <nav className="desktop-nav">
           {nav
-            .filter(([id]) => ['about', 'products', 'technology', 'contacts'].includes(id))
+            .filter(([id]) => ['about', 'products', 'technology', 'calculator', 'contacts'].includes(id))
             .map(([id, label]) => (
-              <a key={id} href={'#' + id}>
+              <a key={id} href={'#' + id} aria-current={activeSection===id?'location':undefined}>
                 {label}
               </a>
             ))}
@@ -173,10 +188,11 @@ export default function Home({
             >
               ×
             </DialogClose>
+            <a className="button menu-calculator" href="#calculator" onClick={()=>M(false)}>{t('Розрахувати окупність','Calculate payback')} <ArrowUpRight size={18}/></a>
             <nav className="menu-links">
               {nav.map(([id, label]) => (
                 <div key={id}>
-                  <a href={'#' + id} onClick={() => M(false)}>
+                  <a href={'#' + id} aria-current={activeSection===id?'location':undefined} onClick={() => M(false)}>
                     {label}
                     <ArrowUpRight size={17} />
                   </a>

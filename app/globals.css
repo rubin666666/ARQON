@@ -1723,3 +1723,24 @@ a:focus-visible, button:focus-visible, input:focus-visible, textarea:focus-visib
 
 .model-drawer { translate: none !important; display: flex; flex-direction: column; align-items: stretch; justify-content: flex-start; gap: 18px; animation: none !important; }
 .model-drawer > .button { flex-shrink: 0; }
+
+.desktop-nav a[aria-current="location"], .menu-links a[aria-current="location"] { color:var(--primary); text-decoration:underline; text-underline-offset:7px; text-decoration-thickness:2px; }
+.menu-calculator { width:100%; margin:8px 0 16px; }
+.field { position:relative; }
+.field:has(.field-help) > label { padding-right:32px; }
+.field-help { position:relative; font-size:14px; }
+.field > .field-help { position:absolute; top:-8px; right:0; z-index:2; }
+.field-help summary { display:flex; align-items:center; justify-content:center; min-width:36px; min-height:36px; cursor:pointer; color:var(--muted); border-radius:50%; list-style:none; }
+.field-help summary::-webkit-details-marker { display:none; }
+.field-help[open] summary { color:var(--primary); background:var(--surface); }
+.field-help p { font-size:14px; line-height:1.55; margin:4px 0 12px; padding:12px; background:var(--surface-raised); border:1px solid var(--border); border-radius:12px; box-shadow:var(--card-shadow); }
+.field > .field-help p { position:absolute; right:0; width:min(260px,calc(100vw - 76px)); z-index:3; }
+.menu-dialog { translate:none !important; }
+@media(max-width:680px){
+ .field-help summary { min-width:44px; min-height:44px; }
+ .field > .field-help { top:-12px; }
+ .field input,.enquiry-form input,.enquiry-form textarea { font-size:16px; scroll-margin-top:100px; scroll-margin-bottom:120px; }
+ .model-drawer { padding-bottom:max(28px,env(safe-area-inset-bottom)) !important; }
+}
+
+.calc-fields > .field-help summary { justify-content:flex-start; gap:8px; width:fit-content; border-radius:8px; padding:0 8px; }

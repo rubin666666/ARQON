@@ -122,6 +122,10 @@ export function Calculator({ en, model, onModelChange: setModel }: { en: boolean
         ) as Record<string, number | null>,
       }
     : undefined;
+  const help = (id: string) => {
+    const text = id === 'calc-volume' ? t('Загальний обсяг зерна, який плануєте сушити за весь сезон, а не за одну добу.', 'Total grain you plan to dry over the entire season, not per day.') : id === 'calc-tariff' ? t('Ціна сушіння однієї тонни на один відсотковий пункт вологості. Уточніть тариф вашого елеватора.', 'The charge for drying one tonne by one percentage point of moisture. Check your elevator tariff.') : t('Враховує можливу різницю ціни при пізнішому продажі. Це сценарій, а не гарантований дохід.', 'Includes a possible price difference from selling later. This is a scenario, not guaranteed income.');
+    return <details className="field-help"><summary aria-label={t('Пояснення: ', 'Help: ') + (id==='calc-volume'?t('Обсяг за сезон','Seasonal volume'):id==='calc-tariff'?t('Тариф елеватора','Elevator tariff'):t('Відкладений продаж','Delayed sale'))}><Info size={17}/>{id==='delayed-sale' && <span>{t('Про відкладений продаж','About delayed sale')}</span>}</summary><p>{text}</p></details>;
+  };
   const select = (
     id: string,
     label: string,
@@ -131,6 +135,7 @@ export function Calculator({ en, model, onModelChange: setModel }: { en: boolean
   ) => (
     <div className="field" key={id}>
       <label htmlFor={id}>{label}</label>
+      {['calc-volume','calc-tariff'].includes(id) && help(id)}
       <Select modal={false} value={value} onValueChange={(v) => v !== null && set(v)}>
         <SelectTrigger id={id} aria-label={label} aria-invalid={id.startsWith("calc-") && ["calc-initial", "calc-final"].includes(id) && moistureError} aria-describedby={["calc-initial", "calc-final"].includes(id) && moistureError ? "moisture-error" : undefined}>
           <SelectValue>
@@ -320,6 +325,7 @@ export function Calculator({ en, model, onModelChange: setModel }: { en: boolean
               </div>
             </div>
           </fieldset>
+          {help('delayed-sale')}
           <div className="toggle">
             <label htmlFor="delayed-sale">
               {t('Врахувати відкладений продаж', 'Include delayed sale')}
