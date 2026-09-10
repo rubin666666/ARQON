@@ -97,7 +97,7 @@ export function Calculator({ en, model, onModelChange: setModel }: { en: boolean
   ) => (
     <div className="field" key={id}>
       <label htmlFor={id}>{label}</label>
-      <Select value={value} onValueChange={(v) => v !== null && set(v)}>
+      <Select modal={false} value={value} onValueChange={(v) => v !== null && set(v)}>
         <SelectTrigger id={id} aria-label={label} aria-invalid={id.startsWith("calc-") && ["calc-initial", "calc-final"].includes(id) && moistureError} aria-describedby={["calc-initial", "calc-final"].includes(id) && moistureError ? "moisture-error" : undefined}>
           <SelectValue>
             {options.find((o) => o.value === value)?.label}

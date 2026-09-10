@@ -45,6 +45,9 @@
   box-sizing: border-box;
 }
 html {
+  /* Keep viewport geometry stable when dialogs lock scrolling. */
+  overflow-y: scroll;
+  scrollbar-gutter: stable;
   scroll-behavior: smooth;
   scroll-padding-top: 100px;
 }
