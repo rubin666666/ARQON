@@ -1,6 +1,13 @@
 'use client';
 import { useMemo, useState } from 'react';
-import { ArrowUpRight, SlidersHorizontal, Info } from 'lucide-react';
+import {
+  ArrowUpRight,
+  SlidersHorizontal,
+  Info,
+  Wheat,
+  Fuel,
+  Truck,
+} from 'lucide-react';
 import {
   Select,
   SelectTrigger,
@@ -147,97 +154,119 @@ export function Calculator({ en }: { en: boolean }) {
             01 — {t('Параметри господарства', 'Farm parameters')}
             <SlidersHorizontal size={19} />
           </div>
-          <div className="fields">
-            {select(
-              'calc-model',
-              t('Модель сушарки', 'Dryer model'),
-              model,
-              site.models.map((m) => ({ value: m.id, label: m.name })),
-              setModel,
-            )}
-            {select(
-              'calc-crop',
-              t('Культура', 'Crop'),
-              crop,
-              config.crops.map((c) => ({
-                value: c.id,
-                label: c[en ? 'en' : 'uk'],
-              })),
-              setCrop,
-            )}
-            {numeric(
-              'calc-volume',
-              t('Обсяг за сезон, т', 'Seasonal volume, t'),
-              volume,
-              config.volumes,
-              setVolume,
-            )}
-            {numeric(
-              'calc-distance',
-              t('Відстань до елеватора, км', 'Elevator distance, km'),
-              distance,
-              config.distances,
-              setDistance,
-            )}
-            {numeric(
-              'calc-initial',
-              t('Початкова вологість, %', 'Initial moisture, %'),
-              initialMoisture,
-              config.initialMoistures,
-              setInitial,
-            )}
-            {numeric(
-              'calc-final',
-              t('Кінцева вологість, %', 'Final moisture, %'),
-              finalMoisture,
-              config.finalMoistures,
-              setFinal,
-            )}
-            {numeric(
-              'calc-tariff',
-              t('Тариф елеватора, грн/т-%', 'Elevator tariff, UAH/t-%'),
-              elevatorTariff,
-              config.tariffs,
-              setTariff,
-            )}
-            <div className="field field-explainer">
-              <Info size={17} />
-              <span>
-                {t(
-                  '1 т-% — сушіння однієї тонни на один відсотковий пункт вологості.',
-                  '1 t-% means reducing moisture in one tonne by one percentage point.',
-                )}
-              </span>
+          <fieldset className="calc-group">
+            <legend>
+              <Wheat size={18} />
+              {t('Зерно', 'Grain')}
+            </legend>
+            <div className="fields">
+              {select(
+                'calc-model',
+                t('Модель сушарки', 'Dryer model'),
+                model,
+                site.models.map((m) => ({ value: m.id, label: m.name })),
+                setModel,
+              )}
+              {select(
+                'calc-crop',
+                t('Культура', 'Crop'),
+                crop,
+                config.crops.map((c) => ({
+                  value: c.id,
+                  label: c[en ? 'en' : 'uk'],
+                })),
+                setCrop,
+              )}
+              {numeric(
+                'calc-volume',
+                t('Обсяг за сезон, т', 'Seasonal volume, t'),
+                volume,
+                config.volumes,
+                setVolume,
+              )}
+              {numeric(
+                'calc-initial',
+                t('Початкова вологість, %', 'Initial moisture, %'),
+                initialMoisture,
+                config.initialMoistures,
+                setInitial,
+              )}
+              {numeric(
+                'calc-final',
+                t('Кінцева вологість, %', 'Final moisture, %'),
+                finalMoisture,
+                config.finalMoistures,
+                setFinal,
+              )}
             </div>
-            <label className="field" htmlFor="diesel">
-              {t('Дизель, грн/л', 'Diesel, UAH/l')}
-              <input
-                id="diesel"
-                type="number"
-                min="0"
-                max="1000000"
-                step="0.01"
-                inputMode="decimal"
-                value={diesel}
-                onChange={(e) => setDiesel(e.target.value)}
-                placeholder={t('Вкажіть ціну', 'Enter price')}
-              />
-            </label>
-            <label className="field" htmlFor="electricity">
-              {t('Електроенергія, грн/кВт·год', 'Electricity, UAH/kWh')}
-              <input
-                id="electricity"
-                type="number"
-                min="0"
-                max="1000000"
-                step="0.01"
-                inputMode="decimal"
-                value={electricity}
-                onChange={(e) => setElectricity(e.target.value)}
-                placeholder={t('Вкажіть ціну', 'Enter price')}
-              />
-            </label>
-          </div>
+          </fieldset>
+          <fieldset className="calc-group">
+            <legend>
+              <Fuel size={18} />
+              {t('Енергоносії', 'Energy')}
+            </legend>
+            <div className="fields">
+              <label className="field" htmlFor="diesel">
+                {t('Дизель, грн/л', 'Diesel, UAH/l')}
+                <input
+                  id="diesel"
+                  type="number"
+                  min="0"
+                  max="1000000"
+                  step="0.01"
+                  inputMode="decimal"
+                  value={diesel}
+                  onChange={(e) => setDiesel(e.target.value)}
+                  placeholder={t('Вкажіть ціну', 'Enter price')}
+                />
+              </label>
+              <label className="field" htmlFor="electricity">
+                {t('Електроенергія, грн/кВт·год', 'Electricity, UAH/kWh')}
+                <input
+                  id="electricity"
+                  type="number"
+                  min="0"
+                  max="1000000"
+                  step="0.01"
+                  inputMode="decimal"
+                  value={electricity}
+                  onChange={(e) => setElectricity(e.target.value)}
+                  placeholder={t('Вкажіть ціну', 'Enter price')}
+                />
+              </label>
+            </div>
+          </fieldset>
+          <fieldset className="calc-group">
+            <legend>
+              <Truck size={18} />
+              {t('Елеватор', 'Elevator')}
+            </legend>
+            <div className="fields">
+              {numeric(
+                'calc-distance',
+                t('Відстань до елеватора, км', 'Elevator distance, km'),
+                distance,
+                config.distances,
+                setDistance,
+              )}
+              {numeric(
+                'calc-tariff',
+                t('Тариф елеватора, грн/т-%', 'Elevator tariff, UAH/t-%'),
+                elevatorTariff,
+                config.tariffs,
+                setTariff,
+              )}
+              <div className="field field-explainer">
+                <Info size={17} />
+                <span>
+                  {t(
+                    '1 т-% — сушіння однієї тонни на один відсотковий пункт вологості.',
+                    '1 t-% means reducing moisture in one tonne by one percentage point.',
+                  )}
+                </span>
+              </div>
+            </div>
+          </fieldset>
           <div className="toggle">
             <label htmlFor="delayed-sale">
               {t('Врахувати відкладений продаж', 'Include delayed sale')}
@@ -291,17 +320,40 @@ export function Calculator({ en }: { en: boolean }) {
             </div>
           </div>
           {ready && (
-            <div className="cost-comparison">
-              <div>
-                <span>{t('Власне сушіння', 'Own drying')}</span>
-                <b>{format(result.operatingCost!)} ₴</b>
-              </div>
-              <div>
-                <span>
-                  {t('Елеватор і логістика', 'Elevator and logistics')}
-                </span>
-                <b>{format(result.elevatorCost!)} ₴</b>
-              </div>
+            <div
+              className="cost-comparison"
+              aria-label={t(
+                'Порівняння витрат за сезон',
+                'Seasonal cost comparison',
+              )}
+            >
+              {[
+                {
+                  label: t('Власне сушіння', 'Own drying'),
+                  value: result.operatingCost!,
+                  own: true,
+                },
+                {
+                  label: t('Елеватор і логістика', 'Elevator and logistics'),
+                  value: result.elevatorCost!,
+                  own: false,
+                },
+              ].map(({ label, value, own }) => (
+                <div className="cost-row" key={label}>
+                  <div className="cost-row-label">
+                    <span>{label}</span>
+                    <b>{format(value)} ₴</b>
+                  </div>
+                  <div className="cost-track" aria-hidden="true">
+                    <span
+                      className={own ? 'cost-fill own' : 'cost-fill'}
+                      style={{
+                        width: `${(value / Math.max(result.operatingCost!, result.elevatorCost!, 1)) * 100}%`,
+                      }}
+                    />
+                  </div>
+                </div>
+              ))}
             </div>
           )}
           <p

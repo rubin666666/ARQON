@@ -1447,3 +1447,27 @@ textarea:focus-visible, summary:focus-visible {
   .model-specs dd { text-align: right; }
   .model-specs dt, .model-specs dd { font-size: 13px; }
 }
+
+/* Calculator groups and seasonal comparison panel. */
+.calc-group { margin: 0 0 28px; padding: 22px; border: 1px solid var(--border); border-radius: 6px; min-width: 0; }
+.calc-group legend { padding: 0 10px; display: flex; align-items: center; gap: 10px; font-size: 17px; font-weight: 600; }
+.calc-group legend svg { color: var(--primary); }
+.calc-group .fields { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+.calc-group .field { min-width: 0; }
+.calc-group .field-explainer { grid-column: 1 / -1; display: flex; flex-direction: row; align-items: flex-start; justify-content: flex-start; font-size: 13px; }
+.calc-group .field-explainer svg { flex-shrink: 0; margin-top: 2px; }
+.calculator .result { align-self: start; position: sticky; top: 110px; border-radius: 6px; }
+.calculator { border: 0; gap: 24px; align-items: start; }
+.calculator .calc-fields { padding: 0; }
+.result-metric { padding: 20px 0; }
+.result-metric small { font-size: 14px; }
+.result-metric strong { font-variant-numeric: tabular-nums; }
+.cost-comparison .cost-row { display: block; margin-bottom: 20px; }
+.cost-row-label { display: flex; justify-content: space-between; flex-wrap: wrap; gap: 8px; margin-bottom: 10px; font-size: 14px; }
+.cost-track { height: 8px; border-radius: 4px; overflow: hidden; background: #ffffff18; }
+.cost-fill { display: block; height: 100%; background: #b8c1ba; border-radius: inherit; transition: width .25s ease; }
+.cost-fill.own { background: #f16a2c; }
+@media (max-width: 1000px) { .calculator { grid-template-columns: 1fr; } .calculator .result { position: static; } }
+@media (max-width: 540px) { .calc-group { padding: 16px; margin-bottom: 22px; } .calc-group .fields { grid-template-columns: 1fr; } .calculator { gap: 20px; } }
+
+.calc-group:first-of-type .field:nth-child(3) { grid-column: 1 / -1; }
