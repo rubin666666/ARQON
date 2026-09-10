@@ -2,7 +2,6 @@
 import { useCallback, useEffect, useMemo, useState } from 'react';
 import {
   ArrowUpRight,
-  SlidersHorizontal,
   Info,
   Wheat,
   Fuel,
@@ -170,22 +169,16 @@ export function Calculator({ en, model, onModelChange: setModel }: { en: boolean
     <section id="calculator" className="section">
       <div className="section-heading">
         <div>
-          <div className="eyebrow">
-            04 / {t('КАЛЬКУЛЯТОР ОКУПНОСТІ', 'PAYBACK CALCULATOR')}
-          </div>
-          <h2>
-            {t('Порахуємо', 'Let’s calculate')}
-            <br />
-            <em>{t('вашу незалежність.', 'your independence.')}</em>
-          </h2>
+          <p className="eyebrow">{t('Калькулятор окупності', 'Payback calculator')}</p>
+          <h2>{t('Порівняйте власне сушіння з елеватором', 'Compare on-site drying with an elevator')}</h2>
         </div>
-        <p>
-          {t(
-            'Порівняйте власне сушіння з елеватором. Вкажіть параметри сезону та актуальні ціни енергоносіїв.',
-            'Compare on-site drying with an elevator. Choose your seasonal inputs and enter current energy prices.',
-          )}
-        </p>
       </div>
+      <p className="calc-intro">
+        {t(
+          'Оберіть модель, культуру й сезон. Вкажіть ціни енергоносіїв. Праворуч з’явиться орієнтовна економія та строк окупності — після погодження коефіцієнтів.',
+          'Choose a model, crop and season. Enter energy prices. The panel shows estimated savings and payback once coefficients are approved.',
+        )}
+      </p>
       <div className="scenario-tools">
         <button type="button" className="button button-secondary" onClick={shareScenario}>{t('Поділитися сценарієм', 'Share scenario')}</button>
         <button type="button" className="text-link" onClick={resetScenario}>{t('Скинути', 'Reset')}</button>
@@ -199,10 +192,6 @@ export function Calculator({ en, model, onModelChange: setModel }: { en: boolean
             target?.scrollIntoView({block: 'start'});
             target?.focus({preventScroll: true});
           }}>{t('До результату', 'View results')} <ArrowUpRight size={18} /></button>
-          <div className="calc-label">
-            01 — {t('Параметри господарства', 'Farm parameters')}
-            <SlidersHorizontal size={19} />
-          </div>
           <fieldset className="calc-group">
             <legend>
               <Wheat size={18} />
@@ -349,10 +338,7 @@ export function Calculator({ en, model, onModelChange: setModel }: { en: boolean
           tabIndex={-1}
           aria-label={t('Результат розрахунку', 'Calculation results')}
         >
-          <div className="calc-label">
-            02 — {t('Економіка сезону', 'Season economics')}
-            <ArrowUpRight size={20} />
-          </div>
+          <p className="result-label">{t('Результат сезону', 'Season result')}</p>
           <p className="result-model">{site.models.find(m => m.id === model)?.name} · {format(volume)} {t('т / сезон', 't / season')}</p>
           <div aria-live="polite" aria-atomic="true">
             <div className="result-metric result-metric-primary">

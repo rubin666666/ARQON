@@ -4,6 +4,7 @@ import { useState, useEffect } from 'react';
 import Image from 'next/image';
 import { EnquiryForm } from './enquiry-form';
 import { Calculator } from './calculator';
+import { About } from './about';
 import { Technology } from './technology';
 import { ContentSections } from './content-sections';
 import { Analytics } from './analytics';
@@ -91,15 +92,15 @@ export default function Home({
   useEffect(() => {
     document.documentElement.lang = en ? 'en' : 'uk';
     document.title = en
-      ? 'ARQON SAHARA — Grain dryers & payback calculator'
-      : 'ARQON SAHARA — Зерносушарки та калькулятор окупності';
+      ? 'ARQON — Engineering. Automation. Intelligence.'
+      : 'ARQON — Engineering. Automation. Intelligence.';
     document
       .querySelector('meta[name="description"]')
       ?.setAttribute(
         'content',
         en
-          ? 'Canadian–Ukrainian ARQON grain drying technology. Explore SAHARA 1–4 and compare on-site grain drying with external elevator costs.'
-          : 'Канадсько-українські технології сушіння зерна ARQON. Зерносушарки SAHARA 1–4 та порівняння власного сушіння з витратами на елеватор.',
+          ? 'Arqon is an engineering technology company specializing in industrial automation, intelligent machinery, and industrial software. SAHARA grain dryers and a payback calculator.'
+          : 'Arqon — інженерно-технологічна компанія: промислова автоматизація, інтелектуальне обладнання та промислове ПЗ. Зерносушарки SAHARA та калькулятор окупності.',
       );
     document
       .querySelector('link[rel="canonical"]')
@@ -115,7 +116,7 @@ export default function Home({
     ['video', t('Відео', 'Videos')],
     ['contacts', t('Контакти', 'Contacts')],
     ['partners', t('Партнери', 'Partners')],
-  ].filter(([id]) => id !== 'video' || site.videos.length).filter(([id]) => id !== 'partners' || site.partners.length).filter(([id]) => id !== 'contacts' || hasContacts(en)).filter(([id]) => id !== 'equipment' || site.equipmentPublished);
+  ].filter(([id]) => id !== 'photo' || site.photos.length).filter(([id]) => id !== 'video' || site.videos.length).filter(([id]) => id !== 'partners' || site.partners.length).filter(([id]) => id !== 'contacts' || hasContacts(en)).filter(([id]) => id !== 'equipment' || site.equipmentPublished);
   return (
     <>
       <a className="skip" href="#main">
@@ -218,13 +219,7 @@ export default function Home({
       <main id="main">
         <section className="hero">
           <div className="hero-copy">
-            <div className="eyebrow">
-              <i />
-              {t(
-                'КАНАДСЬКО-УКРАЇНСЬКА ІНЖЕНЕРІЯ',
-                'CANADIAN–UKRAINIAN ENGINEERING',
-              )}
-            </div>
+            <p className="eyebrow">{localText(site.tagline, en)}</p>
             <h1>
               {t('Ваш урожай.', 'Your harvest.')}
               <br />
@@ -234,30 +229,22 @@ export default function Home({
             </h1>
             <p>
               {t(
-                'Зерносушарки ARQON для господарств, які обирають власний шлях від зібраного зерна до готового продукту.',
-                'ARQON grain dryers for farms taking control of the journey from harvested grain to a finished product.',
+                'Зерносушарки SAHARA — обладнання Arqon, де інженерія, автоматизація й програмне забезпечення працюють як одна система.',
+                'SAHARA grain dryers from Arqon, where engineering, automation and software work as one system.',
               )}
             </p>
             <div className="hero-links">
               <a className="button" href="#calculator">
                 {t('Розрахувати окупність', 'Calculate payback')}
-                <ArrowUpRight size={20} />
+                <ArrowUpRight size={18} />
               </a>
-              <a className="button button-secondary" href="#products">
-                {t('Усі моделі', 'All models')}
-                <ArrowRight size={18} />
+              <a className="text-link" href="#products">
+                {t('Дивитися моделі', 'See the models')}
+                <ArrowRight size={16} />
               </a>
-            </div>
-            <div className="hero-note">
-              <span>01 — 04</span>
-              {t('Чотири моделі. Ваш масштаб.', 'Four models. Your scale.')}
             </div>
           </div>
-          <div className="hero-art">
-            <div className="art-top">
-              <span>ARQON / ENGINEERING</span>
-              <span>SAHARA SERIES</span>
-            </div>
+          <figure className="hero-art">
             <Image
               width={1024}
               height={1024}
@@ -268,25 +255,19 @@ export default function Home({
               )}
               fetchPriority="high"
             />
-            <div className="art-bottom">
-              <span>
-                {t('КОНЦЕПТ / ЗЕРНОСУШАРКА', 'CONCEPT / GRAIN DRYER')}
-              </span>
-              <ArrowUpRight />
-            </div>
-          </div>
+          </figure>
         </section>
         <div className="benefits">
           {[Flame, SlidersHorizontal, ShieldCheck].map((Icon, i) => (
             <div key={i}>
-              <Icon size={29} />
+              <Icon size={20} strokeWidth={1.5} />
               <div>
                 <h3>
                   {
                     [
-                      t('Технологія сушіння', 'Drying technology'),
-                      t('Ваші параметри', 'Your requirements'),
-                      t('Обґрунтований вибір', 'An informed choice'),
+                      t('Інженерія', 'Engineering'),
+                      t('Автоматизація', 'Automation'),
+                      t('Інтелект', 'Intelligence'),
                     ][i]
                   }
                 </h3>
@@ -294,57 +275,34 @@ export default function Home({
                   {
                     [
                       t(
-                        'Контроль на кожному етапі процесу.',
-                        'Control at every stage of the process.',
+                        'Машинобудування, механічне проєктування й обладнання.',
+                        'Mechanical engineering, machinery and equipment design.',
                       ),
                       t(
-                        'Рішення під культуру та обсяг зерна.',
-                        'A solution for your crop and volume.',
+                        'Системи керування, PLC та HMI як частина продукту.',
+                        'Control systems, PLC and HMI as part of the product.',
                       ),
                       t(
-                        'Порівняйте власне сушіння з елеватором.',
-                        'Compare on-site drying with outsourcing.',
+                        'Власне ПЗ, дані та дистанційний моніторинг.',
+                        'Proprietary software, data and remote monitoring.',
                       ),
                     ][i]
                   }
                 </p>
               </div>
-              <small>0{i + 1}</small>
             </div>
           ))}
         </div>
-        <section id="about" className="section about">
-          <div className="eyebrow">01 / {t('ПРО ARQON', 'ABOUT ARQON')}</div>
-          <div>
-            <h2>
-              {t('Інженерія, що працює', 'Engineering that works')}
-              <br />
-              <em>{t('на ваш урожай.', 'for your harvest.')}</em>
-            </h2>
-            <p>
-              {t(
-                'ARQON — канадсько-український бренд зерносушильного обладнання. Лінійка SAHARA об’єднує чотири моделі для агропідприємств, фермерських господарств та агрохолдингів України й країн ЄС.',
-                'ARQON is a Canadian–Ukrainian grain drying equipment brand. The SAHARA range includes four models for farms and agricultural businesses in Ukraine and the EU.',
-              )}
-            </p>
-          </div>
-        </section>
+        <About en={en} />
         <section id="products" className="section">
           <div className="section-heading">
             <div>
-              <div className="eyebrow">
-                02 / {t('ПРОДУКТОВА ЛІНІЙКА', 'PRODUCT RANGE')}
-              </div>
+              <p className="eyebrow">{t('Продукти', 'Products')}</p>
               <h2>
                 {t('Знайдіть свою', 'Find your')} <em>SAHARA.</em>
               </h2>
             </div>
-            <p>
-              {t(
-                'Від потреб господарства — до конфігурації обладнання.',
-                'From your farm’s needs to the right configuration.',
-              )}
-            </p>
+            <p>{localText(site.productIntro, en)}</p>
           </div>
           <ModelExplorer en={en} onCalculate={calculateModel} />
           <div className="products">
@@ -414,9 +372,7 @@ export default function Home({
         <Technology en={en} />
         <Calculator en={en} model={selectedModel} onModelChange={setSelectedModel} />
         {site.equipmentPublished && <section id="equipment" className="section">
-          <div className="eyebrow">
-            05 / {t('ДОДАТКОВЕ ОБЛАДНАННЯ', 'OPTIONAL EQUIPMENT')}
-          </div>
+          <p className="eyebrow">{t('Додаткове обладнання', 'Optional equipment')}</p>
           <h2>
             {t('Єдина система.', 'One system.')}{' '}
             <em>{t('Більше можливостей.', 'More possibilities.')}</em>
@@ -443,10 +399,10 @@ export default function Home({
             <Image src={asset('/arqon-logo.png')} width={1952} height={816} alt="ARQON Engineering & Innovation" />
             <Image className="brand-light-letters" src={asset('/arqon-logo.png')} width={1952} height={816} alt="" aria-hidden="true" />
           </a>
-          <p>{t('Канадсько-українська інженерія.','Canadian–Ukrainian engineering.')}<br/>{t('Технології сушіння зерна SAHARA.','SAHARA grain drying technology.')}</p>
+          <p>{localText(site.tagline, en)}<br/>{localText(site.closing, en)}</p>
         </div>
         <nav className="footer-nav" aria-label={t('Навігація у підвалі','Footer navigation')}>
-          <span className="footer-caption">{t('ДОСЛІДІТЬ ARQON','EXPLORE ARQON')}</span>
+          <span className="footer-caption">{t('Розділи', 'Explore')}</span>
           {nav.filter(([id])=>['about','products','technology','calculator','contacts'].includes(id)).map(([id,label])=><a key={id} href={'#'+id}>{label}<ArrowUpRight size={15}/></a>)}
         </nav>
         <span>

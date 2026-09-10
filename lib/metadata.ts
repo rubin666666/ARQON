@@ -3,11 +3,11 @@ import { site, basePath, localeUrl } from './site';
 export function metadataFor(en: boolean): Metadata {
   return {
     title: en
-      ? 'ARQON SAHARA — Grain dryers & payback calculator'
-      : 'ARQON SAHARA — Зерносушарки та калькулятор окупності',
+      ? 'ARQON — Engineering. Automation. Intelligence.'
+      : 'ARQON — Engineering. Automation. Intelligence.',
     description: en
-      ? 'Canadian–Ukrainian ARQON grain drying technology. Explore SAHARA 1–4 and compare on-site grain drying with external elevator costs.'
-      : 'Канадсько-українські технології сушіння зерна ARQON. Зерносушарки SAHARA 1–4 та порівняння власного сушіння з витратами на елеватор.',
+      ? 'Arqon is an engineering technology company specializing in industrial automation, intelligent machinery, and industrial software.'
+      : 'Arqon — інженерно-технологічна компанія, що спеціалізується на промисловій автоматизації, інтелектуальному обладнанні та промисловому програмному забезпеченні.',
     metadataBase: new URL(site.origin),
     alternates: {
       canonical: localeUrl(en),
@@ -23,7 +23,7 @@ export function metadataFor(en: boolean): Metadata {
       type: 'website',
       locale: en ? 'en_GB' : 'uk_UA',
       siteName: 'ARQON',
-      title: en ? 'ARQON — SAHARA grain dryers' : 'ARQON — Зерносушарки SAHARA',
+      title: en ? 'ARQON — Engineering. Automation. Intelligence.' : 'ARQON — Engineering. Automation. Intelligence.',
       url: localeUrl(en),
     },
   };

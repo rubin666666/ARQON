@@ -37,8 +37,8 @@ export function ContentSections({ en }: { en: boolean }) {
     );
   return (
     <>
-      <section className="section media-grid media-unified">
-        <div className="media-heading"><div className="eyebrow">06 / {t('МЕДІА','MEDIA')}</div><h2>{t('SAHARA в деталях.','SAHARA in detail.')}</h2>
+      {(site.photos.length > 0 || site.videos.length > 0) && <section className="section media-grid media-unified">
+        <div className="media-heading"><p className="eyebrow">{t('Медіа','Media')}</p><h2>{t('SAHARA в деталях.','SAHARA in detail.')}</h2>
         {site.videos.length > 0 && <div className="media-controls" aria-label={t('Тип матеріалів','Media type')}>
           <button className="button button-secondary" aria-pressed={media==='photo'} onClick={()=>{setMedia('photo');setPlaying(null);}}>{t('Фото','Photos')} ({site.photos.length})</button>
           <button className="button button-secondary" aria-pressed={media==='video'} onClick={()=>setMedia('video')}>{t('Відео','Videos')} ({site.videos.length})</button>
@@ -109,13 +109,10 @@ export function ContentSections({ en }: { en: boolean }) {
             </div>
           )}
         </div>}
-      </section>
-      {site.faq.some(f=>localText(f.question,en)&&localText(f.answer,en)) && <section className="section faq-section" id="faq"><div className="eyebrow">FAQ</div><h2>{t('Питання та відповіді','Questions and answers')}</h2><div className="faq-list">{site.faq.filter(f=>localText(f.question,en)&&localText(f.answer,en)).map((f,i)=><details key={i}><summary>{localText(f.question,en)}</summary><p>{localText(f.answer,en)}</p></details>)}</div></section>}
+      </section>}(f=>localText(f.question,en)&&localText(f.answer,en)) && <section className="section faq-section" id="faq"><p className="eyebrow">FAQ</p><h2>{t('Питання та відповіді','Questions and answers')}</h2><div className="faq-list">{site.faq.filter(f=>localText(f.question,en)&&localText(f.answer,en)).map((f,i)=><details key={i}><summary>{localText(f.question,en)}</summary><p>{localText(f.answer,en)}</p></details>)}</div></section>}
       {hasContacts(en) && <section id="contacts" className="section contacts">
         <div>
-          <div className="eyebrow">
-            08 / {t('КОНТАКТИ В УКРАЇНІ', 'CONTACTS IN UKRAINE')}
-          </div>
+          <p className="eyebrow">{t('Контакти в Україні', 'Contacts in Ukraine')}</p>
           <h2>
             {t('Ваш наступний сезон', 'Your next season')}
             <br />
@@ -196,7 +193,7 @@ export function ContentSections({ en }: { en: boolean }) {
         </div>}
       </section>}
       {site.partners.length > 0 && <section id="partners" className="partners">
-        <span className="eyebrow">09 / {t('ПАРТНЕРИ', 'PARTNERS')}</span>
+        <span className="eyebrow">{t('Партнери', 'Partners')}</span>
         {site.partners.length ? (
           <div className="partner-grid">
             {site.partners.map((p) => (

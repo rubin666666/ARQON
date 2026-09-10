@@ -28,13 +28,122 @@
   "socials": [],
   "partners": [],
   "videos": [],
-  "photos": [
-    {
-      "src": "/sahara.jpg",
-      "uk": "Концептуальна ілюстрація SAHARA",
-      "en": "SAHARA concept illustration"
+  "photos": [],
+  "tagline": {
+    "uk": "Engineering. Automation. Intelligence.",
+    "en": "Engineering. Automation. Intelligence."
+  },
+  "closing": {
+    "uk": "Один технологічний партнер — від концепції до системи керування.",
+    "en": "One technology partner — from concept to operating system."
+  },
+  "who": {
+    "lead": {
+      "uk": "Arqon — інженерно-технологічна компанія, що спеціалізується на промисловій автоматизації, інтелектуальному обладнанні та промисловому програмному забезпеченні.",
+      "en": "Arqon is an engineering technology company specializing in industrial automation, intelligent machinery, and industrial software."
+    },
+    "body": {
+      "uk": "Ми розробляємо комплексні рішення, що поєднують машинобудування, автоматизацію, системи керування, моніторинг даних і власне програмне забезпечення для вдосконалення промислових процесів та підвищення ефективності обладнання.",
+      "en": "We develop integrated solutions that combine mechanical engineering, automation, control systems, data monitoring, and proprietary software to improve industrial processes and equipment performance."
     }
-  ],
+  },
+  "what": {
+    "lead": {
+      "uk": "Arqon створює комплексні технологічні рішення, охоплюючи весь цикл розробки продукту.",
+      "en": "Arqon provides complete technology solutions covering the entire product development cycle."
+    },
+    "items": [
+      {
+        "uk": "проєктування промислових машин та обладнання",
+        "en": "Industrial machinery and equipment design"
+      },
+      {
+        "uk": "механічне проєктування та конструкторська документація",
+        "en": "Mechanical engineering and manufacturing documentation"
+      },
+      {
+        "uk": "промислова автоматизація та системи керування",
+        "en": "Industrial automation and control systems"
+      },
+      {
+        "uk": "PLC та HMI-рішення",
+        "en": "PLC and HMI solutions"
+      },
+      {
+        "uk": "спеціалізоване промислове програмне забезпечення",
+        "en": "Specialized industrial software"
+      },
+      {
+        "uk": "збір, моніторинг та аналіз виробничих даних",
+        "en": "Data collection, monitoring, and analytics"
+      },
+      {
+        "uk": "дистанційний моніторинг і керування обладнанням",
+        "en": "Remote equipment monitoring and control"
+      },
+      {
+        "uk": "інтеграція та оптимізація систем",
+        "en": "System integration and optimization"
+      }
+    ]
+  },
+  "approach": {
+    "lead": {
+      "uk": "Ми об’єднуємо інженерію, програмне забезпечення та автоматизацію в єдине технологічне рішення, а не розглядаємо їх як окремі компоненти.",
+      "en": "We combine engineering, software, and automation into a single technological solution rather than treating them as separate components."
+    },
+    "body": {
+      "uk": "Від початкової концепції та механічного проєктування до виробництва, автоматизації, програмного забезпечення, запуску та подальшого розвитку — Arqon координує повну архітектуру продукту.",
+      "en": "From the initial concept and mechanical design to manufacturing, automation, software, commissioning, and further development, Arqon coordinates the complete product architecture."
+    }
+  },
+  "network": {
+    "lead": {
+      "uk": "Arqon працює за міжнародною інженерно-виробничою моделлю.",
+      "en": "Arqon operates through an international engineering and manufacturing network."
+    },
+    "places": [
+      {
+        "name": { "uk": "Канада", "en": "Canada" },
+        "role": {
+          "uk": "Інженерія, розробка продуктів, технологічна стратегія та розвиток бізнесу.",
+          "en": "Engineering, product development, technology strategy, and business development."
+        }
+      },
+      {
+        "name": { "uk": "Польща", "en": "Poland" },
+        "role": {
+          "uk": "Розробка промислового програмного забезпечення та систем автоматизації.",
+          "en": "Industrial software and automation development."
+        }
+      },
+      {
+        "name": { "uk": "Україна", "en": "Ukraine" },
+        "role": {
+          "uk": "Виробництво та виготовлення обладнання через виробничих партнерів.",
+          "en": "Equipment manufacturing and fabrication through manufacturing partners."
+        }
+      }
+    ],
+    "body": {
+      "uk": "Така структура дозволяє Arqon поєднувати інженерну експертизу, компетенції у сфері програмного забезпечення та автоматизації, а також конкурентні виробничі ресурси.",
+      "en": "This structure allows Arqon to combine engineering expertise, software and automation capabilities, and competitive manufacturing resources."
+    }
+  },
+  "technology": {
+    "lead": {
+      "uk": "Arqon розробляє власні технології та програмне забезпечення, які можуть адаптуватися до різних промислових застосувань.",
+      "en": "Arqon develops proprietary technologies and software that can be adapted to different industrial applications."
+    },
+    "body": {
+      "uk": "Наша мета — зробити промислове обладнання більш автоматизованим, контрольованим, ефективним і зручним в експлуатації, створюючи рішення, які можуть розвиватися разом із потребами клієнта.",
+      "en": "Our objective is to make industrial equipment more automated, measurable, efficient, and easier to operate while creating solutions that can evolve with the customer's needs."
+    }
+  },
+  "productIntro": {
+    "uk": "SAHARA — лінійка зерносушарок Arqon. Характеристики моделей публікуються після підтвердження.",
+    "en": "SAHARA is Arqon’s grain dryer range. Model specifications are published after confirmation."
+  },
   "models": [
     {
       "id": "sahara-1",
