@@ -438,9 +438,17 @@ export default function Home({
         <ContentSections en={en} />
       </main>
       <footer>
-        <a className="footer-brand" href="#main">
-          ARQON<span>ENGINEERING & INNOVATION</span>
-        </a>
+        <div className="footer-identity">
+          <a className="brand footer-logo" href="#main">
+            <Image src={asset('/arqon-logo.png')} width={1952} height={816} alt="ARQON Engineering & Innovation" />
+            <Image className="brand-light-letters" src={asset('/arqon-logo.png')} width={1952} height={816} alt="" aria-hidden="true" />
+          </a>
+          <p>{t('Канадсько-українська інженерія.','Canadian–Ukrainian engineering.')}<br/>{t('Технології сушіння зерна SAHARA.','SAHARA grain drying technology.')}</p>
+        </div>
+        <nav className="footer-nav" aria-label={t('Навігація у підвалі','Footer navigation')}>
+          <span className="footer-caption">{t('ДОСЛІДІТЬ ARQON','EXPLORE ARQON')}</span>
+          {nav.filter(([id])=>['about','products','technology','calculator','contacts'].includes(id)).map(([id,label])=><a key={id} href={'#'+id}>{label}<ArrowUpRight size={15}/></a>)}
+        </nav>
         <span>
           © 2026 ARQON. {t('Всі права захищені.', 'All rights reserved.')}
         </span>
@@ -475,7 +483,7 @@ export default function Home({
             </a>
           ))}
         </div>
-        <a href="#main" aria-label={t('На початок', 'Back to top')}>
+        <a className="footer-top" href="#main" aria-label={t('На початок', 'Back to top')}>
           ↑
         </a>
       </footer>
