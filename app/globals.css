@@ -23,22 +23,32 @@
   --color-accent-foreground: var(--foreground);
 }
 :root {
-  --background: #f7f8f7;
-  --foreground: #202322;
-  --surface: #edf0ed;
-  --border: #d9ddda;
-  --muted: #686f69;
-  --primary: #d95013;
-  --radius: 0.5rem;
+  --background: #f8f6f2;
+  --foreground: #252525;
+  --surface: #efede8;
+  --border: #dedbd5;
+  --muted: #65615c;
+  --primary: #b9400d;
+  --radius: 0.75rem;
+  --radius-card: 20px;
+  --surface-raised: #fffdfa;
+  --surface-input: #fffdfa;
+  --card-shadow: 0 6px 24px #30251a08;
+  --card-shadow-hover: 0 12px 30px #30251a12;
+  --action: #b9400d;
   color-scheme: light;
 }
 .dark {
-  --background: #161918;
-  --foreground: #f3f4ef;
-  --surface: #202522;
-  --border: #353b37;
-  --muted: #a5ada6;
+  --background: #171819;
+  --foreground: #f5f3ef;
+  --surface: #202224;
+  --border: #393b3e;
+  --muted: #b1b2b5;
   --primary: #f16a2c;
+  --surface-raised: #25272a;
+  --surface-input: #1b1d1f;
+  --card-shadow: 0 8px 28px #00000024;
+  --card-shadow-hover: 0 14px 34px #00000038;
   color-scheme: dark;
 }
 * {
@@ -1541,4 +1551,40 @@ p { text-wrap: pretty; }
 @media (min-width: 1024px) {
   .brand { width: 200px; flex-shrink: 0; }
   .brand img { height: 80px; }
+}
+
+/* Shared rounded surfaces and restrained orange accents in both themes. */
+.products article, .calc-group, .contact-panel, .equipment button,
+.photo-grid .gallery, .video-frame, .video-placeholder, .analytics-banner {
+  background-color: var(--surface-raised);
+  border: 1px solid var(--border);
+  border-radius: var(--radius-card);
+  box-shadow: var(--card-shadow);
+}
+.products article:hover, .products article:focus-within {
+  box-shadow: var(--card-shadow-hover);
+}
+.products article > img { border-radius: 12px; }
+.benefits { border: 1px solid var(--border); border-radius: var(--radius-card); background: var(--surface-raised); box-shadow: var(--card-shadow); }
+.benefits > div:first-child { padding-left: 20px; }
+.technology { border-radius: var(--radius-card); }
+.technology-drawing { border: 1px solid var(--border); border-radius: 16px; overflow: hidden; }
+.technology-drawing figcaption { padding-left: 14px; padding-right: 14px; }
+.hero-art { border-radius: var(--radius-card); }
+.hero-art::before { border-radius: inherit; }
+.calculator .result { background: var(--surface-raised); color: var(--foreground); border: 1px solid var(--border); border-radius: var(--radius-card); box-shadow: var(--card-shadow); }
+.result-metric { border-color: var(--border); }
+.result-metric small, .result-metric strong span, .result .notice { color: var(--muted); }
+.cost-track { background: var(--border); }
+.cost-fill { background: var(--muted); }
+.cost-fill.own { background: var(--primary); }
+.field input, .field [data-slot="select-trigger"], .enquiry-form input, .enquiry-form textarea { border-radius: 12px; background: var(--surface-input); }
+.button { border-radius: 12px; background: var(--action); box-shadow: 0 3px 10px #b9400d18; }
+.technology-markers button.active { background: var(--action); border-color: var(--action); }
+[data-slot="select-content"] { border-radius: 12px; background: var(--surface-raised); box-shadow: var(--card-shadow-hover); }
+[data-slot="select-item"] { border-radius: 8px; }
+.menu-dialog { border-radius: var(--radius-card) !important; background: var(--surface-raised); box-shadow: var(--card-shadow-hover); }
+.arqon-dialog { border-radius: var(--radius-card); background: var(--surface-raised); box-shadow: var(--card-shadow-hover); }
+@media (max-width: 680px) {
+  :root { --radius-card: 16px; }
 }
