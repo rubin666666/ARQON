@@ -1645,3 +1645,55 @@ a:focus-visible, button:focus-visible, input:focus-visible, textarea:focus-visib
   .result-metric strong.no-payback { font-size: 28px; }
   #calculator-result, #calculator-inputs { scroll-margin-top: 88px; }
 }
+
+/* Compact page rhythm, preserving readable text and touch targets. */
+.section { padding-top: 52px; padding-bottom: 52px; }
+.section-heading { margin-bottom: 24px; gap: 24px; }
+.hero { padding-top: 32px; padding-bottom: 32px; }
+.hero-art { max-width: 480px; width: 100%; justify-self: center; }
+.hero-art > img { max-height: 350px; width: 100%; object-fit: contain; }
+.hero .eyebrow { margin-bottom: 18px; }
+.hero-links { margin-top: 22px; }
+.hero-note { margin-top: 22px; }
+.benefits > div { padding-top: 20px; padding-bottom: 20px; }
+.technology-detail { gap: 20px 32px; grid-template-columns: 1fr 1fr; }
+.technology-heading h2 { margin-bottom: 0; }
+.technology-drawing { max-width: 420px; width: 100%; justify-self: center; }
+.technology-drawing img { height: 300px; object-fit: contain; }
+.technology-markers { position: static; justify-content: center; padding: 0 12px 10px; }
+.technology-drawing figcaption { padding-top: 10px; padding-bottom: 10px; }
+.technology-topic { padding-top: 12px; padding-bottom: 12px; }
+.calc-group { padding: 18px; margin-bottom: 18px; }
+.calc-group .fields { gap: 16px; }
+.calc-label { margin-bottom: 18px; }
+.calculator .result { padding: 24px; }
+.result-metric { padding: 16px 0; }
+.products article > img { max-height: 160px; }
+.model-top { padding-top: 12px; padding-bottom: 8px; }
+.model-copy { gap: 12px; padding-top: 14px; padding-bottom: 16px; }
+.photo-grid:has(> :only-child) { max-width: 420px; }
+.photo-grid:has(> :only-child) .gallery img { height: 230px; }
+@media (min-width: 1200px) {
+  .calc-group:first-of-type .fields { grid-template-columns: repeat(3, minmax(0, 1fr)); }
+  .calc-group:first-of-type .field:nth-child(3) { grid-column: auto; }
+}
+@media (max-width: 800px) {
+  .technology-detail { grid-template-columns: 1fr; }
+}
+@media (max-width: 680px) {
+  .section { padding-top: 34px; padding-bottom: 34px; }
+  .hero { padding-top: 24px; padding-bottom: 24px; gap: 20px; }
+  .hero-art { max-width: 340px; }
+  .hero-art > img { max-height: 235px; }
+  .section-heading { margin-bottom: 20px; gap: 12px; }
+  .eyebrow { margin-bottom: 14px; }
+  .technology-drawing { max-width: 340px; }
+  .technology-drawing img { height: 210px; }
+  .technology-detail { gap: 16px; }
+  .calc-group { padding: 16px; margin-bottom: 16px; }
+  .calc-group .fields { gap: 14px; }
+  .mobile-result-link { margin-bottom: 18px; }
+  .products article > img { max-height: 145px; }
+  .model-copy { padding-top: 12px; padding-bottom: 16px; }
+  .photo-grid:has(> :only-child) .gallery img { height: 200px; }
+}
