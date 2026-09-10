@@ -1533,3 +1533,9 @@ p { text-wrap: pretty; }
   .technology-topic button .topic-title { font-size: 18px; }
   .products article { padding-bottom: 20px; }
 }
+
+/* Larger desktop wordmark keeps the engineering tagline readable. */
+@media (min-width: 1024px) {
+  .brand { width: 200px; flex-shrink: 0; }
+  .brand img { height: 80px; }
+}
