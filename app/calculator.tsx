@@ -148,7 +148,12 @@ export function Calculator({ en, model, onModelChange: setModel }: { en: boolean
         </p>
       </div>
       <div className="calculator">
-        <div className="calc-fields">
+        <div className="calc-fields" id="calculator-inputs">
+          <button className="button button-secondary mobile-result-link" type="button" onClick={() => {
+            const target = document.getElementById('calculator-result');
+            target?.scrollIntoView({block: 'start'});
+            target?.focus({preventScroll: true});
+          }}>{t('До результату', 'View results')} <ArrowUpRight size={18} /></button>
           <div className="calc-label">
             01 — {t('Параметри господарства', 'Farm parameters')}
             <SlidersHorizontal size={19} />
@@ -294,14 +299,17 @@ export function Calculator({ en, model, onModelChange: setModel }: { en: boolean
         </div>
         <aside
           className="result"
+          id="calculator-result"
+          tabIndex={-1}
           aria-label={t('Результат розрахунку', 'Calculation results')}
         >
           <div className="calc-label">
             02 — {t('Економіка сезону', 'Season economics')}
             <ArrowUpRight size={20} />
           </div>
+          <p className="result-model">{site.models.find(m => m.id === model)?.name} · {format(volume)} {t('т / сезон', 't / season')}</p>
           <div aria-live="polite" aria-atomic="true">
-            <div className="result-metric">
+            <div className="result-metric result-metric-primary">
               <small>
                 {t('Чиста економія за сезон', 'Net seasonal savings')}
               </small>
@@ -413,6 +421,10 @@ export function Calculator({ en, model, onModelChange: setModel }: { en: boolean
                 )}
             <ArrowUpRight size={19} />
           </button>}
+          <button className="text-link result-edit" type="button" onClick={() => {
+            document.getElementById('calculator-inputs')?.scrollIntoView({block: 'start'});
+            document.getElementById('calc-model')?.focus({preventScroll: true});
+          }}>{t('Змінити параметри', 'Edit inputs')}</button>
         </aside>
       </div>
       <Dialog open={open} onOpenChange={setOpen}>

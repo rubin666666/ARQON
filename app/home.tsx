@@ -26,7 +26,6 @@ import {
   Flame,
   SlidersHorizontal,
   ShieldCheck,
-  Plus,
 } from 'lucide-react';
 
 import {
@@ -222,7 +221,7 @@ export default function Home({
                 {t('Розрахувати окупність', 'Calculate payback')}
                 <ArrowUpRight size={20} />
               </a>
-              <a className="text-link" href="#products">
+              <a className="button button-secondary" href="#products">
                 {t('Усі моделі', 'All models')}
                 <ArrowRight size={18} />
               </a>
@@ -370,6 +369,8 @@ export default function Home({
                     )}
                   </dl></details>}
                   <button
+                    className="button button-secondary model-action"
+                    aria-label={`${t('Розрахувати для', 'Calculate for')} SAHARA ${n}`}
                     onClick={() => {
                       setSelectedModel('sahara-' + n);
                       history.replaceState(null, '', '#calculator');
@@ -377,8 +378,8 @@ export default function Home({
                       track('product_calculator', { model: n });
                     }}
                   >
-                    {t('Розрахувати для', 'Calculate for')} SAHARA {n}
-                    <Plus size={19} />
+                    {t('Розрахувати', 'Calculate')}
+                    <ArrowUpRight size={19} />
                   </button>
                 </div>
               </article>
