@@ -3377,10 +3377,20 @@ html {
 .network .network-places {
   margin-bottom: 0;
 }
+.network-body {
+  max-width: 80ch;
+  margin: 32px 0 0;
+  color: var(--muted);
+  font-size: 14px;
+  line-height: 1.8;
+}
 @media (max-width: 800px) {
   .network-intro {
     grid-template-columns: 1fr;
     gap: 16px;
+  }
+  .network-body {
+    margin-top: 24px;
   }
 }
 
