@@ -2567,6 +2567,9 @@ summary:focus-visible {
   gap: 12px 20px;
   margin-bottom: 22px;
 }
+.calculator + .scenario-tools {
+  margin-top: 24px;
+}
 .scenario-tools .button {
   min-height: 40px;
   padding: 9px 14px;
