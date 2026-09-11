@@ -30,7 +30,7 @@
   --muted: #65615c;
   --primary: #b9400d;
   --radius: 0.75rem;
-  --radius-card: 20px;
+  --radius-card: 16px;
   --surface-raised: #fffdfa;
   --surface-input: #fffdfa;
   --card-shadow: 0 6px 24px #30251a08;
@@ -2154,7 +2154,7 @@ footer a:hover {
 }
 @media (max-width: 680px) {
   :root {
-    --radius-card: 16px;
+    --radius-card: 14px;
   }
 }
 
