@@ -51,6 +51,9 @@ export default function Home({
     [selectedModel, setSelectedModel] = useState('sahara-1'),
     [detailModel, setDetailModel] = useState<string|null>(null),
     [activeSection, setActiveSection] = useState('');
+  useEffect(() => {
+    document.documentElement.lang = initialEnglish ? 'en' : 'uk';
+  }, [initialEnglish]);
   useEffect(()=>{
     let frame = 0;
     const update = ()=>{
