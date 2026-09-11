@@ -11,7 +11,7 @@ export function About({ en }: { en: boolean }) {
         <div>
           <p className="eyebrow">{t('Про компанію', 'About')}</p>
           <h2>
-            <CopyAccent text={localText(site.tagline, en)} phrase="Intelligence." />
+            <CopyAccent text={localText(site.tagline, en)} phrase={t('Інтелект.', 'Intelligence.')} />
           </h2>
         </div>
       </div>
