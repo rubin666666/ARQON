@@ -3504,5 +3504,7 @@ html {
   }
   .site-footer > span {
     grid-row: 3;
+    text-align: center;
+    padding-top: 18px;
   }
 }
