@@ -393,13 +393,14 @@ export default function Home({
         </section>}
         <ContentSections en={en} />
       </main>
-      <footer>
+      <footer className="site-footer">
         <div className="footer-identity">
           <a className="brand footer-logo" href="#main">
             <Image src={asset('/arqon-logo.png')} width={1952} height={816} alt="ARQON Engineering & Innovation" />
             <Image className="brand-light-letters" src={asset('/arqon-logo.png')} width={1952} height={816} alt="" aria-hidden="true" />
           </a>
-          <p>{localText(site.tagline, en)}<br/>{localText(site.closing, en)}</p>
+          <p className="footer-statement">{localText(site.tagline, en)}</p>
+          <p className="footer-description">{localText(site.closing, en)}</p>
         </div>
         <nav className="footer-nav" aria-label={t('Навігація у підвалі','Footer navigation')}>
           <span className="footer-caption">{t('Розділи', 'Explore')}</span>
