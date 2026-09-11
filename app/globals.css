@@ -3006,7 +3006,7 @@ html {
   mix-blend-mode: multiply;
 }
 .dark .hero-art > img {
-  mix-blend-mode: screen;
+  mix-blend-mode: multiply;
   filter: invert(1);
 }
 .benefits {
