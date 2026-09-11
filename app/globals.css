@@ -129,6 +129,10 @@ header {
   align-items: center;
   font-size: 14px;
 }
+.desktop-nav {
+  font-size: 16px;
+  font-weight: 500;
+}
 .header-actions {
   gap: 16px;
 }
