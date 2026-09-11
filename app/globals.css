@@ -3003,11 +3003,12 @@ html {
   max-height: min(62vh, 560px);
   aspect-ratio: auto;
   object-fit: contain;
-  mix-blend-mode: multiply;
+  mix-blend-mode: normal;
+  filter: invert(1);
 }
 .dark .hero-art > img {
-  mix-blend-mode: multiply;
-  filter: invert(1);
+  mix-blend-mode: normal;
+  filter: none;
 }
 .benefits {
   margin: 0 5% 8px;

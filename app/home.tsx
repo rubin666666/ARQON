@@ -251,7 +251,7 @@ export default function Home({
             <Image
               width={1024}
               height={1024}
-              src={asset('/sahara-hero.png')}
+              src={asset('/sahara-contour.png')}
               alt={t(
                 'Технічна ілюстрація зерносушарки SAHARA',
                 'SAHARA grain dryer technical illustration',
