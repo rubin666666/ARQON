@@ -35,7 +35,7 @@
   --surface-input: #fffdfa;
   --card-shadow: 0 6px 24px #30251a08;
   --card-shadow-hover: 0 12px 30px #30251a12;
-  --action: #b9400d;
+  --action: var(--primary);
   --ambient-glow: #b9400d12;
   color-scheme: light;
 }
@@ -46,6 +46,7 @@
   --border: #393b3e;
   --muted: #b1b2b5;
   --primary: #f16a2c;
+  --action: var(--primary);
   --surface-raised: #25272a;
   --surface-input: #1b1d1f;
   --card-shadow: 0 8px 28px #00000024;
@@ -1343,7 +1344,7 @@ footer > div a {
 
 /* Readable controls and consistent card rhythm across both themes. */
 .button {
-  background: #b9400d;
+  background: var(--action);
   min-height: 48px;
 }
 .button:hover:not(:disabled) {
