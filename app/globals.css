@@ -3095,7 +3095,7 @@ html {
 /* Hero only: clean artwork and a wider, airier composition. */
 .hero-art,
 .dark .hero-art {
-  background: var(--background);
+  background: transparent;
   isolation: isolate;
   border: 0;
   box-shadow: none;
