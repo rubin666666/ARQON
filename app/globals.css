@@ -1635,14 +1635,18 @@ summary:focus-visible {
 
 /* Calculator groups and seasonal comparison panel. */
 .calc-group {
+  position: relative;
   margin: 0 0 28px;
-  padding: 22px;
+  padding: 52px 22px 22px;
   border: 1px solid var(--border);
   border-radius: 6px;
   min-width: 0;
 }
 .calc-group legend {
-  padding: 0 10px;
+  position: absolute;
+  top: 16px;
+  left: 22px;
+  padding: 0;
   display: flex;
   align-items: center;
   gap: 10px;
@@ -1739,7 +1743,7 @@ summary:focus-visible {
 }
 @media (max-width: 540px) {
   .calc-group {
-    padding: 16px;
+    padding: 48px 16px 16px;
     margin-bottom: 22px;
   }
   .calc-group .fields {
@@ -2535,7 +2539,7 @@ summary:focus-visible {
     gap: 16px;
   }
   .calc-group {
-    padding: 16px;
+    padding: 48px 16px 16px;
     margin-bottom: 16px;
   }
   .calc-group .fields {
