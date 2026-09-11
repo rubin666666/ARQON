@@ -2560,6 +2560,11 @@ summary:focus-visible {
   gap: 12px 20px;
   margin-bottom: 22px;
 }
+.scenario-tools .button {
+  min-height: 40px;
+  padding: 9px 14px;
+  font-size: 13px;
+}
 .scenario-tools output {
   color: var(--muted);
   font-size: 13px;
