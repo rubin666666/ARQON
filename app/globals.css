@@ -36,6 +36,7 @@
   --card-shadow: 0 6px 24px #30251a08;
   --card-shadow-hover: 0 12px 30px #30251a12;
   --action: #b9400d;
+  --ambient-glow: #b9400d12;
   color-scheme: light;
 }
 .dark {
@@ -49,6 +50,7 @@
   --surface-input: #1b1d1f;
   --card-shadow: 0 8px 28px #00000024;
   --card-shadow-hover: 0 14px 34px #00000038;
+  --ambient-glow: #f16a2c16;
   color-scheme: dark;
 }
 * {
@@ -64,6 +66,10 @@ html {
 body {
   margin: 0;
   background: var(--background);
+  background-image:
+    radial-gradient(ellipse 58% 42% at 78% 4%, var(--ambient-glow), transparent 72%),
+    radial-gradient(ellipse 42% 34% at 8% 72%, color-mix(in srgb, var(--ambient-glow) 55%, transparent), transparent 76%);
+  background-attachment: fixed;
   color: var(--foreground);
   font-family: "Segoe UI", "Helvetica Neue", Helvetica, Arial, sans-serif;
   -webkit-font-smoothing: antialiased;
