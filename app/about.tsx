@@ -5,6 +5,7 @@ import { CopyAccent } from './copy-accent';
 export function About({ en }: { en: boolean }) {
   const t = (a: string, b: string) => (en ? b : a);
   return (
+    <>
     <section id="about" className="section company">
       <div className="section-heading">
         <div>
@@ -26,21 +27,21 @@ export function About({ en }: { en: boolean }) {
           <p>{localText(site.approach.body, en)}</p>
         </article>
       </div>
-      <div className="network">
-        <div className="network-intro">
-          <h3>{t('Міжнародна інженерно-виробнича мережа', 'International engineering network')}</h3>
-          <p>{localText(site.network.lead, en)}{' '}{localText(site.network.body, en)}</p>
-        </div>
-        <div className="network-places">
-          {site.network.places.map((place) => (
-            <div key={place.name.en}>
-              <strong>{localText(place.name, en)}</strong>
-              <p>{localText(place.role, en)}</p>
-            </div>
-          ))}
-        </div>
-
+    </section>
+    <section id="network" className="section network">
+      <div className="network-intro">
+        <h3>{t('Міжнародна інженерно-виробнича мережа', 'International engineering network')}</h3>
+        <p>{localText(site.network.lead, en)}{' '}{localText(site.network.body, en)}</p>
+      </div>
+      <div className="network-places">
+        {site.network.places.map((place) => (
+          <div key={place.name.en}>
+            <strong>{localText(place.name, en)}</strong>
+            <p>{localText(place.role, en)}</p>
+          </div>
+        ))}
       </div>
     </section>
+    </>
   );
 }
