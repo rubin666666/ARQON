@@ -1902,3 +1902,33 @@ html { scroll-padding-top: 88px; }
     padding: 20px 0;
   }
 }
+
+/* Hero only: clean artwork and a wider, airier composition. */
+.hero-art, .dark .hero-art {
+  background: transparent;
+  border: 0;
+  box-shadow: none;
+  border-radius: 0;
+}
+.hero-art::before, .hero-art::after { display: none; }
+.hero-copy .eyebrow { margin-bottom: 30px; }
+.hero h1 { margin-bottom: 30px; line-height: 1.08; }
+.hero-copy > p:not(.eyebrow) { max-width: 36rem; font-size: clamp(17px, 1.2vw, 20px); line-height: 1.7; }
+.hero-links { margin-top: 40px; gap: 28px; flex-wrap: wrap; }
+@media (min-width: 1600px) {
+  .hero {
+    width: min(1920px, calc(100vw - 80px));
+    margin-left: 50%;
+    transform: translateX(-50%);
+    padding-inline: 4%;
+    grid-template-columns: minmax(0, 1fr) minmax(0, 1.1fr);
+    gap: clamp(56px, 5vw, 120px);
+  }
+  .hero h1 { font-size: clamp(76px, 4.3vw, 96px); }
+  .hero-art > img { max-height: min(68vh, 720px); }
+}
+@media (max-width: 680px) {
+  .hero-copy .eyebrow { margin-bottom: 22px; }
+  .hero h1 { margin-bottom: 24px; }
+  .hero-links { margin-top: 28px; gap: 16px; }
+}
