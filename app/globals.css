@@ -3404,9 +3404,10 @@ html {
 }
 .site-footer .footer-nav a {
   min-height: 54px;
-  justify-content: center;
-  text-align: center;
-  padding: 12px 16px;
+  justify-content: space-between;
+  text-align: left;
+  gap: 18px;
+  padding: 12px 18px;
   border: 1px solid var(--border);
   border-radius: 12px;
   background: var(--primary);
@@ -3421,7 +3422,14 @@ html {
     color 0.2s ease;
 }
 .site-footer .footer-nav svg {
-  display: none;
+  display: block;
+  flex-shrink: 0;
+  color: currentColor;
+  transition: transform 0.2s ease;
+}
+.site-footer .footer-nav a:hover svg,
+.site-footer .footer-nav a:focus-visible svg {
+  transform: translate(2px, -2px);
 }
 .site-footer .footer-nav a:hover,
 .site-footer .footer-nav a:focus-visible {
