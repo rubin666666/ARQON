@@ -1976,3 +1976,7 @@ html { scroll-padding-top: 88px; }
   .capabilities li { display: flex; align-items: baseline; gap: 16px; padding: 16px; }
   .capabilities li::before { margin: 0; flex-shrink: 0; }
 }
+
+.company .copy-accent, .technology-detail .copy-accent { color: var(--primary); font-weight: inherit; }
+.company p .copy-accent, .technology-detail p .copy-accent { font-weight: 500; }
+.company .network-places strong { color: var(--primary); }
