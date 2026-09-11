@@ -3263,22 +3263,11 @@ html {
 .technology-detail .technology-close {
   grid-column: 1 / -1;
   margin: 0;
-  padding: 24px 0 0 20px;
-  position: relative;
+  padding: 24px 0 0;
   color: var(--foreground);
   font-size: clamp(18px, 2vw, 24px);
   max-width: none;
   text-wrap: balance;
-}
-.technology-close::before {
-  content: "";
-  position: absolute;
-  left: 0;
-  top: 24px;
-  width: 5px;
-  height: 22px;
-  border-radius: 3px;
-  background: var(--primary);
 }
 @media (max-width: 1000px) {
   .technology-detail {
