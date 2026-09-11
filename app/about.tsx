@@ -27,6 +27,7 @@ export function About({ en }: { en: boolean }) {
           <p>{localText(site.approach.body, en)}</p>
         </article>
       </div>
+      <p className="company-network-note">{localText(site.network.body, en)}</p>
     </section>
     <section id="network" className="section network">
       <div className="network-intro">
@@ -41,7 +42,6 @@ export function About({ en }: { en: boolean }) {
           </div>
         ))}
       </div>
-      <p className="network-body">{localText(site.network.body, en)}</p>
     </section>
     </>
   );
