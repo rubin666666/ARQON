@@ -1933,3 +1933,46 @@ html { scroll-padding-top: 88px; }
   .hero h1 { margin-bottom: 24px; }
   .hero-links { margin-top: 28px; gap: 16px; }
 }
+
+/* Editorial layout for company copy and technology capabilities. */
+.company .section-heading { margin-bottom: 36px; }
+.company .section-heading h2 { max-width: 24ch; text-wrap: balance; }
+.company-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 24px; counter-reset: company; }
+.company-grid article { position: relative; padding: 30px; border: 1px solid var(--border); border-radius: var(--radius-card); background: var(--surface-raised); counter-increment: company; }
+.company-grid article::before { content: '0' counter(company); display: block; margin-bottom: 24px; color: var(--primary); font-size: 13px; letter-spacing: .12em; }
+.company h3, .technology-detail h3 { font-size: clamp(20px, 1.7vw, 25px); line-height: 1.3; font-weight: 500; margin-bottom: 16px; }
+.company-grid p, .network p, .technology-detail p { line-height: 1.75; }
+.company-grid p + p { margin-top: 16px; }
+.company-grid article > p:first-of-type { color: var(--foreground); }
+.network { margin-top: 40px; padding-top: 32px; border-top: 1px solid var(--border); }
+.network > h3 { max-width: 36ch; }
+.network-places { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 24px; margin: 28px 0; }
+.network-places > div { border-left: 2px solid var(--primary); padding: 4px 0 4px 20px; }
+.network-places strong { display: block; font-size: 21px; font-weight: 500; margin-bottom: 10px; }
+.network > p:last-child { max-width: 95ch; font-size: 14px; }
+.technology-detail { grid-template-columns: minmax(0, .8fr) minmax(0, 1.2fr); gap: 36px 56px; align-items: start; }
+.technology-detail .technology-heading { grid-column: auto; }
+.technology-detail .technology-heading h2 { margin-bottom: 24px; }
+.technology-heading > p:not(.eyebrow) + p { margin-top: 18px; }
+.technology-heading > p:not(.eyebrow):first-of-type { color: var(--foreground); }
+.technology-detail .capabilities { min-width: 0; }
+.capabilities > p { margin-bottom: 24px; }
+.capabilities ul { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; padding: 0; margin: 0; list-style: none; counter-reset: capability; }
+.capabilities li { padding: 20px; border: 1px solid var(--border); border-radius: 14px; background: var(--background); font-size: 15px; line-height: 1.55; counter-increment: capability; }
+.capabilities li::before { content: '0' counter(capability); display: block; color: var(--primary); font-size: 11px; letter-spacing: .12em; margin-bottom: 12px; }
+.technology-detail .technology-close { grid-column: 1 / -1; margin: 0; border-top: 1px solid var(--border); padding: 24px 0 0 20px; position: relative; color: var(--foreground); font-size: clamp(18px, 2vw, 24px); max-width: none; text-wrap: balance; }
+.technology-close::before { content: ''; position: absolute; left: 0; top: 32px; width: 5px; height: 22px; border-radius: 3px; background: var(--primary); }
+@media (max-width: 1000px) {
+  .technology-detail { grid-template-columns: 1fr; gap: 28px; }
+  .technology-heading > p { max-width: 72ch; }
+}
+@media (max-width: 680px) {
+  .company-grid, .network-places { grid-template-columns: 1fr; gap: 18px; }
+  .company-grid article { padding: 24px; }
+  .company-grid article::before { margin-bottom: 16px; }
+  .network { margin-top: 28px; padding-top: 28px; }
+  .network-places { margin: 24px 0; }
+  .capabilities ul { grid-template-columns: 1fr; gap: 10px; }
+  .capabilities li { display: flex; align-items: baseline; gap: 16px; padding: 16px; }
+  .capabilities li::before { margin: 0; flex-shrink: 0; }
+}
