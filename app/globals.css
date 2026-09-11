@@ -1992,7 +1992,6 @@ html { scroll-padding-top: 88px; }
 
 /* A contained footer composition with a full-width baseline. */
 .site-footer { grid-template-columns: minmax(0, 1fr) 340px 48px; column-gap: 56px; row-gap: 32px; padding: 48px max(5%, calc((100% - 1440px) / 2)) 24px; position: relative; }
-.site-footer::before { content: ''; position: absolute; top: -1px; left: max(5%, calc((100% - 1440px) / 2)); width: 64px; height: 3px; background: var(--primary); border-radius: 2px; }
 .site-footer .footer-identity { order: initial; width: auto; }
 .site-footer .footer-logo { width: 220px; display: block; }
 .site-footer .footer-logo img { height: 92px; }
