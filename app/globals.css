@@ -3188,9 +3188,8 @@ html {
   color: var(--foreground);
 }
 .network {
-  margin-top: 40px;
-  padding-top: 32px;
-  border-top: 1px solid var(--border);
+  margin-top: 56px;
+  padding-top: 0;
 }
 .network > h3 {
   max-width: 36ch;
@@ -3198,18 +3197,18 @@ html {
 .network-places {
   display: grid;
   grid-template-columns: repeat(3, minmax(0, 1fr));
-  gap: 24px;
-  margin: 28px 0;
+  gap: 32px;
+  margin: 36px 0 0;
 }
 .network-places > div {
   border-left: 2px solid var(--primary);
-  padding: 4px 0 4px 20px;
+  padding: 8px 12px 8px 20px;
 }
 .network-places strong {
   display: block;
-  font-size: 21px;
-  font-weight: 500;
-  margin-bottom: 10px;
+  font-size: 22px;
+  font-weight: 600;
+  margin-bottom: 12px;
 }
 .network > p:last-child {
   max-width: 95ch;
@@ -3332,18 +3331,20 @@ html {
 
 .network-intro {
   display: grid;
-  grid-template-columns: minmax(0, 1fr) minmax(0, 1.6fr);
+  grid-template-columns: minmax(0, 0.95fr) minmax(0, 1.45fr);
   align-items: start;
-  gap: 24px 48px;
+  gap: 28px 56px;
 }
 .network-intro h3 {
   margin: 0;
   max-width: 32ch;
+  font-size: clamp(24px, 2.2vw, 30px);
 }
 .network-intro p {
   margin: 0;
   max-width: 80ch;
   font-size: 14px;
+  line-height: 1.8;
 }
 .network .network-places {
   margin-bottom: 0;
