@@ -2945,7 +2945,7 @@ html {
   scroll-padding-top: 88px;
 }
 .hero {
-  min-height: min(720px, calc(100svh - 160px));
+  min-height: calc(100svh - 185px);
   display: grid;
   grid-template-columns: minmax(0, 0.92fr) minmax(0, 1.08fr);
   align-items: center;
