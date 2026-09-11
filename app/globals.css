@@ -1664,15 +1664,17 @@ summary:focus-visible {
   margin-top: 2px;
 }
 .calculator .result {
-  align-self: start;
+  align-self: stretch;
   position: sticky;
   top: 110px;
   border-radius: 6px;
+  display: flex;
+  flex-direction: column;
 }
 .calculator {
   border: 0;
   gap: 24px;
-  align-items: start;
+  align-items: stretch;
 }
 .calculator .calc-fields {
   padding: 0;
@@ -1685,6 +1687,9 @@ summary:focus-visible {
 }
 .result-metric strong {
   font-variant-numeric: tabular-nums;
+}
+.result-edit {
+  margin-top: auto;
 }
 .cost-comparison .cost-row {
   display: block;
@@ -1720,6 +1725,7 @@ summary:focus-visible {
   }
   .calculator .result {
     position: static;
+    align-self: auto;
   }
 }
 @media (max-width: 540px) {
@@ -2309,7 +2315,7 @@ summary:focus-visible {
   line-height: 1.65;
 }
 .result-edit {
-  margin-top: 18px;
+  margin-top: auto;
   min-height: 44px;
   text-decoration: underline;
   text-underline-offset: 4px;
