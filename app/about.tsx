@@ -27,8 +27,10 @@ export function About({ en }: { en: boolean }) {
         </article>
       </div>
       <div className="network">
-        <h3>{t('Міжнародна інженерно-виробнича мережа', 'International engineering network')}</h3>
-        <p>{localText(site.network.lead, en)}</p>
+        <div className="network-intro">
+          <h3>{t('Міжнародна інженерно-виробнича мережа', 'International engineering network')}</h3>
+          <p>{localText(site.network.lead, en)}{' '}{localText(site.network.body, en)}</p>
+        </div>
         <div className="network-places">
           {site.network.places.map((place) => (
             <div key={place.name.en}>
@@ -37,7 +39,7 @@ export function About({ en }: { en: boolean }) {
             </div>
           ))}
         </div>
-        <p>{localText(site.network.body, en)}</p>
+
       </div>
     </section>
   );

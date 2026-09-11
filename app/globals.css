@@ -1980,3 +1980,11 @@ html { scroll-padding-top: 88px; }
 .company .copy-accent, .technology-detail .copy-accent { color: var(--primary); font-weight: inherit; }
 .company p .copy-accent, .technology-detail p .copy-accent { font-weight: 500; }
 .company .network-places strong { color: var(--primary); }
+
+.network-intro { display: grid; grid-template-columns: minmax(0, 1fr) minmax(0, 1.6fr); align-items: start; gap: 24px 48px; }
+.network-intro h3 { margin: 0; max-width: 32ch; }
+.network-intro p { margin: 0; max-width: 80ch; font-size: 14px; }
+.network .network-places { margin-bottom: 0; }
+@media (max-width: 800px) {
+  .network-intro { grid-template-columns: 1fr; gap: 16px; }
+}
