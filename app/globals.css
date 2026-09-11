@@ -1898,7 +1898,8 @@ html { scroll-padding-top: 88px; }
   .hero-art > img { max-height: 240px; }
   .benefits { margin-bottom: 0; }
   .benefits > div,
-  .benefits > div:first-child {
+  .benefits > div:first-child,
+  .benefits > div:not(:first-child) {
     padding: 20px 0;
   }
 }
