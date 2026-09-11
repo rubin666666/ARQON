@@ -2051,6 +2051,9 @@ footer a:hover {
 .products article > img {
   border-radius: 12px;
 }
+#products {
+  border-bottom: 0;
+}
 .benefits {
   border: 1px solid var(--border);
   border-radius: var(--radius-card);
