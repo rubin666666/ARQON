@@ -1674,6 +1674,7 @@ summary:focus-visible {
   align-self: stretch;
   position: sticky;
   top: 110px;
+  margin-top: 10px;
   border-radius: 6px;
   display: flex;
   flex-direction: column;
@@ -1733,6 +1734,7 @@ summary:focus-visible {
   .calculator .result {
     position: static;
     align-self: auto;
+    margin-top: 0;
   }
 }
 @media (max-width: 540px) {
