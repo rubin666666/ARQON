@@ -1676,7 +1676,6 @@ summary:focus-visible {
   align-self: stretch;
   position: sticky;
   top: 110px;
-  margin-top: 10px;
   border-radius: 6px;
   display: flex;
   flex-direction: column;
