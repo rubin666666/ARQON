@@ -399,8 +399,6 @@ export default function Home({
             <Image src={asset('/arqon-logo.png')} width={1952} height={816} alt="ARQON Engineering & Innovation" />
             <Image className="brand-light-letters" src={asset('/arqon-logo.png')} width={1952} height={816} alt="" aria-hidden="true" />
           </a>
-          <p className="footer-statement">{localText(site.tagline, en)}</p>
-          <p className="footer-description">{localText(site.closing, en)}</p>
         </div>
         <nav className="footer-nav" aria-label={t('Навігація у підвалі','Footer navigation')}>
           <span className="footer-caption">{t('Розділи', 'Explore')}</span>
