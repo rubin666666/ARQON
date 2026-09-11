@@ -305,7 +305,7 @@ p {
 }
 .section {
   padding: 85px 5%;
-  border-bottom: 1px solid var(--border);
+  border-bottom: 0;
 }
 h2 {
   font-size: clamp(30px, 3vw, 48px);
@@ -2050,9 +2050,6 @@ footer a:hover {
 }
 .products article > img {
   border-radius: 12px;
-}
-#products {
-  border-bottom: 0;
 }
 .benefits {
   border: 1px solid var(--border);
