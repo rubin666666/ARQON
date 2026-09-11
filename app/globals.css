@@ -3417,11 +3417,10 @@ html {
   padding: 12px 18px;
   border: 1px solid var(--border);
   border-radius: 12px;
-  background: var(--primary);
-  border-color: var(--primary);
-  color: #fff;
+  background: color-mix(in srgb, var(--foreground) 4%, transparent);
+  color: var(--foreground);
   font-size: 14px;
-  font-weight: 600;
+  font-weight: 500;
   line-height: 1.4;
   transition:
     background 0.2s ease,
@@ -3431,7 +3430,7 @@ html {
 .site-footer .footer-nav svg {
   display: block;
   flex-shrink: 0;
-  color: currentColor;
+  color: var(--primary);
   transition: transform 0.2s ease;
 }
 .site-footer .footer-nav a:hover svg,
@@ -3440,9 +3439,9 @@ html {
 }
 .site-footer .footer-nav a:hover,
 .site-footer .footer-nav a:focus-visible {
-  color: #fff;
-  border-color: color-mix(in srgb, var(--primary) 78%, #fff);
-  background: color-mix(in srgb, var(--primary) 82%, #fff);
+  color: var(--foreground);
+  border-color: var(--primary);
+  background: color-mix(in srgb, var(--primary) 9%, var(--background));
 }
 .site-footer .footer-top {
   grid-column: 3;
@@ -3450,9 +3449,9 @@ html {
   margin-top: 30px;
   width: 48px;
   height: 48px;
-  background: var(--primary);
+  background: transparent;
   border-color: var(--primary);
-  color: #fff;
+  color: var(--primary);
   font-weight: 600;
   transition:
     background 0.2s ease,
@@ -3460,7 +3459,7 @@ html {
 }
 .site-footer .footer-top:hover,
 .site-footer .footer-top:focus-visible {
-  background: color-mix(in srgb, var(--primary) 82%, #fff);
+  background: color-mix(in srgb, var(--primary) 12%, var(--background));
   transform: translateY(-2px);
 }
 .site-footer > span {
