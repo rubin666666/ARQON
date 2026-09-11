@@ -3018,6 +3018,7 @@ html {
 }
 .benefits {
   margin: 0 5% 8px;
+  transform: translateY(-40px);
   background: transparent;
   border: 0;
   border-top: 1px solid var(--border);
@@ -3097,6 +3098,7 @@ html {
   }
   .benefits {
     margin-bottom: 0;
+    transform: none;
   }
   .benefits > div,
   .benefits > div:first-child,
