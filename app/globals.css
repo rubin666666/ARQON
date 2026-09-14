@@ -3107,6 +3107,7 @@ html {
   .benefits > div:first-child,
   .benefits > div:not(:first-child) {
     padding: 20px 0;
+    border-left: 0;
   }
 }
 
