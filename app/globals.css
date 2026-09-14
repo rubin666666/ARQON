@@ -3575,3 +3575,13 @@ html {
   .arqon-dialog[data-open], .arqon-dialog[data-closed], .model-photo-viewer[data-open], .model-photo-viewer[data-closed] { animation: none !important; }
   .modal-close, .model-photo-close { transition: none; }
 }
+
+/* Rounded windows; the image stage keeps empty space clickable. */
+.arqon-dialog, .menu-dialog { border-radius: 24px !important; }
+.model-photo-viewer { inset: 10px !important; width: calc(100% - 20px) !important; height: calc(100dvh - 20px) !important; border-radius: 24px !important; }
+.model-photo-stage { display: flex; align-items: center; justify-content: center; min-width: 0; min-height: 0; height: 100%; cursor: zoom-out; }
+.model-photo-stage > img { display: block; width: auto; height: auto; max-width: 100%; max-height: 100%; object-fit: contain; border-radius: 18px; cursor: default; }
+@media (max-width: 680px) {
+  .arqon-dialog, .menu-dialog, .model-photo-viewer { border-radius: 18px !important; }
+  .model-photo-stage > img { border-radius: 12px; }
+}

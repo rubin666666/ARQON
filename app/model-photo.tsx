@@ -12,10 +12,12 @@ export function ModelPhoto({ name, src, en }: { name: string; src: string; en: b
       <span className="model-photo-hint" aria-hidden="true">↗</span>
     </button>
     <Dialog open={open} onOpenChange={setOpen}>
-      <DialogContent className="model-photo-viewer translate-x-0 translate-y-0" showCloseButton={false} aria-describedby={undefined}>
+      <DialogContent className="model-photo-viewer translate-x-0 translate-y-0" showCloseButton={false} aria-describedby={undefined} onClick={(event) => { if (event.target === event.currentTarget) setOpen(false); }}>
         <DialogTitle>{name}</DialogTitle>
         <DialogClose className="model-photo-close" aria-label={en ? 'Close image' : 'Закрити зображення'}>×</DialogClose>
-        <Image width={1024} height={1024} src={asset(src || '/sahara.jpg')} alt={name} />
+        <div className="model-photo-stage" onClick={(event) => { if (event.target === event.currentTarget) setOpen(false); }}>
+          <Image width={1024} height={1024} src={asset(src || '/sahara.jpg')} alt={name} />
+        </div>
       </DialogContent>
     </Dialog>
   </>;
