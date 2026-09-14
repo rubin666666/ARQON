@@ -3585,3 +3585,56 @@ html {
   .arqon-dialog, .menu-dialog, .model-photo-viewer { border-radius: 18px !important; }
   .model-photo-stage > img { border-radius: 12px; }
 }
+
+/* Interaction motion: no layout changes or movement of form anchors. */
+@media (prefers-reduced-motion: no-preference) {
+  :is(.button, .text-link, .header-actions button, .modal-close, .model-photo-close,
+      .equipment button, .field-help summary, .desktop-nav a, .menu-links a,
+      .site-footer .footer-nav a, .site-footer .footer-socials a) {
+    transition: translate .22s ease, scale .18s ease, box-shadow .22s ease,
+      background-color .2s ease, border-color .2s ease, color .2s ease;
+  }
+  :is(.button, .text-link, .menu-links a) svg,
+  .header-actions .icon svg, .modal-close::before, .modal-close::after,
+  .model-photo-close::before, .model-photo-close::after,
+  .model-photo img, .model-photo-hint, [data-slot="select-trigger"] svg {
+    transition: translate .24s ease, scale .3s ease, rotate .24s ease;
+  }
+  .products article { transition: box-shadow .25s ease, border-color .25s ease; }
+  [data-slot="select-trigger"] { transition: box-shadow .2s ease, border-color .2s ease; }
+  [data-slot="select-trigger"][aria-expanded="true"] svg { rotate: 180deg; }
+
+  @media (hover: hover) and (pointer: fine) {
+    :is(.button, .equipment button, .site-footer .footer-nav a):hover:not(:disabled):not([aria-disabled="true"]) {
+      translate: 0 -3px;
+      box-shadow: var(--card-shadow-hover);
+    }
+    :is(.text-link, .desktop-nav a, .menu-links a, .site-footer .footer-socials a):hover {
+      translate: 0 -2px;
+    }
+    :is(.button, .text-link, .menu-links a):hover svg { translate: 3px -2px; }
+    .header-actions button:hover { translate: 0 -2px; }
+    .header-actions .icon:hover svg { rotate: -10deg; scale: 1.08; }
+    .field-help summary:hover { scale: 1.04; }
+    .model-photo:hover img { scale: 1.035; }
+    .model-photo:hover .model-photo-hint { translate: -3px -3px; scale: 1.08; }
+    :is(.modal-close, .model-photo-close):hover { scale: 1.06; }
+    :is(.modal-close, .model-photo-close):hover::before,
+    :is(.modal-close, .model-photo-close):hover::after { rotate: 90deg; }
+    [data-slot="select-trigger"]:hover:not(:disabled) {
+      box-shadow: 0 0 0 3px color-mix(in srgb, var(--primary) 12%, transparent);
+    }
+  }
+
+  /* Touch feedback also works without a hover state. */
+  :is(.button, .text-link, .header-actions button, .equipment button,
+      .field-help summary, .desktop-nav a, .menu-links a,
+      .site-footer .footer-nav a, .site-footer .footer-socials a):active:not(:disabled):not([aria-disabled="true"]) {
+    translate: 0 0;
+    scale: .97;
+    transition-duration: .1s;
+  }
+  .model-photo:active img { scale: .985; }
+  .model-photo:active .model-photo-hint { scale: .92; }
+  :is(.modal-close, .model-photo-close):active { scale: .94; }
+}
