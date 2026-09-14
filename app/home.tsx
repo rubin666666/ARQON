@@ -1,5 +1,6 @@
 'use client';
 import { ModelExplorer, ModelDetails } from './model-explorer';
+import { ModelPhoto } from './model-photo';
 import { useState, useEffect } from 'react';
 import Image from 'next/image';
 import { EnquiryForm } from './enquiry-form';
@@ -315,17 +316,7 @@ export default function Home({
                   <span>{t('СЕРІЯ SAHARA', 'SAHARA SERIES')}</span>
                   <ArrowUpRight size={18} />
                 </div>
-                <Image
-                  width={1024}
-                  height={1024}
-                  src={asset(m.image || '/sahara.jpg')}
-                  alt={
-                    m.name +
-                    ' — ' +
-                    t('спільна ілюстрація серії', 'shared series illustration')
-                  }
-                  loading="lazy"
-                />
+                <ModelPhoto name={m.name} src={m.image} en={en} />
                 <div className="model-copy">
                   <h3>
                     <span className="model-number">{m.name}</span>

@@ -1,6 +1,6 @@
 'use client';
 import { useState } from 'react';
-import Image from 'next/image';
+import { ModelPhoto } from './model-photo';
 import { Dialog, DialogContent, DialogTitle, DialogDescription, DialogClose } from '@/components/ui/dialog';
 import { site, asset, localText } from '@/lib/site';
 
@@ -24,7 +24,7 @@ export function ModelDetails({en,id,onClose,onCalculate}:{en:boolean;id:string|n
   return <Dialog open={!!m} onOpenChange={v=>{if(!v)onClose();}}><DialogContent className="arqon-dialog model-drawer" showCloseButton={false}>
     <DialogClose className="modal-close" aria-label={t('Закрити подробиці','Close details')}>×</DialogClose>
     <DialogTitle>{m?.name}</DialogTitle><DialogDescription>{m ? localText(m.description,en)||t('Модель лінійки зерносушарок ARQON.','A model in the ARQON grain dryer range.') : ''}</DialogDescription>
-    {m && <><Image width={1024} height={1024} src={asset(m.image||'/sahara.jpg')} alt={m.image?m.name:t('Спільна концептуальна ілюстрація серії','Shared series concept illustration')} />
+    {m && <><ModelPhoto name={m.name} src={m.image} en={en} />
     <dl className="model-specs">{m.specifications.map(spec=><div key={spec.id}><dt>{localText(spec.label,en)}</dt><dd>{localText(spec.value,en)}</dd></div>)}</dl>
     {localText(m.equipment,en)&&<p>{localText(m.equipment,en)}</p>}
     {m.datasheet && <a className="button button-secondary" href={asset(m.datasheet)} target="_blank" rel="noreferrer">{t('Технічний PDF','Technical PDF')}</a>}

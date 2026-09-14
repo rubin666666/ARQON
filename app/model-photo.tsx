@@ -1,0 +1,22 @@
+'use client';
+import { useState } from 'react';
+import Image from 'next/image';
+import { Dialog, DialogContent, DialogTitle, DialogClose } from '@/components/ui/dialog';
+import { asset } from '@/lib/site';
+
+export function ModelPhoto({ name, src, en }: { name: string; src: string; en: boolean }) {
+  const [open, setOpen] = useState(false);
+  return <>
+    <button type="button" className="model-photo" aria-label={`${en ? 'Enlarge image' : 'Збільшити зображення'} ${name}`} onClick={() => setOpen(true)}>
+      <Image width={1024} height={1024} src={asset(src || '/sahara.jpg')} alt={src ? name : `${name} — ${en ? 'shared series illustration' : 'спільна ілюстрація серії'}`} loading="lazy" />
+      <span className="model-photo-hint" aria-hidden="true">↗</span>
+    </button>
+    <Dialog open={open} onOpenChange={setOpen}>
+      <DialogContent className="model-photo-viewer translate-x-0 translate-y-0" showCloseButton={false} aria-describedby={undefined}>
+        <DialogTitle>{name}</DialogTitle>
+        <DialogClose className="model-photo-close" aria-label={en ? 'Close image' : 'Закрити зображення'}>×</DialogClose>
+        <Image width={1024} height={1024} src={asset(src || '/sahara.jpg')} alt={name} />
+      </DialogContent>
+    </Dialog>
+  </>;
+}
