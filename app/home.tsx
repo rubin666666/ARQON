@@ -26,9 +26,9 @@ import {
   X,
   Sun,
   Moon,
-  Flame,
+  Cog,
   SlidersHorizontal,
-  ShieldCheck,
+  Cpu,
 } from 'lucide-react';
 
 import {
@@ -262,7 +262,7 @@ export default function Home({
           </figure>
         </section>
         <div className="benefits">
-          {[Flame, SlidersHorizontal, ShieldCheck].map((Icon, i) => (
+          {[Cog, SlidersHorizontal, Cpu].map((Icon, i) => (
             <div key={i}>
               <Icon size={20} strokeWidth={1.5} />
               <div>
@@ -321,7 +321,15 @@ export default function Home({
                   <h3>
                     <span className="model-number">{m.name}</span>
                   </h3>
-                  <dl className="model-specs model-card-specs">{m.specifications.slice(0, 3).map(spec => <div key={spec.id}><dt>{localText(spec.label, en)}</dt><dd>{localText(spec.value, en)}</dd></div>)}</dl>
+                  <dl className="model-specs model-card-specs">{m.specifications.slice(0, 3).map(spec => {
+                    const label = localText(spec.label, en);
+                    const separator = label.indexOf(':');
+                    const [amount, ...unit] = localText(spec.value, en).split(' ');
+                    return <div key={spec.id}>
+                      <dt>{separator < 0 ? label : <><span className="spec-crop">{label.slice(0, separator)}</span><span className="spec-conditions">{label.slice(separator + 1).trim()}</span></>}</dt>
+                      <dd><span className="spec-amount">{amount}</span>{unit.length > 0 && <> <span className="spec-unit">{unit.join(' ')}</span></>}</dd>
+                    </div>;
+                  })}</dl>
                   <button type="button" className="text-link model-detail-link" onClick={()=>setDetailModel(m.id)}>{t('Детальніше','View details')}</button>
                   <button
                     className="button button-secondary model-action"
