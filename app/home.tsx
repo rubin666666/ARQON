@@ -48,7 +48,7 @@ export default function Home({
     [themeReady, setThemeReady] = useState(false),
     [menu, M] = useState(false),
     [modal, O] = useState(''),
-    [selectedModel, setSelectedModel] = useState('sahara-1'),
+    [selectedModel, setSelectedModel] = useState(site.models[0].id),
     [detailModel, setDetailModel] = useState<string|null>(null),
     [activeSection, setActiveSection] = useState('');
   useEffect(() => {
@@ -202,13 +202,13 @@ export default function Home({
                   </a>
                   {id === 'products' && (
                     <div className="menu-models">
-                      {[1, 2, 3, 4].map((n) => (
+                      {site.models.map((m) => (
                         <a
-                          key={n}
-                          href={'#sahara-' + n}
+                          key={m.id}
+                          href={'#' + m.id}
                           onClick={() => M(false)}
                         >
-                          SAHARA {n}
+                          {m.name}
                         </a>
                       ))}
                     </div>
@@ -309,8 +309,8 @@ export default function Home({
           </div>
           <ModelExplorer en={en} onCalculate={calculateModel} />
           <div className="products">
-            {[1, 2, 3, 4].map((n) => (
-              <article key={n} id={'sahara-' + n}>
+            {site.models.map((m) => (
+              <article key={m.id} id={m.id}>
                 <div className="model-top">
                   <span>{t('СЕРІЯ SAHARA', 'SAHARA SERIES')}</span>
                   <ArrowUpRight size={18} />
@@ -318,10 +318,9 @@ export default function Home({
                 <Image
                   width={1024}
                   height={1024}
-                  src={asset(site.models[n - 1].image || '/sahara.jpg')}
+                  src={asset(m.image || '/sahara.jpg')}
                   alt={
-                    'SAHARA ' +
-                    n +
+                    m.name +
                     ' — ' +
                     t('спільна ілюстрація серії', 'shared series illustration')
                   }
@@ -329,38 +328,18 @@ export default function Home({
                 />
                 <div className="model-copy">
                   <h3>
-                    SAHARA <span className="model-number">{n}</span>
+                    <span className="model-number">{m.name}</span>
                   </h3>
-                  {(['capacity', 'fuel', 'efficiency'] as const).some(key => localText(site.models[n - 1][key], en)) && <details className="model-details"><summary>{t('Характеристики', 'Specifications')}</summary><dl className="model-specs">
-                    {(['capacity', 'fuel', 'efficiency'] as const).filter(key => localText(site.models[n - 1][key], en)).map(
-                      (key) => (
-                        <div key={key}>
-                          <dt>
-                            {
-                              [
-                                t('Продуктивність', 'Capacity'),
-                                t('Тип палива', 'Fuel type'),
-                                t('Енергоефективність', 'Energy efficiency'),
-                              ][['capacity', 'fuel', 'efficiency'].indexOf(key)]
-                            }
-                          </dt>
-                          <dd>
-                            {localText(site.models[n - 1][key], en) ||
-                              t('Уточнюється', 'To be confirmed')}
-                          </dd>
-                        </div>
-                      ),
-                    )}
-                  </dl></details>}
-                  <button type="button" className="text-link model-detail-link" onClick={()=>setDetailModel('sahara-'+n)}>{t('Детальніше','View details')}</button>
+                  <dl className="model-specs model-card-specs">{m.specifications.slice(0, 3).map(spec => <div key={spec.id}><dt>{localText(spec.label, en)}</dt><dd>{localText(spec.value, en)}</dd></div>)}</dl>
+                  <button type="button" className="text-link model-detail-link" onClick={()=>setDetailModel(m.id)}>{t('Детальніше','View details')}</button>
                   <button
                     className="button button-secondary model-action"
-                    aria-label={`${t('Розрахувати для', 'Calculate for')} SAHARA ${n}`}
+                    aria-label={`${t('Розрахувати для', 'Calculate for')} ${m.name}`}
                     onClick={() => {
-                      setSelectedModel('sahara-' + n);
+                      setSelectedModel(m.id);
                       history.replaceState(null, '', '#calculator');
                       requestAnimationFrame(() => { document.getElementById('calculator')?.scrollIntoView({block: 'start'}); document.getElementById('calc-model')?.focus({preventScroll: true}); });
-                      track('product_calculator', { model: n });
+                      track('product_calculator', { model: m.id });
                     }}
                   >
                     {t('Розрахувати', 'Calculate')}

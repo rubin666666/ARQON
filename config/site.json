@@ -104,21 +104,30 @@
     },
     "places": [
       {
-        "name": { "uk": "Канада", "en": "Canada" },
+        "name": {
+          "uk": "Канада",
+          "en": "Canada"
+        },
         "role": {
           "uk": "Інженерія, розробка продуктів, технологічна стратегія та розвиток бізнесу.",
           "en": "Engineering, product development, technology strategy, and business development."
         }
       },
       {
-        "name": { "uk": "Польща", "en": "Poland" },
+        "name": {
+          "uk": "Польща",
+          "en": "Poland"
+        },
         "role": {
           "uk": "Розробка промислового програмного забезпечення та систем автоматизації.",
           "en": "Industrial software and automation development."
         }
       },
       {
-        "name": { "uk": "Україна", "en": "Ukraine" },
+        "name": {
+          "uk": "Україна",
+          "en": "Ukraine"
+        },
         "role": {
           "uk": "Виробництво та виготовлення обладнання через виробничих партнерів.",
           "en": "Equipment manufacturing and fabrication through manufacturing partners."
@@ -141,16 +150,16 @@
     }
   },
   "productIntro": {
-    "uk": "SAHARA — лінійка зерносушарок Arqon. Характеристики моделей публікуються після підтвердження.",
-    "en": "SAHARA is Arqon’s grain dryer range. Model specifications are published after confirmation."
+    "uk": "Шість моделей SAHARA — від S9 до S18. Порівняйте продуктивність для різних культур і технічні характеристики.",
+    "en": "Six SAHARA models, from S9 to S18. Compare crop-specific capacities and technical specifications."
   },
   "models": [
     {
-      "id": "sahara-1",
-      "name": "SAHARA 1",
+      "id": "sahara-s9",
+      "name": "S9",
       "capacity": {
-        "uk": "",
-        "en": ""
+        "uk": "6 т/год — кукурудза, 25% → 15%, 120 °C",
+        "en": "6 t/h — corn, 25% → 15%, 120 °C"
       },
       "fuel": {
         "uk": "",
@@ -165,8 +174,8 @@
         "en": ""
       },
       "dimensions": {
-        "uk": "",
-        "en": ""
+        "uk": "9200 × 2600 × 6000 мм",
+        "en": "9200 × 2600 × 6000 mm"
       },
       "description": {
         "uk": "",
@@ -177,14 +186,192 @@
         "en": ""
       },
       "image": "",
-      "datasheet": ""
+      "datasheet": "",
+      "specifications": [
+        {
+          "id": "spec-0",
+          "label": {
+            "uk": "Кукурудза: 25% → 15%, 120 °C",
+            "en": "Corn: 25% → 15%, 120 °C"
+          },
+          "value": {
+            "uk": "6 т/год",
+            "en": "6 t/h"
+          }
+        },
+        {
+          "id": "spec-1",
+          "label": {
+            "uk": "Соняшник: 22% → 7%, 80 °C",
+            "en": "Sunflower: 22% → 7%, 80 °C"
+          },
+          "value": {
+            "uk": "4 т/год",
+            "en": "4 t/h"
+          }
+        },
+        {
+          "id": "spec-2",
+          "label": {
+            "uk": "Ріпак / канола: 13% → 9%, 80 °C",
+            "en": "Rapeseed / canola: 13% → 9%, 80 °C"
+          },
+          "value": {
+            "uk": "9 т/год",
+            "en": "9 t/h"
+          }
+        },
+        {
+          "id": "spec-3",
+          "label": {
+            "uk": "Довжина",
+            "en": "Length"
+          },
+          "value": {
+            "uk": "9200 мм",
+            "en": "9200 mm"
+          }
+        },
+        {
+          "id": "spec-4",
+          "label": {
+            "uk": "Ширина",
+            "en": "Width"
+          },
+          "value": {
+            "uk": "2600 мм",
+            "en": "2600 mm"
+          }
+        },
+        {
+          "id": "spec-5",
+          "label": {
+            "uk": "Висота",
+            "en": "Height"
+          },
+          "value": {
+            "uk": "6000 мм",
+            "en": "6000 mm"
+          }
+        },
+        {
+          "id": "spec-6",
+          "label": {
+            "uk": "Продукт на сушильному подіумі",
+            "en": "Product on drying platform"
+          },
+          "value": {
+            "uk": "6000 кг",
+            "en": "6000 kg"
+          }
+        },
+        {
+          "id": "spec-7",
+          "label": {
+            "uk": "Кількість високотемпературних вентиляторів",
+            "en": "High-temperature fan count"
+          },
+          "value": {
+            "uk": "1",
+            "en": "1"
+          }
+        },
+        {
+          "id": "spec-8",
+          "label": {
+            "uk": "Високотемпературний вентилятор",
+            "en": "High-temperature fan"
+          },
+          "value": {
+            "uk": "15 кВт",
+            "en": "15 kW"
+          }
+        },
+        {
+          "id": "spec-9",
+          "label": {
+            "uk": "Кількість вентиляторів охолодження",
+            "en": "Cooling fan count"
+          },
+          "value": {
+            "uk": "1",
+            "en": "1"
+          }
+        },
+        {
+          "id": "spec-10",
+          "label": {
+            "uk": "Вентилятор охолодження",
+            "en": "Cooling fan"
+          },
+          "value": {
+            "uk": "7,5 кВт",
+            "en": "7.5 kW"
+          }
+        },
+        {
+          "id": "spec-11",
+          "label": {
+            "uk": "Кількість пальників",
+            "en": "Burner count"
+          },
+          "value": {
+            "uk": "1",
+            "en": "1"
+          }
+        },
+        {
+          "id": "spec-12",
+          "label": {
+            "uk": "Двигун пальника",
+            "en": "Burner motor"
+          },
+          "value": {
+            "uk": "1,1 кВт",
+            "en": "1.1 kW"
+          }
+        },
+        {
+          "id": "spec-13",
+          "label": {
+            "uk": "Потужність пальника",
+            "en": "Burner output"
+          },
+          "value": {
+            "uk": "800 кВт",
+            "en": "800 kW"
+          }
+        },
+        {
+          "id": "spec-14",
+          "label": {
+            "uk": "Трасувальний привод",
+            "en": "Tracing drive"
+          },
+          "value": {
+            "uk": "0,55 кВт",
+            "en": "0.55 kW"
+          }
+        },
+        {
+          "id": "spec-15",
+          "label": {
+            "uk": "Привод шнека (одиниця не вказана)",
+            "en": "Auger drive (unit not specified)"
+          },
+          "value": {
+            "uk": "0,55",
+            "en": "0.55"
+          }
+        }
+      ]
     },
     {
-      "id": "sahara-2",
-      "name": "SAHARA 2",
+      "id": "sahara-s10",
+      "name": "S10",
       "capacity": {
-        "uk": "",
-        "en": ""
+        "uk": "9 т/год — кукурудза, 25% → 15%, 120 °C",
+        "en": "9 t/h — corn, 25% → 15%, 120 °C"
       },
       "fuel": {
         "uk": "",
@@ -199,8 +386,8 @@
         "en": ""
       },
       "dimensions": {
-        "uk": "",
-        "en": ""
+        "uk": "10400 × 2600 × 6000 мм",
+        "en": "10400 × 2600 × 6000 mm"
       },
       "description": {
         "uk": "",
@@ -211,14 +398,192 @@
         "en": ""
       },
       "image": "",
-      "datasheet": ""
+      "datasheet": "",
+      "specifications": [
+        {
+          "id": "spec-0",
+          "label": {
+            "uk": "Кукурудза: 25% → 15%, 120 °C",
+            "en": "Corn: 25% → 15%, 120 °C"
+          },
+          "value": {
+            "uk": "9 т/год",
+            "en": "9 t/h"
+          }
+        },
+        {
+          "id": "spec-1",
+          "label": {
+            "uk": "Соняшник: 22% → 7%, 80 °C",
+            "en": "Sunflower: 22% → 7%, 80 °C"
+          },
+          "value": {
+            "uk": "6 т/год",
+            "en": "6 t/h"
+          }
+        },
+        {
+          "id": "spec-2",
+          "label": {
+            "uk": "Ріпак / канола: 13% → 9%, 80 °C",
+            "en": "Rapeseed / canola: 13% → 9%, 80 °C"
+          },
+          "value": {
+            "uk": "15 т/год",
+            "en": "15 t/h"
+          }
+        },
+        {
+          "id": "spec-3",
+          "label": {
+            "uk": "Довжина",
+            "en": "Length"
+          },
+          "value": {
+            "uk": "10400 мм",
+            "en": "10400 mm"
+          }
+        },
+        {
+          "id": "spec-4",
+          "label": {
+            "uk": "Ширина",
+            "en": "Width"
+          },
+          "value": {
+            "uk": "2600 мм",
+            "en": "2600 mm"
+          }
+        },
+        {
+          "id": "spec-5",
+          "label": {
+            "uk": "Висота",
+            "en": "Height"
+          },
+          "value": {
+            "uk": "6000 мм",
+            "en": "6000 mm"
+          }
+        },
+        {
+          "id": "spec-6",
+          "label": {
+            "uk": "Продукт на сушильному подіумі",
+            "en": "Product on drying platform"
+          },
+          "value": {
+            "uk": "11000 кг",
+            "en": "11000 kg"
+          }
+        },
+        {
+          "id": "spec-7",
+          "label": {
+            "uk": "Кількість високотемпературних вентиляторів",
+            "en": "High-temperature fan count"
+          },
+          "value": {
+            "uk": "1",
+            "en": "1"
+          }
+        },
+        {
+          "id": "spec-8",
+          "label": {
+            "uk": "Високотемпературний вентилятор",
+            "en": "High-temperature fan"
+          },
+          "value": {
+            "uk": "30 кВт",
+            "en": "30 kW"
+          }
+        },
+        {
+          "id": "spec-9",
+          "label": {
+            "uk": "Кількість вентиляторів охолодження",
+            "en": "Cooling fan count"
+          },
+          "value": {
+            "uk": "2",
+            "en": "2"
+          }
+        },
+        {
+          "id": "spec-10",
+          "label": {
+            "uk": "Вентилятор охолодження",
+            "en": "Cooling fan"
+          },
+          "value": {
+            "uk": "7,5 кВт",
+            "en": "7.5 kW"
+          }
+        },
+        {
+          "id": "spec-11",
+          "label": {
+            "uk": "Кількість пальників",
+            "en": "Burner count"
+          },
+          "value": {
+            "uk": "2",
+            "en": "2"
+          }
+        },
+        {
+          "id": "spec-12",
+          "label": {
+            "uk": "Двигун пальника",
+            "en": "Burner motor"
+          },
+          "value": {
+            "uk": "1,1 кВт",
+            "en": "1.1 kW"
+          }
+        },
+        {
+          "id": "spec-13",
+          "label": {
+            "uk": "Потужність пальника",
+            "en": "Burner output"
+          },
+          "value": {
+            "uk": "800 кВт",
+            "en": "800 kW"
+          }
+        },
+        {
+          "id": "spec-14",
+          "label": {
+            "uk": "Трасувальний привод",
+            "en": "Tracing drive"
+          },
+          "value": {
+            "uk": "0,75 кВт",
+            "en": "0.75 kW"
+          }
+        },
+        {
+          "id": "spec-15",
+          "label": {
+            "uk": "Привод шнека (одиниця не вказана)",
+            "en": "Auger drive (unit not specified)"
+          },
+          "value": {
+            "uk": "0,75",
+            "en": "0.75"
+          }
+        }
+      ]
     },
     {
-      "id": "sahara-3",
-      "name": "SAHARA 3",
+      "id": "sahara-s12",
+      "name": "S12",
       "capacity": {
-        "uk": "",
-        "en": ""
+        "uk": "11 т/год — кукурудза, 25% → 15%, 120 °C",
+        "en": "11 t/h — corn, 25% → 15%, 120 °C"
       },
       "fuel": {
         "uk": "",
@@ -233,8 +598,8 @@
         "en": ""
       },
       "dimensions": {
-        "uk": "",
-        "en": ""
+        "uk": "11700 × 2600 × 6000 мм",
+        "en": "11700 × 2600 × 6000 mm"
       },
       "description": {
         "uk": "",
@@ -245,14 +610,192 @@
         "en": ""
       },
       "image": "",
-      "datasheet": ""
+      "datasheet": "",
+      "specifications": [
+        {
+          "id": "spec-0",
+          "label": {
+            "uk": "Кукурудза: 25% → 15%, 120 °C",
+            "en": "Corn: 25% → 15%, 120 °C"
+          },
+          "value": {
+            "uk": "11 т/год",
+            "en": "11 t/h"
+          }
+        },
+        {
+          "id": "spec-1",
+          "label": {
+            "uk": "Соняшник: 22% → 7%, 80 °C",
+            "en": "Sunflower: 22% → 7%, 80 °C"
+          },
+          "value": {
+            "uk": "8 т/год",
+            "en": "8 t/h"
+          }
+        },
+        {
+          "id": "spec-2",
+          "label": {
+            "uk": "Ріпак / канола: 13% → 9%, 80 °C",
+            "en": "Rapeseed / canola: 13% → 9%, 80 °C"
+          },
+          "value": {
+            "uk": "19 т/год",
+            "en": "19 t/h"
+          }
+        },
+        {
+          "id": "spec-3",
+          "label": {
+            "uk": "Довжина",
+            "en": "Length"
+          },
+          "value": {
+            "uk": "11700 мм",
+            "en": "11700 mm"
+          }
+        },
+        {
+          "id": "spec-4",
+          "label": {
+            "uk": "Ширина",
+            "en": "Width"
+          },
+          "value": {
+            "uk": "2600 мм",
+            "en": "2600 mm"
+          }
+        },
+        {
+          "id": "spec-5",
+          "label": {
+            "uk": "Висота",
+            "en": "Height"
+          },
+          "value": {
+            "uk": "6000 мм",
+            "en": "6000 mm"
+          }
+        },
+        {
+          "id": "spec-6",
+          "label": {
+            "uk": "Продукт на сушильному подіумі",
+            "en": "Product on drying platform"
+          },
+          "value": {
+            "uk": "12500 кг",
+            "en": "12500 kg"
+          }
+        },
+        {
+          "id": "spec-7",
+          "label": {
+            "uk": "Кількість високотемпературних вентиляторів",
+            "en": "High-temperature fan count"
+          },
+          "value": {
+            "uk": "1",
+            "en": "1"
+          }
+        },
+        {
+          "id": "spec-8",
+          "label": {
+            "uk": "Високотемпературний вентилятор",
+            "en": "High-temperature fan"
+          },
+          "value": {
+            "uk": "37 кВт",
+            "en": "37 kW"
+          }
+        },
+        {
+          "id": "spec-9",
+          "label": {
+            "uk": "Кількість вентиляторів охолодження",
+            "en": "Cooling fan count"
+          },
+          "value": {
+            "uk": "2",
+            "en": "2"
+          }
+        },
+        {
+          "id": "spec-10",
+          "label": {
+            "uk": "Вентилятор охолодження",
+            "en": "Cooling fan"
+          },
+          "value": {
+            "uk": "7,5 кВт",
+            "en": "7.5 kW"
+          }
+        },
+        {
+          "id": "spec-11",
+          "label": {
+            "uk": "Кількість пальників",
+            "en": "Burner count"
+          },
+          "value": {
+            "uk": "2",
+            "en": "2"
+          }
+        },
+        {
+          "id": "spec-12",
+          "label": {
+            "uk": "Двигун пальника",
+            "en": "Burner motor"
+          },
+          "value": {
+            "uk": "1,5 кВт",
+            "en": "1.5 kW"
+          }
+        },
+        {
+          "id": "spec-13",
+          "label": {
+            "uk": "Потужність пальника",
+            "en": "Burner output"
+          },
+          "value": {
+            "uk": "800 кВт",
+            "en": "800 kW"
+          }
+        },
+        {
+          "id": "spec-14",
+          "label": {
+            "uk": "Трасувальний привод",
+            "en": "Tracing drive"
+          },
+          "value": {
+            "uk": "0,75 кВт",
+            "en": "0.75 kW"
+          }
+        },
+        {
+          "id": "spec-15",
+          "label": {
+            "uk": "Привод шнека (одиниця не вказана)",
+            "en": "Auger drive (unit not specified)"
+          },
+          "value": {
+            "uk": "0,75",
+            "en": "0.75"
+          }
+        }
+      ]
     },
     {
-      "id": "sahara-4",
-      "name": "SAHARA 4",
+      "id": "sahara-s13",
+      "name": "S13",
       "capacity": {
-        "uk": "",
-        "en": ""
+        "uk": "15 т/год — кукурудза, 25% → 15%, 120 °C",
+        "en": "15 t/h — corn, 25% → 15%, 120 °C"
       },
       "fuel": {
         "uk": "",
@@ -267,8 +810,8 @@
         "en": ""
       },
       "dimensions": {
-        "uk": "",
-        "en": ""
+        "uk": "13000 × 2600 × 6000 мм",
+        "en": "13000 × 2600 × 6000 mm"
       },
       "description": {
         "uk": "",
@@ -279,7 +822,609 @@
         "en": ""
       },
       "image": "",
-      "datasheet": ""
+      "datasheet": "",
+      "specifications": [
+        {
+          "id": "spec-0",
+          "label": {
+            "uk": "Кукурудза: 25% → 15%, 120 °C",
+            "en": "Corn: 25% → 15%, 120 °C"
+          },
+          "value": {
+            "uk": "15 т/год",
+            "en": "15 t/h"
+          }
+        },
+        {
+          "id": "spec-1",
+          "label": {
+            "uk": "Соняшник: 22% → 7%, 80 °C",
+            "en": "Sunflower: 22% → 7%, 80 °C"
+          },
+          "value": {
+            "uk": "10 т/год",
+            "en": "10 t/h"
+          }
+        },
+        {
+          "id": "spec-2",
+          "label": {
+            "uk": "Ріпак / канола: 13% → 9%, 80 °C",
+            "en": "Rapeseed / canola: 13% → 9%, 80 °C"
+          },
+          "value": {
+            "uk": "23 т/год",
+            "en": "23 t/h"
+          }
+        },
+        {
+          "id": "spec-3",
+          "label": {
+            "uk": "Довжина",
+            "en": "Length"
+          },
+          "value": {
+            "uk": "13000 мм",
+            "en": "13000 mm"
+          }
+        },
+        {
+          "id": "spec-4",
+          "label": {
+            "uk": "Ширина",
+            "en": "Width"
+          },
+          "value": {
+            "uk": "2600 мм",
+            "en": "2600 mm"
+          }
+        },
+        {
+          "id": "spec-5",
+          "label": {
+            "uk": "Висота",
+            "en": "Height"
+          },
+          "value": {
+            "uk": "6000 мм",
+            "en": "6000 mm"
+          }
+        },
+        {
+          "id": "spec-6",
+          "label": {
+            "uk": "Продукт на сушильному подіумі",
+            "en": "Product on drying platform"
+          },
+          "value": {
+            "uk": "14500 кг",
+            "en": "14500 kg"
+          }
+        },
+        {
+          "id": "spec-7",
+          "label": {
+            "uk": "Кількість високотемпературних вентиляторів",
+            "en": "High-temperature fan count"
+          },
+          "value": {
+            "uk": "2",
+            "en": "2"
+          }
+        },
+        {
+          "id": "spec-8",
+          "label": {
+            "uk": "Високотемпературний вентилятор",
+            "en": "High-temperature fan"
+          },
+          "value": {
+            "uk": "30 кВт",
+            "en": "30 kW"
+          }
+        },
+        {
+          "id": "spec-9",
+          "label": {
+            "uk": "Кількість вентиляторів охолодження",
+            "en": "Cooling fan count"
+          },
+          "value": {
+            "uk": "2",
+            "en": "2"
+          }
+        },
+        {
+          "id": "spec-10",
+          "label": {
+            "uk": "Вентилятор охолодження",
+            "en": "Cooling fan"
+          },
+          "value": {
+            "uk": "11 кВт",
+            "en": "11 kW"
+          }
+        },
+        {
+          "id": "spec-11",
+          "label": {
+            "uk": "Кількість пальників",
+            "en": "Burner count"
+          },
+          "value": {
+            "uk": "2",
+            "en": "2"
+          }
+        },
+        {
+          "id": "spec-12",
+          "label": {
+            "uk": "Двигун пальника",
+            "en": "Burner motor"
+          },
+          "value": {
+            "uk": "1,5 кВт",
+            "en": "1.5 kW"
+          }
+        },
+        {
+          "id": "spec-13",
+          "label": {
+            "uk": "Потужність пальника",
+            "en": "Burner output"
+          },
+          "value": {
+            "uk": "1000 кВт",
+            "en": "1000 kW"
+          }
+        },
+        {
+          "id": "spec-14",
+          "label": {
+            "uk": "Трасувальний привод",
+            "en": "Tracing drive"
+          },
+          "value": {
+            "uk": "1,5 кВт",
+            "en": "1.5 kW"
+          }
+        },
+        {
+          "id": "spec-15",
+          "label": {
+            "uk": "Привод шнека (одиниця не вказана)",
+            "en": "Auger drive (unit not specified)"
+          },
+          "value": {
+            "uk": "1,5",
+            "en": "1.5"
+          }
+        }
+      ]
+    },
+    {
+      "id": "sahara-s16",
+      "name": "S16",
+      "capacity": {
+        "uk": "20 т/год — кукурудза, 25% → 15%, 120 °C",
+        "en": "20 t/h — corn, 25% → 15%, 120 °C"
+      },
+      "fuel": {
+        "uk": "",
+        "en": ""
+      },
+      "efficiency": {
+        "uk": "",
+        "en": ""
+      },
+      "power": {
+        "uk": "",
+        "en": ""
+      },
+      "dimensions": {
+        "uk": "15500 × 2600 × 6000 мм",
+        "en": "15500 × 2600 × 6000 mm"
+      },
+      "description": {
+        "uk": "",
+        "en": ""
+      },
+      "equipment": {
+        "uk": "",
+        "en": ""
+      },
+      "image": "",
+      "datasheet": "",
+      "specifications": [
+        {
+          "id": "spec-0",
+          "label": {
+            "uk": "Кукурудза: 25% → 15%, 120 °C",
+            "en": "Corn: 25% → 15%, 120 °C"
+          },
+          "value": {
+            "uk": "20 т/год",
+            "en": "20 t/h"
+          }
+        },
+        {
+          "id": "spec-1",
+          "label": {
+            "uk": "Соняшник: 22% → 7%, 80 °C",
+            "en": "Sunflower: 22% → 7%, 80 °C"
+          },
+          "value": {
+            "uk": "13 т/год",
+            "en": "13 t/h"
+          }
+        },
+        {
+          "id": "spec-2",
+          "label": {
+            "uk": "Ріпак / канола: 13% → 9%, 80 °C",
+            "en": "Rapeseed / canola: 13% → 9%, 80 °C"
+          },
+          "value": {
+            "uk": "30 т/год",
+            "en": "30 t/h"
+          }
+        },
+        {
+          "id": "spec-3",
+          "label": {
+            "uk": "Довжина",
+            "en": "Length"
+          },
+          "value": {
+            "uk": "15500 мм",
+            "en": "15500 mm"
+          }
+        },
+        {
+          "id": "spec-4",
+          "label": {
+            "uk": "Ширина",
+            "en": "Width"
+          },
+          "value": {
+            "uk": "2600 мм",
+            "en": "2600 mm"
+          }
+        },
+        {
+          "id": "spec-5",
+          "label": {
+            "uk": "Висота",
+            "en": "Height"
+          },
+          "value": {
+            "uk": "6000 мм",
+            "en": "6000 mm"
+          }
+        },
+        {
+          "id": "spec-6",
+          "label": {
+            "uk": "Продукт на сушильному подіумі",
+            "en": "Product on drying platform"
+          },
+          "value": {
+            "uk": "18000 кг",
+            "en": "18000 kg"
+          }
+        },
+        {
+          "id": "spec-7",
+          "label": {
+            "uk": "Кількість високотемпературних вентиляторів",
+            "en": "High-temperature fan count"
+          },
+          "value": {
+            "uk": "2",
+            "en": "2"
+          }
+        },
+        {
+          "id": "spec-8",
+          "label": {
+            "uk": "Високотемпературний вентилятор",
+            "en": "High-temperature fan"
+          },
+          "value": {
+            "uk": "37 кВт",
+            "en": "37 kW"
+          }
+        },
+        {
+          "id": "spec-9",
+          "label": {
+            "uk": "Кількість вентиляторів охолодження",
+            "en": "Cooling fan count"
+          },
+          "value": {
+            "uk": "2",
+            "en": "2"
+          }
+        },
+        {
+          "id": "spec-10",
+          "label": {
+            "uk": "Вентилятор охолодження",
+            "en": "Cooling fan"
+          },
+          "value": {
+            "uk": "15 кВт",
+            "en": "15 kW"
+          }
+        },
+        {
+          "id": "spec-11",
+          "label": {
+            "uk": "Кількість пальників",
+            "en": "Burner count"
+          },
+          "value": {
+            "uk": "2",
+            "en": "2"
+          }
+        },
+        {
+          "id": "spec-12",
+          "label": {
+            "uk": "Двигун пальника",
+            "en": "Burner motor"
+          },
+          "value": {
+            "uk": "3,6 кВт",
+            "en": "3.6 kW"
+          }
+        },
+        {
+          "id": "spec-13",
+          "label": {
+            "uk": "Потужність пальника",
+            "en": "Burner output"
+          },
+          "value": {
+            "uk": "1700 кВт",
+            "en": "1700 kW"
+          }
+        },
+        {
+          "id": "spec-14",
+          "label": {
+            "uk": "Трасувальний привод",
+            "en": "Tracing drive"
+          },
+          "value": {
+            "uk": "2,2 кВт",
+            "en": "2.2 kW"
+          }
+        },
+        {
+          "id": "spec-15",
+          "label": {
+            "uk": "Привод шнека (одиниця не вказана)",
+            "en": "Auger drive (unit not specified)"
+          },
+          "value": {
+            "uk": "2,2",
+            "en": "2.2"
+          }
+        }
+      ]
+    },
+    {
+      "id": "sahara-s18",
+      "name": "S18",
+      "capacity": {
+        "uk": "30 т/год — кукурудза, 25% → 15%, 120 °C",
+        "en": "30 t/h — corn, 25% → 15%, 120 °C"
+      },
+      "fuel": {
+        "uk": "",
+        "en": ""
+      },
+      "efficiency": {
+        "uk": "",
+        "en": ""
+      },
+      "power": {
+        "uk": "",
+        "en": ""
+      },
+      "dimensions": {
+        "uk": "18000 × 2600 × 6000 мм",
+        "en": "18000 × 2600 × 6000 mm"
+      },
+      "description": {
+        "uk": "",
+        "en": ""
+      },
+      "equipment": {
+        "uk": "",
+        "en": ""
+      },
+      "image": "",
+      "datasheet": "",
+      "specifications": [
+        {
+          "id": "spec-0",
+          "label": {
+            "uk": "Кукурудза: 25% → 15%, 120 °C",
+            "en": "Corn: 25% → 15%, 120 °C"
+          },
+          "value": {
+            "uk": "30 т/год",
+            "en": "30 t/h"
+          }
+        },
+        {
+          "id": "spec-1",
+          "label": {
+            "uk": "Соняшник: 22% → 7%, 80 °C",
+            "en": "Sunflower: 22% → 7%, 80 °C"
+          },
+          "value": {
+            "uk": "20 т/год",
+            "en": "20 t/h"
+          }
+        },
+        {
+          "id": "spec-2",
+          "label": {
+            "uk": "Ріпак / канола: 13% → 9%, 80 °C",
+            "en": "Rapeseed / canola: 13% → 9%, 80 °C"
+          },
+          "value": {
+            "uk": "40 т/год",
+            "en": "40 t/h"
+          }
+        },
+        {
+          "id": "spec-3",
+          "label": {
+            "uk": "Довжина",
+            "en": "Length"
+          },
+          "value": {
+            "uk": "18000 мм",
+            "en": "18000 mm"
+          }
+        },
+        {
+          "id": "spec-4",
+          "label": {
+            "uk": "Ширина",
+            "en": "Width"
+          },
+          "value": {
+            "uk": "2600 мм",
+            "en": "2600 mm"
+          }
+        },
+        {
+          "id": "spec-5",
+          "label": {
+            "uk": "Висота",
+            "en": "Height"
+          },
+          "value": {
+            "uk": "6000 мм",
+            "en": "6000 mm"
+          }
+        },
+        {
+          "id": "spec-6",
+          "label": {
+            "uk": "Продукт на сушильному подіумі",
+            "en": "Product on drying platform"
+          },
+          "value": {
+            "uk": "38000 кг",
+            "en": "38000 kg"
+          }
+        },
+        {
+          "id": "spec-7",
+          "label": {
+            "uk": "Кількість високотемпературних вентиляторів",
+            "en": "High-temperature fan count"
+          },
+          "value": {
+            "uk": "3",
+            "en": "3"
+          }
+        },
+        {
+          "id": "spec-8",
+          "label": {
+            "uk": "Високотемпературний вентилятор",
+            "en": "High-temperature fan"
+          },
+          "value": {
+            "uk": "37 кВт",
+            "en": "37 kW"
+          }
+        },
+        {
+          "id": "spec-9",
+          "label": {
+            "uk": "Кількість вентиляторів охолодження",
+            "en": "Cooling fan count"
+          },
+          "value": {
+            "uk": "2",
+            "en": "2"
+          }
+        },
+        {
+          "id": "spec-10",
+          "label": {
+            "uk": "Вентилятор охолодження",
+            "en": "Cooling fan"
+          },
+          "value": {
+            "uk": "22 кВт",
+            "en": "22 kW"
+          }
+        },
+        {
+          "id": "spec-11",
+          "label": {
+            "uk": "Кількість пальників",
+            "en": "Burner count"
+          },
+          "value": {
+            "uk": "3",
+            "en": "3"
+          }
+        },
+        {
+          "id": "spec-12",
+          "label": {
+            "uk": "Двигун пальника",
+            "en": "Burner motor"
+          },
+          "value": {
+            "uk": "3,6 кВт",
+            "en": "3.6 kW"
+          }
+        },
+        {
+          "id": "spec-13",
+          "label": {
+            "uk": "Потужність пальника",
+            "en": "Burner output"
+          },
+          "value": {
+            "uk": "2000 кВт",
+            "en": "2000 kW"
+          }
+        },
+        {
+          "id": "spec-14",
+          "label": {
+            "uk": "Трасувальний привод",
+            "en": "Tracing drive"
+          },
+          "value": {
+            "uk": "2,2 кВт",
+            "en": "2.2 kW"
+          }
+        },
+        {
+          "id": "spec-15",
+          "label": {
+            "uk": "Привод шнека (одиниця не вказана)",
+            "en": "Auger drive (unit not specified)"
+          },
+          "value": {
+            "uk": "2,2",
+            "en": "2.2"
+          }
+        }
+      ]
     }
   ],
   "faq": [

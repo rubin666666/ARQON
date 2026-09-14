@@ -1,7 +1,7 @@
 import config from '@/config/calculator.json';
 import { site } from './site';
 export type Scenario = { model: string; crop: string; volume: number; initialMoisture: number; finalMoisture: number; distance: number; elevatorTariff: number; diesel: string; electricity: string; delayedSale: boolean };
-export const defaultScenario: Scenario = {model:'sahara-1',crop:'corn',volume:1000,initialMoisture:25,finalMoisture:14,distance:30,elevatorTariff:150,diesel:'',electricity:'',delayedSale:false};
+export const defaultScenario: Scenario = {model:site.models[0].id,crop:'corn',volume:1000,initialMoisture:25,finalMoisture:14,distance:30,elevatorTariff:150,diesel:'',electricity:'',delayedSale:false};
 export function parseScenario(raw: string | null): Scenario | null {
   if (!raw || raw.length > 3000) return null;
   try {
