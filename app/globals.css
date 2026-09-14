@@ -3558,3 +3558,20 @@ html {
 .model-photo-viewer > img { width: 100%; height: 100%; min-height: 0; object-fit: contain; }
 .model-photo-close { position: absolute; top: max(12px, env(safe-area-inset-top)); right: 16px; width: 44px; height: 44px; border: 1px solid var(--border); border-radius: 50%; background: var(--surface); color: var(--foreground); font-size: 28px; cursor: pointer; }
 .model-photo-viewer { animation: none !important; --tw-translate-x: 0; --tw-translate-y: 0; }
+
+/* Shared dialog motion preserves each window's positioning. */
+@keyframes arqon-window-open { from { opacity: 0; scale: .97; } to { opacity: 1; scale: 1; } }
+@keyframes arqon-window-close { from { opacity: 1; scale: 1; } to { opacity: 0; scale: .985; } }
+.arqon-dialog[data-open], .model-photo-viewer[data-open] { animation: arqon-window-open 260ms cubic-bezier(.2,.8,.2,1) both !important; }
+.arqon-dialog[data-closed], .model-photo-viewer[data-closed] { animation: arqon-window-close 160ms ease-in both !important; }
+.modal-close, .model-photo-close { display: grid; place-items: center; width: 44px; height: 44px; top: max(12px, env(safe-area-inset-top)); right: 14px; padding: 0; border: 1px solid var(--border); border-radius: 14px; background: var(--surface); color: var(--foreground); font-size: 0; z-index: 2; box-shadow: 0 3px 12px #0000000a; transition: background .18s ease, border-color .18s ease, color .18s ease, scale .18s ease; }
+.modal-close::before, .modal-close::after, .model-photo-close::before, .model-photo-close::after { content: ''; position: absolute; width: 18px; height: 2px; border-radius: 2px; background: currentColor; transform: rotate(45deg); }
+.modal-close::after, .model-photo-close::after { transform: rotate(-45deg); }
+.modal-close:hover, .model-photo-close:hover { color: var(--primary); border-color: var(--primary); background: color-mix(in srgb, var(--primary) 10%, var(--background)); }
+.modal-close:active, .model-photo-close:active { scale: .94; }
+.modal-close:focus-visible, .model-photo-close:focus-visible { outline: 2px solid var(--primary); outline-offset: 3px; }
+.arqon-dialog [data-slot="dialog-title"], .menu-dialog [data-slot="dialog-title"] { padding-right: 48px; }
+@media (prefers-reduced-motion: reduce) {
+  .arqon-dialog[data-open], .arqon-dialog[data-closed], .model-photo-viewer[data-open], .model-photo-viewer[data-closed] { animation: none !important; }
+  .modal-close, .model-photo-close { transition: none; }
+}
