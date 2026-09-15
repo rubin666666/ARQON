@@ -3747,3 +3747,46 @@ html:not(.dark) body {
   .model-specs dt, .capabilities li { overflow-wrap: anywhere; text-wrap: pretty; }
   .network-places > div, .company-grid article { min-width: 0; }
 }
+
+/* Engineering calculator: scoped surfaces and responsive result hierarchy. */
+.engineering-calculator .calc-group .fields { display: grid; grid-template-columns: repeat(2,minmax(0,1fr)); gap: 16px; }
+.engineering-calculator .field { min-width: 0; }
+.engineering-calculator .field input, .engineering-calculator .field select { width: 100%; min-width: 0; min-height: 46px; border: 1px solid var(--border); border-radius: 10px; padding: 11px 12px; background: var(--surface-input); color: var(--foreground); font: inherit; }
+.engineering-calculator .field span { display: block; margin-bottom: 8px; }
+.engineering-calculator .calc-group legend { display: flex; align-items: center; gap: 10px; }
+.engineering-reference { margin-top: 18px; padding: 14px; background: color-mix(in srgb,var(--primary) 6%,transparent); border-radius: 12px; }
+.engineering-reference p { font-size: 13px; line-height: 1.6; margin: 0 0 8px; }
+.engineering-reference b { font-weight: 500; }
+.engineering-caption { font-size: 13px; line-height: 1.6; color: var(--muted); margin: 14px 0; text-wrap: pretty; }
+.engineering-toggle { display: flex; align-items: center; gap: 12px; min-height: 48px; cursor: pointer; margin: 16px 0; }
+.engineering-toggle input { width: 20px; height: 20px; accent-color: var(--primary); flex-shrink: 0; }
+.engineering-result { align-self: start; }
+.engineering-result h3 { margin-top: 12px; font-size: 25px; }
+.engineering-result h3 span { font-size: 16px; font-weight: 400; color: var(--muted); }
+.engineering-status { display: inline-block; font-size: 12px; margin: 12px 0 18px; padding: 6px 10px; border: 1px solid var(--border); border-radius: 20px; }
+.engineering-metrics { display: grid; grid-template-columns: repeat(2,minmax(0,1fr)); gap: 18px; margin: 12px 0 24px; }
+.engineering-metrics > div { min-width: 0; }
+.engineering-metrics dt { font-size: 13px; line-height: 1.5; color: var(--muted); }
+.engineering-metrics dd { font-size: clamp(22px,2vw,30px); line-height: 1.4; font-weight: 500; font-variant-numeric: tabular-nums; margin: 6px 0 0; overflow-wrap: anywhere; }
+.engineering-metrics small { font-size: 12px; font-weight: 400; color: var(--muted); }
+.engineering-financial { border-top: 1px solid var(--border); padding-top: 20px; }
+.engineering-details { margin-top: 18px; border-top: 1px solid var(--border); padding-top: 12px; }
+.engineering-details summary { cursor: pointer; min-height: 44px; padding: 10px 0; font-size: 14px; line-height: 1.5; }
+.engineering-details ul { padding-left: 20px; color: var(--muted); font-size: 13px; line-height: 1.8; }
+.engineering-actions { display: grid; gap: 12px; margin-top: 22px; }
+.engineering-actions .button { justify-content: space-between; }
+.engineering-comparison { margin-top: 32px; padding: 24px; border: 1px solid var(--border); border-radius: var(--radius-card); background: var(--surface-raised); }
+.engineering-comparison table { width: 100%; min-width: 720px; border-collapse: collapse; }
+.engineering-comparison th,.engineering-comparison td { padding: 16px 12px; border-bottom: 1px solid var(--border); text-align: left; font-size: 14px; }
+.engineering-comparison tr[aria-current="true"] { background: color-mix(in srgb,var(--primary) 7%,transparent); }
+.engineering-comparison th small { display: block; color: var(--primary); font-size: 11px; }
+@media(max-width:1000px) { .engineering-calculator .calculator { grid-template-columns: 1fr; } .engineering-result { position: static; } }
+@media(max-width:520px) { .engineering-calculator .calc-group .fields { grid-template-columns: 1fr; } .engineering-calculator .calc-group { padding: 16px; } .engineering-comparison { padding: 16px; } .engineering-metrics { gap: 16px 12px; } }
+
+/* Personalized calculation enquiry */
+.engineering-lead-dialog {width:min(560px,calc(100vw - 32px));max-width:560px;max-height:calc(100dvh - 40px);overflow-y:auto;border-radius:24px;padding:28px;}
+.engineering-lead {display:grid;gap:16px;}
+.engineering-lead .field {display:grid;gap:8px;}
+.engineering-lead input:not([type="checkbox"]),.engineering-lead select {width:100%;min-height:44px;border:1px solid var(--line);border-radius:12px;background:var(--bg);color:inherit;padding:10px 12px;}
+.engineering-lead .engineering-toggle {align-items:flex-start;font-size:14px;line-height:1.5;}
+.engineering-lead p,.engineering-lead output {font-size:14px;line-height:1.6;}

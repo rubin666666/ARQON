@@ -1,0 +1,334 @@
+{
+  "version": "manufacturer-table-2026-09-v1",
+  "waterHeat": 0.004186,
+  "notes": "Water specific heat from supplied specification (MJ/kg/K). Unknown parameters are null. Thermal branch requires explicit approval. recoveredFraction is recovered heat / useful heat. Nominal electrical/burner ratings need operating-total confirmation.",
+  "crops": [
+    {
+      "id": "corn",
+      "uk": "Кукурудза",
+      "en": "Corn",
+      "grainHeat": null,
+      "latentHeat": null,
+      "waterDelta": null,
+      "grainDelta": null
+    },
+    {
+      "id": "sunflower",
+      "uk": "Соняшник",
+      "en": "Sunflower",
+      "grainHeat": null,
+      "latentHeat": null,
+      "waterDelta": null,
+      "grainDelta": null
+    },
+    {
+      "id": "rapeseed",
+      "uk": "Ріпак",
+      "en": "Rapeseed",
+      "grainHeat": null,
+      "latentHeat": null,
+      "waterDelta": null,
+      "grainDelta": null
+    }
+  ],
+  "fuels": [
+    {
+      "id": "diesel",
+      "uk": "Дизель",
+      "en": "Diesel",
+      "unit": "L",
+      "heatingValue": null
+    },
+    {
+      "id": "natural_gas",
+      "uk": "Природний газ",
+      "en": "Natural gas",
+      "unit": "m3",
+      "heatingValue": null
+    }
+  ],
+  "models": [
+    {
+      "id": "sahara-s9",
+      "name": "S9",
+      "price": null,
+      "installation": null,
+      "electricalPower": null,
+      "burnerPower": null,
+      "supportedFuels": null,
+      "thermalApproved": false,
+      "burnerEfficiency": null,
+      "lossFactor": null,
+      "recoveredFraction": null,
+      "operatorPerHour": null,
+      "maintenancePerHour": null,
+      "seasonalFixed": null,
+      "reference": [
+        {
+          "cropId": "corn",
+          "input": 25,
+          "output": 15,
+          "temperature": 120,
+          "capacity": 6,
+          "source": "Характеристики_сушилок_по_моделям.xlsx",
+          "status": "supplied"
+        },
+        {
+          "cropId": "sunflower",
+          "input": 22,
+          "output": 7,
+          "temperature": 80,
+          "capacity": 4,
+          "source": "Характеристики_сушилок_по_моделям.xlsx",
+          "status": "supplied"
+        },
+        {
+          "cropId": "rapeseed",
+          "input": 13,
+          "output": 9,
+          "temperature": 80,
+          "capacity": 9,
+          "source": "Характеристики_сушилок_по_моделям.xlsx",
+          "status": "supplied"
+        }
+      ],
+      "correctionPoints": [],
+      "source": "Характеристики_сушилок_по_моделям.xlsx"
+    },
+    {
+      "id": "sahara-s10",
+      "name": "S10",
+      "price": null,
+      "installation": null,
+      "electricalPower": null,
+      "burnerPower": null,
+      "supportedFuels": null,
+      "thermalApproved": false,
+      "burnerEfficiency": null,
+      "lossFactor": null,
+      "recoveredFraction": null,
+      "operatorPerHour": null,
+      "maintenancePerHour": null,
+      "seasonalFixed": null,
+      "reference": [
+        {
+          "cropId": "corn",
+          "input": 25,
+          "output": 15,
+          "temperature": 120,
+          "capacity": 9,
+          "source": "Характеристики_сушилок_по_моделям.xlsx",
+          "status": "supplied"
+        },
+        {
+          "cropId": "sunflower",
+          "input": 22,
+          "output": 7,
+          "temperature": 80,
+          "capacity": 6,
+          "source": "Характеристики_сушилок_по_моделям.xlsx",
+          "status": "supplied"
+        },
+        {
+          "cropId": "rapeseed",
+          "input": 13,
+          "output": 9,
+          "temperature": 80,
+          "capacity": 15,
+          "source": "Характеристики_сушилок_по_моделям.xlsx",
+          "status": "supplied"
+        }
+      ],
+      "correctionPoints": [],
+      "source": "Характеристики_сушилок_по_моделям.xlsx"
+    },
+    {
+      "id": "sahara-s12",
+      "name": "S12",
+      "price": null,
+      "installation": null,
+      "electricalPower": null,
+      "burnerPower": null,
+      "supportedFuels": null,
+      "thermalApproved": false,
+      "burnerEfficiency": null,
+      "lossFactor": null,
+      "recoveredFraction": null,
+      "operatorPerHour": null,
+      "maintenancePerHour": null,
+      "seasonalFixed": null,
+      "reference": [
+        {
+          "cropId": "corn",
+          "input": 25,
+          "output": 15,
+          "temperature": 120,
+          "capacity": 11,
+          "source": "Характеристики_сушилок_по_моделям.xlsx",
+          "status": "supplied"
+        },
+        {
+          "cropId": "sunflower",
+          "input": 22,
+          "output": 7,
+          "temperature": 80,
+          "capacity": 8,
+          "source": "Характеристики_сушилок_по_моделям.xlsx",
+          "status": "supplied"
+        },
+        {
+          "cropId": "rapeseed",
+          "input": 13,
+          "output": 9,
+          "temperature": 80,
+          "capacity": 19,
+          "source": "Характеристики_сушилок_по_моделям.xlsx",
+          "status": "supplied"
+        }
+      ],
+      "correctionPoints": [],
+      "source": "Характеристики_сушилок_по_моделям.xlsx"
+    },
+    {
+      "id": "sahara-s13",
+      "name": "S13",
+      "price": null,
+      "installation": null,
+      "electricalPower": null,
+      "burnerPower": null,
+      "supportedFuels": null,
+      "thermalApproved": false,
+      "burnerEfficiency": null,
+      "lossFactor": null,
+      "recoveredFraction": null,
+      "operatorPerHour": null,
+      "maintenancePerHour": null,
+      "seasonalFixed": null,
+      "reference": [
+        {
+          "cropId": "corn",
+          "input": 25,
+          "output": 15,
+          "temperature": 120,
+          "capacity": 15,
+          "source": "Характеристики_сушилок_по_моделям.xlsx",
+          "status": "supplied"
+        },
+        {
+          "cropId": "sunflower",
+          "input": 22,
+          "output": 7,
+          "temperature": 80,
+          "capacity": 10,
+          "source": "Характеристики_сушилок_по_моделям.xlsx",
+          "status": "supplied"
+        },
+        {
+          "cropId": "rapeseed",
+          "input": 13,
+          "output": 9,
+          "temperature": 80,
+          "capacity": 23,
+          "source": "Характеристики_сушилок_по_моделям.xlsx",
+          "status": "supplied"
+        }
+      ],
+      "correctionPoints": [],
+      "source": "Характеристики_сушилок_по_моделям.xlsx"
+    },
+    {
+      "id": "sahara-s16",
+      "name": "S16",
+      "price": null,
+      "installation": null,
+      "electricalPower": null,
+      "burnerPower": null,
+      "supportedFuels": null,
+      "thermalApproved": false,
+      "burnerEfficiency": null,
+      "lossFactor": null,
+      "recoveredFraction": null,
+      "operatorPerHour": null,
+      "maintenancePerHour": null,
+      "seasonalFixed": null,
+      "reference": [
+        {
+          "cropId": "corn",
+          "input": 25,
+          "output": 15,
+          "temperature": 120,
+          "capacity": 20,
+          "source": "Характеристики_сушилок_по_моделям.xlsx",
+          "status": "supplied"
+        },
+        {
+          "cropId": "sunflower",
+          "input": 22,
+          "output": 7,
+          "temperature": 80,
+          "capacity": 13,
+          "source": "Характеристики_сушилок_по_моделям.xlsx",
+          "status": "supplied"
+        },
+        {
+          "cropId": "rapeseed",
+          "input": 13,
+          "output": 9,
+          "temperature": 80,
+          "capacity": 30,
+          "source": "Характеристики_сушилок_по_моделям.xlsx",
+          "status": "supplied"
+        }
+      ],
+      "correctionPoints": [],
+      "source": "Характеристики_сушилок_по_моделям.xlsx"
+    },
+    {
+      "id": "sahara-s18",
+      "name": "S18",
+      "price": null,
+      "installation": null,
+      "electricalPower": null,
+      "burnerPower": null,
+      "supportedFuels": null,
+      "thermalApproved": false,
+      "burnerEfficiency": null,
+      "lossFactor": null,
+      "recoveredFraction": null,
+      "operatorPerHour": null,
+      "maintenancePerHour": null,
+      "seasonalFixed": null,
+      "reference": [
+        {
+          "cropId": "corn",
+          "input": 25,
+          "output": 15,
+          "temperature": 120,
+          "capacity": 30,
+          "source": "Характеристики_сушилок_по_моделям.xlsx",
+          "status": "supplied"
+        },
+        {
+          "cropId": "sunflower",
+          "input": 22,
+          "output": 7,
+          "temperature": 80,
+          "capacity": 20,
+          "source": "Характеристики_сушилок_по_моделям.xlsx",
+          "status": "supplied"
+        },
+        {
+          "cropId": "rapeseed",
+          "input": 13,
+          "output": 9,
+          "temperature": 80,
+          "capacity": 40,
+          "source": "Характеристики_сушилок_по_моделям.xlsx",
+          "status": "supplied"
+        }
+      ],
+      "correctionPoints": [],
+      "source": "Характеристики_сушилок_по_моделям.xlsx"
+    }
+  ]
+}

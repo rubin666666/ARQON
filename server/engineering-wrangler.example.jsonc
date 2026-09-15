@@ -1,0 +1,29 @@
+{
+  "name": "arqon-calculations",
+  "main": "engineering-worker.mjs",
+  "compatibility_date": "2026-09-15",
+  "compatibility_flags": [
+    "nodejs_compat"
+  ],
+  "vars": {
+    "ALLOWED_ORIGINS": "https://rubin666666.github.io",
+    "RETENTION_DAYS": "",
+    "PUBLIC_FONT_URL": "https://rubin666666.github.io/ARQON/fonts/NotoSans.ttf"
+  },
+  "kv_namespaces": [
+    {
+      "binding": "CALCULATIONS",
+      "id": "REPLACE_WITH_NAMESPACE_ID"
+    }
+  ],
+  "ratelimits": [
+    {
+      "name": "RATE_LIMITER",
+      "namespace_id": "1002",
+      "simple": {
+        "limit": 10,
+        "period": 60
+      }
+    }
+  ]
+}

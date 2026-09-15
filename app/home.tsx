@@ -4,7 +4,7 @@ import { ModelPhoto } from './model-photo';
 import { useState, useEffect } from 'react';
 import Image from 'next/image';
 import { EnquiryForm } from './enquiry-form';
-import { Calculator } from './calculator';
+import { Calculator } from './engineering-calculator';
 import { About } from './about';
 import { Technology } from './technology';
 import { ContentSections } from './content-sections';
