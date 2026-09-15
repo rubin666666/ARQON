@@ -3749,7 +3749,7 @@ html:not(.dark) body {
 }
 
 /* Engineering calculator: scoped surfaces and responsive result hierarchy. */
-.engineering-calculator .calc-group .fields { display: grid; grid-template-columns: repeat(2,minmax(0,1fr)); gap: 16px; }
+.engineering-calculator .calc-fields .fields { display: grid; grid-template-columns: repeat(2,minmax(0,1fr)); gap: 16px; }
 .engineering-calculator .field { min-width: 0; }
 .engineering-calculator .field input, .engineering-calculator .field select { width: 100%; min-width: 0; min-height: 46px; border: 1px solid var(--border); border-radius: 10px; padding: 11px 12px; background: var(--surface-input); color: var(--foreground); font: inherit; }
 .engineering-calculator .field span { display: block; margin-bottom: 8px; }
@@ -3781,7 +3781,7 @@ html:not(.dark) body {
 .engineering-comparison tr[aria-current="true"] { background: color-mix(in srgb,var(--primary) 7%,transparent); }
 .engineering-comparison th small { display: block; color: var(--primary); font-size: 11px; }
 @media(max-width:1000px) { .engineering-calculator .calculator { grid-template-columns: 1fr; } .engineering-result { position: static; } }
-@media(max-width:520px) { .engineering-calculator .calc-group .fields { grid-template-columns: 1fr; } .engineering-calculator .calc-group { padding: 16px; } .engineering-comparison { padding: 16px; } .engineering-metrics { gap: 16px 12px; } }
+@media(max-width:520px) { .engineering-calculator .calc-fields .fields { grid-template-columns: 1fr; } .engineering-calculator .calc-group { padding: 16px; } .engineering-comparison { padding: 16px; } .engineering-metrics { gap: 16px 12px; } }
 
 /* Personalized calculation enquiry */
 .engineering-lead-dialog {width:min(560px,calc(100vw - 32px));max-width:560px;max-height:calc(100dvh - 40px);overflow-y:auto;border-radius:24px;padding:28px;}

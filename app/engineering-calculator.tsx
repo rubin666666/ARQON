@@ -141,32 +141,37 @@ export function Calculator({ en, model, onModelChange }: {en: boolean; model: st
           {select('calc-model',t('Модель сушарки','Dryer model'),model,data.models.map(m=>({value:m.id,label:m.name})),onModelChange)}
           {select('calc-crop',t('Культура','Crop'),draft.cropId,data.crops.map(c=>({value:c.id,label:c[en?'en':'uk']})),applyReference)}
           {numeric('volume',t('Власне зерно за сезон, т','Own grain per season, t'),true)}
-          {numeric('availableHours',t('Доступний час сезону, год (необов’язково)','Available seasonal hours (optional)'))}
           {numeric('initialMoisture',t('Початкова вологість, %','Initial moisture, %'),true)}
           {numeric('finalMoisture',t('Кінцева вологість, %','Final moisture, %'),true)}
         </div>{reference && <div className="engineering-reference"><p>{t('Еталон із таблиці виробника','Manufacturer reference')}: <b>{reference.input} → {reference.output}% · {reference.temperature} °C · {reference.capacity} {t('т/год','t/h')}</b></p><button type="button" className="text-link" onClick={()=>applyReference()}>{t('Застосувати еталонну вологість','Use reference moisture')}</button></div>}</fieldset>
-        <fieldset className="calc-group"><legend><Fuel size={18}/>{t('02 — Енергія та послуги','02 — Energy and services')}</legend><div className="fields">
+        <fieldset className="calc-group"><legend><Fuel size={18}/>{t('02 — Енергоносії','02 — Energy')}</legend><div className="fields">
           {select('eng-fuel',t('Паливо для розрахунку','Scenario fuel'),draft.fuelId,data.fuels.map(f=>({value:f.id,label:f[en?'en':'uk']})),value=>{setDraft(d=>({...d,fuelId:value,fuelPrice:''}));})}
           {numeric('fuelPrice',`${t('Ціна палива','Fuel price')}, ${t('грн','UAH')}/${fuelUnit}`)}
           {numeric('electricityPrice',t('Електроенергія, грн/кВт·год','Electricity, UAH/kWh'))}
         </div><p className="engineering-caption">{t('Вибір палива задає сценарій; сумісність обладнання потребує підтвердження.','Fuel selection defines the scenario; equipment compatibility requires confirmation.')}</p>
-          {checkbox('serviceEnabled',t('Сушити зерно для інших господарств','Dry grain for other farms'))}
-          {draft.serviceEnabled && <><div className="fields">{numeric('serviceVolume',t('Стороннє зерно за сезон, т','Service grain per season, t'),true)}{numeric('serviceTariff',t('Тариф послуги, грн/т вхідного зерна','Service tariff, UAH/t of incoming grain'))}</div><p className="engineering-caption">{t('Для послуги застосовується та сама культура й вологість. Виручка та прибуток рахуються окремо від власного зерна.','Service uses the same crop and moisture. Revenue and profit are separate from your own grain.')}</p></>}
         </fieldset>
-        <fieldset className="calc-group"><legend><CalculatorIcon size={18}/>{t('03 — Економіка та інвестиції','03 — Economics and investment')}</legend><div className="fields">
+        <fieldset className="calc-group"><legend><CalculatorIcon size={18}/>{t('03 — Порівняння з елеватором','03 — Elevator comparison')}</legend><div className="fields">
           {select('eng-tariff-basis',t('Одиниця тарифу елеватора','Elevator billing unit'),draft.elevatorBasis,[{value:'tonne',label:t('грн/т вхідного зерна','UAH/t of incoming grain')},{value:'tonne-point',label:t('грн/т-% знятої вологості','UAH/t per moisture percentage point')}],value=>set('elevatorBasis',value as Draft['elevatorBasis']))}
           {numeric('elevatorTariff',t('Тариф сушіння на елеваторі','Elevator drying tariff'))}
+
+        </div></fieldset>
+        <details className="engineering-details"><summary>{t('Інвестиції та окупність','Investment and payback')}{(draft.dryerPrice!=='' || draft.installation!=='' || Number(draft.additionalInvestment)!==0) && t(' · Заповнено',' · Entered')}</summary><div className="fields">
           {numeric('dryerPrice',t('Вартість сушарки, грн','Dryer price, UAH'))}
           {numeric('installation',t('Монтаж, грн','Installation, UAH'))}
-        </div><p className="engineering-caption">{t('Вкажіть отримані ціни або залиште порожніми. Всі суми порівнюйте на однаковій основі щодо ПДВ.','Enter quoted prices or leave blank. Use the same VAT basis for all amounts.')}</p>
-        <details className="engineering-details"><summary>{t('Додаткові витрати та продаж зерна','Additional costs and grain sales')}</summary><div className="fields">
+          {numeric('additionalInvestment',t('Інші інвестиції, грн','Additional investment, UAH'))}
+</div><p className="engineering-caption">{t('Вкажіть отримані ціни або залиште порожніми. Всі суми порівнюйте на однаковій основі щодо ПДВ.','Enter quoted prices or leave blank. Use the same VAT basis for all amounts.')}</p></details>
+        <details className="engineering-details"><summary>{t('Послуги іншим господарствам','Services for other farms')}{draft.serviceEnabled && t(' · Увімкнено',' · Enabled')}</summary>
+          {checkbox('serviceEnabled',t('Сушити зерно для інших господарств','Dry grain for other farms'))}
+          {draft.serviceEnabled && <><div className="fields">{numeric('serviceVolume',t('Стороннє зерно за сезон, т','Service grain per season, t'),true)}{numeric('serviceTariff',t('Тариф послуги, грн/т вхідного зерна','Service tariff, UAH/t of incoming grain'))}</div><p className="engineering-caption">{t('Для послуги застосовується та сама культура й вологість. Виручка та прибуток рахуються окремо від власного зерна.','Service uses the same crop and moisture. Revenue and profit are separate from your own grain.')}</p></>}
+        </details>
+        <details className="engineering-details"><summary>{t('Витрати, сезон і продаж зерна','Costs, season and grain sales')}</summary><div className="fields">
           {numeric('elevatorOtherPerTonne',t('Елеватор: доставка, зберігання та інше, грн/т','Elevator: delivery, storage and other, UAH/t'))}
           {numeric('ownOtherPerTonne',t('Власна система: зберігання та інше, грн/т','Own system: storage and other, UAH/t'))}
-          {numeric('additionalInvestment',t('Інші інвестиції, грн','Additional investment, UAH'))}
+          {numeric('availableHours',t('Доступний час сезону, год (необов’язково)','Available seasonal hours (optional)'))}
         </div><p className="engineering-caption">{t('Додаткові витрати за весь сезон на тонну вхідного власного зерна; за замовчуванням не враховані (0).','Additional full-season costs per tonne of your incoming grain; excluded by default (0).')}</p>
         {checkbox('delayedSale',t('Порівняти продаж зараз і після зберігання','Compare immediate and delayed sale'))}
         {draft.delayedSale && <><div className="fields">{numeric('currentGrainPrice',t('Ціна продажу зараз, грн/т','Immediate sale price, UAH/t'))}{numeric('futureGrainPrice',t('Очікувана ціна після зберігання, грн/т','Expected later price, UAH/t'))}</div><p className="engineering-caption">{t('Різниця цін застосовується до маси після сушіння. Це припущення сценарію: продаж через елеватор зараз, власного зерна — пізніше. Витрати зберігання додайте вище.','Price difference applies to dried mass. Scenario assumption: immediate sale via elevator versus later sale of own grain. Include storage costs above.')}</p></>}
-        </details></fieldset>
+        </details>
         <button type="button" className="button" disabled={result.status==='invalid'} onClick={()=>{document.getElementById('calculator-result')?.scrollIntoView({block:'start'});document.getElementById('calculator-result')?.focus({preventScroll:true});track('calculation_completed',{model,status:result.status});}}>{t('Переглянути результат','View results')}<ArrowUpRight size={18}/></button>
       </div>
       <aside className="result engineering-result" id="calculator-result" tabIndex={-1} aria-label={t('Результати','Results')}>
