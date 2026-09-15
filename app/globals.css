@@ -3691,26 +3691,25 @@ html {
   background-image: linear-gradient(120deg, var(--gradient-amber), transparent 75%);
 }
 
-/* Powder rose daylight palette, isolated from the dark theme. */
+/* Neutral white theme with strong text and surface contrast. */
 :root:not(.dark) {
-  --background: #f2e9ec;
-  --surface: #eadee3;
-  --surface-raised: #fffafc;
-  --surface-input: #fffafc;
-  --border: #d6c6cd;
-  --muted: #655b62;
-  --foreground: #29262b;
-  --gradient-warm: #c5829f1a;
-  --gradient-amber: #c596b214;
-  --gradient-cool: #9693b510;
-  --ambient-glow: #c5829f12;
-  --card-shadow: 0 6px 24px #42263508;
-  --card-shadow-hover: 0 12px 30px #42263514;
+  --background: #ffffff;
+  --surface: #eef0f3;
+  --surface-raised: #ffffff;
+  --surface-input: #ffffff;
+  --border: #858c96;
+  --muted: #3e4650;
+  --foreground: #111318;
+  --gradient-warm: transparent;
+  --gradient-amber: transparent;
+  --gradient-cool: transparent;
+  --ambient-glow: transparent;
+  --card-shadow: 0 4px 18px #1113180d;
+  --card-shadow-hover: 0 10px 28px #1113181a;
 }
-html:not(.dark) body {
-  background-image:
-    radial-gradient(ellipse at 90% 8%, #d5acc333, transparent 60%),
-    linear-gradient(135deg, #f8f3f5 0%, #f2e9ec 52%, #eee3e9 100%);
+html:not(.dark) body { background-image: none; }
+html:not(.dark) :is(.technology-detail, .calculator .result, .site-footer, .capabilities li) {
+  background-image: none;
 }
 
 /* Consistent editorial hierarchy and quieter product information. */
