@@ -3790,3 +3790,35 @@ html:not(.dark) body {
 .engineering-lead input:not([type="checkbox"]),.engineering-lead select {width:100%;min-height:44px;border:1px solid var(--line);border-radius:12px;background:var(--bg);color:inherit;padding:10px 12px;}
 .engineering-lead .engineering-toggle {align-items:flex-start;font-size:14px;line-height:1.5;}
 .engineering-lead p,.engineering-lead output {font-size:14px;line-height:1.6;}
+
+/* Calculator guidance, material balance and mobile comparison. */
+.engineering-calculator .field > label {display:block;margin-bottom:8px;line-height:1.5;}
+.engineering-calculator input[aria-invalid="true"] {border-color:#c23d3d;outline:1px solid #c23d3d;}
+.engineering-field-error {color:var(--foreground);border-left:3px solid #c23d3d;padding-left:9px;font-size:13px;line-height:1.5;margin-top:8px;}
+.engineering-hint {margin-top:6px;font-size:12px;color:var(--muted);line-height:1.6;}
+.engineering-hint summary {cursor:pointer;min-height:32px;padding:6px 0;}
+.engineering-hint p {padding:8px 0;}
+.engineering-pending {padding:14px 16px;border-radius:14px;background:var(--surface-input);font-size:14px;line-height:1.65;margin:18px 0;}
+.engineering-balance {margin:20px 0 24px;}
+.engineering-balance figcaption {font-size:13px;color:var(--muted);}
+.engineering-balance figcaption strong {display:block;color:var(--foreground);font-size:22px;margin:6px 0 14px;}
+.engineering-balance-bar {display:flex;height:18px;border-radius:12px;overflow:hidden;background:var(--border);}
+.engineering-balance-bar span:first-child {background:var(--primary);}
+.engineering-balance-bar span:last-child {background:#739bb1;}
+.engineering-balance-key {display:grid;grid-template-columns:1fr 1fr;gap:16px;margin-top:12px;font-size:12px;color:var(--muted);}
+.engineering-balance-key b {display:block;font-size:18px;color:var(--foreground);margin-top:4px;}
+.engineering-balance-key i {display:inline-block;width:8px;height:8px;background:var(--primary);border-radius:50%;margin-right:6px;}
+.engineering-balance-key p:last-child i {background:#739bb1;}
+.engineering-model-cards {display:none;}
+@media(max-width:640px){
+ .engineering-comparison-table {display:none;}
+ .engineering-model-cards {display:grid;gap:14px;margin-top:20px;}
+ .engineering-model-card {border:1px solid var(--border);border-radius:18px;padding:18px;background:var(--surface-input);}
+ .engineering-model-card[data-selected="true"] {border-color:var(--primary);}
+ .engineering-model-card .engineering-card-heading {display:flex;justify-content:space-between;align-items:center;gap:12px;}
+ .engineering-model-card h4 {font-size:24px;}
+ .engineering-model-card .engineering-card-heading span {font-size:12px;color:var(--primary);}
+ .engineering-model-card .button {width:100%;margin-top:14px;}
+}
+
+.engineering-result {scroll-margin-top:110px;}

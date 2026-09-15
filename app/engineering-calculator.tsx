@@ -100,8 +100,36 @@ export function Calculator({ en, model, onModelChange }: {en: boolean; model: st
     THERMAL_POWER_INSUFFICIENT:t('Розрахункова теплова потреба перевищує потужність моделі.','Required thermal power exceeds model capacity.'),
     NO_PAYBACK:t('За цих умов загальний економічний ефект не додатний — окупність не досягається.','The total economic effect is not positive under these conditions; payback is not reached.'),
   };
+  const hints: Partial<Record<NumericKey,string>> = {
+    volume:t('Маса власного зерна до сушіння за весь сезон.','Your incoming grain mass for the whole season.'),
+    initialMoisture:t('Вологість зерна перед сушінням.','Grain moisture before drying.'),
+    finalMoisture:t('Бажана вологість після сушіння; має бути нижчою за початкову.','Target moisture after drying; must be below initial moisture.'),
+    elevatorTariff:draft.elevatorBasis==='tonne-point'?t('За одну тонну вхідного зерна та один відсотковий пункт знятої вологості. Наприклад, з 25% до 15% — це 10 пунктів.','Per tonne of incoming grain per moisture percentage point removed. From 25% to 15% means 10 points.'):t('Повна ціна сушіння однієї тонни вхідного зерна.','The total drying price for one tonne of incoming grain.'),
+    serviceTariff:t('Виручка за тонну стороннього зерна. Чистий прибуток визначається після віднімання витрат на сушіння.','Revenue per tonne of service grain. Net profit subtracts drying costs.'),
+    dryerPrice:t('Вартість обраної моделі без монтажу та інших інвестицій.','Selected model cost excluding installation and other investments.'),
+    availableHours:t('Фактичні робочі години за сезон, за вирахуванням простоїв.','Available operating hours for the season, excluding downtime.'),
+  };
+  function fieldError(key:NumericKey,required=false) {
+    const value=number(draft[key]);
+    if(value===null)return required || ['elevatorOtherPerTonne','ownOtherPerTonne','additionalInvestment'].includes(key)?t('Вкажіть значення.','Enter a value.'):'';
+    if(!Number.isFinite(value))return t('Введіть коректне число.','Enter a valid number.');
+    if(value<0)return t('Значення не може бути від’ємним.','Value cannot be negative.');
+    if(['volume','serviceVolume','availableHours','serviceTariff'].includes(key)&&value===0)return t('Значення має бути більшим за нуль.','Value must be greater than zero.');
+    if(['volume','serviceVolume'].includes(key)&&value>1e9)return t('Максимум — 1 000 000 000 т.','Maximum: 1,000,000,000 t.');
+    if(['initialMoisture','finalMoisture'].includes(key)&&(value<=0||value>=100))return t('Вологість має бути більшою за 0% і меншою за 100%.','Moisture must be greater than 0% and below 100%.');
+    if(key==='finalMoisture'&&number(draft.initialMoisture)!==null&&value>=Number(draft.initialMoisture))return t('Кінцева вологість має бути нижчою за початкову.','Final moisture must be below initial moisture.');
+    return '';
+  }
   function numeric(key: NumericKey, label: string, required=false) {
-    return <label className="field" htmlFor={`eng-${key}`}><span>{label}</span><input id={`eng-${key}`} type="number" inputMode="decimal" min="0" step="any" required={required} value={draft[key]} placeholder={required ? undefined : t('Не задано','Not provided')} onChange={e => set(key,e.target.value as Draft[typeof key])}/></label>;
+    const error=fieldError(key,required),hint=hints[key],id=`eng-${key}`;
+    return <div className="field"><label htmlFor={id}>{label}</label><input id={id} type="number" inputMode="decimal" min="0" step="any" required={required} value={draft[key]} aria-invalid={Boolean(error)} aria-describedby={[error?id+'-error':'',hint?id+'-hint':''].filter(Boolean).join(' ')||undefined} placeholder={required ? undefined : t('Не задано','Not provided')} onChange={e => set(key,e.target.value as Draft[typeof key])}/>{error&&<p id={id+'-error'} className="engineering-field-error" aria-live="polite">{error}</p>}{hint&&<details className="engineering-hint"><summary>{t('Пояснення','Help')}</summary><p id={id+'-hint'}>{hint}</p></details>}</div>;
+  }
+  function viewResults() {
+    if(result.status==='invalid') {
+      const field=document.querySelector<HTMLInputElement>('#calculator-inputs input[aria-invalid="true"]');
+      if(field){let parent=field.parentElement;while(parent){if(parent instanceof HTMLDetailsElement)parent.open=true;parent=parent.parentElement;}field.focus();field.scrollIntoView({block:'center'});return;}
+    }
+    document.getElementById('calculator-result')?.scrollIntoView({block:'start'});document.getElementById('calculator-result')?.focus({preventScroll:true});track('calculation_completed',{model,status:result.status});
   }
   function select(id: string, label: string, value: string, options: {value:string;label:string}[], change:(s:string)=>void) {
     return <label className="field" htmlFor={id}><span>{label}</span><select id={id} value={value} onChange={e=>change(e.target.value)}>{options.map(o=><option key={o.value} value={o.value}>{o.label}</option>)}</select></label>;
@@ -110,6 +138,11 @@ export function Calculator({ en, model, onModelChange }: {en: boolean; model: st
     return <label className="engineering-toggle"><input type="checkbox" checked={draft[key]} onChange={e=>set(key,e.target.checked)}/><span>{label}</span></label>;
   }
   const metric = (label: string, value: number | null | undefined, unit: string) => <div><dt>{label}</dt><dd>{format(value)} <small>{unit}</small></dd></div>;
+  const financialMetric=(label:string,value:number|null|undefined,unit:string)=>value==null?null:metric(label,value,unit);
+  function compareCard(m:EngineeringData['models'][number]) {
+    const r:EngineeringResult=calculateEngineering({...input,modelId:m.id,dryerPrice:null,installation:null},data);
+    return <article key={m.id} className="engineering-model-card" aria-label={m.name} data-selected={m.id===model}><div className="engineering-card-heading"><h4>{m.name}</h4>{m.id===model&&<span>{t('Обрана','Selected')}</span>}</div><dl className="engineering-metrics">{metric(t('Продуктивність','Capacity'),r.capacity,t('т/год','t/h'))}{metric(t('Час за сезон','Seasonal time'),r.totalHours,t('год','h'))}{financialMetric(t('Сушіння','Drying'),r.own?.perTonne,t('грн/т','UAH/t'))}{financialMetric(t('Окупність','Payback'),r.paybackSeasons,t('сезонів','seasons'))}</dl>{r.capacity===null&&<p className="engineering-caption">{t('Для цієї вологості немає підтвердженої продуктивності.','No confirmed capacity for this moisture.')}</p>}<button className="button button-secondary" type="button" onClick={()=>onModelChange(m.id)} aria-pressed={m.id===model}>{t('Обрати','Select')} {m.name}<ArrowUpRight size={16}/></button></article>;
+  }
   function applyReference(cropId=draft.cropId) {
     const p = selected?.reference.find(p=>p.cropId===cropId);
     setDraft(d=>({...d,cropId,...(p ? {initialMoisture:String(p.input),finalMoisture:String(p.output)} : {})}));
@@ -172,27 +205,26 @@ export function Calculator({ en, model, onModelChange }: {en: boolean; model: st
         {checkbox('delayedSale',t('Порівняти продаж зараз і після зберігання','Compare immediate and delayed sale'))}
         {draft.delayedSale && <><div className="fields">{numeric('currentGrainPrice',t('Ціна продажу зараз, грн/т','Immediate sale price, UAH/t'))}{numeric('futureGrainPrice',t('Очікувана ціна після зберігання, грн/т','Expected later price, UAH/t'))}</div><p className="engineering-caption">{t('Різниця цін застосовується до маси після сушіння. Це припущення сценарію: продаж через елеватор зараз, власного зерна — пізніше. Витрати зберігання додайте вище.','Price difference applies to dried mass. Scenario assumption: immediate sale via elevator versus later sale of own grain. Include storage costs above.')}</p></>}
         </details>
-        <button type="button" className="button" disabled={result.status==='invalid'} onClick={()=>{document.getElementById('calculator-result')?.scrollIntoView({block:'start'});document.getElementById('calculator-result')?.focus({preventScroll:true});track('calculation_completed',{model,status:result.status});}}>{t('Переглянути результат','View results')}<ArrowUpRight size={18}/></button>
+        <button type="button" className="button" onClick={viewResults}>{t('Переглянути результат','View results')}<ArrowUpRight size={18}/></button>
       </div>
       <aside className="result engineering-result" id="calculator-result" tabIndex={-1} aria-label={t('Результати','Results')}>
         <p className="result-label">{t('Ваш сезон','Your season')}</p><h3>{selected?.name} <span>· {data.crops.find(c=>c.id===draft.cropId)?.[en?'en':'uk']}</span></h3>
         <p className="engineering-status">{result.status==='ready' ? t('Попередня оцінка','Preliminary estimate') : t('Доступний частковий розрахунок','Partial calculation available')}</p>
         {result.status==='invalid' ? <p className="error" role="alert">{warnings.INVALID_INPUT}</p> : <>
+          {result.own&&<figure className="engineering-balance"><figcaption>{t('Баланс власного зерна','Own grain balance')}<strong>{format(result.own.rawKg/1000)} {t('т до сушіння','t before drying')}</strong></figcaption><div className="engineering-balance-bar" aria-hidden="true"><span style={{width:(result.own.finalKg/result.own.rawKg*100)+'%'}}/><span style={{width:(result.own.waterKg/result.own.rawKg*100)+'%'}}/></div><div className="engineering-balance-key"><p><i/>{t('Після сушіння','After drying')}<b>{format(result.own.finalKg/1000)} {t('т','t')}</b></p><p><i/>{t('Видалена вода','Water removed')}<b>{format(result.own.waterKg/1000)} {t('т','t')}</b></p></div></figure>}
           <dl className="engineering-metrics" aria-live="polite">
-            {metric(t('Маса після сушіння','Mass after drying'),result.own ? result.own.finalKg/1000:null,t('т','t'))}
-            {metric(t('Видалена вода','Water removed'),result.own ? result.own.waterKg/1000:null,t('т','t'))}
             {metric(t('Продуктивність у цьому режимі','Capacity at this regime'),result.capacity,t('т/год','t/h'))}
             {metric(t('Власне зерно: час роботи','Own grain: operating time'),result.own?.hours,t('год','h'))}
           </dl>
           <dl className="engineering-metrics engineering-financial">
-            {metric(t('Собівартість сушіння','Drying cost'),result.own?.perTonne,t('грн/т','UAH/t'))}
-            {metric(t('Економія на власному зерні','Own grain savings'),result.savings,t('грн/сезон','UAH/season'))}
-            {draft.serviceEnabled && metric(t('Виручка від послуг (до витрат)','Service revenue (before costs)'),result.serviceRevenue,t('грн','UAH'))}
-            {draft.serviceEnabled && metric(t('Чистий прибуток від послуг','Net service profit'),result.serviceProfit,t('грн','UAH'))}
-            {draft.delayedSale && metric(t('Різниця виручки від продажу','Additional sale revenue'),result.priceRevenue,t('грн','UAH'))}
-            {metric(t('Загальний економічний ефект','Total economic effect'),result.economicEffect,t('грн/сезон','UAH/season'))}
-            {metric(t('Окупність','Payback'),result.paybackSeasons,t('сезонів','seasons'))}
-          </dl>
+            {financialMetric(t('Собівартість сушіння','Drying cost'),result.own?.perTonne,t('грн/т','UAH/t'))}
+            {financialMetric(t('Економія на власному зерні','Own grain savings'),result.savings,t('грн/сезон','UAH/season'))}
+            {draft.serviceEnabled && financialMetric(t('Виручка від послуг (до витрат)','Service revenue (before costs)'),result.serviceRevenue,t('грн','UAH'))}
+            {draft.serviceEnabled && financialMetric(t('Чистий прибуток від послуг','Net service profit'),result.serviceProfit,t('грн','UAH'))}
+            {draft.delayedSale && financialMetric(t('Різниця виручки від продажу','Additional sale revenue'),result.priceRevenue,t('грн','UAH'))}
+            {financialMetric(t('Загальний економічний ефект','Total economic effect'),result.economicEffect,t('грн/сезон','UAH/season'))}
+            {financialMetric(t('Окупність','Payback'),result.paybackSeasons,t('сезонів','seasons'))}
+          </dl>{[result.own?.perTonne,result.savings,result.economicEffect,result.paybackSeasons].some(v=>v==null)&&<p className="engineering-pending">{t('Для повної оцінки витрат та окупності ще потрібні параметри виробника або введені ціни. Доступні показники наведено вище.','A complete cost and payback estimate needs manufacturer parameters or entered prices. Available figures are shown above.')}</p>}
           {result.warnings.map(code=><p key={code} className="notice">{warnings[code]}</p>)}
           {result.missing.length>0 && <details className="engineering-details"><summary>{t('Що потрібно для повного розрахунку','What is needed for a complete calculation')} ({result.missing.length})</summary><ul>{result.missing.map(code=><li key={code}>{labels[code]}</li>)}</ul></details>}
           <p className="engineering-caption">{t('Маса розрахована без втрат сухої речовини. Продуктивність доступна лише для наданих виробником режимів. Прочерк означає відсутні дані, а не нульові витрати.','Mass assumes no dry-matter loss. Capacity is available only for manufacturer-supplied regimes. A dash means missing data, not zero costs.')}</p>
@@ -212,7 +244,7 @@ export function Calculator({ en, model, onModelChange }: {en: boolean; model: st
     <div className="scenario-tools"><button type="button" className="button button-secondary" onClick={share} disabled={result.status==='invalid'}>{t('Поділитися сценарієм','Share scenario')}</button><button type="button" className="text-link" onClick={()=>{setDraft(initial);onModelChange(data.models[0].id);setNotice('reset');setLink('');const u=new URL(location.href);u.searchParams.delete('engineering');u.searchParams.delete('scenario');history.replaceState(null,'',u);}}><RotateCcw size={16}/>{t('Скинути','Reset')}</button></div>
     {notice && <output>{notice==='copied'?t('Посилання скопійовано.','Link copied.'):notice==='reset'?t('Параметри скинуто.','Parameters reset.'):notice==='legacy'?t('Відновлено основні параметри старого сценарію. Логістику, ціни продажу та нові поля перевірте окремо.','Restored core values from your previous scenario. Review logistics, sale prices and new fields separately.'):notice==='pdf-error'?t('Не вдалося сформувати PDF. Спробуйте ще раз.','Could not generate PDF. Please retry.'):t('Не вдалося відновити сценарій із посилання.','Unable to restore the linked scenario.')}</output>}
     {link && <label className="field">{t('Скопіюйте посилання','Copy the link')}<input readOnly value={link} onFocus={e=>e.currentTarget.select()}/></label>}
-    {showComparison && <div id="engineering-comparison" className="engineering-comparison"><h3>{t('Моделі для ваших умов','Models for your scenario')}</h3><p className="engineering-caption">{t('Ті самі обсяги, культура й вологість. Ціни порівнюються лише з довідника моделей; введена вручну ціна обраної сушарки не переноситься на інші. Автопідбір ще не активний.','Same volumes, crop and moisture. Comparison uses model-specific catalogue prices only; your manually entered price is not applied to other models. Automatic recommendation is not active.')}</p><section className="comparison-scroll" aria-label={t('Порівняння моделей, прокрутіть горизонтально','Model comparison, scroll horizontally')}><table><thead><tr><th>{t('Модель','Model')}</th><th>{t('т/год','t/h')}</th><th>{t('Годин за сезон','Hours / season')}</th><th>{t('Сушіння, грн/т','Drying, UAH/t')}</th><th>{t('Окупність, сезонів','Payback, seasons')}</th><th>{t('Дія','Action')}</th></tr></thead><tbody>{data.models.map(compareRow)}</tbody></table></section></div>}
+    {showComparison && <div id="engineering-comparison" className="engineering-comparison"><h3>{t('Моделі для ваших умов','Models for your scenario')}</h3><p className="engineering-caption">{t('Ті самі обсяги, культура й вологість. Ціни порівнюються лише з довідника моделей; введена вручну ціна обраної сушарки не переноситься на інші. Автопідбір ще не активний.','Same volumes, crop and moisture. Comparison uses model-specific catalogue prices only; your manually entered price is not applied to other models. Automatic recommendation is not active.')}</p><div className="engineering-model-cards">{data.models.map(compareCard)}</div><section className="comparison-scroll engineering-comparison-table" aria-label={t('Порівняння моделей, прокрутіть горизонтально','Model comparison, scroll horizontally')}><table><thead><tr><th>{t('Модель','Model')}</th><th>{t('т/год','t/h')}</th><th>{t('Годин за сезон','Hours / season')}</th><th>{t('Сушіння, грн/т','Drying, UAH/t')}</th><th>{t('Окупність, сезонів','Payback, seasons')}</th><th>{t('Дія','Action')}</th></tr></thead><tbody>{data.models.map(compareRow)}</tbody></table></section></div>}
     <Dialog open={leadInput!==null} onOpenChange={open=>{if(!open)setLeadInput(null);}}><DialogContent className="engineering-lead-dialog"><DialogTitle>{t('Ваш персональний звіт','Your personalized report')}</DialogTitle><DialogDescription>{t('Розрахунок для обраних умов сезону.','Calculation for your seasonal conditions.')}</DialogDescription>{leadInput&&<EngineeringLead input={leadInput} en={en}/>}</DialogContent></Dialog>
   </section>;
 }
