@@ -3712,6 +3712,11 @@ html:not(.dark) :is(.technology-detail, .calculator .result, .site-footer, .capa
   background-image: none;
 }
 
+/* Distinct card surfaces on the white page. */
+html:not(.dark) :is(.company-grid article, .products article, .engineering-calculator .calc-group, .engineering-calculator .result) {
+  background-color: #e8ebee;
+  background-image: none;
+}
 /* Consistent editorial hierarchy and quieter product information. */
 .section h2 { font-size: clamp(30px, 3vw, 46px); line-height: 1.15; letter-spacing: -.035em; text-wrap: balance; }
 .company h3, .technology-detail h3, .network-intro h3 { font-size: clamp(21px, 1.8vw, 26px); line-height: 1.3; text-wrap: balance; }
