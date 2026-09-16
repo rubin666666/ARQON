@@ -52,6 +52,7 @@ export default function Home({
     [selectedModel, setSelectedModel] = useState(site.models[0].id),
     [calculatorOpen, setCalculatorOpen] = useState(false),
     [detailModel, setDetailModel] = useState<string|null>(null),
+    [allModels, setAllModels] = useState(false),
     [activeSection, setActiveSection] = useState('');
   useEffect(() => {
     document.documentElement.lang = initialEnglish ? 'en' : 'uk';
@@ -69,6 +70,17 @@ export default function Home({
     };
     update(); window.addEventListener('scroll',update,{passive:true}); window.addEventListener('resize',update);
     return ()=>{cancelAnimationFrame(frame);window.removeEventListener('scroll',update);window.removeEventListener('resize',update);};
+  },[]);
+  useEffect(()=>{
+    const revealModel=()=>{
+      const id=location.hash.slice(1);
+      if(site.models.findIndex(m=>m.id===id)>=3){
+        setAllModels(true);
+        requestAnimationFrame(()=>document.getElementById(id)?.scrollIntoView({block:'start'}));
+      }
+    };
+    revealModel();window.addEventListener('hashchange',revealModel);
+    return ()=>window.removeEventListener('hashchange',revealModel);
   },[]);
   function calculateModel(id:string) {
     setSelectedModel(id);
@@ -310,8 +322,8 @@ export default function Home({
             <p>{localText(site.productIntro, en)}</p>
           </div>
           <ModelExplorer en={en} onCalculate={calculateModel} />
-          <div className="products">
-            {site.models.map((m) => (
+          <div className="products" id="product-models">
+            {site.models.slice(0,allModels ? site.models.length : 3).map((m) => (
               <article key={m.id} id={m.id}>
                 <div className="model-top">
                   <span>{t('СЕРІЯ SAHARA', 'SAHARA SERIES')}</span>
@@ -349,6 +361,7 @@ export default function Home({
               </article>
             ))}
           </div>
+          <button type="button" className="button button-secondary compare-button" aria-expanded={allModels} aria-controls="product-models" onClick={()=>{setAllModels(value=>!value);if(allModels)document.getElementById('products')?.scrollIntoView({block:'start'});}}>{allModels?t('Згорнути моделі','Show fewer models'):t('Усі моделі','All models')+' ('+site.models.length+')'}<ArrowUpRight size={18}/></button>
         </section>
         <ModelDetails en={en} id={detailModel} onClose={()=>setDetailModel(null)} onCalculate={calculateModel} />
         <Technology en={en} />
