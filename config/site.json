@@ -159,8 +159,8 @@
       "id": "sahara-s9",
       "name": "S9",
       "capacity": {
-        "uk": "6 т/год — кукурудза, 25% → 15%, 120 °C",
-        "en": "6 t/h — corn, 25% → 15%, 120 °C"
+        "uk": "Продуктивність для оновлених режимів уточнюється",
+        "en": "Capacity for revised regimes pending confirmation"
       },
       "fuel": {
         "uk": "",
@@ -192,34 +192,34 @@
         {
           "id": "spec-0",
           "label": {
-            "uk": "Кукурудза: 25% → 15%, 120 °C",
-            "en": "Corn: 25% → 15%, 120 °C"
+            "uk": "Кукурудза: 25% → 14%, повітря 110–120 °C",
+            "en": "Corn: 25% → 14%, air 110–120 °C"
           },
           "value": {
-            "uk": "6 т/год",
-            "en": "6 t/h"
+            "uk": "Уточнюється",
+            "en": "Pending confirmation"
           }
         },
         {
           "id": "spec-1",
           "label": {
-            "uk": "Соняшник: 22% → 7%, 80 °C",
-            "en": "Sunflower: 22% → 7%, 80 °C"
+            "uk": "Соняшник: 20–22% → 6–7%, повітря 55–70 °C",
+            "en": "Sunflower: 20–22% → 6–7%, air 55–70 °C"
           },
           "value": {
-            "uk": "4 т/год",
-            "en": "4 t/h"
+            "uk": "Уточнюється",
+            "en": "Pending confirmation"
           }
         },
         {
           "id": "spec-2",
           "label": {
-            "uk": "Ріпак / канола: 13% → 9%, 80 °C",
-            "en": "Rapeseed / canola: 13% → 9%, 80 °C"
+            "uk": "Ріпак / канола: 18–20% → 7–8%, повітря 65–80 °C",
+            "en": "Rapeseed / canola: 18–20% → 7–8%, air 65–80 °C"
           },
           "value": {
-            "uk": "9 т/год",
-            "en": "9 t/h"
+            "uk": "Уточнюється",
+            "en": "Pending confirmation"
           }
         },
         {
@@ -353,6 +353,17 @@
             "uk": "0,55 кВт",
             "en": "0.55 kW"
           }
+        },
+        {
+          "id": "grain-temperature",
+          "label": {
+            "uk": "Температура зерна: кукурудза / соняшник / ріпак",
+            "en": "Grain temperature: corn / sunflower / rapeseed"
+          },
+          "value": {
+            "uk": "50–55 / 40–45 / 45–50 °C (верхні межі)",
+            "en": "50–55 / 40–45 / 45–50 °C (upper limits)"
+          }
         }
       ]
     },
@@ -360,8 +371,8 @@
       "id": "sahara-s10",
       "name": "S10",
       "capacity": {
-        "uk": "9 т/год — кукурудза, 25% → 15%, 120 °C",
-        "en": "9 t/h — corn, 25% → 15%, 120 °C"
+        "uk": "Продуктивність для оновлених режимів уточнюється",
+        "en": "Capacity for revised regimes pending confirmation"
       },
       "fuel": {
         "uk": "",
@@ -393,34 +404,34 @@
         {
           "id": "spec-0",
           "label": {
-            "uk": "Кукурудза: 25% → 15%, 120 °C",
-            "en": "Corn: 25% → 15%, 120 °C"
+            "uk": "Кукурудза: 25% → 14%, повітря 110–120 °C",
+            "en": "Corn: 25% → 14%, air 110–120 °C"
           },
           "value": {
-            "uk": "9 т/год",
-            "en": "9 t/h"
+            "uk": "Уточнюється",
+            "en": "Pending confirmation"
           }
         },
         {
           "id": "spec-1",
           "label": {
-            "uk": "Соняшник: 22% → 7%, 80 °C",
-            "en": "Sunflower: 22% → 7%, 80 °C"
+            "uk": "Соняшник: 20–22% → 6–7%, повітря 55–70 °C",
+            "en": "Sunflower: 20–22% → 6–7%, air 55–70 °C"
           },
           "value": {
-            "uk": "6 т/год",
-            "en": "6 t/h"
+            "uk": "Уточнюється",
+            "en": "Pending confirmation"
           }
         },
         {
           "id": "spec-2",
           "label": {
-            "uk": "Ріпак / канола: 13% → 9%, 80 °C",
-            "en": "Rapeseed / canola: 13% → 9%, 80 °C"
+            "uk": "Ріпак / канола: 18–20% → 7–8%, повітря 65–80 °C",
+            "en": "Rapeseed / canola: 18–20% → 7–8%, air 65–80 °C"
           },
           "value": {
-            "uk": "15 т/год",
-            "en": "15 t/h"
+            "uk": "Уточнюється",
+            "en": "Pending confirmation"
           }
         },
         {
@@ -554,6 +565,17 @@
             "uk": "0,75 кВт",
             "en": "0.75 kW"
           }
+        },
+        {
+          "id": "grain-temperature",
+          "label": {
+            "uk": "Температура зерна: кукурудза / соняшник / ріпак",
+            "en": "Grain temperature: corn / sunflower / rapeseed"
+          },
+          "value": {
+            "uk": "50–55 / 40–45 / 45–50 °C (верхні межі)",
+            "en": "50–55 / 40–45 / 45–50 °C (upper limits)"
+          }
         }
       ]
     },
@@ -561,8 +583,8 @@
       "id": "sahara-s12",
       "name": "S12",
       "capacity": {
-        "uk": "11 т/год — кукурудза, 25% → 15%, 120 °C",
-        "en": "11 t/h — corn, 25% → 15%, 120 °C"
+        "uk": "Продуктивність для оновлених режимів уточнюється",
+        "en": "Capacity for revised regimes pending confirmation"
       },
       "fuel": {
         "uk": "",
@@ -594,34 +616,34 @@
         {
           "id": "spec-0",
           "label": {
-            "uk": "Кукурудза: 25% → 15%, 120 °C",
-            "en": "Corn: 25% → 15%, 120 °C"
+            "uk": "Кукурудза: 25% → 14%, повітря 110–120 °C",
+            "en": "Corn: 25% → 14%, air 110–120 °C"
           },
           "value": {
-            "uk": "11 т/год",
-            "en": "11 t/h"
+            "uk": "Уточнюється",
+            "en": "Pending confirmation"
           }
         },
         {
           "id": "spec-1",
           "label": {
-            "uk": "Соняшник: 22% → 7%, 80 °C",
-            "en": "Sunflower: 22% → 7%, 80 °C"
+            "uk": "Соняшник: 20–22% → 6–7%, повітря 55–70 °C",
+            "en": "Sunflower: 20–22% → 6–7%, air 55–70 °C"
           },
           "value": {
-            "uk": "8 т/год",
-            "en": "8 t/h"
+            "uk": "Уточнюється",
+            "en": "Pending confirmation"
           }
         },
         {
           "id": "spec-2",
           "label": {
-            "uk": "Ріпак / канола: 13% → 9%, 80 °C",
-            "en": "Rapeseed / canola: 13% → 9%, 80 °C"
+            "uk": "Ріпак / канола: 18–20% → 7–8%, повітря 65–80 °C",
+            "en": "Rapeseed / canola: 18–20% → 7–8%, air 65–80 °C"
           },
           "value": {
-            "uk": "19 т/год",
-            "en": "19 t/h"
+            "uk": "Уточнюється",
+            "en": "Pending confirmation"
           }
         },
         {
@@ -755,6 +777,17 @@
             "uk": "0,75 кВт",
             "en": "0.75 kW"
           }
+        },
+        {
+          "id": "grain-temperature",
+          "label": {
+            "uk": "Температура зерна: кукурудза / соняшник / ріпак",
+            "en": "Grain temperature: corn / sunflower / rapeseed"
+          },
+          "value": {
+            "uk": "50–55 / 40–45 / 45–50 °C (верхні межі)",
+            "en": "50–55 / 40–45 / 45–50 °C (upper limits)"
+          }
         }
       ]
     },
@@ -762,8 +795,8 @@
       "id": "sahara-s13",
       "name": "S13",
       "capacity": {
-        "uk": "15 т/год — кукурудза, 25% → 15%, 120 °C",
-        "en": "15 t/h — corn, 25% → 15%, 120 °C"
+        "uk": "13 т/год — контрольний режим, кукурудза 25% → 14%",
+        "en": "13 t/h — control scenario, corn 25% → 14%"
       },
       "fuel": {
         "uk": "",
@@ -795,34 +828,34 @@
         {
           "id": "spec-0",
           "label": {
-            "uk": "Кукурудза: 25% → 15%, 120 °C",
-            "en": "Corn: 25% → 15%, 120 °C"
+            "uk": "Кукурудза: 25% → 14%, повітря 110–120 °C",
+            "en": "Corn: 25% → 14%, air 110–120 °C"
           },
           "value": {
-            "uk": "15 т/год",
-            "en": "15 t/h"
+            "uk": "13 т/год (контрольний режим)",
+            "en": "13 t/h (control scenario)"
           }
         },
         {
           "id": "spec-1",
           "label": {
-            "uk": "Соняшник: 22% → 7%, 80 °C",
-            "en": "Sunflower: 22% → 7%, 80 °C"
+            "uk": "Соняшник: 20–22% → 6–7%, повітря 55–70 °C",
+            "en": "Sunflower: 20–22% → 6–7%, air 55–70 °C"
           },
           "value": {
-            "uk": "10 т/год",
-            "en": "10 t/h"
+            "uk": "Уточнюється",
+            "en": "Pending confirmation"
           }
         },
         {
           "id": "spec-2",
           "label": {
-            "uk": "Ріпак / канола: 13% → 9%, 80 °C",
-            "en": "Rapeseed / canola: 13% → 9%, 80 °C"
+            "uk": "Ріпак / канола: 18–20% → 7–8%, повітря 65–80 °C",
+            "en": "Rapeseed / canola: 18–20% → 7–8%, air 65–80 °C"
           },
           "value": {
-            "uk": "23 т/год",
-            "en": "23 t/h"
+            "uk": "Уточнюється",
+            "en": "Pending confirmation"
           }
         },
         {
@@ -956,6 +989,17 @@
             "uk": "1,5 кВт",
             "en": "1.5 kW"
           }
+        },
+        {
+          "id": "grain-temperature",
+          "label": {
+            "uk": "Температура зерна: кукурудза / соняшник / ріпак",
+            "en": "Grain temperature: corn / sunflower / rapeseed"
+          },
+          "value": {
+            "uk": "50–55 / 40–45 / 45–50 °C (верхні межі)",
+            "en": "50–55 / 40–45 / 45–50 °C (upper limits)"
+          }
         }
       ]
     },
@@ -963,8 +1007,8 @@
       "id": "sahara-s16",
       "name": "S16",
       "capacity": {
-        "uk": "20 т/год — кукурудза, 25% → 15%, 120 °C",
-        "en": "20 t/h — corn, 25% → 15%, 120 °C"
+        "uk": "Продуктивність для оновлених режимів уточнюється",
+        "en": "Capacity for revised regimes pending confirmation"
       },
       "fuel": {
         "uk": "",
@@ -996,34 +1040,34 @@
         {
           "id": "spec-0",
           "label": {
-            "uk": "Кукурудза: 25% → 15%, 120 °C",
-            "en": "Corn: 25% → 15%, 120 °C"
+            "uk": "Кукурудза: 25% → 14%, повітря 110–120 °C",
+            "en": "Corn: 25% → 14%, air 110–120 °C"
           },
           "value": {
-            "uk": "20 т/год",
-            "en": "20 t/h"
+            "uk": "Уточнюється",
+            "en": "Pending confirmation"
           }
         },
         {
           "id": "spec-1",
           "label": {
-            "uk": "Соняшник: 22% → 7%, 80 °C",
-            "en": "Sunflower: 22% → 7%, 80 °C"
+            "uk": "Соняшник: 20–22% → 6–7%, повітря 55–70 °C",
+            "en": "Sunflower: 20–22% → 6–7%, air 55–70 °C"
           },
           "value": {
-            "uk": "13 т/год",
-            "en": "13 t/h"
+            "uk": "Уточнюється",
+            "en": "Pending confirmation"
           }
         },
         {
           "id": "spec-2",
           "label": {
-            "uk": "Ріпак / канола: 13% → 9%, 80 °C",
-            "en": "Rapeseed / canola: 13% → 9%, 80 °C"
+            "uk": "Ріпак / канола: 18–20% → 7–8%, повітря 65–80 °C",
+            "en": "Rapeseed / canola: 18–20% → 7–8%, air 65–80 °C"
           },
           "value": {
-            "uk": "30 т/год",
-            "en": "30 t/h"
+            "uk": "Уточнюється",
+            "en": "Pending confirmation"
           }
         },
         {
@@ -1157,6 +1201,17 @@
             "uk": "2,2 кВт",
             "en": "2.2 kW"
           }
+        },
+        {
+          "id": "grain-temperature",
+          "label": {
+            "uk": "Температура зерна: кукурудза / соняшник / ріпак",
+            "en": "Grain temperature: corn / sunflower / rapeseed"
+          },
+          "value": {
+            "uk": "50–55 / 40–45 / 45–50 °C (верхні межі)",
+            "en": "50–55 / 40–45 / 45–50 °C (upper limits)"
+          }
         }
       ]
     },
@@ -1164,8 +1219,8 @@
       "id": "sahara-s18",
       "name": "S18",
       "capacity": {
-        "uk": "30 т/год — кукурудза, 25% → 15%, 120 °C",
-        "en": "30 t/h — corn, 25% → 15%, 120 °C"
+        "uk": "Продуктивність для оновлених режимів уточнюється",
+        "en": "Capacity for revised regimes pending confirmation"
       },
       "fuel": {
         "uk": "",
@@ -1197,34 +1252,34 @@
         {
           "id": "spec-0",
           "label": {
-            "uk": "Кукурудза: 25% → 15%, 120 °C",
-            "en": "Corn: 25% → 15%, 120 °C"
+            "uk": "Кукурудза: 25% → 14%, повітря 110–120 °C",
+            "en": "Corn: 25% → 14%, air 110–120 °C"
           },
           "value": {
-            "uk": "30 т/год",
-            "en": "30 t/h"
+            "uk": "Уточнюється",
+            "en": "Pending confirmation"
           }
         },
         {
           "id": "spec-1",
           "label": {
-            "uk": "Соняшник: 22% → 7%, 80 °C",
-            "en": "Sunflower: 22% → 7%, 80 °C"
+            "uk": "Соняшник: 20–22% → 6–7%, повітря 55–70 °C",
+            "en": "Sunflower: 20–22% → 6–7%, air 55–70 °C"
           },
           "value": {
-            "uk": "20 т/год",
-            "en": "20 t/h"
+            "uk": "Уточнюється",
+            "en": "Pending confirmation"
           }
         },
         {
           "id": "spec-2",
           "label": {
-            "uk": "Ріпак / канола: 13% → 9%, 80 °C",
-            "en": "Rapeseed / canola: 13% → 9%, 80 °C"
+            "uk": "Ріпак / канола: 18–20% → 7–8%, повітря 65–80 °C",
+            "en": "Rapeseed / canola: 18–20% → 7–8%, air 65–80 °C"
           },
           "value": {
-            "uk": "40 т/год",
-            "en": "40 t/h"
+            "uk": "Уточнюється",
+            "en": "Pending confirmation"
           }
         },
         {
@@ -1357,6 +1412,17 @@
           "value": {
             "uk": "2,2 кВт",
             "en": "2.2 kW"
+          }
+        },
+        {
+          "id": "grain-temperature",
+          "label": {
+            "uk": "Температура зерна: кукурудза / соняшник / ріпак",
+            "en": "Grain temperature: corn / sunflower / rapeseed"
+          },
+          "value": {
+            "uk": "50–55 / 40–45 / 45–50 °C (верхні межі)",
+            "en": "50–55 / 40–45 / 45–50 °C (upper limits)"
           }
         }
       ]

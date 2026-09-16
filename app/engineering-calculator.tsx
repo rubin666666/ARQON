@@ -10,20 +10,20 @@ import { Dialog, DialogContent, DialogTitle, DialogDescription, DialogClose } fr
 import { site, localText, asset, track, readPreference, writePreference } from '@/lib/site';
 
 const data = rawData as EngineeringData;
-const initial = { cropId:'corn', volume:'1000', initialMoisture:'25', finalMoisture:'15', fuelId:'diesel', fuelPrice:'', electricityPrice:'',
+const initial = { cropId:'corn', volume:'1000', initialMoisture:'25', finalMoisture:'14', fuelId:'diesel', fuelPrice:'', electricityPrice:'',
   serviceEnabled:false, serviceVolume:'', serviceTariff:'', elevatorTariff:'', elevatorBasis:'tonne' as 'tonne' | 'tonne-point',
   elevatorOtherPerTonne:'0', ownOtherPerTonne:'0', delayedSale:false, currentGrainPrice:'', futureGrainPrice:'',
-  dryerPrice:'', installation:'', additionalInvestment:'0', availableHours:'' };
+  dryerPrice:'', installation:'', additionalInvestment:'0', availableHours:'', ambientTemperature:'20', operatorPerHour:'', maintenancePerSeason:'' };
 type Draft = typeof initial;
 type NumericKey = { [K in keyof Draft]: Draft[K] extends string ? K : never }[keyof Draft];
-const numericKeys = ['volume','initialMoisture','finalMoisture','fuelPrice','electricityPrice','serviceVolume','serviceTariff','elevatorTariff','elevatorOtherPerTonne','ownOtherPerTonne','currentGrainPrice','futureGrainPrice','dryerPrice','installation','additionalInvestment','availableHours'];
+const numericKeys = ['ambientTemperature','operatorPerHour','maintenancePerSeason','volume','initialMoisture','finalMoisture','fuelPrice','electricityPrice','serviceVolume','serviceTariff','elevatorTariff','elevatorOtherPerTonne','ownOtherPerTonne','currentGrainPrice','futureGrainPrice','dryerPrice','installation','additionalInvestment','availableHours'];
 function restore(raw: string | null): {draft: Draft; modelId: string} | null {
   if (!raw || raw.length > 6000) return null;
   try {
-    const value = JSON.parse(raw), d = value.draft;
+    const value = JSON.parse(raw), d = {...initial,...value.draft};
     if (value.version !== 2 || !d || !data.models.some(m => m.id === value.modelId) || !data.crops.some(c => c.id === d.cropId) || !data.fuels.some(f => f.id === d.fuelId)) return null;
     if (!['tonne','tonne-point'].includes(d.elevatorBasis) || typeof d.serviceEnabled !== 'boolean' || typeof d.delayedSale !== 'boolean') return null;
-    if (numericKeys.some(k => typeof d[k] !== 'string' || d[k].length > 18 || (d[k] !== '' && !/^\d+(?:[.,]\d+)?$/.test(d[k])))) return null;
+    if (numericKeys.some(k => typeof d[k] !== 'string' || d[k].length > 18 || (d[k] !== '' && !/^-?\d+(?:[.,]\d+)?$/.test(d[k])))) return null;
     return {modelId:value.modelId,draft:Object.fromEntries(Object.keys(initial).map(k => [k,d[k]])) as Draft};
   } catch { return null; }
 }
@@ -73,13 +73,14 @@ export function Calculator({ en, model, onModelChange, open, onOpenChange }: {en
     serviceVolume:number(draft.serviceVolume) ?? 0,serviceTariff:number(draft.serviceTariff),elevatorTariff:number(draft.elevatorTariff),elevatorBasis:draft.elevatorBasis,
     elevatorOtherPerTonne:number(draft.elevatorOtherPerTonne) ?? NaN,ownOtherPerTonne:number(draft.ownOtherPerTonne) ?? NaN,delayedSale:draft.delayedSale,
     currentGrainPrice:number(draft.currentGrainPrice),futureGrainPrice:number(draft.futureGrainPrice),dryerPrice:number(draft.dryerPrice),installation:number(draft.installation),
+    ambientTemperature:number(draft.ambientTemperature) ?? NaN,operatorPerHour:number(draft.operatorPerHour),maintenancePerSeason:number(draft.maintenancePerSeason),
     additionalInvestment:number(draft.additionalInvestment) ?? NaN,availableHours:number(draft.availableHours),
   };
   const result = calculateEngineering(input,data);
   const selected = data.models.find(m => m.id === model);
   const reference = selected?.reference.find(p => p.cropId === draft.cropId);
   const fuel = data.fuels.find(f => f.id === draft.fuelId)!;
-  const fuelUnit = fuel.unit === 'L' ? t('л','L') : t('м³','m³');
+  const fuelUnit = fuel.unit === 'L' ? t('л','L') : fuel.unit === 'kg' ? t('кг','kg') : t('м³','m³');
   const format = (value: number | null | undefined, digits=1) => value == null || !Number.isFinite(value) ? '—' : value.toLocaleString(en?'en-GB':'uk-UA',{maximumFractionDigits:digits});
   const labels: Record<string,string> = {
     CAPACITY_CURVE:t('Продуктивність для вибраної вологості','Capacity for the selected moisture'),
@@ -114,6 +115,7 @@ export function Calculator({ en, model, onModelChange, open, onOpenChange }: {en
     const value=number(draft[key]);
     if(value===null)return required || ['elevatorOtherPerTonne','ownOtherPerTonne','additionalInvestment'].includes(key)?t('Вкажіть значення.','Enter a value.'):'';
     if(!Number.isFinite(value))return t('Введіть коректне число.','Enter a valid number.');
+    if(key==='ambientTemperature')return value < -50 || value > 60 ? t('Від −50 до 60 °C.','From −50 to 60 °C.') : '';
     if(value<0)return t('Значення не може бути від’ємним.','Value cannot be negative.');
     if(['volume','serviceVolume','availableHours','serviceTariff'].includes(key)&&value===0)return t('Значення має бути більшим за нуль.','Value must be greater than zero.');
     if(['volume','serviceVolume'].includes(key)&&value>1e9)return t('Максимум — 1 000 000 000 т.','Maximum: 1,000,000,000 t.');
@@ -123,7 +125,7 @@ export function Calculator({ en, model, onModelChange, open, onOpenChange }: {en
   }
   function numeric(key: NumericKey, label: string, required=false) {
     const error=fieldError(key,required),hint=hints[key],id=`eng-${key}`;
-    return <div className="field"><label htmlFor={id}>{label}</label><input id={id} type="number" inputMode="decimal" min="0" step="any" required={required} value={draft[key]} aria-invalid={Boolean(error)} aria-describedby={[error?id+'-error':'',hint?id+'-hint':''].filter(Boolean).join(' ')||undefined} placeholder={required ? undefined : t('Не задано','Not provided')} onChange={e => set(key,e.target.value as Draft[typeof key])}/>{error&&<p id={id+'-error'} className="engineering-field-error" aria-live="polite">{error}</p>}{hint&&<details className="engineering-hint"><summary>{t('Пояснення','Help')}</summary><p id={id+'-hint'}>{hint}</p></details>}</div>;
+    return <div className="field"><label htmlFor={id}>{label}</label><input id={id} type="number" inputMode="decimal" min={key==='ambientTemperature'?-50:0} step="any" required={required} value={draft[key]} aria-invalid={Boolean(error)} aria-describedby={[error?id+'-error':'',hint?id+'-hint':''].filter(Boolean).join(' ')||undefined} placeholder={required ? undefined : t('Не задано','Not provided')} onChange={e => set(key,e.target.value as Draft[typeof key])}/>{error&&<p id={id+'-error'} className="engineering-field-error" aria-live="polite">{error}</p>}{hint&&<details className="engineering-hint"><summary>{t('Пояснення','Help')}</summary><p id={id+'-hint'}>{hint}</p></details>}</div>;
   }
   function viewResults() {
     if(result.status==='invalid') {
@@ -174,18 +176,20 @@ export function Calculator({ en, model, onModelChange, open, onOpenChange }: {en
       <div className="calculator-window-body">
     <div className="calculator">
       <div className="calc-fields" id="calculator-inputs">
+        <details className="engineering-hint"><summary>{t('Контрольний приклад S13','S13 control example')}</summary><p>{t('Приклад клієнта: 1 000 т кукурудзи 25 → 14%, дизель 60 грн/л, електроенергія 7 грн/кВт·год, оператор 300 грн/год. Обслуговування не включене (0). Це тестові умови, не комерційна пропозиція. За нагріву сухої речовини результат ≈ 572 грн/т; 581 грн/т у прикладі клієнта потребує уточнення бази нагріву.','Client example: 1,000 t corn at 25 → 14%, diesel 60 UAH/L, electricity 7 UAH/kWh, operator 300 UAH/h. Maintenance excluded (0). Test conditions, not a commercial offer. Heating dry matter yields about 572 UAH/t; the client’s 581 UAH/t needs clarification of the heating mass.')}</p><button type="button" className="text-link" onClick={()=>{onModelChange('sahara-s13');setDraft({...initial,fuelPrice:'60',electricityPrice:'7',operatorPerHour:'300',maintenancePerSeason:'0'});setNotice('');setLink('');}}>{t('Застосувати приклад','Apply example')}</button></details>
         <fieldset className="calc-group"><legend><Wheat size={18}/>{t('01 — Зерно та модель','01 — Grain and model')}</legend><div className="fields">
           {select('calc-model',t('Модель сушарки','Dryer model'),model,data.models.map(m=>({value:m.id,label:m.name})),onModelChange)}
           {select('calc-crop',t('Культура','Crop'),draft.cropId,data.crops.map(c=>({value:c.id,label:c[en?'en':'uk']})),applyReference)}
           {numeric('volume',t('Власне зерно за сезон, т','Own grain per season, t'),true)}
           {numeric('initialMoisture',t('Початкова вологість, %','Initial moisture, %'),true)}
           {numeric('finalMoisture',t('Кінцева вологість, %','Final moisture, %'),true)}
-        </div>{reference && <div className="engineering-reference"><p>{t('Еталон із таблиці виробника','Manufacturer reference')}: <b>{reference.input} → {reference.output}% · {reference.temperature} °C · {reference.capacity} {t('т/год','t/h')}</b></p><button type="button" className="text-link" onClick={()=>applyReference()}>{t('Застосувати еталонну вологість','Use reference moisture')}</button></div>}</fieldset>
+        </div>{reference && <div className="engineering-reference"><p>{t('Розрахунковий режим','Calculation regime')}: <b>{reference.input} → {reference.output}% · {reference.temperature} °C · {reference.status==='pending'?t('продуктивність уточнюється','capacity pending'):reference.capacity+' '+t('т/год (контрольний приклад)','t/h (control scenario)')}</b></p><button type="button" className="text-link" onClick={()=>applyReference()}>{t('Застосувати еталонну вологість','Use reference moisture')}</button></div>}</fieldset>
         <fieldset className="calc-group"><legend><Fuel size={18}/>{t('02 — Енергоносії','02 — Energy')}</legend><div className="fields">
           {select('eng-fuel',t('Паливо для розрахунку','Scenario fuel'),draft.fuelId,data.fuels.map(f=>({value:f.id,label:f[en?'en':'uk']})),value=>{setDraft(d=>({...d,fuelId:value,fuelPrice:''}));})}
           {numeric('fuelPrice',`${t('Ціна палива','Fuel price')}, ${t('грн','UAH')}/${fuelUnit}`)}
+          {numeric('ambientTemperature',t('Температура довкілля, °C','Ambient temperature, °C'),true)}
           {numeric('electricityPrice',t('Електроенергія, грн/кВт·год','Electricity, UAH/kWh'))}
-        </div><p className="engineering-caption">{t('Вибір палива задає сценарій; сумісність обладнання потребує підтвердження.','Fuel selection defines the scenario; equipment compatibility requires confirmation.')}</p>
+        </div><p className="engineering-caption">{t('ККД: газ і дизель — 90%, щепа — 65%. Тепловтрати 5%, потім рекуперація 20%. Початкова температура за замовчуванням 20 °C; нагрів сухої речовини до 50 °C. Для соняшнику тепловий розрахунок очікує уточнення температури (межа 45 °C). Витрата розрахункова, не паспортна.','Efficiency: gas/diesel 90%, wood chips 65%. Apply 5% losses, then 20% recovery. Default ambient temperature: 20 °C; dry matter heated to 50 °C. Sunflower heat calculation awaits clarification (45 °C limit). Consumption is calculated, not a rated specification.')}</p>
         </fieldset>
         <fieldset className="calc-group"><legend><CalculatorIcon size={18}/>{t('03 — Порівняння з елеватором','03 — Elevator comparison')}</legend><div className="fields">
           {select('eng-tariff-basis',t('Одиниця тарифу елеватора','Elevator billing unit'),draft.elevatorBasis,[{value:'tonne',label:t('грн/т вхідного зерна','UAH/t of incoming grain')},{value:'tonne-point',label:t('грн/т-% знятої вологості','UAH/t per moisture percentage point')}],value=>set('elevatorBasis',value as Draft['elevatorBasis']))}
@@ -204,6 +208,8 @@ export function Calculator({ en, model, onModelChange, open, onOpenChange }: {en
         <details className="engineering-details"><summary>{t('Витрати, сезон і продаж зерна','Costs, season and grain sales')}</summary><div className="fields">
           {numeric('elevatorOtherPerTonne',t('Елеватор: доставка, зберігання та інше, грн/т','Elevator: delivery, storage and other, UAH/t'))}
           {numeric('ownOtherPerTonne',t('Власна система: зберігання та інше, грн/т','Own system: storage and other, UAH/t'))}
+          {numeric('operatorPerHour',t('Оператор, грн/год','Operator, UAH/h'))}
+          {numeric('maintenancePerSeason',t('Обслуговування та постійні витрати, грн/сезон','Maintenance and fixed costs, UAH/season'))}
           {numeric('availableHours',t('Доступний час сезону, год (необов’язково)','Available seasonal hours (optional)'))}
         </div><p className="engineering-caption">{t('Додаткові витрати за весь сезон на тонну вхідного власного зерна; за замовчуванням не враховані (0).','Additional full-season costs per tonne of your incoming grain; excluded by default (0).')}</p>
         {checkbox('delayedSale',t('Порівняти продаж зараз і після зберігання','Compare immediate and delayed sale'))}
@@ -221,6 +227,7 @@ export function Calculator({ en, model, onModelChange, open, onOpenChange }: {en
             {metric(t('Власне зерно: час роботи','Own grain: operating time'),result.own?.hours,t('год','h'))}
           </dl>
           <dl className="engineering-metrics engineering-financial">
+            {financialMetric(t('Розрахункове паливо на тонну вхідного зерна','Calculated fuel per incoming tonne'),result.own?.fuelQuantity==null?null:result.own.fuelQuantity/input.volume,fuelUnit+t('/т','/t'))}
             {financialMetric(t('Собівартість сушіння','Drying cost'),result.own?.perTonne,t('грн/т','UAH/t'))}
             {financialMetric(t('Економія на власному зерні','Own grain savings'),result.savings,t('грн/сезон','UAH/season'))}
             {draft.serviceEnabled && financialMetric(t('Виручка від послуг (до витрат)','Service revenue (before costs)'),result.serviceRevenue,t('грн','UAH'))}

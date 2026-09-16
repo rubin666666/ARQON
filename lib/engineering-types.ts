@@ -6,17 +6,17 @@ export type EngineeringInput = {
   elevatorOtherPerTonne: number; ownOtherPerTonne: number;
   delayedSale: boolean; currentGrainPrice: number | null; futureGrainPrice: number | null;
   dryerPrice: number | null; installation: number | null; additionalInvestment: number;
-  availableHours: number | null;
+  availableHours: number | null; ambientTemperature?: number; operatorPerHour?: number | null; maintenancePerSeason?: number | null;
 };
 export type EngineeringData = {
-  version: string; waterHeat: number;
-  crops: { id: string; uk: string; en: string; grainHeat: number | null; latentHeat: number | null; waterDelta: number | null; grainDelta: number | null }[];
-  fuels: { id: string; uk: string; en: string; unit: string; heatingValue: number | null }[];
+  version: string; waterHeat: number; ambientTemperature?: number;
+  crops: { id: string; uk: string; en: string; grainHeat: number | null; latentHeat: number | null; waterDelta: number | null; grainDelta: number | null; finalGrainTemperature?: number | null; regime?: {input:number[];output:number[];air:number[];grain:number[]} }[];
+  fuels: { id: string; uk: string; en: string; unit: string; heatingValue: number | null; efficiency?: number }[];
   models: { id: string; name: string; price: number | null; installation: number | null;
     electricalPower: number | null; burnerPower: number | null; supportedFuels: string[] | null;
     thermalApproved: boolean; burnerEfficiency: number | null; lossFactor: number | null; recoveredFraction: number | null;
     operatorPerHour: number | null; maintenancePerHour: number | null; seasonalFixed: number | null;
-    reference: { cropId: string; input: number; output: number; temperature: number; capacity: number; source: string }[];
+    reference: { cropId: string; input: number; output: number; temperature: number; capacity: number; source: string; status?: string }[];
     correctionPoints: { cropId: string; input: number; output: number; capacity: number }[];
   }[];
 };

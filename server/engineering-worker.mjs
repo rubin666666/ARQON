@@ -4,6 +4,7 @@ import {calculateEngineering} from '../lib/engineering.mjs';
 import {createEngineeringReport} from '../lib/engineering-report.mjs';
 
 const inputKeys=['modelId','cropId','volume','initialMoisture','finalMoisture','fuelId','fuelPrice','electricityPrice','serviceEnabled','serviceVolume','serviceTariff','elevatorTariff','elevatorBasis','elevatorOtherPerTonne','ownOtherPerTonne','delayedSale','currentGrainPrice','futureGrainPrice','dryerPrice','installation','additionalInvestment','availableHours'];
+const optionalInputKeys=['ambientTemperature','operatorPerHour','maintenancePerSeason'];
 const hash=async value=>Array.from(new Uint8Array(await crypto.subtle.digest('SHA-256',new TextEncoder().encode(value)))).map(v=>v.toString(16).padStart(2,'0')).join('');
 const secureUrl=value=>typeof value==='string' && value.startsWith('https://');
 const missingNames={
@@ -14,7 +15,7 @@ const missingNames={
 const warningNames={SEASON_TOO_SHORT:['Недостатньо доступних годин сезону.','Insufficient available seasonal hours.'],THERMAL_POWER_INSUFFICIENT:['Недостатня теплова потужність моделі.','Insufficient model thermal power.'],NO_PAYBACK:['Окупність за цих умов не досягається.','Payback is not reached under these conditions.']};
 function snapshot(record) {
   const en=record.locale==='en',m=data.models.find(x=>x.id===record.input.modelId),c=data.crops.find(x=>x.id===record.input.cropId),f=data.fuels.find(x=>x.id===record.input.fuelId);
-  return {input:record.input,result:record.result,modelName:m.name,cropName:c[en?'en':'uk'],fuelName:f[en?'en':'uk'],fuelUnit:f.unit==='L'?(en?'L':'л'):'m³',
+  return {input:record.input,result:record.result,modelName:m.name,cropName:c[en?'en':'uk'],fuelName:f[en?'en':'uk'],fuelUnit:f.unit==='L'?(en?'L':'л'):f.unit==='kg'?(en?'kg':'кг'):'m³',
     missing:record.result.missing.map(k=>missingNames[k]?.[en?1:0]||k),warnings:record.result.warnings.map(k=>warningNames[k]?.[en?1:0]||k),
     clientName:record.lead?.contact.name,calculationId:record.id,createdAt:record.createdAt};
 }
@@ -45,7 +46,7 @@ export async function handleEngineering(request,env,fetcher=fetch) {
   try {
     if(route==='/api/calculations') {
       if(!body.input||typeof body.input!=='object'||!['uk','en'].includes(body.locale)||inputKeys.some(k=>!Object.hasOwn(body.input,k)))return reply({error:'invalid'},400);
-      const input=Object.fromEntries(inputKeys.map(k=>[k,body.input[k]]));
+      const input=Object.fromEntries([...inputKeys,...optionalInputKeys.filter(k=>Object.hasOwn(body.input,k))].map(k=>[k,body.input[k]]));
       if(typeof input.serviceEnabled!=='boolean'||typeof input.delayedSale!=='boolean')return reply({error:'invalid'},400);
       const result=calculateEngineering(input,data);if(result.status==='invalid')return reply({error:'invalid_input'},422);
       const id=crypto.randomUUID(),token=crypto.randomUUID()+crypto.randomUUID(),createdAt=new Date().toISOString();
