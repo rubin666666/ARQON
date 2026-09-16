@@ -3923,22 +3923,13 @@ html:not(.dark) :is(.company-grid article, .products article, .engineering-calcu
 
 .flow-dialog [data-slot='dialog-title'] {margin:0;padding-right:48px;}
 
-/* Full-window flow diagram with real zoom and scrollable detail. */
-.flow-viewer[data-slot="dialog-content"]{width:calc(100vw - 16px)!important;max-width:none!important;height:calc(100dvh - 16px);max-height:none!important;padding:12px!important;gap:10px;grid-template-rows:auto minmax(0,1fr) auto;overflow:hidden;border-radius:20px!important;background:var(--surface);}
-.flow-viewer-bar{display:flex;align-items:center;gap:20px;padding:0 56px 0 8px;min-height:48px;}
-.flow-viewer-bar [data-slot="dialog-title"]{font-size:18px;margin:0;line-height:1.3;}
-.flow-viewer-controls{display:flex;align-items:center;gap:6px;margin-left:auto;}
-.flow-viewer-controls button{display:flex;align-items:center;justify-content:center;gap:8px;min-width:44px;min-height:44px;border:1px solid var(--border);border-radius:12px;background:var(--background);color:inherit;cursor:pointer;}
-.flow-viewer-controls button:hover:not(:disabled){border-color:var(--primary);}
-.flow-viewer-controls button:disabled{opacity:.35;cursor:default;}
-.flow-viewer-controls output{min-width:48px;text-align:center;font-variant-numeric:tabular-nums;font-size:13px;}
-.flow-viewer-controls .flow-fit{padding:0 12px;}
-.flow-viewer-stage{min-height:0;overflow:auto;overscroll-behavior:contain;background:#171819;border-radius:14px;cursor:grab;touch-action:pan-x pan-y pinch-zoom;}
-.flow-viewer-stage:active{cursor:grabbing;}
-.flow-viewer-canvas{display:grid;place-items:center;min-width:100%;min-height:100%;width:max-content;}
-.flow-viewer-canvas img{display:block;flex-shrink:0;user-select:none;pointer-events:none;}
-.flow-viewer-legend{padding:2px 8px;}
-.flow-viewer-legend summary{cursor:pointer;font-size:13px;min-height:28px;}
-.flow-viewer-legend summary span{float:right;color:var(--muted);font-size:12px;}
-.flow-viewer-legend .flow-legend{padding:10px 0;max-height:22dvh;overflow:auto;}
-@media(max-width:680px){.flow-viewer[data-slot="dialog-content"]{padding:8px!important;border-radius:16px!important;}.flow-viewer-bar{flex-wrap:wrap;gap:8px;padding:0 48px 0 4px;}.flow-viewer-bar [data-slot="dialog-title"]{font-size:15px;width:100%;}.flow-viewer-controls{margin-left:0;}.flow-fit span{font-size:11px;}.flow-viewer-legend summary span{display:none;}}
+/* Static flow illustration and readable caption in both themes. */
+.flow-image {background:#171819;}
+.flow-image img {display:block;width:100%;height:auto;}
+.flow-figure figcaption {padding:26px 28px;background:var(--surface);color:var(--foreground);border-top:1px solid var(--border);}
+.flow-figure h3 {font-size:22px;font-weight:650;margin-bottom:20px;}
+.flow-figure .flow-legend {gap:16px 28px;}
+.flow-figure .flow-legend li {font-size:16px;font-weight:500;line-height:1.5;color:var(--foreground);}
+.flow-figure .flow-key {width:40px;height:32px;font-size:28px;}
+.flow-figure .visualization-note {font-size:14px;line-height:1.6;color:var(--foreground);margin-top:22px;}
+@media(max-width:680px){.flow-figure figcaption{padding:20px;}.flow-figure h3{font-size:20px;}.flow-figure .flow-legend{gap:14px;}}
