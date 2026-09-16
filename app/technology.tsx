@@ -45,7 +45,7 @@ export function Technology({en}:{en:boolean}){
 
 function FlowViewer({en,alt,legend}:{en:boolean;alt:string;legend:ReactNode}) {
  const t=(uk:string,english:string)=>en?english:uk;
- const stage=useRef<HTMLDivElement>(null);
+ const stage=useRef<HTMLElement>(null);
  const drag=useRef<{x:number;y:number;left:number;top:number}|null>(null);
  const [zoom,setZoom]=useState(1.25);
  const [fit,setFit]=useState({width:0,height:0});
@@ -74,12 +74,12 @@ function FlowViewer({en,alt,legend}:{en:boolean;alt:string;legend:ReactNode}) {
    </div>
    <DialogClose className="modal-close" aria-label={t('Закрити схему','Close diagram')}/>
   </div>
-  <div ref={stage} className="flow-viewer-stage" tabIndex={0} role="region" aria-label={t('Схема: перетягніть для перегляду деталей','Diagram: drag to explore details')}
+  <section ref={stage} className="flow-viewer-stage" aria-label={t('Схема: перетягніть для перегляду деталей','Diagram: drag to explore details')}
    onPointerDown={e=>{if(e.button!==0||e.pointerType==='touch')return;const el=e.currentTarget;drag.current={x:e.clientX,y:e.clientY,left:el.scrollLeft,top:el.scrollTop};el.setPointerCapture(e.pointerId);}}
    onPointerMove={e=>{const d=drag.current;if(d){e.currentTarget.scrollLeft=d.left+d.x-e.clientX;e.currentTarget.scrollTop=d.top+d.y-e.clientY;}}}
    onPointerUp={()=>{drag.current=null;}} onPointerCancel={()=>{drag.current=null;}} onLostPointerCapture={()=>{drag.current=null;}}>
    <div className="flow-viewer-canvas"><Image src={asset('/images/sahara-flow-v2.webp')} alt={alt} width={1536} height={864} draggable={false} style={{width:fit.width?fit.width*zoom:undefined,height:fit.height?fit.height*zoom:undefined,maxWidth:'none'}}/></div>
-  </div>
+  </section>
   <details className="flow-viewer-legend"><summary>{t('Пояснення потоків','Flow legend')}<span>{t('Збільшуйте кнопками + / − · Перетягуйте зображення','Zoom with + / − · Drag to explore')}</span></summary>{legend}</details>
  </>;
 }
