@@ -3826,3 +3826,43 @@ html:not(.dark) :is(.company-grid article, .products article, .engineering-calcu
 }
 
 .engineering-result {scroll-margin-top:110px;}
+
+/* Compact page entry and contained calculator dialog. */
+.calculator-launch-card {display:flex;align-items:center;justify-content:space-between;gap:28px;border:1px solid var(--border);border-radius:22px;padding:26px 30px;background:var(--surface);}
+.calculator-launch-card h2 {font-size:clamp(24px,2.3vw,32px);margin:8px 0 10px;}
+.calculator-launch-card p:not(.eyebrow) {max-width:620px;font-size:15px;line-height:1.6;color:var(--muted);}
+.calculator-launch-card .button {flex-shrink:0;}
+.calculator-window[data-slot="dialog-content"] {display:flex;flex-direction:column;gap:0;width:min(1120px,calc(100vw - 40px));max-width:1120px;max-height:90dvh;padding:0;border-radius:24px;overflow:hidden;background:var(--background);}
+.calculator-window-heading {display:flex;justify-content:space-between;align-items:center;gap:18px;padding:18px 22px;border-bottom:1px solid var(--border);flex-shrink:0;}
+.calculator-window-heading [data-slot="dialog-title"] {font-size:22px;line-height:1.3;margin:0;}
+.calculator-window-heading [data-slot="dialog-description"] {font-size:13px;color:var(--muted);margin-top:5px;}
+.calculator-window-heading .modal-close {position:relative;inset:auto;flex-shrink:0;}
+.calculator-window-body {overflow-y:auto;overscroll-behavior:contain;min-height:0;padding:20px 22px;scroll-padding:16px;}
+.calculator-window .calculator {display:grid;grid-template-columns:minmax(0,1.15fr) minmax(0,1fr);gap:18px;margin-top:0;align-items:start;}
+.calculator-window .calc-group {padding:14px;margin-bottom:14px;}
+.calculator-window .calc-group legend {font-size:14px;margin-bottom:8px;}
+.calculator-window .calc-fields .fields {gap:12px;}
+.calculator-window .field {font-size:13px;}
+.calculator-window .field > label,.calculator-window .field > span {margin-bottom:5px;}
+.calculator-window .field input,.calculator-window .field select {min-height:42px;padding:9px 10px;}
+.calculator-window .result {position:static;padding:18px;border-radius:16px;scroll-margin-top:16px;}
+.calculator-window .engineering-result h3 {font-size:22px;}
+.calculator-window .engineering-metrics {gap:12px;margin-block:16px;}
+.calculator-window .engineering-metrics dd {font-size:22px;}
+.calculator-window .engineering-caption {font-size:12px;margin:10px 0;}
+.calculator-window .engineering-balance {margin:14px 0;}
+.calculator-window .engineering-reference {padding:10px;margin-top:12px;}
+.calculator-window .engineering-details {margin-top:10px;padding-top:6px;}
+.calculator-window .engineering-pending {font-size:13px;padding:12px;margin:12px 0;}
+.calculator-window .button {min-height:44px;padding:10px 14px;font-size:13px;}
+.calculator-window .scenario-tools {margin-top:18px;}
+@media(max-width:760px){
+ .calculator-launch-card {flex-direction:column;align-items:stretch;padding:22px;gap:18px;}
+ .calculator-launch-card .button {justify-content:center;}
+ .calculator-window[data-slot="dialog-content"] {width:calc(100vw - 20px);max-height:calc(100dvh - 20px);border-radius:18px;}
+ .calculator-window-heading {padding:14px;gap:10px;}
+ .calculator-window-heading [data-slot="dialog-title"] {font-size:19px;}
+ .calculator-window-body {padding:14px;}
+ .calculator-window .calculator {grid-template-columns:1fr;gap:16px;}
+ .calculator-window .field input,.calculator-window .field select {font-size:16px;min-height:44px;}
+}

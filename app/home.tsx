@@ -50,6 +50,7 @@ export default function Home({
     [menu, M] = useState(false),
     [modal, O] = useState(''),
     [selectedModel, setSelectedModel] = useState(site.models[0].id),
+    [calculatorOpen, setCalculatorOpen] = useState(false),
     [detailModel, setDetailModel] = useState<string|null>(null),
     [activeSection, setActiveSection] = useState('');
   useEffect(() => {
@@ -71,7 +72,7 @@ export default function Home({
   },[]);
   function calculateModel(id:string) {
     setSelectedModel(id);
-    requestAnimationFrame(()=>{document.getElementById('calculator')?.scrollIntoView({block:'start'});document.getElementById('calc-model')?.focus({preventScroll:true});});
+    setCalculatorOpen(true);
   }
   const t = (a: string, b: string) => (en ? b : a);
   // Browser preferences are read after hydration to preserve matching server markup.
@@ -193,7 +194,7 @@ export default function Home({
             >
               ×
             </DialogClose>
-            <a className="button menu-calculator" href="#calculator" onClick={()=>M(false)}>{t('Розрахувати окупність','Calculate payback')} <ArrowUpRight size={18}/></a>
+            <a className="button menu-calculator" href="#calculator" onClick={()=>{M(false);setCalculatorOpen(true);}}>{t('Розрахувати окупність','Calculate payback')} <ArrowUpRight size={18}/></a>
             <nav className="menu-links">
               {nav.map(([id, label]) => (
                 <div key={id}>
@@ -238,7 +239,7 @@ export default function Home({
               )}
             </p>
             <div className="hero-links">
-              <a className="button" href="#calculator">
+              <a className="button" href="#calculator" onClick={()=>setCalculatorOpen(true)}>
                 {t('Розрахувати окупність', 'Calculate payback')}
                 <ArrowUpRight size={18} />
               </a>
@@ -337,7 +338,7 @@ export default function Home({
                     onClick={() => {
                       setSelectedModel(m.id);
                       history.replaceState(null, '', '#calculator');
-                      requestAnimationFrame(() => { document.getElementById('calculator')?.scrollIntoView({block: 'start'}); document.getElementById('calc-model')?.focus({preventScroll: true}); });
+                      setCalculatorOpen(true);
                       track('product_calculator', { model: m.id });
                     }}
                   >
@@ -351,7 +352,7 @@ export default function Home({
         </section>
         <ModelDetails en={en} id={detailModel} onClose={()=>setDetailModel(null)} onCalculate={calculateModel} />
         <Technology en={en} />
-        <Calculator en={en} model={selectedModel} onModelChange={setSelectedModel} />
+        <Calculator en={en} model={selectedModel} onModelChange={setSelectedModel} open={calculatorOpen} onOpenChange={setCalculatorOpen} />
         {site.equipmentPublished && <section id="equipment" className="section">
           <p className="eyebrow">{t('Додаткове обладнання', 'Optional equipment')}</p>
           <h2>

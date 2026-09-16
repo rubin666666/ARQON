@@ -6,7 +6,7 @@ import { parseScenario } from '@/lib/scenario';
 import { calculateEngineering } from '@/lib/engineering.mjs';
 import type { EngineeringData, EngineeringInput, EngineeringResult } from '@/lib/engineering-types';
 import { EngineeringLead } from './engineering-lead';
-import { Dialog, DialogContent, DialogTitle, DialogDescription } from '@/components/ui/dialog';
+import { Dialog, DialogContent, DialogTitle, DialogDescription, DialogClose } from '@/components/ui/dialog';
 import { site, localText, asset, track, readPreference, writePreference } from '@/lib/site';
 
 const data = rawData as EngineeringData;
@@ -28,7 +28,7 @@ function restore(raw: string | null): {draft: Draft; modelId: string} | null {
   } catch { return null; }
 }
 const number = (v: string) => v.trim() === '' ? null : Number(v.replace(',','.'));
-export function Calculator({ en, model, onModelChange }: {en: boolean; model: string; onModelChange: (model: string) => void}) {
+export function Calculator({ en, model, onModelChange, open, onOpenChange }: {en: boolean; model: string; onModelChange: (model: string) => void; open:boolean; onOpenChange:(open:boolean)=>void}) {
   const [leadInput,setLeadInput]=useState<EngineeringInput|null>(null);
   const t = (uk: string, english: string) => en ? english : uk;
   const [draft, setDraft] = useState<Draft>(initial);
@@ -42,6 +42,7 @@ export function Calculator({ en, model, onModelChange }: {en: boolean; model: st
   /* oxlint-disable react/react-compiler */
   useEffect(() => {
     const shared = new URLSearchParams(location.search).get('engineering');
+    if(shared || new URLSearchParams(location.search).has('scenario'))onOpenChange(true);
     const saved = restore(shared ?? readPreference('arqon-engineering-v2'));
     if (saved) { setDraft(saved.draft); onModelChange(saved.modelId); }
     if (shared && !saved) setNotice('invalid-link');
@@ -54,7 +55,7 @@ export function Calculator({ en, model, onModelChange }: {en: boolean; model: st
       } else if (legacyRaw) setNotice('invalid-link');
     }
     setLoaded(true);
-  }, [onModelChange]);
+  }, [onModelChange,onOpenChange]);
   /* oxlint-enable react/react-compiler */
   useEffect(() => {
     if (!loaded) return;
@@ -166,8 +167,11 @@ export function Calculator({ en, model, onModelChange }: {en: boolean; model: st
     const r: EngineeringResult = calculateEngineering({...input,modelId:m.id,dryerPrice:null,installation:null},data);
     return <tr key={m.id} aria-current={m.id===model ? 'true':undefined}><th scope="row">{m.name}{m.id===model && <small>{t('Обрана','Selected')}</small>}</th><td>{format(r.capacity)}</td><td>{format(r.totalHours)}</td><td>{format(r.own?.perTonne)}</td><td>{format(r.paybackSeasons)}</td><td><button type="button" className="text-link" onClick={()=>onModelChange(m.id)}>{t('Обрати','Select')} {m.name}</button></td></tr>;
   }
-  return <section id="calculator" className="section engineering-calculator">
-    <div className="section-heading"><div><p className="eyebrow">{t('Калькулятор ефективності','Efficiency calculator')}</p><h2>{t('Ваше зерно.','Your grain.')}<br/><em>{t('Економіка вашого сезону.','Your seasonal economics.')}</em></h2></div><p>{t('Від вологості та обсягу — до витрат і окупності. Заповніть параметри: доступні результати оновлюються одразу.','From moisture and volume to costs and payback. Enter your parameters: available results update immediately.')}</p></div>
+  return <section id="calculator" className="section calculator-launcher">
+    <div className="calculator-launch-card"><div><p className="eyebrow">{t('Калькулятор ефективності','Efficiency calculator')}</p><h2>{t('Порахуйте свій сезон','Calculate your season')}</h2><p>{t('Оберіть модель, порівняйте умови сушіння та збережіть результат у PDF.','Choose a model, compare drying scenarios and save your results as a PDF.')}</p></div><button type="button" id="calculator-launch" className="button" onClick={()=>onOpenChange(true)} aria-haspopup="dialog"><CalculatorIcon size={20}/>{t('Відкрити калькулятор','Open calculator')}<ArrowUpRight size={18}/></button></div>
+    <Dialog open={open} onOpenChange={value=>{if(!value)setLeadInput(null);onOpenChange(value);}}><DialogContent className="engineering-calculator calculator-window" showCloseButton={false}>
+      <div className="calculator-window-heading"><div><DialogTitle>{t('Калькулятор ефективності','Efficiency calculator')}</DialogTitle><DialogDescription>{t('Заповніть параметри — доступні результати оновлюються одразу.','Enter your parameters — available results update immediately.')}</DialogDescription></div><DialogClose className="modal-close" aria-label={t('Закрити калькулятор','Close calculator')}/></div>
+      <div className="calculator-window-body">
     <div className="calculator">
       <div className="calc-fields" id="calculator-inputs">
         <fieldset className="calc-group"><legend><Wheat size={18}/>{t('01 — Зерно та модель','01 — Grain and model')}</legend><div className="fields">
@@ -246,5 +250,6 @@ export function Calculator({ en, model, onModelChange }: {en: boolean; model: st
     {link && <label className="field">{t('Скопіюйте посилання','Copy the link')}<input readOnly value={link} onFocus={e=>e.currentTarget.select()}/></label>}
     {showComparison && <div id="engineering-comparison" className="engineering-comparison"><h3>{t('Моделі для ваших умов','Models for your scenario')}</h3><p className="engineering-caption">{t('Ті самі обсяги, культура й вологість. Ціни порівнюються лише з довідника моделей; введена вручну ціна обраної сушарки не переноситься на інші. Автопідбір ще не активний.','Same volumes, crop and moisture. Comparison uses model-specific catalogue prices only; your manually entered price is not applied to other models. Automatic recommendation is not active.')}</p><div className="engineering-model-cards">{data.models.map(compareCard)}</div><section className="comparison-scroll engineering-comparison-table" aria-label={t('Порівняння моделей, прокрутіть горизонтально','Model comparison, scroll horizontally')}><table><thead><tr><th>{t('Модель','Model')}</th><th>{t('т/год','t/h')}</th><th>{t('Годин за сезон','Hours / season')}</th><th>{t('Сушіння, грн/т','Drying, UAH/t')}</th><th>{t('Окупність, сезонів','Payback, seasons')}</th><th>{t('Дія','Action')}</th></tr></thead><tbody>{data.models.map(compareRow)}</tbody></table></section></div>}
     <Dialog open={leadInput!==null} onOpenChange={open=>{if(!open)setLeadInput(null);}}><DialogContent className="engineering-lead-dialog"><DialogTitle>{t('Ваш персональний звіт','Your personalized report')}</DialogTitle><DialogDescription>{t('Розрахунок для обраних умов сезону.','Calculation for your seasonal conditions.')}</DialogDescription>{leadInput&&<EngineeringLead input={leadInput} en={en}/>}</DialogContent></Dialog>
+      </div></DialogContent></Dialog>
   </section>;
 }
