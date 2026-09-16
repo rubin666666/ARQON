@@ -3957,6 +3957,7 @@ html:not(.dark) :is(.company-grid article, .products article, .engineering-calcu
 /* Mobile: keep the secondary link and illustration below the first viewport. */
 @media (max-width:680px) {
   .hero { row-gap:100px; }
-  .hero-copy { position:relative; min-height:calc(100svh - 100px); }
+  .hero-copy { position:relative; display:flex; flex-direction:column; min-height:calc(100svh - 100px); padding-bottom:max(24px, env(safe-area-inset-bottom)); }
+  .hero-copy .hero-links { margin-top:auto; padding-top:28px; flex-shrink:0; }
   .hero-links .text-link { position:absolute; top:100%; left:0; margin-top:28px; }
 }
