@@ -321,9 +321,10 @@ export default function Home({
             </div>
             <p>{localText(site.productIntro, en)}</p>
           </div>
-          <ModelExplorer en={en} onCalculate={calculateModel} />
+          {allModels && <ModelExplorer en={en} onCalculate={calculateModel} />}
+          {!allModels && <div className="product-previews">{site.models.slice(0,3).map(m=><button key={m.id} type="button" className="product-preview" aria-label={t('Відкрити галерею продуктів: ','Open product gallery: ')+m.name} aria-expanded={false} aria-controls="product-models" onClick={()=>setAllModels(true)}><Image src={asset(m.image || '/sahara.jpg')} width={240} height={240} alt={m.name} loading="lazy"/><span>{m.name}</span><ArrowUpRight size={18}/></button>)}</div>}
           <div className="products" id="product-models">
-            {site.models.slice(0,allModels ? site.models.length : 3).map((m) => (
+            {(allModels ? site.models : []).map((m) => (
               <article key={m.id} id={m.id}>
                 <div className="model-top">
                   <span>{t('СЕРІЯ SAHARA', 'SAHARA SERIES')}</span>
@@ -361,7 +362,7 @@ export default function Home({
               </article>
             ))}
           </div>
-          <button type="button" className="button button-secondary compare-button" aria-expanded={allModels} aria-controls="product-models" onClick={()=>{setAllModels(value=>!value);if(allModels)document.getElementById('products')?.scrollIntoView({block:'start'});}}>{allModels?t('Згорнути моделі','Show fewer models'):t('Усі моделі','All models')+' ('+site.models.length+')'}<ArrowUpRight size={18}/></button>
+          <button type="button" className="button button-secondary compare-button" aria-expanded={allModels} aria-controls="product-models" onClick={()=>{setAllModels(value=>!value);if(allModels)document.getElementById('products')?.scrollIntoView({block:'start'});}}>{allModels?t('Згорнути моделі','Show fewer models'):t('Галерея продуктів','Product gallery')+' ('+site.models.length+')'}<ArrowUpRight size={18}/></button>
         </section>
         <ModelDetails en={en} id={detailModel} onClose={()=>setDetailModel(null)} onCalculate={calculateModel} />
         <Technology en={en} />
