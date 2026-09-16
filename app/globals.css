@@ -3877,3 +3877,48 @@ html:not(.dark) :is(.company-grid article, .products article, .engineering-calcu
 .products:empty {display:none;}
 @media(prefers-reduced-motion:no-preference){.product-preview,.product-preview img,.product-preview svg {transition:transform .2s ease,border-color .2s ease,box-shadow .2s ease;}@media(hover:hover){.product-preview:hover {transform:translateY(-3px);border-color:var(--primary);box-shadow:var(--card-shadow-hover);}.product-preview:hover svg {transform:translate(2px,-2px);}}.product-preview:active {transform:scale(.98);}}
 @media(max-width:640px){.product-previews {gap:8px;}.product-preview {position:relative;flex-direction:column;gap:10px;padding:10px 8px;border-radius:14px;text-align:center;}.product-preview img {width:100%;max-width:110px;}.product-preview span {font-size:22px;}.product-preview svg {display:none;}}
+
+/* Company reading controls are mobile-only; desktop paragraphs stay visible. */
+.disclosure-mobile-button {display:none;}
+.mobile-disclosure-content {display:block;}
+.mobile-disclosure-content > p + p {margin-top:16px;}
+.company-grid .mobile-disclosure-content > p:first-child {color:var(--foreground);}
+.capabilities .mobile-disclosure-content > p {margin-bottom:24px;}
+.flow-figure {overflow:hidden;border:1px solid var(--border);border-radius:24px;background:var(--surface);}
+.flow-image-button {position:relative;display:block;width:100%;border:0;padding:0;background:#171819;cursor:zoom-in;}
+.flow-image-button img {display:block;width:100%;height:auto;}
+.flow-zoom {position:absolute;right:20px;bottom:20px;display:flex;gap:8px;align-items:center;padding:10px 14px;border-radius:24px;background:#171819d9;color:#fff;font-size:13px;}
+.flow-figure figcaption {padding:22px 26px;}
+.flow-figure h3 {font-size:18px;margin-bottom:16px;}
+.flow-legend {display:flex;flex-wrap:wrap;gap:12px 24px;list-style:none;margin:0;padding:0;}
+.flow-legend li {display:flex;align-items:center;gap:10px;font-size:14px;}
+.flow-key {display:grid;place-items:center;width:34px;height:26px;border-radius:7px;background:#171819;font-size:24px;font-weight:700;line-height:1;flex-shrink:0;}
+.flow-hot {color:#ff5750;}.flow-warm {color:#ffa347;}.flow-medium {color:#ffe26c;}.flow-cold {color:#65baff;}.flow-grain {color:#fff;}
+.visualization-note {margin-top:16px;font-size:12px;color:var(--muted);}
+.flow-dialog[data-slot="dialog-content"] {width:min(1200px,calc(100vw - 32px)) !important;max-width:1200px !important;max-height:92dvh;overflow:auto;padding:24px !important;}
+.flow-dialog > img {width:100%;height:auto;max-height:65dvh;object-fit:contain;border-radius:14px;background:#171819;}
+.product-context {position:relative;margin:20px 0 24px;overflow:hidden;border:1px solid var(--border);border-radius:22px;}
+.product-context img {width:100%;height:auto;max-height:390px;object-fit:cover;display:block;}
+.product-context figcaption {padding:12px 18px;font-size:12px;color:var(--muted);background:var(--surface);}
+.flow-image-button:focus-visible {outline:3px solid var(--primary);outline-offset:-4px;}
+@media(prefers-reduced-motion:no-preference){.disclosure-mobile-button svg,.flow-zoom {transition:transform .2s ease;}.disclosure-mobile-button[aria-expanded="true"] svg {transform:rotate(180deg);}@media(hover:hover){.flow-image-button:hover .flow-zoom {transform:translateY(-3px);}}}
+@media(max-width:680px){
+ .disclosure-desktop-title {display:none;}
+ .disclosure-mobile-button {display:flex;align-items:center;justify-content:space-between;gap:14px;width:100%;padding:6px 0;border:0;background:none;text-align:left;color:inherit;font:inherit;cursor:pointer;}
+ .disclosure-mobile-button svg {flex-shrink:0;color:var(--primary);}
+ .mobile-disclosure-heading {margin-bottom:0!important;}
+ .mobile-disclosure-content[data-expanded="false"] {display:none;}
+ .mobile-disclosure-content[data-expanded="true"] {padding-top:16px;}
+ .company-grid article {padding:18px;}.company-grid article::before {display:none;}
+ #company-expertise .technology-heading h2 {font-size:24px;}
+ .flow-figure {border-radius:18px;}.flow-figure figcaption {padding:18px;}.flow-legend {display:grid;grid-template-columns:1fr;gap:10px;}
+ .flow-zoom {right:10px;bottom:10px;padding:8px;font-size:0;gap:0;}
+ .flow-dialog[data-slot="dialog-content"] {padding:18px !important;}.flow-dialog > img {max-height:none;}
+ .product-context img {max-height:none;}
+}
+
+.products .model-photo img,.model-drawer .model-photo img {aspect-ratio:16/9;object-fit:contain;background:#171819;}
+.product-context img {object-fit:contain;background:#171819;}
+.product-preview img {aspect-ratio:16/9;}
+
+.flow-dialog [data-slot='dialog-title'] {margin:0;padding-right:48px;}

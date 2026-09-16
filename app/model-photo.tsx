@@ -8,7 +8,7 @@ export function ModelPhoto({ name, src, en }: { name: string; src: string; en: b
   const [open, setOpen] = useState(false);
   return <>
     <button type="button" className="model-photo" aria-label={`${en ? 'Enlarge image' : 'Збільшити зображення'} ${name}`} onClick={() => setOpen(true)}>
-      <Image width={1024} height={1024} src={asset(src || '/sahara.jpg')} alt={src ? name : `${name} — ${en ? 'shared series illustration' : 'спільна ілюстрація серії'}`} loading="lazy" />
+      <Image width={1024} height={1024} src={asset(src || '/images/sahara-product-v2.webp')} alt={src ? name : `${name} — ${en ? 'shared series illustration' : 'спільна ілюстрація серії'}`} loading="lazy" />
       <span className="model-photo-hint" aria-hidden="true">↗</span>
     </button>
     <Dialog open={open} onOpenChange={setOpen}>

@@ -322,7 +322,8 @@ export default function Home({
             <p>{localText(site.productIntro, en)}</p>
           </div>
           {allModels && <ModelExplorer en={en} onCalculate={calculateModel} />}
-          {!allModels && <div className="product-previews">{site.models.slice(0,3).map(m=><button key={m.id} type="button" className="product-preview" aria-label={t('Відкрити галерею продуктів: ','Open product gallery: ')+m.name} aria-expanded={false} aria-controls="product-models" onClick={()=>setAllModels(true)}><Image src={asset(m.image || '/sahara.jpg')} width={240} height={240} alt={m.name} loading="lazy"/><span>{m.name}</span><ArrowUpRight size={18}/></button>)}</div>}
+          {!allModels && <div className="product-previews">{site.models.slice(0,3).map(m=><button key={m.id} type="button" className="product-preview" aria-label={t('Відкрити галерею продуктів: ','Open product gallery: ')+m.name} aria-expanded={false} aria-controls="product-models" onClick={()=>setAllModels(true)}><Image src={asset(m.image || '/images/sahara-product-v2.webp')} width={240} height={240} alt={m.name} loading="lazy"/><span>{m.name}</span><ArrowUpRight size={18}/></button>)}</div>}
+          {allModels && <figure className="product-context"><Image src={asset('/images/sahara-context-v2.webp')} alt={t('Візуалізація сушарки SAHARA поруч із зерновим комплексом','Visualization of a SAHARA dryer alongside a grain facility')} width={1536} height={864} loading="lazy"/><figcaption>{t('SAHARA · Концептуальна візуалізація застосування','SAHARA · Conceptual application visualization')}</figcaption></figure>}
           <div className="products" id="product-models">
             {(allModels ? site.models : []).map((m) => (
               <article key={m.id} id={m.id}>
