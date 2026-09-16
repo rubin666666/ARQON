@@ -3933,3 +3933,23 @@ html:not(.dark) :is(.company-grid article, .products article, .engineering-calcu
 .flow-figure .flow-key {width:40px;height:32px;font-size:28px;}
 .flow-figure .visualization-note {font-size:14px;line-height:1.6;color:var(--foreground);margin-top:22px;}
 @media(max-width:680px){.flow-figure figcaption{padding:20px;}.flow-figure h3{font-size:20px;}.flow-figure .flow-legend{gap:14px;}}
+
+/* Keep international-network copy together instead of floating between sections. */
+.company .company-network-panel {margin-top:24px;padding:28px 30px;border:1px solid var(--border);border-radius:var(--radius-card);background:var(--surface);}
+.company-network-panel .mobile-disclosure-heading {margin:0 0 10px;max-width:none;}
+.company-network-panel .network-lead {max-width:76ch;margin:0;color:var(--muted);font-size:14px;line-height:1.65;}
+.company-network-panel .network-places {gap:24px;margin:24px 0;}
+.company-network-panel .network-places > div {padding:4px 12px 4px 18px;}
+.company-network-panel .network-places strong {margin-bottom:8px;font-size:20px;color:var(--primary);}
+.company-network-panel .network-places p {font-size:14px;line-height:1.65;}
+.company-network-panel .network-summary {max-width:none;margin:0;padding-top:18px;border-top:1px solid var(--border);font-size:13px;color:var(--muted);line-height:1.65;}
+@media(max-width:680px){.company .company-network-panel {margin-top:16px;padding:18px;}.company-network-panel .network-places {gap:18px;margin:20px 0;}.company-network-panel .network-summary {padding-top:16px;}}
+
+/* Editorial gallery introduction: full image, no letterboxing. */
+.product-context {display:grid;grid-template-columns:minmax(0,1.5fr) minmax(0,1fr);align-items:stretch;background:var(--surface);}
+.product-context img {display:block;width:100%;height:auto;max-height:none;object-fit:contain;align-self:center;background:none;}
+.product-context figcaption {display:flex;flex-direction:column;justify-content:center;align-items:flex-start;gap:16px;padding:clamp(24px,4vw,64px);background:var(--surface);color:var(--foreground);border-left:1px solid var(--border);}
+.product-context .eyebrow {margin:0;color:var(--primary);}
+.product-context h3 {font-size:clamp(24px,2.5vw,42px);line-height:1.12;max-width:16ch;margin:0;}
+.product-context figcaption p {font-size:14px;line-height:1.6;margin:0;color:var(--muted);}
+@media(max-width:680px){.product-context {grid-template-columns:1fr;}.product-context figcaption{padding:22px;border-left:0;border-top:1px solid var(--border);gap:12px;}.product-context h3{max-width:none;font-size:26px;}}

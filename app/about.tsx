@@ -29,20 +29,14 @@ export function About({ en }: { en: boolean }) {
           <p>{localText(site.approach.body, en)}</p></MobileDisclosure>
         </article>
       </div>
-      <p className="company-network-note">{localText(site.network.body, en)}</p>
-    </section>
-    <section id="network" className="section network">
-      <div className="network-intro">
-        <h3>{t('Міжнародна інженерно-виробнича мережа', 'International engineering network')}</h3>
-        <p>{localText(site.network.lead, en)}</p>
-      </div>
-      <div className="network-places">
-        {site.network.places.map((place) => (
-          <div key={place.name.en}>
-            <strong>{localText(place.name, en)}</strong>
-            <p>{localText(place.role, en)}</p>
+      <div id="network" className="network company-network-panel">
+        <MobileDisclosure title={t('Міжнародна інженерно-виробнича мережа', 'International engineering network')}>
+          <p className="network-lead">{localText(site.network.lead, en)}</p>
+          <div className="network-places">
+            {site.network.places.map(place=><div key={place.name.en}><strong>{localText(place.name,en)}</strong><p>{localText(place.role,en)}</p></div>)}
           </div>
-        ))}
+          <p className="network-summary">{localText(site.network.body,en)}</p>
+        </MobileDisclosure>
       </div>
     </section>
     <CompanyExpertise en={en} />
