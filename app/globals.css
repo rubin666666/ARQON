@@ -3962,3 +3962,15 @@ html:not(.dark) :is(.company-grid article, .products article, .engineering-calcu
   .hero-copy .hero-links { margin-top:0; padding-top:24px; flex-shrink:0; }
   .hero-links .text-link { position:absolute; top:100%; left:0; margin-top:28px; }
 }
+
+/* Mobile illustration fills the space between heading and description. */
+.hero-mobile-art {display:none;}
+@media(max-width:680px){
+ .hero {padding-bottom:140px;}
+ .hero > .hero-art {display:none;}
+ .hero-mobile-art {display:block;position:relative;flex:1 0 140px;min-height:140px;margin:0 0 18px;}
+ .hero-mobile-art img {position:absolute;inset:0;width:100%;height:100%;object-fit:contain;filter:invert(1);}
+ .dark .hero-mobile-art img {filter:none;}
+ .hero-copy > p:not(.eyebrow) {margin-top:0;}
+ .hero-copy h1 {margin-bottom:12px;}
+}

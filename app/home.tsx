@@ -244,6 +244,7 @@ export default function Home({
               <br />
               <em>SAHARA.</em>
             </h1>
+            <figure className="hero-mobile-art"><Image width={1024} height={1024} src={asset('/sahara-contour.png')} alt={t('Технічна ілюстрація зерносушарки SAHARA','SAHARA grain dryer technical illustration')} fetchPriority="high"/></figure>
             <p>
               {t(
                 'Зерносушарки SAHARA — обладнання Arqon, де інженерія, автоматизація й програмне забезпечення працюють як одна система.',
