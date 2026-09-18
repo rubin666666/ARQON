@@ -54,3 +54,13 @@ await test('workbook power values are consumed without a second 0.8 multiplier',
  const power=[19.76,38.96,45.2,70.4,92.48,136.16],burners=[800,1600,1600,2000,3400,6000];
  actual.models.forEach((m,i)=>{const r=calculateEngineering({...input,modelId:m.id},actual);assert.equal(m.electricalPower,power[i]);assert.equal(m.burnerPower,burners[i]);assert.equal(r.own.electricityKwh,r.own.hours*power[i]);});
 });
+
+await test('operator wages are optional farm costs and never part of investment',()=>{
+ const base={...input,maintenancePerSeason:0};
+ const excluded=calculateEngineering(base,actual), included=calculateEngineering({...base,operatorPerHour:300},actual);
+ assert.equal(excluded.own.operatorCost,0);
+ assert.equal(included.own.operatorCost,included.own.hours*300);
+ assert.ok(Math.abs(included.own.dryingCost-excluded.own.dryingCost-included.own.operatorCost)<1e-8);
+ assert.equal(excluded.investment,included.investment);
+ assert.equal(excluded.status,'ready');
+});

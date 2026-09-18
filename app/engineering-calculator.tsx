@@ -91,7 +91,7 @@ export function Calculator({ en, model, onModelChange, open, onOpenChange }: {en
     FUEL_COMPATIBILITY:t('Сумісність моделі з паливом','Model / fuel compatibility'),
     FUEL_HEATING_VALUE:t('Теплотворність палива','Fuel heating value'),
     THERMAL_PARAMETERS:t('Погоджені теплові параметри та ККД','Approved thermal parameters and efficiency'),
-    OPERATING_RATES:t('Вартість оператора й обслуговування','Operator and maintenance rates'),
+    OPERATING_RATES:t('Витрати на обслуговування','Maintenance costs'),
     ENERGY_PRICES:t('Ціни палива та електроенергії','Fuel and electricity prices'),
     BURNER_POWER:t('Сумарна теплова потужність','Total thermal power'),
     ELEVATOR_TARIFF:t('Тариф елеватора','Elevator tariff'),
@@ -107,6 +107,7 @@ export function Calculator({ en, model, onModelChange, open, onOpenChange }: {en
     NO_PAYBACK:t('За цих умов загальний економічний ефект не додатний — окупність не досягається.','The total economic effect is not positive under these conditions; payback is not reached.'),
   };
   const hints: Partial<Record<NumericKey,string>> = {
+    operatorPerHour:t('Витрата господарства, не частина ціни сушарки. Якщо поле порожнє, зарплата не враховується.','A farm operating expense, separate from the dryer price. Leave blank to exclude wages.'),
     volume:t('Маса власного зерна до сушіння за весь сезон.','Your incoming grain mass for the whole season.'),
     initialMoisture:t('Вологість зерна перед сушінням.','Grain moisture before drying.'),
     finalMoisture:t('Бажана вологість після сушіння; має бути нижчою за початкову.','Target moisture after drying; must be below initial moisture.'),
@@ -204,7 +205,7 @@ export function Calculator({ en, model, onModelChange, open, onOpenChange }: {en
           {numeric('dryerPrice',t('Вартість сушарки, грн','Dryer price, UAH'))}
           {numeric('installation',t('Монтаж, грн','Installation, UAH'))}
           {numeric('additionalInvestment',t('Інші інвестиції, грн','Additional investment, UAH'))}
-</div><p className="engineering-caption">{t('Вкажіть отримані ціни або залиште порожніми. Всі суми порівнюйте на однаковій основі щодо ПДВ.','Enter quoted prices or leave blank. Use the same VAT basis for all amounts.')}</p></details>
+</div><p className="engineering-caption">{t('Ціни обладнання уточнюються. Вкажіть отриману пропозицію або залиште поля порожніми. Комерційна пропозиція ARQON.UA діє 10 робочих днів. Всі суми порівнюйте на однаковій основі щодо ПДВ.','Equipment prices are pending. Enter a received quote or leave the fields blank. An ARQON.UA commercial offer is valid for 10 business days. Use the same VAT basis for all amounts.')}</p></details>
         <details className="engineering-details"><summary>{t('Послуги іншим господарствам','Services for other farms')}{draft.serviceEnabled && t(' · Увімкнено',' · Enabled')}</summary>
           {checkbox('serviceEnabled',t('Сушити зерно для інших господарств','Dry grain for other farms'))}
           {draft.serviceEnabled && <><div className="fields">{numeric('serviceVolume',t('Стороннє зерно за сезон, т','Service grain per season, t'),true)}{numeric('serviceTariff',t('Тариф послуги, грн/т вхідного зерна','Service tariff, UAH/t of incoming grain'))}</div><p className="engineering-caption">{t('Для послуги застосовується та сама культура й вологість. Виручка та прибуток рахуються окремо від власного зерна.','Service uses the same crop and moisture. Revenue and profit are separate from your own grain.')}</p></>}
@@ -212,7 +213,7 @@ export function Calculator({ en, model, onModelChange, open, onOpenChange }: {en
         <details className="engineering-details"><summary>{t('Витрати, сезон і продаж зерна','Costs, season and grain sales')}</summary><div className="fields">
           {numeric('elevatorOtherPerTonne',t('Елеватор: доставка, зберігання та інше, грн/т','Elevator: delivery, storage and other, UAH/t'))}
           {numeric('ownOtherPerTonne',t('Власна система: зберігання та інше, грн/т','Own system: storage and other, UAH/t'))}
-          {numeric('operatorPerHour',t('Оператор, грн/год','Operator, UAH/h'))}
+          {numeric('operatorPerHour',t('Оператор, грн/год (необов’язково)','Operator, UAH/h (optional)'))}
           {numeric('maintenancePerSeason',t('Обслуговування та постійні витрати, грн/сезон','Maintenance and fixed costs, UAH/season'))}
           {numeric('availableHours',t('Доступний час сезону, год (необов’язково)','Available seasonal hours (optional)'))}
         </div><p className="engineering-caption">{t('Додаткові витрати за весь сезон на тонну вхідного власного зерна; за замовчуванням не враховані (0).','Additional full-season costs per tonne of your incoming grain; excluded by default (0).')}</p>
@@ -242,7 +243,7 @@ export function Calculator({ en, model, onModelChange, open, onOpenChange }: {en
           </dl>{[result.own?.perTonne,result.savings,result.economicEffect,result.paybackSeasons].some(v=>v==null)&&<p className="engineering-pending">{t('Для повної оцінки витрат та окупності ще потрібні параметри виробника або введені ціни. Доступні показники наведено вище.','A complete cost and payback estimate needs manufacturer parameters or entered prices. Available figures are shown above.')}</p>}
           {result.warnings.map(code=><p key={code} className="notice">{warnings[code]}</p>)}
           {result.missing.length>0 && <details className="engineering-details"><summary>{t('Що потрібно для повного розрахунку','What is needed for a complete calculation')} ({result.missing.length})</summary><ul>{result.missing.map(code=><li key={code}>{labels[code]}</li>)}</ul></details>}
-          <p className="engineering-caption">{t('Маса розрахована без втрат сухої речовини. Продуктивність доступна лише для наданих виробником режимів. Прочерк означає відсутні дані, а не нульові витрати.','Mass assumes no dry-matter loss. Capacity is available only for manufacturer-supplied regimes. A dash means missing data, not zero costs.')}</p>
+          <p className="engineering-caption">{t('Амортизація не враховується. Зарплата оператора включається лише за наявності введеного тарифу. Маса розрахована без втрат сухої речовини. Продуктивність доступна лише для наданих виробником режимів. Прочерк означає відсутні дані, а не нульові витрати.','Depreciation is excluded. Operator wages are included only when a rate is entered. Mass assumes no dry-matter loss. Capacity is available only for manufacturer-supplied regimes. A dash means missing data, not zero costs.')}</p>
           <details className="engineering-details"><summary>{t('Матеріальний баланс та енергія','Material balance and energy')}</summary><dl className="engineering-metrics">
             {metric(t('Суха речовина','Dry matter'),result.own?.dryMatterKg,t('кг','kg'))}{metric(t('Потрібна енергія пальника','Required burner energy'),result.own?.burnerMJ,'MJ')}
             {metric(t('Паливо для власного зерна','Fuel for own grain'),result.own?.fuelQuantity,fuelUnit)}{metric(t('Електроенергія для власного зерна','Electricity for own grain'),result.own?.electricityKwh,t('кВт·год','kWh'))}
