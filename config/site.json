@@ -159,8 +159,8 @@
       "id": "sahara-s9",
       "name": "S9",
       "capacity": {
-        "uk": "Продуктивність для оновлених режимів уточнюється",
-        "en": "Capacity for revised regimes pending confirmation"
+        "uk": "6 т/год сухої кукурудзи · 25% → 15%",
+        "en": "6 t/h dried corn · 25% → 15%"
       },
       "fuel": {
         "uk": "",
@@ -192,34 +192,34 @@
         {
           "id": "spec-0",
           "label": {
-            "uk": "Кукурудза: 25% → 14%, повітря 110–120 °C",
-            "en": "Corn: 25% → 14%, air 110–120 °C"
+            "uk": "Кукурудза: 25% → 15%, повітря 120 °C",
+            "en": "Corn: 25% → 15%, air 120 °C"
           },
           "value": {
-            "uk": "Уточнюється",
-            "en": "Pending confirmation"
+            "uk": "6 т/год сухого зерна",
+            "en": "6 t/h dried grain"
           }
         },
         {
           "id": "spec-1",
           "label": {
-            "uk": "Соняшник: 20–22% → 6–7%, повітря 55–70 °C",
-            "en": "Sunflower: 20–22% → 6–7%, air 55–70 °C"
+            "uk": "Соняшник: 22% → 7%, повітря 70 °C",
+            "en": "Sunflower: 22% → 7%, air 70 °C"
           },
           "value": {
-            "uk": "Уточнюється",
-            "en": "Pending confirmation"
+            "uk": "4 т/год сухого зерна",
+            "en": "4 t/h dried grain"
           }
         },
         {
           "id": "spec-2",
           "label": {
-            "uk": "Ріпак / канола: 18–20% → 7–8%, повітря 65–80 °C",
-            "en": "Rapeseed / canola: 18–20% → 7–8%, air 65–80 °C"
+            "uk": "Ріпак / канола: 13% → 9%, повітря 80 °C",
+            "en": "Rapeseed / canola: 13% → 9%, air 80 °C"
           },
           "value": {
-            "uk": "Уточнюється",
-            "en": "Pending confirmation"
+            "uk": "9 т/год сухого зерна",
+            "en": "9 t/h dried grain"
           }
         },
         {
@@ -364,6 +364,28 @@
             "uk": "50–55 / 40–45 / 45–50 °C (верхні межі)",
             "en": "50–55 / 40–45 / 45–50 °C (upper limits)"
           }
+        },
+        {
+          "id": "electrical-working",
+          "label": {
+            "uk": "Розрахункова електрична потужність (коеф. 0,8 враховано)",
+            "en": "Calculated electrical power (0.8 factor included)"
+          },
+          "value": {
+            "uk": "19,76 кВт",
+            "en": "19.76 kW"
+          }
+        },
+        {
+          "id": "burner-total",
+          "label": {
+            "uk": "Сумарна потужність пальників",
+            "en": "Total burner output"
+          },
+          "value": {
+            "uk": "800 кВт",
+            "en": "800 kW"
+          }
         }
       ]
     },
@@ -371,8 +393,8 @@
       "id": "sahara-s10",
       "name": "S10",
       "capacity": {
-        "uk": "Продуктивність для оновлених режимів уточнюється",
-        "en": "Capacity for revised regimes pending confirmation"
+        "uk": "9 т/год сухої кукурудзи · 25% → 15%",
+        "en": "9 t/h dried corn · 25% → 15%"
       },
       "fuel": {
         "uk": "",
@@ -404,34 +426,34 @@
         {
           "id": "spec-0",
           "label": {
-            "uk": "Кукурудза: 25% → 14%, повітря 110–120 °C",
-            "en": "Corn: 25% → 14%, air 110–120 °C"
+            "uk": "Кукурудза: 25% → 15%, повітря 120 °C",
+            "en": "Corn: 25% → 15%, air 120 °C"
           },
           "value": {
-            "uk": "Уточнюється",
-            "en": "Pending confirmation"
+            "uk": "9 т/год сухого зерна",
+            "en": "9 t/h dried grain"
           }
         },
         {
           "id": "spec-1",
           "label": {
-            "uk": "Соняшник: 20–22% → 6–7%, повітря 55–70 °C",
-            "en": "Sunflower: 20–22% → 6–7%, air 55–70 °C"
+            "uk": "Соняшник: 22% → 7%, повітря 70 °C",
+            "en": "Sunflower: 22% → 7%, air 70 °C"
           },
           "value": {
-            "uk": "Уточнюється",
-            "en": "Pending confirmation"
+            "uk": "6 т/год сухого зерна",
+            "en": "6 t/h dried grain"
           }
         },
         {
           "id": "spec-2",
           "label": {
-            "uk": "Ріпак / канола: 18–20% → 7–8%, повітря 65–80 °C",
-            "en": "Rapeseed / canola: 18–20% → 7–8%, air 65–80 °C"
+            "uk": "Ріпак / канола: 13% → 9%, повітря 80 °C",
+            "en": "Rapeseed / canola: 13% → 9%, air 80 °C"
           },
           "value": {
-            "uk": "Уточнюється",
-            "en": "Pending confirmation"
+            "uk": "15 т/год сухого зерна",
+            "en": "15 t/h dried grain"
           }
         },
         {
@@ -576,6 +598,28 @@
             "uk": "50–55 / 40–45 / 45–50 °C (верхні межі)",
             "en": "50–55 / 40–45 / 45–50 °C (upper limits)"
           }
+        },
+        {
+          "id": "electrical-working",
+          "label": {
+            "uk": "Розрахункова електрична потужність (коеф. 0,8 враховано)",
+            "en": "Calculated electrical power (0.8 factor included)"
+          },
+          "value": {
+            "uk": "38,96 кВт",
+            "en": "38.96 kW"
+          }
+        },
+        {
+          "id": "burner-total",
+          "label": {
+            "uk": "Сумарна потужність пальників",
+            "en": "Total burner output"
+          },
+          "value": {
+            "uk": "1600 кВт",
+            "en": "1600 kW"
+          }
         }
       ]
     },
@@ -583,8 +627,8 @@
       "id": "sahara-s12",
       "name": "S12",
       "capacity": {
-        "uk": "Продуктивність для оновлених режимів уточнюється",
-        "en": "Capacity for revised regimes pending confirmation"
+        "uk": "11 т/год сухої кукурудзи · 25% → 15%",
+        "en": "11 t/h dried corn · 25% → 15%"
       },
       "fuel": {
         "uk": "",
@@ -616,34 +660,34 @@
         {
           "id": "spec-0",
           "label": {
-            "uk": "Кукурудза: 25% → 14%, повітря 110–120 °C",
-            "en": "Corn: 25% → 14%, air 110–120 °C"
+            "uk": "Кукурудза: 25% → 15%, повітря 120 °C",
+            "en": "Corn: 25% → 15%, air 120 °C"
           },
           "value": {
-            "uk": "Уточнюється",
-            "en": "Pending confirmation"
+            "uk": "11 т/год сухого зерна",
+            "en": "11 t/h dried grain"
           }
         },
         {
           "id": "spec-1",
           "label": {
-            "uk": "Соняшник: 20–22% → 6–7%, повітря 55–70 °C",
-            "en": "Sunflower: 20–22% → 6–7%, air 55–70 °C"
+            "uk": "Соняшник: 22% → 7%, повітря 70 °C",
+            "en": "Sunflower: 22% → 7%, air 70 °C"
           },
           "value": {
-            "uk": "Уточнюється",
-            "en": "Pending confirmation"
+            "uk": "8 т/год сухого зерна",
+            "en": "8 t/h dried grain"
           }
         },
         {
           "id": "spec-2",
           "label": {
-            "uk": "Ріпак / канола: 18–20% → 7–8%, повітря 65–80 °C",
-            "en": "Rapeseed / canola: 18–20% → 7–8%, air 65–80 °C"
+            "uk": "Ріпак / канола: 13% → 9%, повітря 80 °C",
+            "en": "Rapeseed / canola: 13% → 9%, air 80 °C"
           },
           "value": {
-            "uk": "Уточнюється",
-            "en": "Pending confirmation"
+            "uk": "19 т/год сухого зерна",
+            "en": "19 t/h dried grain"
           }
         },
         {
@@ -788,6 +832,28 @@
             "uk": "50–55 / 40–45 / 45–50 °C (верхні межі)",
             "en": "50–55 / 40–45 / 45–50 °C (upper limits)"
           }
+        },
+        {
+          "id": "electrical-working",
+          "label": {
+            "uk": "Розрахункова електрична потужність (коеф. 0,8 враховано)",
+            "en": "Calculated electrical power (0.8 factor included)"
+          },
+          "value": {
+            "uk": "45,2 кВт",
+            "en": "45.2 kW"
+          }
+        },
+        {
+          "id": "burner-total",
+          "label": {
+            "uk": "Сумарна потужність пальників",
+            "en": "Total burner output"
+          },
+          "value": {
+            "uk": "1600 кВт",
+            "en": "1600 kW"
+          }
         }
       ]
     },
@@ -795,8 +861,8 @@
       "id": "sahara-s13",
       "name": "S13",
       "capacity": {
-        "uk": "13 т/год — контрольний режим, кукурудза 25% → 14%",
-        "en": "13 t/h — control scenario, corn 25% → 14%"
+        "uk": "15 т/год сухої кукурудзи · 25% → 15%",
+        "en": "15 t/h dried corn · 25% → 15%"
       },
       "fuel": {
         "uk": "",
@@ -828,34 +894,34 @@
         {
           "id": "spec-0",
           "label": {
-            "uk": "Кукурудза: 25% → 14%, повітря 110–120 °C",
-            "en": "Corn: 25% → 14%, air 110–120 °C"
+            "uk": "Кукурудза: 25% → 15%, повітря 120 °C",
+            "en": "Corn: 25% → 15%, air 120 °C"
           },
           "value": {
-            "uk": "13 т/год (контрольний режим)",
-            "en": "13 t/h (control scenario)"
+            "uk": "15 т/год сухого зерна",
+            "en": "15 t/h dried grain"
           }
         },
         {
           "id": "spec-1",
           "label": {
-            "uk": "Соняшник: 20–22% → 6–7%, повітря 55–70 °C",
-            "en": "Sunflower: 20–22% → 6–7%, air 55–70 °C"
+            "uk": "Соняшник: 22% → 7%, повітря 70 °C",
+            "en": "Sunflower: 22% → 7%, air 70 °C"
           },
           "value": {
-            "uk": "Уточнюється",
-            "en": "Pending confirmation"
+            "uk": "10 т/год сухого зерна",
+            "en": "10 t/h dried grain"
           }
         },
         {
           "id": "spec-2",
           "label": {
-            "uk": "Ріпак / канола: 18–20% → 7–8%, повітря 65–80 °C",
-            "en": "Rapeseed / canola: 18–20% → 7–8%, air 65–80 °C"
+            "uk": "Ріпак / канола: 13% → 9%, повітря 80 °C",
+            "en": "Rapeseed / canola: 13% → 9%, air 80 °C"
           },
           "value": {
-            "uk": "Уточнюється",
-            "en": "Pending confirmation"
+            "uk": "23 т/год сухого зерна",
+            "en": "23 t/h dried grain"
           }
         },
         {
@@ -1000,6 +1066,28 @@
             "uk": "50–55 / 40–45 / 45–50 °C (верхні межі)",
             "en": "50–55 / 40–45 / 45–50 °C (upper limits)"
           }
+        },
+        {
+          "id": "electrical-working",
+          "label": {
+            "uk": "Розрахункова електрична потужність (коеф. 0,8 враховано)",
+            "en": "Calculated electrical power (0.8 factor included)"
+          },
+          "value": {
+            "uk": "70,4 кВт",
+            "en": "70.4 kW"
+          }
+        },
+        {
+          "id": "burner-total",
+          "label": {
+            "uk": "Сумарна потужність пальників",
+            "en": "Total burner output"
+          },
+          "value": {
+            "uk": "2000 кВт",
+            "en": "2000 kW"
+          }
         }
       ]
     },
@@ -1007,8 +1095,8 @@
       "id": "sahara-s16",
       "name": "S16",
       "capacity": {
-        "uk": "Продуктивність для оновлених режимів уточнюється",
-        "en": "Capacity for revised regimes pending confirmation"
+        "uk": "20 т/год сухої кукурудзи · 25% → 15%",
+        "en": "20 t/h dried corn · 25% → 15%"
       },
       "fuel": {
         "uk": "",
@@ -1040,34 +1128,34 @@
         {
           "id": "spec-0",
           "label": {
-            "uk": "Кукурудза: 25% → 14%, повітря 110–120 °C",
-            "en": "Corn: 25% → 14%, air 110–120 °C"
+            "uk": "Кукурудза: 25% → 15%, повітря 120 °C",
+            "en": "Corn: 25% → 15%, air 120 °C"
           },
           "value": {
-            "uk": "Уточнюється",
-            "en": "Pending confirmation"
+            "uk": "20 т/год сухого зерна",
+            "en": "20 t/h dried grain"
           }
         },
         {
           "id": "spec-1",
           "label": {
-            "uk": "Соняшник: 20–22% → 6–7%, повітря 55–70 °C",
-            "en": "Sunflower: 20–22% → 6–7%, air 55–70 °C"
+            "uk": "Соняшник: 22% → 7%, повітря 70 °C",
+            "en": "Sunflower: 22% → 7%, air 70 °C"
           },
           "value": {
-            "uk": "Уточнюється",
-            "en": "Pending confirmation"
+            "uk": "13 т/год сухого зерна",
+            "en": "13 t/h dried grain"
           }
         },
         {
           "id": "spec-2",
           "label": {
-            "uk": "Ріпак / канола: 18–20% → 7–8%, повітря 65–80 °C",
-            "en": "Rapeseed / canola: 18–20% → 7–8%, air 65–80 °C"
+            "uk": "Ріпак / канола: 13% → 9%, повітря 80 °C",
+            "en": "Rapeseed / canola: 13% → 9%, air 80 °C"
           },
           "value": {
-            "uk": "Уточнюється",
-            "en": "Pending confirmation"
+            "uk": "30 т/год сухого зерна",
+            "en": "30 t/h dried grain"
           }
         },
         {
@@ -1212,6 +1300,28 @@
             "uk": "50–55 / 40–45 / 45–50 °C (верхні межі)",
             "en": "50–55 / 40–45 / 45–50 °C (upper limits)"
           }
+        },
+        {
+          "id": "electrical-working",
+          "label": {
+            "uk": "Розрахункова електрична потужність (коеф. 0,8 враховано)",
+            "en": "Calculated electrical power (0.8 factor included)"
+          },
+          "value": {
+            "uk": "92,48 кВт",
+            "en": "92.48 kW"
+          }
+        },
+        {
+          "id": "burner-total",
+          "label": {
+            "uk": "Сумарна потужність пальників",
+            "en": "Total burner output"
+          },
+          "value": {
+            "uk": "3400 кВт",
+            "en": "3400 kW"
+          }
         }
       ]
     },
@@ -1219,8 +1329,8 @@
       "id": "sahara-s18",
       "name": "S18",
       "capacity": {
-        "uk": "Продуктивність для оновлених режимів уточнюється",
-        "en": "Capacity for revised regimes pending confirmation"
+        "uk": "30 т/год сухої кукурудзи · 25% → 15%",
+        "en": "30 t/h dried corn · 25% → 15%"
       },
       "fuel": {
         "uk": "",
@@ -1252,34 +1362,34 @@
         {
           "id": "spec-0",
           "label": {
-            "uk": "Кукурудза: 25% → 14%, повітря 110–120 °C",
-            "en": "Corn: 25% → 14%, air 110–120 °C"
+            "uk": "Кукурудза: 25% → 15%, повітря 120 °C",
+            "en": "Corn: 25% → 15%, air 120 °C"
           },
           "value": {
-            "uk": "Уточнюється",
-            "en": "Pending confirmation"
+            "uk": "30 т/год сухого зерна",
+            "en": "30 t/h dried grain"
           }
         },
         {
           "id": "spec-1",
           "label": {
-            "uk": "Соняшник: 20–22% → 6–7%, повітря 55–70 °C",
-            "en": "Sunflower: 20–22% → 6–7%, air 55–70 °C"
+            "uk": "Соняшник: 22% → 7%, повітря 70 °C",
+            "en": "Sunflower: 22% → 7%, air 70 °C"
           },
           "value": {
-            "uk": "Уточнюється",
-            "en": "Pending confirmation"
+            "uk": "20 т/год сухого зерна",
+            "en": "20 t/h dried grain"
           }
         },
         {
           "id": "spec-2",
           "label": {
-            "uk": "Ріпак / канола: 18–20% → 7–8%, повітря 65–80 °C",
-            "en": "Rapeseed / canola: 18–20% → 7–8%, air 65–80 °C"
+            "uk": "Ріпак / канола: 13% → 9%, повітря 80 °C",
+            "en": "Rapeseed / canola: 13% → 9%, air 80 °C"
           },
           "value": {
-            "uk": "Уточнюється",
-            "en": "Pending confirmation"
+            "uk": "40 т/год сухого зерна",
+            "en": "40 t/h dried grain"
           }
         },
         {
@@ -1423,6 +1533,28 @@
           "value": {
             "uk": "50–55 / 40–45 / 45–50 °C (верхні межі)",
             "en": "50–55 / 40–45 / 45–50 °C (upper limits)"
+          }
+        },
+        {
+          "id": "electrical-working",
+          "label": {
+            "uk": "Розрахункова електрична потужність (коеф. 0,8 враховано)",
+            "en": "Calculated electrical power (0.8 factor included)"
+          },
+          "value": {
+            "uk": "136,16 кВт",
+            "en": "136.16 kW"
+          }
+        },
+        {
+          "id": "burner-total",
+          "label": {
+            "uk": "Сумарна потужність пальників",
+            "en": "Total burner output"
+          },
+          "value": {
+            "uk": "6000 кВт",
+            "en": "6000 kW"
           }
         }
       ]

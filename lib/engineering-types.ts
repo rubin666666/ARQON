@@ -9,6 +9,7 @@ export type EngineeringInput = {
   availableHours: number | null; ambientTemperature?: number; operatorPerHour?: number | null; maintenancePerSeason?: number | null;
 };
 export type EngineeringData = {
+  fixedRegimes?: boolean;
   version: string; waterHeat: number; ambientTemperature?: number;
   crops: { id: string; uk: string; en: string; grainHeat: number | null; latentHeat: number | null; waterDelta: number | null; grainDelta: number | null; finalGrainTemperature?: number | null; regime?: {input:number[];output:number[];air:number[];grain:number[]} }[];
   fuels: { id: string; uk: string; en: string; unit: string; heatingValue: number | null; efficiency?: number }[];

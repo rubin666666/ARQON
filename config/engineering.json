@@ -1,7 +1,7 @@
 {
-  "version": "client-2026-09-16-v2",
+  "version": "client-2026-09-18",
   "waterHeat": 0.004186,
-  "notes": "Client corrections 16 September 2026. Sequential losses then recovery then fuel-system efficiency. Dry matter is heated. 20 C ambient default is a scenario assumption. Sunflower thermal calculation awaits resolution of 50 C versus maximum 45 C. Revised capacities other than S13 corn are unconfirmed. Prices, operator and maintenance examples are not catalogue rates.",
+  "notes": "Latest client workbook 2026-09-18 supersedes earlier regimes. Capacity is dried grain t/h. Electrical power is taken directly from column R, already adjusted by 0.8; never apply the factor again. Sunflower grain temperature 45 C confirmed. Prices and operating rates remain user inputs.",
   "crops": [
     {
       "id": "corn",
@@ -18,11 +18,11 @@
           25
         ],
         "output": [
-          14,
-          14
+          15,
+          15
         ],
         "air": [
-          110,
+          120,
           120
         ],
         "grain": [
@@ -38,19 +38,19 @@
       "grainHeat": 0.0016,
       "latentHeat": 2.26,
       "waterDelta": 0,
-      "grainDelta": null,
-      "finalGrainTemperature": null,
+      "grainDelta": 25,
+      "finalGrainTemperature": 45,
       "regime": {
         "input": [
-          20,
+          22,
           22
         ],
         "output": [
-          6,
+          7,
           7
         ],
         "air": [
-          55,
+          70,
           70
         ],
         "grain": [
@@ -70,15 +70,15 @@
       "finalGrainTemperature": 50,
       "regime": {
         "input": [
-          18,
-          20
+          13,
+          13
         ],
         "output": [
-          7,
-          8
+          9,
+          9
         ],
         "air": [
-          65,
+          80,
           80
         ],
         "grain": [
@@ -121,8 +121,8 @@
       "name": "S9",
       "price": null,
       "installation": null,
-      "electricalPower": null,
-      "burnerPower": null,
+      "electricalPower": 19.76,
+      "burnerPower": 800,
       "supportedFuels": [
         "diesel",
         "natural_gas",
@@ -139,11 +139,10 @@
         {
           "cropId": "corn",
           "input": 25,
-          "output": 14,
+          "output": 15,
           "temperature": 120,
           "capacity": 6,
-          "source": "Client corrections 2026-09-16; capacity pending for revised regime",
-          "status": "pending"
+          "source": "Характеристики_сушилок_по_моделям (2).xlsx, 2026-09-18"
         },
         {
           "cropId": "sunflower",
@@ -151,21 +150,19 @@
           "output": 7,
           "temperature": 70,
           "capacity": 4,
-          "source": "Client corrections 2026-09-16; capacity pending for revised regime",
-          "status": "pending"
+          "source": "Характеристики_сушилок_по_моделям (2).xlsx, 2026-09-18"
         },
         {
           "cropId": "rapeseed",
-          "input": 20,
-          "output": 8,
+          "input": 13,
+          "output": 9,
           "temperature": 80,
           "capacity": 9,
-          "source": "Client corrections 2026-09-16; capacity pending for revised regime",
-          "status": "pending"
+          "source": "Характеристики_сушилок_по_моделям (2).xlsx, 2026-09-18"
         }
       ],
       "correctionPoints": [],
-      "source": "Характеристики_сушилок_по_моделям.xlsx",
+      "source": "Характеристики_сушилок_по_моделям (2).xlsx, 2026-09-18",
       "previousReference": [
         {
           "cropId": "corn",
@@ -202,8 +199,8 @@
       "name": "S10",
       "price": null,
       "installation": null,
-      "electricalPower": null,
-      "burnerPower": null,
+      "electricalPower": 38.96,
+      "burnerPower": 1600,
       "supportedFuels": [
         "diesel",
         "natural_gas",
@@ -220,11 +217,10 @@
         {
           "cropId": "corn",
           "input": 25,
-          "output": 14,
+          "output": 15,
           "temperature": 120,
           "capacity": 9,
-          "source": "Client corrections 2026-09-16; capacity pending for revised regime",
-          "status": "pending"
+          "source": "Характеристики_сушилок_по_моделям (2).xlsx, 2026-09-18"
         },
         {
           "cropId": "sunflower",
@@ -232,21 +228,19 @@
           "output": 7,
           "temperature": 70,
           "capacity": 6,
-          "source": "Client corrections 2026-09-16; capacity pending for revised regime",
-          "status": "pending"
+          "source": "Характеристики_сушилок_по_моделям (2).xlsx, 2026-09-18"
         },
         {
           "cropId": "rapeseed",
-          "input": 20,
-          "output": 8,
+          "input": 13,
+          "output": 9,
           "temperature": 80,
           "capacity": 15,
-          "source": "Client corrections 2026-09-16; capacity pending for revised regime",
-          "status": "pending"
+          "source": "Характеристики_сушилок_по_моделям (2).xlsx, 2026-09-18"
         }
       ],
       "correctionPoints": [],
-      "source": "Характеристики_сушилок_по_моделям.xlsx",
+      "source": "Характеристики_сушилок_по_моделям (2).xlsx, 2026-09-18",
       "previousReference": [
         {
           "cropId": "corn",
@@ -283,8 +277,8 @@
       "name": "S12",
       "price": null,
       "installation": null,
-      "electricalPower": null,
-      "burnerPower": null,
+      "electricalPower": 45.2,
+      "burnerPower": 1600,
       "supportedFuels": [
         "diesel",
         "natural_gas",
@@ -301,11 +295,10 @@
         {
           "cropId": "corn",
           "input": 25,
-          "output": 14,
+          "output": 15,
           "temperature": 120,
           "capacity": 11,
-          "source": "Client corrections 2026-09-16; capacity pending for revised regime",
-          "status": "pending"
+          "source": "Характеристики_сушилок_по_моделям (2).xlsx, 2026-09-18"
         },
         {
           "cropId": "sunflower",
@@ -313,21 +306,19 @@
           "output": 7,
           "temperature": 70,
           "capacity": 8,
-          "source": "Client corrections 2026-09-16; capacity pending for revised regime",
-          "status": "pending"
+          "source": "Характеристики_сушилок_по_моделям (2).xlsx, 2026-09-18"
         },
         {
           "cropId": "rapeseed",
-          "input": 20,
-          "output": 8,
+          "input": 13,
+          "output": 9,
           "temperature": 80,
           "capacity": 19,
-          "source": "Client corrections 2026-09-16; capacity pending for revised regime",
-          "status": "pending"
+          "source": "Характеристики_сушилок_по_моделям (2).xlsx, 2026-09-18"
         }
       ],
       "correctionPoints": [],
-      "source": "Характеристики_сушилок_по_моделям.xlsx",
+      "source": "Характеристики_сушилок_по_моделям (2).xlsx, 2026-09-18",
       "previousReference": [
         {
           "cropId": "corn",
@@ -364,8 +355,8 @@
       "name": "S13",
       "price": null,
       "installation": null,
-      "electricalPower": 77,
-      "burnerPower": null,
+      "electricalPower": 70.4,
+      "burnerPower": 2000,
       "supportedFuels": [
         "diesel",
         "natural_gas",
@@ -382,11 +373,10 @@
         {
           "cropId": "corn",
           "input": 25,
-          "output": 14,
+          "output": 15,
           "temperature": 120,
-          "capacity": 13,
-          "source": "Client control scenario 2026-09-16 (calculated, not measured)",
-          "status": "control"
+          "capacity": 15,
+          "source": "Характеристики_сушилок_по_моделям (2).xlsx, 2026-09-18"
         },
         {
           "cropId": "sunflower",
@@ -394,21 +384,19 @@
           "output": 7,
           "temperature": 70,
           "capacity": 10,
-          "source": "Client corrections 2026-09-16; capacity pending for revised regime",
-          "status": "pending"
+          "source": "Характеристики_сушилок_по_моделям (2).xlsx, 2026-09-18"
         },
         {
           "cropId": "rapeseed",
-          "input": 20,
-          "output": 8,
+          "input": 13,
+          "output": 9,
           "temperature": 80,
           "capacity": 23,
-          "source": "Client corrections 2026-09-16; capacity pending for revised regime",
-          "status": "pending"
+          "source": "Характеристики_сушилок_по_моделям (2).xlsx, 2026-09-18"
         }
       ],
       "correctionPoints": [],
-      "source": "Характеристики_сушилок_по_моделям.xlsx",
+      "source": "Характеристики_сушилок_по_моделям (2).xlsx, 2026-09-18",
       "previousReference": [
         {
           "cropId": "corn",
@@ -445,8 +433,8 @@
       "name": "S16",
       "price": null,
       "installation": null,
-      "electricalPower": null,
-      "burnerPower": null,
+      "electricalPower": 92.48,
+      "burnerPower": 3400,
       "supportedFuels": [
         "diesel",
         "natural_gas",
@@ -463,11 +451,10 @@
         {
           "cropId": "corn",
           "input": 25,
-          "output": 14,
+          "output": 15,
           "temperature": 120,
           "capacity": 20,
-          "source": "Client corrections 2026-09-16; capacity pending for revised regime",
-          "status": "pending"
+          "source": "Характеристики_сушилок_по_моделям (2).xlsx, 2026-09-18"
         },
         {
           "cropId": "sunflower",
@@ -475,21 +462,19 @@
           "output": 7,
           "temperature": 70,
           "capacity": 13,
-          "source": "Client corrections 2026-09-16; capacity pending for revised regime",
-          "status": "pending"
+          "source": "Характеристики_сушилок_по_моделям (2).xlsx, 2026-09-18"
         },
         {
           "cropId": "rapeseed",
-          "input": 20,
-          "output": 8,
+          "input": 13,
+          "output": 9,
           "temperature": 80,
           "capacity": 30,
-          "source": "Client corrections 2026-09-16; capacity pending for revised regime",
-          "status": "pending"
+          "source": "Характеристики_сушилок_по_моделям (2).xlsx, 2026-09-18"
         }
       ],
       "correctionPoints": [],
-      "source": "Характеристики_сушилок_по_моделям.xlsx",
+      "source": "Характеристики_сушилок_по_моделям (2).xlsx, 2026-09-18",
       "previousReference": [
         {
           "cropId": "corn",
@@ -526,8 +511,8 @@
       "name": "S18",
       "price": null,
       "installation": null,
-      "electricalPower": null,
-      "burnerPower": null,
+      "electricalPower": 136.16,
+      "burnerPower": 6000,
       "supportedFuels": [
         "diesel",
         "natural_gas",
@@ -544,11 +529,10 @@
         {
           "cropId": "corn",
           "input": 25,
-          "output": 14,
+          "output": 15,
           "temperature": 120,
           "capacity": 30,
-          "source": "Client corrections 2026-09-16; capacity pending for revised regime",
-          "status": "pending"
+          "source": "Характеристики_сушилок_по_моделям (2).xlsx, 2026-09-18"
         },
         {
           "cropId": "sunflower",
@@ -556,21 +540,19 @@
           "output": 7,
           "temperature": 70,
           "capacity": 20,
-          "source": "Client corrections 2026-09-16; capacity pending for revised regime",
-          "status": "pending"
+          "source": "Характеристики_сушилок_по_моделям (2).xlsx, 2026-09-18"
         },
         {
           "cropId": "rapeseed",
-          "input": 20,
-          "output": 8,
+          "input": 13,
+          "output": 9,
           "temperature": 80,
           "capacity": 40,
-          "source": "Client corrections 2026-09-16; capacity pending for revised regime",
-          "status": "pending"
+          "source": "Характеристики_сушилок_по_моделям (2).xlsx, 2026-09-18"
         }
       ],
       "correctionPoints": [],
-      "source": "Характеристики_сушилок_по_моделям.xlsx",
+      "source": "Характеристики_сушилок_по_моделям (2).xlsx, 2026-09-18",
       "previousReference": [
         {
           "cropId": "corn",
@@ -603,5 +585,6 @@
       "fuel_consumption_actual": null
     }
   ],
-  "ambientTemperature": 20
+  "ambientTemperature": 20,
+  "fixedRegimes": true
 }
