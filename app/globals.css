@@ -4195,6 +4195,52 @@ html:not(.dark) :is(.company-grid article, .products article, .engineering-calcu
   .text-link svg { transition: none; }
 }
 
+/* Blueprint grid: a quiet technical layer behind the page content. */
+:root {
+  --technical-line: color-mix(in srgb, var(--foreground) 2.5%, transparent);
+  --technical-line-major: color-mix(in srgb, var(--foreground) 4.5%, transparent);
+}
+
+.dark {
+  --technical-line: color-mix(in srgb, var(--foreground) 2%, transparent);
+  --technical-line-major: color-mix(in srgb, var(--foreground) 3.5%, transparent);
+}
+
+html body {
+  background-image:
+    radial-gradient(ellipse 70% 45% at 88% 0%, var(--gradient-warm), transparent 72%),
+    radial-gradient(ellipse 55% 42% at 0% 100%, var(--gradient-cool), transparent 76%),
+    linear-gradient(var(--technical-line) 1px, transparent 1px),
+    linear-gradient(90deg, var(--technical-line) 1px, transparent 1px),
+    linear-gradient(var(--technical-line-major) 1px, transparent 1px),
+    linear-gradient(90deg, var(--technical-line-major) 1px, transparent 1px);
+  background-size: 40px 40px, 40px 40px, 200px 200px, 200px 200px;
+  background-attachment: fixed;
+}
+
+html:not(.dark) body {
+  background-image:
+    radial-gradient(ellipse 70% 45% at 88% 0%, #e8782910, transparent 72%),
+    radial-gradient(ellipse 55% 42% at 0% 100%, #74838e08, transparent 76%),
+    linear-gradient(var(--technical-line) 1px, transparent 1px),
+    linear-gradient(90deg, var(--technical-line) 1px, transparent 1px),
+    linear-gradient(var(--technical-line-major) 1px, transparent 1px),
+    linear-gradient(90deg, var(--technical-line-major) 1px, transparent 1px);
+  background-size: 100% 100%, 100% 100%, 40px 40px, 40px 40px, 200px 200px, 200px 200px;
+  background-attachment: fixed;
+}
+
+.benefits > div:not(:first-child) {
+  border-left: 1px solid color-mix(in srgb, var(--primary) 22%, var(--border));
+}
+
+@media (max-width: 1000px) {
+  .benefits > div:not(:first-child) {
+    border-left: 0;
+    border-top: 1px solid color-mix(in srgb, var(--primary) 22%, var(--border));
+  }
+}
+
 .calculator-step-controls { display: none; }
 .engineering-pdf-status { display: block; margin-top: 10px; color: var(--muted); font-size: 13px; }
 
