@@ -51,8 +51,9 @@ export default function Home({
     [modal, O] = useState(''),
     [selectedModel, setSelectedModel] = useState(site.models[0].id),
     [calculatorOpen, setCalculatorOpen] = useState(false),
+    [galleryOpen, setGalleryOpen] = useState(false),
     [detailModel, setDetailModel] = useState<string|null>(null),
-    [allModels, setAllModels] = useState(false),
+    [allModels] = useState(false),
     [activeSection, setActiveSection] = useState('');
   useEffect(() => {
     document.documentElement.lang = initialEnglish ? 'en' : 'uk';
@@ -85,7 +86,7 @@ export default function Home({
     const revealModel=()=>{
       const id=location.hash.slice(1);
       if(site.models.some(m=>m.id===id)){
-        setAllModels(true);
+        setGalleryOpen(true);
       }
     };
     revealModel();window.addEventListener('hashchange',revealModel);
@@ -234,7 +235,7 @@ export default function Home({
                         <a
                           key={m.id}
                           href={'#' + m.id}
-                          onClick={() => { M(false); setAllModels(true); }}
+                          onClick={() => { M(false); setGalleryOpen(true); }}
                         >
                           {m.name}
                         </a>
@@ -336,8 +337,8 @@ export default function Home({
             </div>
             <p>{localText(site.productIntro, en)}</p>
           </div>
-          {allModels && <ModelExplorer en={en} onCalculate={calculateModel} />}
-          {!allModels && <div className="product-previews">{site.models.slice(0,3).map(m=><button key={m.id} type="button" className="product-preview" aria-label={t('Відкрити галерею продуктів: ','Open product gallery: ')+m.name} aria-expanded={allModels} aria-controls="product-models" onClick={()=>setAllModels(true)}><Image src={asset(m.image || '/images/sahara-product-v2.webp')} width={240} height={240} alt={m.name} loading="lazy"/><span>{m.name}</span><ArrowUpRight size={18}/></button>)}</div>}
+          <ModelExplorer en={en} open={galleryOpen} onOpenChange={setGalleryOpen} onCalculate={calculateModel} />
+          {!allModels && <div className="product-previews">{site.models.slice(0,3).map(m=><button key={m.id} type="button" className="product-preview" aria-label={t('Відкрити галерею продуктів: ','Open product gallery: ')+m.name} aria-expanded={galleryOpen} aria-controls="model-gallery" onClick={()=>setGalleryOpen(true)}><Image src={asset(m.image || '/images/sahara-product-v2.webp')} width={240} height={240} alt={m.name} loading="lazy"/><span>{m.name}</span><ArrowUpRight size={18}/></button>)}</div>}
           {allModels && <figure className="product-context"><Image src={asset('/images/sahara-context-v2.webp')} alt={t('Візуалізація сушарки SAHARA поруч із зерновим комплексом','Visualization of a SAHARA dryer alongside a grain facility')} width={1536} height={864} loading="lazy"/><figcaption><span className="eyebrow">{t('Серія SAHARA','SAHARA series')}</span><h3>{t('Технологія для вашого врожаю','Technology for your harvest')}</h3><p>{t('Концептуальна візуалізація застосування','Conceptual application visualization')}</p></figcaption></figure>}
           <div className="products" id="product-models">
             {(allModels ? site.models : []).map((m) => (
@@ -378,7 +379,7 @@ export default function Home({
               </article>
             ))}
           </div>
-          <button type="button" className="button button-secondary compare-button" aria-expanded={allModels} aria-controls="product-models" onClick={()=>{setAllModels(value=>!value);if(allModels)document.getElementById('products')?.scrollIntoView({block:'start'});}}>{allModels?t('Згорнути моделі','Show fewer models'):t('Галерея продуктів','Product gallery')+' ('+site.models.length+')'}<ArrowUpRight size={18}/></button>
+          <button type="button" className="button button-secondary compare-button" aria-expanded={galleryOpen} aria-controls="model-gallery" onClick={()=>setGalleryOpen(true)}>{t('Галерея продуктів','Product gallery')+' ('+site.models.length+')'}<ArrowUpRight size={18}/></button>
         </section>
         <ModelDetails en={en} id={detailModel} onClose={()=>setDetailModel(null)} onCalculate={calculateModel} />
         <Technology en={en} />

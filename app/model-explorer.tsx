@@ -4,18 +4,22 @@ import { ModelPhoto } from './model-photo';
 import { Dialog, DialogContent, DialogTitle, DialogDescription, DialogClose } from '@/components/ui/dialog';
 import { site, asset, localText } from '@/lib/site';
 
-export function ModelExplorer({en,onCalculate}:{en:boolean;onCalculate:(id:string)=>void}) {
-  const [open,setOpen]=useState(false);
+export function ModelExplorer({en,onCalculate,open: controlledOpen,onOpenChange}: {en:boolean;onCalculate:(id:string)=>void;open?:boolean;onOpenChange?: (open:boolean)=>void}) {
+  const [localOpen,setLocalOpen]=useState(false);
+  const open=controlledOpen ?? localOpen;
+  const setOpen=(value:boolean)=>{setLocalOpen(value);onOpenChange?.(value);};
   const t=(uk:string,english:string)=>en?english:uk;
-  const available = site.models[0].specifications;
-  return <><button className="button button-secondary compare-button" onClick={()=>setOpen(true)}>{t('Порівняти моделі','Compare models')}</button>
-    <Dialog open={open} onOpenChange={setOpen}><DialogContent className="arqon-dialog comparison-dialog" showCloseButton={false}>
-      <DialogClose className="modal-close" aria-label={t('Закрити порівняння','Close comparison')}>×</DialogClose>
-      <DialogTitle>{t('Порівняння SAHARA','Compare SAHARA')}</DialogTitle>
-      <DialogDescription>{available.length ? t('Порівняйте опубліковані характеристики та оберіть модель для розрахунку.','Compare published specifications and choose a model for your calculation.') : t('Характеристики моделей очікують підтвердження ARQON. Поки можна обрати модель для свого сценарію.','Model specifications await ARQON confirmation. You can select a model for your scenario.')}</DialogDescription>
-      <div className="comparison-scroll" aria-label={t('Таблиця моделей','Model comparison table')}><table><thead><tr><th scope="col">{t('Параметр','Specification')}</th>{site.models.map(m=><th key={m.id} scope="col">{m.name}</th>)}</tr></thead><tbody>
-      {available.map(spec=><tr key={spec.id}><th scope="row">{localText(spec.label,en)}</th>{site.models.map(m=><td key={m.id}>{localText(m.specifications.find(s=>s.id===spec.id)!.value,en)}</td>)}</tr>)}
-      <tr><th scope="row">{t('Розрахунок','Calculation')}</th>{site.models.map(m=><td key={m.id}><button className="button button-secondary" onClick={()=>{setOpen(false);onCalculate(m.id);}}>{t('Обрати','Select')} {m.name}</button></td>)}</tr></tbody></table></div>
+  return <><button type="button" className="button button-secondary compare-button" onClick={()=>setOpen(true)}>{t('Галерея моделей','Model gallery')}</button>
+    <Dialog open={open} onOpenChange={setOpen}><DialogContent id="model-gallery" className="arqon-dialog gallery-dialog" showCloseButton={false}>
+      <DialogClose className="modal-close" aria-label={t('Закрити галерею','Close gallery')}>×</DialogClose>
+      <DialogTitle>{t('Моделі SAHARA','SAHARA models')}</DialogTitle>
+      <DialogDescription>{t('Оберіть модель, перегляньте доступні характеристики та відкрийте розрахунок.','Choose a model, review available specifications, and open the calculator.')}</DialogDescription>
+      <div className="gallery-grid">
+        {site.models.map(m=><article className="gallery-card" key={m.id}>
+          <ModelPhoto name={m.name} src={m.image} en={en} />
+          <div className="gallery-card-copy"><h3>{m.name}</h3><dl>{m.specifications.slice(0,3).map(spec=><div key={spec.id}><dt>{localText(spec.label,en)}</dt><dd>{localText(spec.value,en)}</dd></div>)}</dl><button type="button" className="button" onClick={()=>{setOpen(false);onCalculate(m.id);}}>{t('Розрахувати','Calculate')} {m.name}</button></div>
+        </article>)}
+      </div>
     </DialogContent></Dialog></>;
 }
 export function ModelDetails({en,id,onClose,onCalculate}:{en:boolean;id:string|null;onClose:()=>void;onCalculate:(id:string)=>void}) {
