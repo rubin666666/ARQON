@@ -4221,13 +4221,13 @@ html:not(.dark) body {
 }
 
 .benefits > div:not(:first-child) {
-  border-left: 1px solid color-mix(in srgb, var(--primary) 22%, var(--border));
+  border-left: 1px solid color-mix(in srgb, var(--foreground) 28%, var(--border));
 }
 
 @media (max-width: 1000px) {
   .benefits > div:not(:first-child) {
     border-left: 0;
-    border-top: 1px solid color-mix(in srgb, var(--primary) 22%, var(--border));
+    border-top: 1px solid color-mix(in srgb, var(--foreground) 28%, var(--border));
   }
 }
 
