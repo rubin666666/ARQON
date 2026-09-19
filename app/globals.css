@@ -3171,9 +3171,9 @@ html {
 }
 @media (min-width: 1600px) {
   .hero {
-    width: min(1920px, calc(100vw - 80px));
-    margin-left: 50%;
-    transform: translateX(-50%);
+    width: 100%;
+    margin-left: 0;
+    transform: none;
     padding-inline: 4%;
     grid-template-columns: minmax(0, 1fr) minmax(0, 1.1fr);
     gap: clamp(56px, 5vw, 120px);
