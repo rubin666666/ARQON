@@ -159,12 +159,6 @@ export default function Home({
               const v = !en;
               E(v);
               history.replaceState(null, '', `${localeUrl(v)}${location.search}${location.hash}`);
-              if (location.hash)
-                requestAnimationFrame(() =>
-                  document
-                    .getElementById(decodeURIComponent(location.hash.slice(1)))
-                    ?.scrollIntoView({ block: 'start' }),
-                );
             }}
             aria-label={en ? 'Українська' : 'English'}
           >
