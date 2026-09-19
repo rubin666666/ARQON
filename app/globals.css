@@ -4030,9 +4030,12 @@ html:not(.dark) :is(.company-grid article, .products article, .engineering-calcu
  .product-context img {max-height:none;}
 }
 
-.products .model-photo img,.model-drawer .model-photo img {aspect-ratio:16/9;object-fit:contain;background:#171819;}
+.products .model-photo img,.gallery-card .model-photo img,.model-drawer .model-photo img {aspect-ratio:16/9;object-fit:contain;background:transparent;}
 .product-context img {object-fit:contain;background:#171819;}
-.product-preview img {aspect-ratio:16/9;}
+.product-preview img {aspect-ratio:16/9;background:transparent;}
+.dark .products .model-photo img,
+.dark .gallery-card .model-photo img,
+.dark .product-preview img { mix-blend-mode: screen; }
 
 .flow-dialog [data-slot='dialog-title'] {margin:0;padding-right:48px;}
 
