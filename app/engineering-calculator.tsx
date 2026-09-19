@@ -43,6 +43,11 @@ export function Calculator({ en, model, onModelChange, open, onOpenChange }: {en
   const [pdfFile,setPdfFile]=useState<{url:string;filename:string;scenario:string;en:boolean}|null>(null);
   useEffect(()=>()=>{if(pdfFile)URL.revokeObjectURL(pdfFile.url);},[pdfFile]);
   const [showComparison, setShowComparison] = useState(false);
+  const [mobileStep, setMobileStep] = useState(0);
+  useEffect(()=>{
+    if(!open || mobileStep===0) return;
+    requestAnimationFrame(()=>document.querySelector<HTMLElement>(`#calculator-inputs [data-step="${mobileStep}"] input, #calculator-inputs [data-step="${mobileStep}"] select`)?.focus());
+  },[open,mobileStep]);
   /* oxlint-disable react/react-compiler */
   useEffect(() => {
     const shared = new URLSearchParams(location.search).get('engineering');
@@ -177,27 +182,33 @@ export function Calculator({ en, model, onModelChange, open, onOpenChange }: {en
   }
   return <section id="calculator" className="section calculator-launcher">
     <div className="calculator-launch-card"><div><p className="eyebrow">{t('Калькулятор ефективності','Efficiency calculator')}</p><h2>{t('Порахуйте свій сезон','Calculate your season')}</h2><p>{t('Оберіть модель, порівняйте умови сушіння та збережіть результат у PDF.','Choose a model, compare drying scenarios and save your results as a PDF.')}</p></div><button type="button" id="calculator-launch" className="button" onClick={()=>onOpenChange(true)} aria-haspopup="dialog"><CalculatorIcon size={20}/>{t('Відкрити калькулятор','Open calculator')}<ArrowUpRight size={18}/></button></div>
-    <Dialog open={open} onOpenChange={value=>{if(!value)setLeadInput(null);onOpenChange(value);}}><DialogContent className="engineering-calculator calculator-window" showCloseButton={false}>
+    <Dialog open={open} onOpenChange={value=>{if(!value){setLeadInput(null);setMobileStep(0);}onOpenChange(value);}}><DialogContent className="engineering-calculator calculator-window" showCloseButton={false}>
       <div className="calculator-window-heading"><div><DialogTitle>{t('Калькулятор ефективності','Efficiency calculator')}</DialogTitle><DialogDescription>{t('Заповніть параметри — доступні результати оновлюються одразу.','Enter your parameters — available results update immediately.')}</DialogDescription></div><DialogClose className="modal-close" aria-label={t('Закрити калькулятор','Close calculator')}/></div>
       <div className="calculator-window-body">
     <div className="calculator">
-      <div className="calc-fields" id="calculator-inputs">
+      <div className="calc-fields" id="calculator-inputs" data-mobile-step={mobileStep}>
+        <fieldset className="calculator-step-controls">
+          <legend className="sr-only">{t('Кроки калькулятора','Calculator steps')}</legend>
+          <output className="calculator-step-status" aria-live="polite" aria-current="step">{t(`Крок ${mobileStep + 1} з 3`,`Step ${mobileStep + 1} of 3`)}</output>
+          <button type="button" className="button button-secondary" disabled={mobileStep===0} onClick={() => setMobileStep(step => Math.max(0, step - 1))}>{t('Назад','Back')}</button>
+          {mobileStep < 2 && <button type="button" className="button" onClick={() => setMobileStep(step => Math.min(2, step + 1))}>{t('Далі','Next')}<ArrowUpRight size={18}/></button>}
+        </fieldset>
         <details className="engineering-hint"><summary>{t('Контрольний приклад S13','S13 control example')}</summary><p>{t('Тестовий сценарій за оновленою таблицею: 1 000 т кукурудзи 25 → 15%, дизель 60 грн/л, електроенергія 7 грн/кВт·год, оператор 300 грн/год. Обслуговування не включене (0). Це тестові умови, не комерційна пропозиція.','Test scenario using the updated workbook: 1,000 t corn at 25 → 15%, diesel 60 UAH/L, electricity 7 UAH/kWh, operator 300 UAH/h. Maintenance excluded (0). Test conditions, not a commercial offer.')}</p><button type="button" className="text-link" onClick={()=>{onModelChange('sahara-s13');setDraft({...initial,fuelPrice:'60',electricityPrice:'7',operatorPerHour:'300',maintenancePerSeason:'0'});setNotice('');setLink('');}}>{t('Застосувати приклад','Apply example')}</button></details>
-        <fieldset className="calc-group"><legend><Wheat size={18}/>{t('01 — Зерно та модель','01 — Grain and model')}</legend><div className="fields">
+        <fieldset className="calc-group" data-step="0"><legend><Wheat size={18}/>{t('01 — Зерно та модель','01 — Grain and model')}</legend><div className="fields">
           {select('calc-model',t('Модель сушарки','Dryer model'),model,data.models.map(m=>({value:m.id,label:m.name})),onModelChange)}
           {select('calc-crop',t('Культура','Crop'),draft.cropId,data.crops.map(c=>({value:c.id,label:c[en?'en':'uk']})),applyReference)}
           {numeric('volume',t('Власне зерно за сезон, т','Own grain per season, t'),true)}
           <div className="field"><label htmlFor="eng-initialMoisture">{t('Початкова вологість, %','Initial moisture, %')}</label><input id="eng-initialMoisture" value={draft.initialMoisture} readOnly aria-describedby="maximum-moisture"/><p id="maximum-moisture" className="engineering-caption">{t('У розрахунок взято максимально можливу вологість зерна для цього режиму.','The calculation uses the maximum incoming grain moisture for this regime.')}</p></div>
           <div className="field"><label htmlFor="eng-finalMoisture">{t('Кінцева вологість, %','Final moisture, %')}</label><input id="eng-finalMoisture" value={draft.finalMoisture} readOnly/></div>
         </div>{reference && <div className="engineering-reference"><p>{t('Розрахунковий режим','Calculation regime')}: <b>{reference.input} → {reference.output}% · {reference.temperature} °C · {reference.status==='pending'?t('продуктивність уточнюється','capacity pending'):reference.capacity+' '+t('т/год висушеного зерна','t/h dried grain')}</b></p></div>}</fieldset>
-        <fieldset className="calc-group"><legend><Fuel size={18}/>{t('02 — Енергоносії','02 — Energy')}</legend><div className="fields">
+        <fieldset className="calc-group" data-step="1"><legend><Fuel size={18}/>{t('02 — Енергоносії','02 — Energy')}</legend><div className="fields">
           {select('eng-fuel',t('Паливо для розрахунку','Scenario fuel'),draft.fuelId,data.fuels.map(f=>({value:f.id,label:f[en?'en':'uk']})),value=>{setDraft(d=>({...d,fuelId:value,fuelPrice:''}));})}
           {numeric('fuelPrice',`${t('Ціна палива','Fuel price')}, ${t('грн','UAH')}/${fuelUnit}`)}
           {numeric('ambientTemperature',t('Температура довкілля, °C','Ambient temperature, °C'),true)}
           {numeric('electricityPrice',t('Електроенергія, грн/кВт·год','Electricity, UAH/kWh'))}
         </div><p className="engineering-caption">{t('ККД: газ і дизель — 90%, щепа — 65%. Тепловтрати 5%, потім рекуперація 20%. Початкова температура за замовчуванням 20 °C; нагрів сухої речовини до 50 °C. Для соняшнику — до 45 °C. Електрична потужність уже враховує коефіцієнт 0,8. Витрата розрахункова, не паспортна.','Efficiency: gas/diesel 90%, wood chips 65%. Apply 5% losses, then 20% recovery. Default ambient temperature: 20 °C; dry matter heated to 50 °C. Sunflower is heated to 45 °C. Electrical power already includes the 0.8 factor. Consumption is calculated, not a rated specification.')}</p>
         </fieldset>
-        <fieldset className="calc-group"><legend><CalculatorIcon size={18}/>{t('03 — Порівняння з елеватором','03 — Elevator comparison')}</legend><div className="fields">
+        <fieldset className="calc-group" data-step="2"><legend><CalculatorIcon size={18}/>{t('03 — Порівняння з елеватором','03 — Elevator comparison')}</legend><div className="fields">
           {select('eng-tariff-basis',t('Одиниця тарифу елеватора','Elevator billing unit'),draft.elevatorBasis,[{value:'tonne',label:t('грн/т вхідного зерна','UAH/t of incoming grain')},{value:'tonne-point',label:t('грн/т-% знятої вологості','UAH/t per moisture percentage point')}],value=>set('elevatorBasis',value as Draft['elevatorBasis']))}
           {numeric('elevatorTariff',t('Тариф сушіння на елеваторі','Elevator drying tariff') + (draft.elevatorBasis==='tonne-point' ? t(', грн/т-%', ', UAH/t-%') : t(', грн/т', ', UAH/t')))}
 
@@ -223,7 +234,7 @@ export function Calculator({ en, model, onModelChange, open, onOpenChange }: {en
         </details>
         <button type="button" className="button" onClick={viewResults}>{t('Переглянути результат','View results')}<ArrowUpRight size={18}/></button>
       </div>
-      <aside className="result engineering-result" id="calculator-result" tabIndex={-1} aria-label={t('Результати','Results')}>
+      <aside className="result engineering-result" id="calculator-result" tabIndex={-1} aria-busy={pdfBusy} aria-label={t('Результати','Results')}>
         <p className="result-label">{t('Ваш сезон','Your season')}</p><h3>{selected?.name} <span>· {data.crops.find(c=>c.id===draft.cropId)?.[en?'en':'uk']}</span></h3>
         <p className="engineering-status">{result.status==='ready' ? t('Попередня оцінка','Preliminary estimate') : t('Доступний частковий розрахунок','Partial calculation available')}</p>
         {result.status==='invalid' ? <p className="error" role="alert">{result.warnings.map(k=>warnings[k] || warnings.INVALID_INPUT).join(' ')}</p> : <>
@@ -261,12 +272,13 @@ export function Calculator({ en, model, onModelChange, open, onOpenChange }: {en
         <button type="button" className="button button-secondary" disabled={pdfBusy || result.status==='invalid'} onClick={download}>{pdfBusy?t('Готуємо PDF…','Preparing PDF…'):t('Завантажити технічний підсумок','Download technical summary')}<Download size={18}/></button></div>
         {pdfFile&&pdfFile.scenario===serialized&&pdfFile.en===en&&<a className="text-link" href={pdfFile.url} download={pdfFile.filename}>{t('Зберегти останній сформований PDF','Save the last generated PDF')}</a>}
         <p className="engineering-caption">{t('Це підсумок доступних даних. Персональний комерційний PDF та надсилання на email будуть доступні після налаштування даних і сервісу доставки.','This summarizes available data. Personalized commercial PDF and email delivery require completed parameters and a configured delivery service.')}</p>
+      {pdfBusy && <output className="engineering-pdf-status" aria-live="polite">{t('Готуємо PDF…','Preparing PDF…')}</output>}
       </aside>
     </div>
     <div className="scenario-tools"><button type="button" className="button button-secondary" onClick={share} disabled={result.status==='invalid'}>{t('Поділитися сценарієм','Share scenario')}</button><button type="button" className="text-link" onClick={()=>{setDraft(initial);onModelChange(data.models[0].id);setNotice('reset');setLink('');const u=new URL(location.href);u.searchParams.delete('engineering');u.searchParams.delete('scenario');history.replaceState(null,'',u);}}><RotateCcw size={16}/>{t('Скинути','Reset')}</button></div>
     {notice && <output>{notice==='copied'?t('Посилання скопійовано.','Link copied.'):notice==='reset'?t('Параметри скинуто.','Parameters reset.'):notice==='legacy'?t('Відновлено основні параметри старого сценарію. Логістику, ціни продажу та нові поля перевірте окремо.','Restored core values from your previous scenario. Review logistics, sale prices and new fields separately.'):notice==='pdf-error'?t('Не вдалося сформувати PDF. Спробуйте ще раз.','Could not generate PDF. Please retry.'):t('Не вдалося відновити сценарій із посилання.','Unable to restore the linked scenario.')}</output>}
     {link && <label className="field">{t('Скопіюйте посилання','Copy the link')}<input readOnly value={link} onFocus={e=>e.currentTarget.select()}/></label>}
-    {showComparison && <div id="engineering-comparison" className="engineering-comparison"><h3>{t('Моделі для ваших умов','Models for your scenario')}</h3><p className="engineering-caption">{t('Ті самі обсяги, культура й вологість. Ціни порівнюються лише з довідника моделей; введена вручну ціна обраної сушарки не переноситься на інші. Автопідбір ще не активний.','Same volumes, crop and moisture. Comparison uses model-specific catalogue prices only; your manually entered price is not applied to other models. Automatic recommendation is not active.')}</p><div className="engineering-model-cards">{data.models.map(compareCard)}</div><section className="comparison-scroll engineering-comparison-table" aria-label={t('Порівняння моделей, прокрутіть горизонтально','Model comparison, scroll horizontally')}><table><thead><tr><th>{t('Модель','Model')}</th><th>{t('т/год','t/h')}</th><th>{t('Годин за сезон','Hours / season')}</th><th>{t('Сушіння, грн/т','Drying, UAH/t')}</th><th>{t('Окупність, сезонів','Payback, seasons')}</th><th>{t('Дія','Action')}</th></tr></thead><tbody>{data.models.map(compareRow)}</tbody></table></section></div>}
+    {showComparison && <div id="engineering-comparison" className="engineering-comparison"><h3>{t('Моделі для ваших умов','Models for your scenario')}</h3><p className="engineering-caption">{t('Ті самі обсяги, культура й вологість. Ціни порівнюються лише з довідника моделей; введена вручну ціна обраної сушарки не переноситься на інші. Автопідбір ще не активний.','Same volumes, crop and moisture. Comparison uses model-specific catalogue prices only; your manually entered price is not applied to other models. Automatic recommendation is not active.')}</p><div className="engineering-model-cards">{data.models.map(compareCard)}</div><section className="comparison-scroll engineering-comparison-table" aria-label={t('Порівняння моделей, прокрутіть горизонтально','Model comparison, scroll horizontally')}><table><caption className="sr-only">{t('Порівняння моделей сушарок','Dryer model comparison')}</caption><thead><tr><th scope="col">{t('Модель','Model')}</th><th scope="col">{t('т/год','t/h')}</th><th scope="col">{t('Годин за сезон','Hours / season')}</th><th scope="col">{t('Сушіння, грн/т','Drying, UAH/t')}</th><th scope="col">{t('Окупність, сезонів','Payback, seasons')}</th><th scope="col">{t('Дія','Action')}</th></tr></thead><tbody>{data.models.map(compareRow)}</tbody></table></section></div>}
     <Dialog open={leadInput!==null} onOpenChange={open=>{if(!open)setLeadInput(null);}}><DialogContent className="engineering-lead-dialog"><DialogTitle>{t('Ваш персональний звіт','Your personalized report')}</DialogTitle><DialogDescription>{t('Розрахунок для обраних умов сезону.','Calculation for your seasonal conditions.')}</DialogDescription>{leadInput&&<EngineeringLead input={leadInput} en={en}/>}</DialogContent></Dialog>
       </div></DialogContent></Dialog>
   </section>;

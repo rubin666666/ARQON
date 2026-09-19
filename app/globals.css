@@ -4194,3 +4194,43 @@ html:not(.dark) :is(.company-grid article, .products article, .engineering-calcu
   .button svg,
   .text-link svg { transition: none; }
 }
+
+.calculator-step-controls { display: none; }
+.engineering-pdf-status { display: block; margin-top: 10px; color: var(--muted); font-size: 13px; }
+
+@media (max-width: 680px) {
+  .calculator-step-controls {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 10px;
+    margin-bottom: 14px;
+  }
+
+  .calculator-step-status {
+    grid-column: 1 / -1;
+    color: var(--muted);
+    font-size: 12px;
+    text-align: center;
+  }
+
+  .calculator-step-controls .button {
+    width: 100%;
+    justify-content: center;
+  }
+
+  .calc-fields[data-mobile-step="0"] > [data-step]:not([data-step="0"]),
+  .calc-fields[data-mobile-step="1"] > [data-step]:not([data-step="1"]),
+  .calc-fields[data-mobile-step="2"] > [data-step]:not([data-step="2"]) {
+    display: none;
+  }
+
+  .calc-fields[data-mobile-step="0"] > .engineering-details,
+  .calc-fields[data-mobile-step="1"] > .engineering-details {
+    display: none;
+  }
+
+  .calc-fields[data-mobile-step="0"] > .button:not(.button-secondary),
+  .calc-fields[data-mobile-step="1"] > .button:not(.button-secondary) {
+    display: none;
+  }
+}

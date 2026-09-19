@@ -42,7 +42,7 @@ export function EngineeringLead({input,en}:{input:EngineeringInput;en:boolean}) 
     if(!session.current||lock.current)return;lock.current=true;setBusy(true);
     try {const response=await call('/api/calculations/report',{calculationId:session.current.id},session.current.token);const blob=await response.blob();const url=URL.createObjectURL(blob),a=document.createElement('a');a.href=url;a.download='ARQON-personal-report.pdf';document.body.appendChild(a);a.click();a.remove();setTimeout(()=>URL.revokeObjectURL(url),30000);}catch{setMessage(t('Не вдалося завантажити PDF. Спробуйте ще раз.','Unable to download PDF. Please retry.'));}finally{lock.current=false;setBusy(false);}
   }
-  return <form className="engineering-lead" onSubmit={submit}>
+  return <form className="engineering-lead" onSubmit={submit} aria-busy={busy}>
     <p>{t('Збережемо ваш розрахунок разом із заявкою. Достатньо одного обраного каналу зв’язку.','We will save your calculation with the enquiry. Only the selected contact channel is required.')}</p>
     <label className="field">{t('Ім’я','Name')}<input name="name" required minLength={2} maxLength={100} autoComplete="name"/></label>
     <label className="field">{t('Канал зв’язку','Contact channel')}<select value={channel} onChange={e=>setChannel(e.target.value)}><option value="email">Email</option><option value="phone">{t('Телефон — зв’язок менеджера','Phone — sales team contact')}</option></select></label>
@@ -53,7 +53,7 @@ export function EngineeringLead({input,en}:{input:EngineeringInput;en:boolean}) 
     <details className="engineering-details"><summary>{t('Політика конфіденційності','Privacy policy')}</summary><p>{localText(site.privacy,en)}</p></details>
     <label className="engineering-toggle"><input type="checkbox" checked={marketing} onChange={e=>setMarketing(e.target.checked)}/><span>{t('Хочу отримувати новини та пропозиції (необов’язково).','Send me news and offers (optional).')}</span></label>
     <button className="button" disabled={busy||!consent}>{busy?t('Надсилаємо…','Sending…'):t('Отримати персональний PDF','Get personalized PDF')}</button>
-    {message&&<output>{message}</output>}
+    {message&&<output aria-live="polite">{message}</output>}
     {saved&&<button type="button" className="button button-secondary" disabled={busy} onClick={download}>{t('Завантажити персональний PDF','Download personalized PDF')}</button>}
   </form>;
 }
