@@ -45,6 +45,12 @@
   --card-shadow-hover: 0 12px 30px #30251a12;
   --action: var(--primary);
   --ambient-glow: #b9400d12;
+  --danger: #c23d3d;
+  --chart-water: #739bb1;
+  --motion-fast: 180ms;
+  --motion-standard: 260ms;
+  --ease-standard: cubic-bezier(.2,.8,.2,1);
+  --control-radius: 10px;
   color-scheme: light;
 }
 .dark {
@@ -60,6 +66,7 @@
   --card-shadow: 0 8px 28px #00000024;
   --card-shadow-hover: 0 14px 34px #00000038;
   --ambient-glow: #f16a2c16;
+  --danger: #ef7777;
   color-scheme: dark;
 }
 * {
@@ -3817,14 +3824,14 @@ html:not(.dark) :is(.company-grid article, .products article, .engineering-calcu
 .engineering-lead-dialog {width:min(560px,calc(100vw - 32px));max-width:560px;max-height:calc(100dvh - 40px);overflow-y:auto;border-radius:24px;padding:28px;}
 .engineering-lead {display:grid;gap:16px;}
 .engineering-lead .field {display:grid;gap:8px;}
-.engineering-lead input:not([type="checkbox"]),.engineering-lead select {width:100%;min-height:44px;border:1px solid var(--line);border-radius:12px;background:var(--bg);color:inherit;padding:10px 12px;}
+.engineering-lead input:not([type="checkbox"]),.engineering-lead select {width:100%;min-height:44px;border:1px solid var(--border);border-radius:var(--control-radius);background:var(--background);color:inherit;padding:10px 12px;}
 .engineering-lead .engineering-toggle {align-items:flex-start;font-size:14px;line-height:1.5;}
 .engineering-lead p,.engineering-lead output {font-size:14px;line-height:1.6;}
 
 /* Calculator guidance, material balance and mobile comparison. */
 .engineering-calculator .field > label {display:block;margin-bottom:8px;line-height:1.5;}
-.engineering-calculator input[aria-invalid="true"] {border-color:#c23d3d;outline:1px solid #c23d3d;}
-.engineering-field-error {color:var(--foreground);border-left:3px solid #c23d3d;padding-left:9px;font-size:13px;line-height:1.5;margin-top:8px;}
+.engineering-calculator input[aria-invalid="true"] {border-color:var(--danger);outline:1px solid var(--danger);}
+.engineering-field-error {color:var(--foreground);border-left:3px solid var(--danger);padding-left:9px;font-size:13px;line-height:1.5;margin-top:8px;}
 .engineering-hint {margin-top:6px;font-size:12px;color:var(--muted);line-height:1.6;}
 .engineering-hint summary {cursor:pointer;min-height:32px;padding:6px 0;}
 .engineering-hint p {padding:8px 0;}
@@ -3834,11 +3841,11 @@ html:not(.dark) :is(.company-grid article, .products article, .engineering-calcu
 .engineering-balance figcaption strong {display:block;color:var(--foreground);font-size:22px;margin:6px 0 14px;}
 .engineering-balance-bar {display:flex;height:18px;border-radius:12px;overflow:hidden;background:var(--border);}
 .engineering-balance-bar span:first-child {background:var(--primary);}
-.engineering-balance-bar span:last-child {background:#739bb1;}
+.engineering-balance-bar span:last-child {background:var(--chart-water);}
 .engineering-balance-key {display:grid;grid-template-columns:1fr 1fr;gap:16px;margin-top:12px;font-size:12px;color:var(--muted);}
 .engineering-balance-key b {display:block;font-size:18px;color:var(--foreground);margin-top:4px;}
 .engineering-balance-key i {display:inline-block;width:8px;height:8px;background:var(--primary);border-radius:50%;margin-right:6px;}
-.engineering-balance-key p:last-child i {background:#739bb1;}
+.engineering-balance-key p:last-child i {background:var(--chart-water);}
 .engineering-model-cards {display:none;}
 @media(max-width:640px){
  .engineering-comparison-table {display:none;}
@@ -4010,6 +4017,25 @@ html:not(.dark) :is(.company-grid article, .products article, .engineering-calcu
  .calculator-window .engineering-hint > summary,.calculator-window .engineering-details > summary {min-height:44px;align-content:center;}
 }
 
+@media (prefers-reduced-motion: no-preference) {
+  .hero-copy > *,
+  .hero-art,
+  .benefits > div {
+    animation: arqon-reveal var(--motion-standard) var(--ease-standard) both;
+  }
+
+  .hero-copy > *:nth-child(2) { animation-delay: 60ms; }
+  .hero-copy > *:nth-child(3) { animation-delay: 120ms; }
+  .hero-copy > *:nth-child(4) { animation-delay: 180ms; }
+  .benefits > div:nth-child(2) { animation-delay: 70ms; }
+  .benefits > div:nth-child(3) { animation-delay: 140ms; }
+}
+
+@keyframes arqon-reveal {
+  from { opacity: 0; transform: translateY(10px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+
 /* Final design pass: clearer hierarchy, shared surfaces, and visible states. */
 @media (min-width: 1001px) {
   .hero { min-block-size: min(760px, calc(100svh - 94px)); }
@@ -4069,4 +4095,102 @@ html:not(.dark) :is(.company-grid article, .products article, .engineering-calcu
   .calculator-window .engineering-result {
     margin-top: 8px;
   }
+}
+
+@media (prefers-reduced-motion: no-preference) {
+  .reveal-on-scroll {
+    opacity: 0;
+    transform: translateY(18px);
+    transition: opacity var(--motion-standard) var(--ease-standard), transform var(--motion-standard) var(--ease-standard);
+  }
+
+  .reveal-on-scroll.is-visible {
+    opacity: 1;
+    transform: none;
+  }
+
+  .hero-art {
+    animation: arqon-reveal var(--motion-standard) var(--ease-standard) both, arqon-float 8s ease-in-out 700ms infinite alternate;
+  }
+
+  .products article {
+    transition: transform var(--motion-fast) var(--ease-standard), box-shadow var(--motion-fast) ease, border-color var(--motion-fast) ease;
+  }
+
+  .products article:hover,
+  .products article:focus-within {
+    transform: translateY(-5px);
+  }
+
+  .products article:target {
+    animation: arqon-target-pulse 700ms var(--ease-standard) both;
+  }
+
+  .engineering-details[open] > *:not(summary) {
+    animation: arqon-detail-in var(--motion-standard) var(--ease-standard) both;
+    transform-origin: top;
+  }
+
+  .engineering-result {
+    animation: arqon-result-in var(--motion-standard) var(--ease-standard) both;
+  }
+
+  .menu-dialog[data-open] .menu-calculator,
+  .menu-dialog[data-open] .menu-links > div {
+    animation: arqon-detail-in var(--motion-standard) var(--ease-standard) both;
+  }
+
+  .menu-dialog[data-open] .menu-links > div:nth-child(2) { animation-delay: 45ms; }
+  .menu-dialog[data-open] .menu-links > div:nth-child(3) { animation-delay: 90ms; }
+  .menu-dialog[data-open] .menu-links > div:nth-child(4) { animation-delay: 135ms; }
+
+  .button svg,
+  .text-link svg {
+    transition: transform var(--motion-fast) var(--ease-standard);
+  }
+
+  .button:hover:not(:disabled) svg,
+  .text-link:hover svg {
+    transform: translateX(3px);
+  }
+
+  body {
+    animation: arqon-ambient 18s ease-in-out infinite alternate;
+  }
+}
+
+@keyframes arqon-float {
+  from { transform: translateY(0); }
+  to { transform: translateY(-8px); }
+}
+
+@keyframes arqon-target-pulse {
+  0% { box-shadow: var(--card-shadow); }
+  45% { box-shadow: 0 0 0 6px color-mix(in srgb, var(--primary) 18%, transparent), var(--card-shadow-hover); }
+  100% { box-shadow: var(--card-shadow-hover); }
+}
+
+@keyframes arqon-detail-in {
+  from { opacity: 0; transform: translateY(-5px) scaleY(.98); }
+  to { opacity: 1; transform: translateY(0) scaleY(1); }
+}
+
+@keyframes arqon-result-in {
+  from { opacity: 0; transform: translateY(8px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+
+@keyframes arqon-ambient {
+  from { background-position: 0 0, 100% 100%; }
+  to { background-position: 2% 1%, 98% 99%; }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .reveal-on-scroll { opacity: 1; transform: none; transition: none; }
+  .hero-art,
+  .products article,
+  .engineering-result,
+  .engineering-details[open] > *:not(summary) { animation: none; transform: none; }
+  .button svg,
+  .text-link svg { transition: none; }
 }

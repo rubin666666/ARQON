@@ -72,6 +72,16 @@ export default function Home({
     return ()=>{cancelAnimationFrame(frame);window.removeEventListener('scroll',update);window.removeEventListener('resize',update);};
   },[]);
   useEffect(()=>{
+    const elements=[...document.querySelectorAll<HTMLElement>('main > section, .benefits > div, .products article')];
+    if(!('IntersectionObserver' in window)){elements.forEach(el=>el.classList.add('is-visible'));return;}
+    elements.forEach(el=>el.classList.add('reveal-on-scroll'));
+    const observer=new IntersectionObserver(entries=>entries.forEach(entry=>{
+      if(entry.isIntersecting) entry.target.classList.add('is-visible');
+    }),{threshold:.12,rootMargin:'0px 0px -8%'});
+    elements.forEach(el=>observer.observe(el));
+    return ()=>observer.disconnect();
+  },[]);
+  useEffect(()=>{
     const revealModel=()=>{
       const id=location.hash.slice(1);
       if(site.models.some(m=>m.id===id)){
