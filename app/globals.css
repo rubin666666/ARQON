@@ -2630,11 +2630,22 @@ summary:focus-visible {
 .gallery-card-copy dt { color: var(--muted); font-size: 12px; }
 .gallery-card-copy dd { margin: 0; font-size: 14px; overflow-wrap: anywhere; }
 .gallery-card-copy .button { margin-top: auto; width: 100%; }
+.gallery-launch-panel { position: relative; min-height: 360px; margin: 28px 0 22px; overflow: hidden; border: 1px solid var(--border); border-radius: var(--radius-card); background: var(--surface); }
+.gallery-launch-image { position: absolute; inset: 0; width: 100%; height: 100%; object-fit: cover; opacity: .72; }
+.gallery-launch-panel::after { content: ''; position: absolute; inset: 0; background: linear-gradient(90deg, color-mix(in srgb, var(--background) 94%, transparent), color-mix(in srgb, var(--background) 44%, transparent) 58%, transparent); pointer-events: none; }
+.gallery-launch-copy { position: relative; z-index: 1; display: flex; flex-direction: column; align-items: flex-start; justify-content: center; min-height: 360px; width: min(470px, 65%); padding: clamp(24px, 4vw, 54px); }
+.gallery-launch-copy .eyebrow { margin: 0 0 14px; color: var(--primary); }
+.gallery-launch-copy h3 { margin: 0 0 12px; font-size: clamp(26px, 3vw, 42px); line-height: 1.1; text-wrap: balance; }
+.gallery-launch-copy p { max-width: 38ch; margin: 0 0 20px; }
+.gallery-launch-copy .compare-button { margin: 0; }
 @media (max-width: 680px) {
   .gallery-dialog { width: calc(100vw - 20px) !important; max-height: calc(100dvh - 20px); padding: 18px !important; }
   .gallery-grid { grid-template-columns: 1fr; gap: 14px; }
   .gallery-card { grid-template-columns: 120px minmax(0, 1fr); padding: 10px; }
   .gallery-card-copy h3 { font-size: 20px; }
+  .gallery-launch-panel { min-height: 310px; margin-top: 22px; }
+  .gallery-launch-copy { min-height: 310px; width: 100%; padding: 24px; justify-content: flex-end; }
+  .gallery-launch-panel::after { background: linear-gradient(0deg, color-mix(in srgb, var(--background) 96%, transparent), color-mix(in srgb, var(--background) 38%, transparent)); }
 }
 .comparison-scroll {
   overflow-x: auto;
@@ -3982,6 +3993,12 @@ html:not(.dark) :is(.company-grid article, .products article, .engineering-calcu
 .flow-figure .flow-legend li {font-size:16px;font-weight:500;line-height:1.5;color:var(--foreground);}
 .flow-figure .flow-key {width:40px;height:32px;font-size:28px;}
 .flow-figure .visualization-note {font-size:14px;line-height:1.6;color:var(--foreground);margin-top:22px;}
+.flow-figure figcaption { text-align: center; }
+.flow-figure h3 { font-size: 24px; }
+.flow-figure .flow-legend { justify-content: center; }
+.flow-figure .flow-legend li { font-size: clamp(16px, 1.3vw, 18px); }
+.flow-figure .flow-key { width: 44px; height: 34px; font-size: 30px; }
+@media(max-width:680px){.flow-figure .flow-legend{justify-items:center;}.flow-figure h3{font-size:22px;}}
 @media(max-width:680px){.flow-figure figcaption{padding:20px;}.flow-figure h3{font-size:20px;}.flow-figure .flow-legend{gap:14px;}}
 
 /* Keep international-network copy together instead of floating between sections. */

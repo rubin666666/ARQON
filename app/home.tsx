@@ -337,7 +337,15 @@ export default function Home({
             </div>
             <p>{localText(site.productIntro, en)}</p>
           </div>
-          <ModelExplorer en={en} open={galleryOpen} onOpenChange={setGalleryOpen} onCalculate={calculateModel} />
+          <div className="gallery-launch-panel">
+            <Image src={asset('/images/sahara-context-v2.webp')} alt={t('Сушарка SAHARA поруч із зерновим комплексом','SAHARA dryer alongside a grain facility')} width={1536} height={864} className="gallery-launch-image" loading="lazy" />
+            <div className="gallery-launch-copy">
+              <span className="eyebrow">{t('Серія SAHARA','SAHARA series')}</span>
+              <h3>{t('Оберіть сушарку для свого сезону','Choose the dryer for your season')}</h3>
+              <p>{t('Перегляньте доступні моделі та відкрийте розрахунок для обраної сушарки.','Review the available models and open a calculation for your selected dryer.')}</p>
+              <ModelExplorer en={en} open={galleryOpen} onOpenChange={setGalleryOpen} onCalculate={calculateModel} />
+            </div>
+          </div>
           {!allModels && <div className="product-previews">{site.models.slice(0,3).map(m=><button key={m.id} type="button" className="product-preview" aria-label={t('Відкрити галерею продуктів: ','Open product gallery: ')+m.name} aria-expanded={galleryOpen} aria-controls="model-gallery" onClick={()=>setGalleryOpen(true)}><Image src={asset(m.image || '/images/sahara-product-v2.webp')} width={240} height={240} alt={m.name} loading="lazy"/><span>{m.name}</span><ArrowUpRight size={18}/></button>)}</div>}
           {allModels && <figure className="product-context"><Image src={asset('/images/sahara-context-v2.webp')} alt={t('Візуалізація сушарки SAHARA поруч із зерновим комплексом','Visualization of a SAHARA dryer alongside a grain facility')} width={1536} height={864} loading="lazy"/><figcaption><span className="eyebrow">{t('Серія SAHARA','SAHARA series')}</span><h3>{t('Технологія для вашого врожаю','Technology for your harvest')}</h3><p>{t('Концептуальна візуалізація застосування','Conceptual application visualization')}</p></figcaption></figure>}
           <div className="products" id="product-models">
@@ -379,7 +387,6 @@ export default function Home({
               </article>
             ))}
           </div>
-          <button type="button" className="button button-secondary compare-button" aria-expanded={galleryOpen} aria-controls="model-gallery" onClick={()=>setGalleryOpen(true)}>{t('Галерея продуктів','Product gallery')+' ('+site.models.length+')'}<ArrowUpRight size={18}/></button>
         </section>
         <ModelDetails en={en} id={detailModel} onClose={()=>setDetailModel(null)} onCalculate={calculateModel} />
         <Technology en={en} />
