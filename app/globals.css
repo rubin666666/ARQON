@@ -3974,3 +3974,12 @@ html:not(.dark) :is(.company-grid article, .products article, .engineering-calcu
  .hero-copy > p:not(.eyebrow) {margin-top:0;}
  .hero-copy h1 {margin-bottom:12px;}
 }
+
+/* Keep calculator fields and actions usable in narrow/keyboard-sized viewports. */
+.calculator-window-body {overscroll-behavior:contain;scroll-padding-block:16px;}
+@media(max-width:760px){
+ .calculator-window .field {min-width:0;}
+ .calculator-window .field input,.calculator-window .field select {scroll-margin-block:20px;}
+ .calculator-window .calc-fields > .button {width:100%;}
+ .calculator-window .engineering-hint > summary,.calculator-window .engineering-details > summary {min-height:44px;align-content:center;}
+}

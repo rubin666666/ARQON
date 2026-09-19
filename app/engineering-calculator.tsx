@@ -40,7 +40,7 @@ export function Calculator({ en, model, onModelChange, open, onOpenChange }: {en
   const [notice, setNotice] = useState('');
   const [link, setLink] = useState('');
   const [pdfBusy, setPdfBusy] = useState(false);
-  const [pdfFile,setPdfFile]=useState<{url:string;filename:string}|null>(null);
+  const [pdfFile,setPdfFile]=useState<{url:string;filename:string;scenario:string;en:boolean}|null>(null);
   useEffect(()=>()=>{if(pdfFile)URL.revokeObjectURL(pdfFile.url);},[pdfFile]);
   const [showComparison, setShowComparison] = useState(false);
   /* oxlint-disable react/react-compiler */
@@ -101,7 +101,7 @@ export function Calculator({ en, model, onModelChange, open, onOpenChange }: {en
   };
   const warnings: Record<string,string> = {
     UNSUPPORTED_REGIME:t('Використовуйте фіксований режим виробника.','Use the fixed manufacturer regime.'),
-    INVALID_INPUT:t('Перевірте поля: обсяг має бути додатним, початкова вологість — вищою за кінцеву (обидві між 0 та 100%). Для ввімкненої послуги потрібен додатний обсяг і, якщо задано, додатний тариф. Ціни й витрати не можуть бути від’ємними.','Check the fields: volume must be positive, and initial moisture must exceed final moisture (both between 0 and 100%). An enabled service needs positive volume and a positive tariff if entered. Prices and costs cannot be negative.'),
+    INVALID_INPUT:t('Перевірте виділені поля: обсяг має бути більшим за нуль, ціни й витрати — невід’ємними. Для ввімкненої послуги потрібен додатний обсяг.','Check the highlighted fields: volume must be greater than zero; prices and costs cannot be negative. An enabled service requires a positive volume.'),
     SEASON_TOO_SHORT:t('Потрібний час перевищує доступні години сезону.','Required operating time exceeds available seasonal hours.'),
     THERMAL_POWER_INSUFFICIENT:t('Розрахункова теплова потреба перевищує потужність моделі.','Required thermal power exceeds model capacity.'),
     NO_PAYBACK:t('За цих умов загальний економічний ефект не додатний — окупність не досягається.','The total economic effect is not positive under these conditions; payback is not reached.'),
@@ -137,6 +137,7 @@ export function Calculator({ en, model, onModelChange, open, onOpenChange }: {en
       const field=document.querySelector<HTMLInputElement>('#calculator-inputs input[aria-invalid="true"]');
       if(field){let parent=field.parentElement;while(parent){if(parent instanceof HTMLDetailsElement)parent.open=true;parent=parent.parentElement;}field.focus();field.scrollIntoView({block:'center'});return;}
     }
+    if(document.activeElement instanceof HTMLElement)document.activeElement.blur();
     document.getElementById('calculator-result')?.scrollIntoView({block:'start'});document.getElementById('calculator-result')?.focus({preventScroll:true});track('calculation_completed',{model,status:result.status});
   }
   function select(id: string, label: string, value: string, options: {value:string;label:string}[], change:(s:string)=>void) {
@@ -166,7 +167,7 @@ export function Calculator({ en, model, onModelChange, open, onOpenChange }: {en
     try {
       const {downloadEngineeringReport} = await import('@/lib/engineering-report.mjs');
       const file=await downloadEngineeringReport({input,result,modelName:selected?.name || model,cropName:data.crops.find(c=>c.id===draft.cropId)![en?'en':'uk'],fuelName:fuel[en?'en':'uk'],fuelUnit,missing:result.missing.map(k=>labels[k]),warnings:result.warnings.map(k=>warnings[k])},en,asset('/fonts/NotoSans.ttf'));
-      setPdfFile(file);
+      setPdfFile({...file,scenario:serialized,en});
       track('technical_summary_download',{model});
     } catch {setNotice('pdf-error');} finally {setPdfBusy(false);}
   }
@@ -225,7 +226,7 @@ export function Calculator({ en, model, onModelChange, open, onOpenChange }: {en
       <aside className="result engineering-result" id="calculator-result" tabIndex={-1} aria-label={t('Результати','Results')}>
         <p className="result-label">{t('Ваш сезон','Your season')}</p><h3>{selected?.name} <span>· {data.crops.find(c=>c.id===draft.cropId)?.[en?'en':'uk']}</span></h3>
         <p className="engineering-status">{result.status==='ready' ? t('Попередня оцінка','Preliminary estimate') : t('Доступний частковий розрахунок','Partial calculation available')}</p>
-        {result.status==='invalid' ? <p className="error" role="alert">{warnings.INVALID_INPUT}</p> : <>
+        {result.status==='invalid' ? <p className="error" role="alert">{result.warnings.map(k=>warnings[k] || warnings.INVALID_INPUT).join(' ')}</p> : <>
           {result.own&&<figure className="engineering-balance"><figcaption>{t('Баланс власного зерна','Own grain balance')}<strong>{format(result.own.rawKg/1000)} {t('т до сушіння','t before drying')}</strong></figcaption><div className="engineering-balance-bar" aria-hidden="true"><span style={{width:(result.own.finalKg/result.own.rawKg*100)+'%'}}/><span style={{width:(result.own.waterKg/result.own.rawKg*100)+'%'}}/></div><div className="engineering-balance-key"><p><i/>{t('Після сушіння','After drying')}<b>{format(result.own.finalKg/1000)} {t('т','t')}</b></p><p><i/>{t('Видалена вода','Water removed')}<b>{format(result.own.waterKg/1000)} {t('т','t')}</b></p></div></figure>}
           <dl className="engineering-metrics" aria-live="polite">
             {metric(t('Продуктивність за висушеним зерном','Dried grain capacity'),result.capacity,t('т/год','t/h'))}
@@ -253,7 +254,7 @@ export function Calculator({ en, model, onModelChange, open, onOpenChange }: {en
         </>}
         <div className="engineering-actions">{site.calculationEndpoint.startsWith('https://') && localText(site.privacy,en) && <button type="button" className="button" disabled={result.status==='invalid'} onClick={()=>setLeadInput({...input})}>{t('Отримати персональний звіт','Get personalized report')}</button>}<button type="button" className="button button-secondary" onClick={()=>setShowComparison(v=>!v)} aria-expanded={showComparison} aria-controls="engineering-comparison">{t('Порівняти моделі','Compare models')}<ArrowUpRight size={18}/></button>
         <button type="button" className="button button-secondary" disabled={pdfBusy || result.status==='invalid'} onClick={download}>{pdfBusy?t('Готуємо PDF…','Preparing PDF…'):t('Завантажити технічний підсумок','Download technical summary')}<Download size={18}/></button></div>
-        {pdfFile&&<a className="text-link" href={pdfFile.url} download={pdfFile.filename}>{t('Зберегти останній сформований PDF','Save the last generated PDF')}</a>}
+        {pdfFile&&pdfFile.scenario===serialized&&pdfFile.en===en&&<a className="text-link" href={pdfFile.url} download={pdfFile.filename}>{t('Зберегти останній сформований PDF','Save the last generated PDF')}</a>}
         <p className="engineering-caption">{t('Це підсумок доступних даних. Персональний комерційний PDF та надсилання на email будуть доступні після налаштування даних і сервісу доставки.','This summarizes available data. Personalized commercial PDF and email delivery require completed parameters and a configured delivery service.')}</p>
       </aside>
     </div>
