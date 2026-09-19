@@ -125,18 +125,11 @@ export default function Home({
     document.documentElement.lang = en ? 'en' : 'uk';
     document.title = en
       ? 'ARQON — Engineering. Automation. Intelligence.'
-      : 'ARQON — Engineering. Automation. Intelligence.';
-    document
-      .querySelector('meta[name="description"]')
-      ?.setAttribute(
-        'content',
-        en
-          ? 'Arqon is an engineering technology company specializing in industrial automation, intelligent machinery, and industrial software. SAHARA grain dryers and a payback calculator.'
-          : 'Arqon — інженерно-технологічна компанія: промислова автоматизація, інтелектуальне обладнання та промислове ПЗ. Зерносушарки SAHARA та калькулятор окупності.',
-      );
-    document
-      .querySelector('link[rel="canonical"]')
-      ?.setAttribute('href', site.origin + localeUrl(en));
+      : 'ARQON — Інженерія. Автоматизація. Інтелект.';
+    document.querySelector('meta[name="description"]')?.setAttribute('content', en
+      ? 'Arqon is an engineering technology company specializing in industrial automation, intelligent machinery, and industrial software. SAHARA grain dryers and a payback calculator.'
+      : 'Arqon — інженерно-технологічна компанія: промислова автоматизація, інтелектуальне обладнання та промислове ПЗ. Зерносушарки SAHARA та калькулятор окупності.');
+    document.querySelector('link[rel="canonical"]')?.setAttribute('href', site.origin + localeUrl(en));
   }, [en]);
   const nav = [
     ['about', t('Про компанію', 'About')],
@@ -151,27 +144,14 @@ export default function Home({
   ].filter(([id]) => id !== 'photo' || site.photos.length).filter(([id]) => id !== 'video' || site.videos.length).filter(([id]) => id !== 'partners' || site.partners.length).filter(([id]) => id !== 'contacts' || hasContacts(en)).filter(([id]) => id !== 'equipment' || site.equipmentPublished);
   return (
     <>
-      <a className="skip" href="#main">
-        {t('До вмісту', 'Skip to content')}
-      </a>
+      <a className="skip" href="#main">{t('До вмісту', 'Skip to content')}</a>
       <header>
         <a href="#main" className="brand">
-          <Image
-            width={1952}
-            height={816}
-            src={asset('/arqon-logo.png')}
-            alt="ARQON Engineering & Innovation"
-          />
+          <Image width={1952} height={816} src={asset('/arqon-logo.png')} alt="ARQON Engineering & Innovation" />
           <Image className="brand-light-letters" src={asset('/arqon-logo.png')} width={1952} height={816} alt="" aria-hidden="true" />
         </a>
         <nav className="desktop-nav">
-          {nav
-            .filter(([id]) => ['about', 'products', 'technology', 'calculator', 'contacts'].includes(id))
-            .map(([id, label]) => (
-              <a key={id} href={'#' + id} aria-current={activeSection===id?'location':undefined}>
-                {label}
-              </a>
-            ))}
+          {nav.filter(([id]) => ['about', 'products', 'technology', 'calculator', 'contacts'].includes(id)).map(([id, label]) => <a key={id} href={'#' + id} aria-current={activeSection === id ? 'location' : undefined}>{label}</a>)}
         </nav>
         <div className="header-actions">
           <button
@@ -414,53 +394,30 @@ export default function Home({
         <ContentSections en={en} />
       </main>
       <footer className="site-footer">
-        <div className="footer-identity">
-          <a className="brand footer-logo" href="#main">
-            <Image src={asset('/arqon-logo.png')} width={1952} height={816} alt="ARQON Engineering & Innovation" />
-            <Image className="brand-light-letters" src={asset('/arqon-logo.png')} width={1952} height={816} alt="" aria-hidden="true" />
-          </a>
-        </div>
-        <nav className="footer-nav" aria-label={t('Навігація у підвалі','Footer navigation')}>
-          <span className="footer-caption">{t('Розділи', 'Explore')}</span>
-          {nav.filter(([id])=>['about','products','technology','calculator','contacts'].includes(id)).map(([id,label])=><a key={id} href={'#'+id}>{label}<ArrowUpRight size={15}/></a>)}
-        </nav>
-        <span>
-          © 2026 ARQON. {t('Всі права захищені.', 'All rights reserved.')}
-        </span>
-        <div>
-          {!!localText(site.privacy, en) && <a
-            href="#privacy"
-            onClick={() => {
-              document.querySelector<HTMLDetailsElement>('#privacy')!.open =
-                true;
-            }}
-          >
-            {t('Конфіденційність', 'Privacy')}
-          </a>}
-          {!!localText(site.terms, en) && <a
-            href="#terms"
-            onClick={() => {
-              document.querySelector<HTMLDetailsElement>('#terms')!.open = true;
-            }}
-          >
-            {t('Умови використання', 'Terms of use')}
-          </a>}
-        </div>
-        <div className="footer-socials">
-          {site.socials.map((s) => (
-            <a
-              key={s.name}
-              href={s.url}
-              target="_blank"
-              rel="noopener noreferrer"
-            >
-              {s.name}
+        <div className="footer-main">
+          <section className="footer-identity" aria-label="ARQON">
+            <a className="brand footer-logo" href="#main">
+              <Image src={asset('/arqon-logo.png')} width={1952} height={816} alt="ARQON Engineering & Innovation" />
+              <Image className="brand-light-letters" src={asset('/arqon-logo.png')} width={1952} height={816} alt="" aria-hidden="true" />
             </a>
-          ))}
+          </section>
+          <nav className="footer-nav" aria-labelledby="footer-nav-title">
+            <h2 id="footer-nav-title" className="footer-caption">{t('Розділи', 'Explore')}</h2>
+            {nav.filter(([id])=>['about','products','technology','calculator','contacts'].includes(id)).map(([id,label])=><a key={id} href={'#'+id}>{label}<ArrowUpRight size={15}/></a>)}
+          </nav>
+          {!!site.socials.length && <nav className="footer-socials" aria-labelledby="footer-social-title">
+            <h2 id="footer-social-title" className="footer-caption">{t('Соціальні мережі', 'Social')}</h2>
+            {site.socials.map((s) => <a key={s.name} href={s.url} target="_blank" rel="noopener noreferrer">{s.name}</a>)}
+          </nav>}
+          <a className="footer-top" href="#main" aria-label={t('На початок', 'Back to top')}>↑</a>
         </div>
-        <a className="footer-top" href="#main" aria-label={t('На початок', 'Back to top')}>
-          ↑
-        </a>
+        <div className="footer-meta">
+          <small className="footer-copyright">© 2026 ARQON. {t('Всі права захищені.', 'All rights reserved.')}</small>
+          {!!(localText(site.privacy, en) || localText(site.terms, en)) && <nav className="footer-legal" aria-label={t('Правова інформація', 'Legal')}>
+            {!!localText(site.privacy, en) && <a href="#privacy" onClick={() => { document.querySelector<HTMLDetailsElement>('#privacy')!.open = true; }}>{t('Конфіденційність', 'Privacy')}</a>}
+            {!!localText(site.terms, en) && <a href="#terms" onClick={() => { document.querySelector<HTMLDetailsElement>('#terms')!.open = true; }}>{t('Умови використання', 'Terms of use')}</a>}
+          </nav>}
+        </div>
       </footer>
       <Dialog open={!!modal} onOpenChange={(v) => !v && O('')}>
         <DialogContent className="arqon-dialog" showCloseButton={false}>
