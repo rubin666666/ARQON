@@ -16,7 +16,7 @@ export function ModelPhoto({ name, src, en }: { name: string; src: string; en: b
         <DialogTitle>{name}</DialogTitle>
         <DialogClose className="model-photo-close" aria-label={en ? 'Close image' : 'Закрити зображення'}>×</DialogClose>
         <div className="model-photo-stage">
-          <Image width={1024} height={1024} src={asset(src || '/sahara.jpg')} alt={name} />
+           <Image width={1024} height={1024} src={asset(src || '/images/sahara-product-v2.webp')} alt={name} />
         </div>
       </DialogContent>
     </Dialog>

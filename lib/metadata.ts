@@ -4,7 +4,7 @@ export function metadataFor(en: boolean): Metadata {
   return {
     title: en
       ? 'ARQON — Engineering. Automation. Intelligence.'
-      : 'ARQON — Engineering. Automation. Intelligence.',
+      : 'ARQON — Інженерія. Автоматизація. Інтелект.',
     description: en
       ? 'Arqon is an engineering technology company specializing in industrial automation, intelligent machinery, and industrial software.'
       : 'Arqon — інженерно-технологічна компанія, що спеціалізується на промисловій автоматизації, інтелектуальному обладнанні та промисловому програмному забезпеченні.',
@@ -23,7 +23,10 @@ export function metadataFor(en: boolean): Metadata {
       type: 'website',
       locale: en ? 'en_GB' : 'uk_UA',
       siteName: 'ARQON',
-      title: en ? 'ARQON — Engineering. Automation. Intelligence.' : 'ARQON — Engineering. Automation. Intelligence.',
+      title: en ? 'ARQON — Engineering. Automation. Intelligence.' : 'ARQON — Інженерія. Автоматизація. Інтелект.',
+      description: en
+        ? 'Arqon is an engineering technology company specializing in industrial automation, intelligent machinery, and industrial software.'
+        : 'Arqon — інженерно-технологічна компанія, що спеціалізується на промисловій автоматизації, інтелектуальному обладнанні та промисловому програмному забезпеченні.',
       url: localeUrl(en),
     },
   };

@@ -243,7 +243,7 @@ export function ContentSections({ en }: { en: boolean }) {
           </p>
         )}
       </section>}
-      <section className="legal-section">
+      {(localText(site.privacy, en) || localText(site.terms, en)) && <section className="legal-section">
         {!!localText(site.privacy, en) && <details id="privacy">
           <summary>{t('Політика конфіденційності', 'Privacy policy')}</summary>
           <p>
@@ -264,7 +264,7 @@ export function ContentSections({ en }: { en: boolean }) {
               )}
           </p>
         </details>}
-      </section>
+      </section>}
       <Dialog open={photo !== null} onOpenChange={(v) => !v && setPhoto(null)}>
         <DialogContent className="image-dialog" showCloseButton={false}>
           <DialogClose
