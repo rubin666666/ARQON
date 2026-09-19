@@ -22,6 +22,14 @@
   --color-accent: var(--surface);
   --color-accent-foreground: var(--foreground);
 }
+@font-face {
+  font-family: "Noto Sans";
+  src: url('/fonts/NotoSans.ttf') format('truetype');
+  font-style: normal;
+  font-weight: 100 900;
+  font-display: swap;
+}
+
 :root {
   --background: #f8f6f2;
   --foreground: #252525;
@@ -72,7 +80,7 @@ body {
     radial-gradient(ellipse 42% 34% at 8% 72%, color-mix(in srgb, var(--ambient-glow) 55%, transparent), transparent 76%);
   background-attachment: fixed;
   color: var(--foreground);
-  font-family: "Segoe UI", "Helvetica Neue", Helvetica, Arial, sans-serif;
+  font-family: "Noto Sans", "Segoe UI", sans-serif;
   -webkit-font-smoothing: antialiased;
 }
 button,
@@ -209,9 +217,13 @@ p {
   font-size: 16px;
   line-height: 1.65;
   color: var(--muted);
+  text-wrap: pretty;
 }
 .hero-copy > p {
   max-width: 460px;
+}
+.section-heading > p {
+  max-width: 52ch;
 }
 .hero-links {
   display: flex;
@@ -232,6 +244,9 @@ p {
   font-weight: 600;
   border-radius: 3px;
   transition: filter 0.2s;
+}
+.dark .button:not(.button-secondary) {
+  color: var(--background);
 }
 .button:hover {
   filter: brightness(1.12);
@@ -255,7 +270,7 @@ p {
 }
 .hero-art {
   position: relative;
-  background: #e96208;
+  background: var(--primary);
   border-radius: 5px;
   overflow: hidden;
 }
@@ -738,9 +753,9 @@ footer button {
     font-size: 15px;
   }
   .hero-links {
-    flex-direction: row;
-    align-items: center;
-    gap: 18px;
+    flex-direction: column;
+    align-items: stretch;
+    gap: 12px;
   }
   .button {
     padding: 15px;
@@ -1584,7 +1599,7 @@ summary:focus-visible {
 }
 .model-specs dd {
   text-align: left;
-  margin: 0;
+  .calculator-window .engineering-caption { font-size:13px;line-height:1.6;max-width:58ch;margin:10px 0;}
   font-weight: 600;
 }
 .model-copy > button {
@@ -2235,7 +2250,7 @@ h3 {
 }
 .button.button-secondary {
   background: transparent;
-  border: 1px solid var(--border);
+  border: 1px solid color-mix(in srgb, var(--foreground) 35%, var(--border));
   color: var(--foreground);
   box-shadow: none;
 }
@@ -2357,11 +2372,17 @@ summary:focus-visible {
     margin-bottom: 18px;
   }
   .hero-links {
-    flex-wrap: wrap;
+    flex-direction: column;
+    align-items: stretch;
+    flex-wrap: nowrap;
     gap: 12px;
   }
   .hero-links .button {
-    flex: 1 1 180px;
+    width: 100%;
+    flex: 0 0 auto;
+  }
+  .hero-links .text-link {
+    align-self: flex-start;
   }
   .products {
     gap: 16px;
@@ -3772,6 +3793,11 @@ html:not(.dark) :is(.company-grid article, .products article, .engineering-calcu
 .engineering-metrics > div { min-width: 0; }
 .engineering-metrics dt { font-size: 13px; line-height: 1.5; color: var(--muted); }
 .engineering-metrics dd { font-size: clamp(22px,2vw,30px); line-height: 1.4; font-weight: 500; font-variant-numeric: tabular-nums; margin: 6px 0 0; overflow-wrap: anywhere; }
+.engineering-primary-metrics dd,
+.engineering-outcomes dd { font-size: clamp(28px, 2.8vw, 40px); color: var(--primary); }
+.engineering-outcomes { border-top: 1px solid var(--border); padding-top: 18px; }
+.engineering-financial-details { margin-top: 10px; }
+.engineering-financial-details > summary { color: var(--foreground); font-weight: 600; }
 .engineering-metrics small { font-size: 12px; font-weight: 400; color: var(--muted); }
 .engineering-financial { border-top: 1px solid var(--border); padding-top: 20px; }
 .engineering-details { margin-top: 18px; border-top: 1px solid var(--border); padding-top: 12px; }
@@ -3849,7 +3875,7 @@ html:not(.dark) :is(.company-grid article, .products article, .engineering-calcu
 .calculator-window .engineering-result h3 {font-size:22px;}
 .calculator-window .engineering-metrics {gap:12px;margin-block:16px;}
 .calculator-window .engineering-metrics dd {font-size:22px;}
-.calculator-window .engineering-caption {font-size:12px;margin:10px 0;}
+.calculator-window .engineering-caption {font-size:13px;line-height:1.6;max-width:58ch;margin:10px 0;}
 .calculator-window .engineering-balance {margin:14px 0;}
 .calculator-window .engineering-reference {padding:10px;margin-top:12px;}
 .calculator-window .engineering-details {margin-top:10px;padding-top:6px;}
@@ -3982,4 +4008,65 @@ html:not(.dark) :is(.company-grid article, .products article, .engineering-calcu
  .calculator-window .field input,.calculator-window .field select {scroll-margin-block:20px;}
  .calculator-window .calc-fields > .button {width:100%;}
  .calculator-window .engineering-hint > summary,.calculator-window .engineering-details > summary {min-height:44px;align-content:center;}
+}
+
+/* Final design pass: clearer hierarchy, shared surfaces, and visible states. */
+@media (min-width: 1001px) {
+  .hero { min-block-size: min(760px, calc(100svh - 94px)); }
+  .hero-art > img { object-position: center; }
+}
+
+.product-preview,
+.products article,
+.calculator-launch-card {
+  border: 1px solid var(--border);
+  border-radius: var(--radius-card);
+  box-shadow: var(--card-shadow);
+}
+
+.product-preview:hover,
+.product-preview:focus-visible,
+.calculator-launch-card:hover,
+.products article:target {
+  border-color: var(--primary);
+  box-shadow: var(--card-shadow-hover);
+}
+
+.products article:target {
+  outline: 2px solid color-mix(in srgb, var(--primary) 35%, transparent);
+  outline-offset: 4px;
+}
+
+.engineering-details > summary {
+  border-radius: 8px;
+  color: var(--muted);
+  transition: color 0.18s, background-color 0.18s;
+}
+
+.engineering-details > summary:hover,
+.engineering-details[open] > summary {
+  color: var(--primary);
+  background: color-mix(in srgb, var(--primary) 8%, transparent);
+}
+
+.engineering-details[open] > summary::marker {
+  color: var(--primary);
+}
+
+.desktop-nav a[aria-current='location'] {
+  color: var(--primary);
+  text-decoration: underline;
+  text-decoration-thickness: 2px;
+  text-underline-offset: 8px;
+}
+
+@media (max-width: 680px) {
+  .calculator-window .calc-group {
+    padding: 14px;
+    scroll-margin-top: 84px;
+  }
+
+  .calculator-window .engineering-result {
+    margin-top: 8px;
+  }
 }

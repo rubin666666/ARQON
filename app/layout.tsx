@@ -6,6 +6,9 @@ export default function RootLayout({
 }: Readonly<{ children: React.ReactNode }>) {
   return (
     <html lang="uk" suppressHydrationWarning>
+      <head>
+        <script dangerouslySetInnerHTML={{ __html: "document.documentElement.lang = location.pathname.startsWith('/en') ? 'en' : 'uk';" }} />
+      </head>
       <body>{children}</body>
     </html>
   );

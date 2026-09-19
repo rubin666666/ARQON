@@ -228,10 +228,12 @@ export function Calculator({ en, model, onModelChange, open, onOpenChange }: {en
         <p className="engineering-status">{result.status==='ready' ? t('Попередня оцінка','Preliminary estimate') : t('Доступний частковий розрахунок','Partial calculation available')}</p>
         {result.status==='invalid' ? <p className="error" role="alert">{result.warnings.map(k=>warnings[k] || warnings.INVALID_INPUT).join(' ')}</p> : <>
           {result.own&&<figure className="engineering-balance"><figcaption>{t('Баланс власного зерна','Own grain balance')}<strong>{format(result.own.rawKg/1000)} {t('т до сушіння','t before drying')}</strong></figcaption><div className="engineering-balance-bar" aria-hidden="true"><span style={{width:(result.own.finalKg/result.own.rawKg*100)+'%'}}/><span style={{width:(result.own.waterKg/result.own.rawKg*100)+'%'}}/></div><div className="engineering-balance-key"><p><i/>{t('Після сушіння','After drying')}<b>{format(result.own.finalKg/1000)} {t('т','t')}</b></p><p><i/>{t('Видалена вода','Water removed')}<b>{format(result.own.waterKg/1000)} {t('т','t')}</b></p></div></figure>}
-          <dl className="engineering-metrics" aria-live="polite">
+          <dl className="engineering-metrics engineering-primary-metrics" aria-live="polite">
             {metric(t('Продуктивність за висушеним зерном','Dried grain capacity'),result.capacity,t('т/год','t/h'))}
             {metric(t('Власне зерно: час роботи','Own grain: operating time'),result.own?.hours,t('год','h'))}
           </dl>
+          <details className="engineering-details engineering-financial-details">
+            <summary>{t('Фінансові показники','Financial details')}</summary>
           <dl className="engineering-metrics engineering-financial">
             {financialMetric(t('Розрахункове паливо на тонну вхідного зерна','Calculated fuel per incoming tonne'),result.own?.fuelQuantity==null?null:result.own.fuelQuantity/input.volume,fuelUnit+t('/т','/t'))}
             {financialMetric(t('Собівартість сушіння','Drying cost'),result.own?.perTonne,t('грн/т','UAH/t'))}
@@ -241,7 +243,10 @@ export function Calculator({ en, model, onModelChange, open, onOpenChange }: {en
             {draft.delayedSale && financialMetric(t('Різниця виручки від продажу','Additional sale revenue'),result.priceRevenue,t('грн','UAH'))}
             {financialMetric(t('Загальний економічний ефект','Total economic effect'),result.economicEffect,t('грн/сезон','UAH/season'))}
             {financialMetric(t('Окупність','Payback'),result.paybackSeasons,t('сезонів','seasons'))}
-          </dl>{[result.own?.perTonne,result.savings,result.economicEffect,result.paybackSeasons].some(v=>v==null)&&<p className="engineering-pending">{t('Для повної оцінки витрат та окупності ще потрібні параметри виробника або введені ціни. Доступні показники наведено вище.','A complete cost and payback estimate needs manufacturer parameters or entered prices. Available figures are shown above.')}</p>}
+          </dl></details><dl className="engineering-metrics engineering-outcomes">
+            {financialMetric(t('Загальний економічний ефект','Total economic effect'),result.economicEffect,t('грн/сезон','UAH/season'))}
+            {financialMetric(t('Окупність','Payback'),result.paybackSeasons,t('сезонів','seasons'))}
+          </dl>{[result.own?.perTonne,result.savings,result.economicEffect,result.paybackSeasons].some(v=>v==null)&&<p className="engineering-pending">{t('Для повної оцінки витрат та окупності ще потрібні параметри виробника або введені ціни. Доступні показники наведено вище.','A complete cost and payback estimate needs manufacturer parameters or entered prices.')}</p>}
           {result.warnings.map(code=><p key={code} className="notice">{warnings[code]}</p>)}
           {result.missing.length>0 && <details className="engineering-details"><summary>{t('Що потрібно для повного розрахунку','What is needed for a complete calculation')} ({result.missing.length})</summary><ul>{result.missing.map(code=><li key={code}>{labels[code]}</li>)}</ul></details>}
           <p className="engineering-caption">{t('Амортизація не враховується. Зарплата оператора включається лише за наявності введеного тарифу. Маса розрахована без втрат сухої речовини. Продуктивність доступна лише для наданих виробником режимів. Прочерк означає відсутні дані, а не нульові витрати.','Depreciation is excluded. Operator wages are included only when a rate is entered. Mass assumes no dry-matter loss. Capacity is available only for manufacturer-supplied regimes. A dash means missing data, not zero costs.')}</p>

@@ -74,14 +74,18 @@ export default function Home({
   useEffect(()=>{
     const revealModel=()=>{
       const id=location.hash.slice(1);
-      if(site.models.findIndex(m=>m.id===id)>=3){
+      if(site.models.some(m=>m.id===id)){
         setAllModels(true);
-        requestAnimationFrame(()=>document.getElementById(id)?.scrollIntoView({block:'start'}));
       }
     };
     revealModel();window.addEventListener('hashchange',revealModel);
     return ()=>window.removeEventListener('hashchange',revealModel);
   },[]);
+  useEffect(()=>{
+    const id=decodeURIComponent(location.hash.slice(1));
+    if(allModels && site.models.some(m=>m.id===id))
+      requestAnimationFrame(()=>document.getElementById(id)?.scrollIntoView({block:'start'}));
+  },[allModels]);
   function calculateModel(id:string) {
     setSelectedModel(id);
     setCalculatorOpen(true);
@@ -220,7 +224,7 @@ export default function Home({
                         <a
                           key={m.id}
                           href={'#' + m.id}
-                          onClick={() => M(false)}
+                          onClick={() => { M(false); setAllModels(true); }}
                         >
                           {m.name}
                         </a>
@@ -323,7 +327,7 @@ export default function Home({
             <p>{localText(site.productIntro, en)}</p>
           </div>
           {allModels && <ModelExplorer en={en} onCalculate={calculateModel} />}
-          {!allModels && <div className="product-previews">{site.models.slice(0,3).map(m=><button key={m.id} type="button" className="product-preview" aria-label={t('Відкрити галерею продуктів: ','Open product gallery: ')+m.name} aria-expanded={false} aria-controls="product-models" onClick={()=>setAllModels(true)}><Image src={asset(m.image || '/images/sahara-product-v2.webp')} width={240} height={240} alt={m.name} loading="lazy"/><span>{m.name}</span><ArrowUpRight size={18}/></button>)}</div>}
+          {!allModels && <div className="product-previews">{site.models.slice(0,3).map(m=><button key={m.id} type="button" className="product-preview" aria-label={t('Відкрити галерею продуктів: ','Open product gallery: ')+m.name} aria-expanded={allModels} aria-controls="product-models" onClick={()=>setAllModels(true)}><Image src={asset(m.image || '/images/sahara-product-v2.webp')} width={240} height={240} alt={m.name} loading="lazy"/><span>{m.name}</span><ArrowUpRight size={18}/></button>)}</div>}
           {allModels && <figure className="product-context"><Image src={asset('/images/sahara-context-v2.webp')} alt={t('Візуалізація сушарки SAHARA поруч із зерновим комплексом','Visualization of a SAHARA dryer alongside a grain facility')} width={1536} height={864} loading="lazy"/><figcaption><span className="eyebrow">{t('Серія SAHARA','SAHARA series')}</span><h3>{t('Технологія для вашого врожаю','Technology for your harvest')}</h3><p>{t('Концептуальна візуалізація застосування','Conceptual application visualization')}</p></figcaption></figure>}
           <div className="products" id="product-models">
             {(allModels ? site.models : []).map((m) => (
