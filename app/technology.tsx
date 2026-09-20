@@ -19,7 +19,7 @@ export function CompanyExpertise({ en }: { en: boolean }) {
         <p><CopyAccent text={localText(site.what.lead, en)} phrase={t('весь цикл розробки продукту', 'entire product development cycle')} /></p>
         <ul>
           {site.what.items.map((item) => (
-            <li key={item.en}>{localText(item, en)}</li>
+            <li key={item.en}><span>{localText(item, en)}</span></li>
           ))}
         </ul></MobileDisclosure>
       </div>
