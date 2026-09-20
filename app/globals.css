@@ -4036,6 +4036,9 @@ html:not(.dark) :is(.company-grid article, .products article, .engineering-calcu
 .products .model-photo img,.gallery-card .model-photo img,.model-drawer .model-photo img {aspect-ratio:16/9;object-fit:contain;background:transparent;}
 .product-context img {object-fit:contain;background:#171819;}
 .product-preview img {aspect-ratio:16/9;background:transparent;}
+/* White contour previews need dark strokes on light surfaces. */
+.model-photo > img, .product-preview > img {filter:invert(1);}
+.dark .model-photo > img, .dark .product-preview > img {filter:none;}
 .dark .products .model-photo img,
 .dark .gallery-card .model-photo img,
 .dark .product-preview img { mix-blend-mode: screen; }
