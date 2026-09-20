@@ -4362,3 +4362,11 @@ html:not(.dark) body {
     display: none;
   }
 }
+
+/* Calculator: persistent field guidance and mutually exclusive tariff units. */
+.engineering-calculator .field > .engineering-caption { margin: .5rem 0 0; font-size: .8rem; line-height: 1.5; }
+.engineering-tariff-options { border: 0; padding: 0; min-width: 0; }
+.engineering-tariff-options legend { margin-bottom: .75rem; font-size: .875rem; }
+.engineering-tariff-options label { display: inline-flex; align-items: center; gap: .5rem; margin-right: 1rem; padding: .65rem 0; cursor: pointer; }
+.engineering-tariff-options input { width: 1.1rem; height: 1.1rem; accent-color: #bc400d; }
+.gallery-card-copy > .text-link { margin: 1rem 0; }

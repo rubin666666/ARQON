@@ -7,7 +7,7 @@ export default function RootLayout({
   return (
     <html lang="uk" suppressHydrationWarning>
       <head>
-        <script dangerouslySetInnerHTML={{ __html: "document.documentElement.lang = location.pathname.startsWith('/en') ? 'en' : 'uk';" }} />
+        <script dangerouslySetInnerHTML={{ __html: "document.documentElement.lang = location.pathname.split('/').includes('en') ? 'en' : 'uk';" }} />
       </head>
       <body>{children}</body>
     </html>

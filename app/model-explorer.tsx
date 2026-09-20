@@ -5,6 +5,7 @@ import { Dialog, DialogContent, DialogTitle, DialogDescription, DialogClose } fr
 import { site, asset, localText } from '@/lib/site';
 
 export function ModelExplorer({en,onCalculate,open: controlledOpen,onOpenChange}: {en:boolean;onCalculate:(id:string)=>void;open?:boolean;onOpenChange?: (open:boolean)=>void}) {
+  const [detailId,setDetailId]=useState<string|null>(null);
   const [localOpen,setLocalOpen]=useState(false);
   const open=controlledOpen ?? localOpen;
   const setOpen=(value:boolean)=>{setLocalOpen(value);onOpenChange?.(value);};
@@ -17,10 +18,10 @@ export function ModelExplorer({en,onCalculate,open: controlledOpen,onOpenChange}
       <div className="gallery-grid">
         {site.models.map(m=><article className="gallery-card" key={m.id}>
           <ModelPhoto name={m.name} src={m.image} en={en} />
-          <div className="gallery-card-copy"><h3>{m.name}</h3><dl>{m.specifications.slice(0,3).map(spec=><div key={spec.id}><dt>{localText(spec.label,en)}</dt><dd>{localText(spec.value,en)}</dd></div>)}</dl><button type="button" className="button" onClick={()=>{setOpen(false);onCalculate(m.id);}}>{t('Розрахувати','Calculate')} {m.name}</button></div>
+          <div className="gallery-card-copy"><h3>{m.name}</h3><dl>{m.specifications.slice(0,3).map(spec=><div key={spec.id}><dt>{localText(spec.label,en)}</dt><dd>{localText(spec.value,en)}</dd></div>)}</dl><button type="button" className="text-link" onClick={()=>setDetailId(m.id)}>{t("Усі характеристики","All specifications")}</button><button type="button" className="button" onClick={()=>{setOpen(false);onCalculate(m.id);}}>{t('Розрахувати','Calculate')} {m.name}</button></div>
         </article>)}
       </div>
-    </DialogContent></Dialog></>;
+    <ModelDetails en={en} id={detailId} onClose={()=>setDetailId(null)} onCalculate={id=>{setDetailId(null);setOpen(false);onCalculate(id);}}/></DialogContent></Dialog></>;
 }
 export function ModelDetails({en,id,onClose,onCalculate}:{en:boolean;id:string|null;onClose:()=>void;onCalculate:(id:string)=>void}) {
   const m=site.models.find(m=>m.id===id);

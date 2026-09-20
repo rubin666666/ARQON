@@ -4,10 +4,10 @@ import {calculateEngineering} from '../lib/engineering.mjs';
 import {createEngineeringReport} from '../lib/engineering-report.mjs';
 
 const inputKeys=['modelId','cropId','volume','initialMoisture','finalMoisture','fuelId','fuelPrice','electricityPrice','serviceEnabled','serviceVolume','serviceTariff','elevatorTariff','elevatorBasis','elevatorOtherPerTonne','ownOtherPerTonne','delayedSale','currentGrainPrice','futureGrainPrice','dryerPrice','installation','additionalInvestment','availableHours'];
-const optionalInputKeys=['ambientTemperature','operatorPerHour','maintenancePerSeason'];
+const optionalInputKeys=['elevatorDistanceKm','truckPayloadTonnes','truckLitresPer100Km','transportDieselPrice','driverPerTrip','storageCostPerTonne','ambientTemperature','operatorPerHour','maintenancePerSeason'];
 const hash=async value=>Array.from(new Uint8Array(await crypto.subtle.digest('SHA-256',new TextEncoder().encode(value)))).map(v=>v.toString(16).padStart(2,'0')).join('');
 const secureUrl=value=>typeof value==='string' && value.startsWith('https://');
-const missingNames={
+const missingNames={TRANSPORT_INPUTS:['Параметри доставки на елеватор','Elevator transport inputs'],STORAGE_COSTS:['Витрати відкладеного продажу','Delayed-sale costs'],
   CAPACITY_CURVE:['Продуктивність обраного режиму','Capacity at selected regime'],ELECTRICAL_POWER:['Робоча електрична потужність','Operating electrical power'],
   FUEL_COMPATIBILITY:['Сумісність палива','Fuel compatibility'],FUEL_HEATING_VALUE:['Теплотворність палива','Fuel heating value'],THERMAL_PARAMETERS:['Теплові параметри та ККД','Thermal parameters and efficiency'],
   OPERATING_RATES:['Оператор та обслуговування','Operator and maintenance'],ENERGY_PRICES:['Ціни енергії','Energy prices'],BURNER_POWER:['Потужність пальників','Burner power'],ELEVATOR_TARIFF:['Тариф елеватора','Elevator tariff'],
@@ -17,7 +17,7 @@ function snapshot(record) {
   const en=record.locale==='en',m=data.models.find(x=>x.id===record.input.modelId),c=data.crops.find(x=>x.id===record.input.cropId),f=data.fuels.find(x=>x.id===record.input.fuelId);
   return {input:record.input,result:record.result,modelName:m.name,cropName:c[en?'en':'uk'],fuelName:f[en?'en':'uk'],fuelUnit:f.unit==='L'?(en?'L':'л'):f.unit==='kg'?(en?'kg':'кг'):'m³',
     missing:record.result.missing.map(k=>missingNames[k]?.[en?1:0]||k),warnings:record.result.warnings.map(k=>warningNames[k]?.[en?1:0]||k),
-    clientName:record.lead?.contact.name,calculationId:record.id,createdAt:record.createdAt};
+    clientName:record.lead?.contact.name,clientContact:record.lead?.contact.email || record.lead?.contact.phone,calculationId:record.id,createdAt:record.createdAt};
 }
 async function reportBytes(record,env,fetcher) {
   if(!secureUrl(env.PUBLIC_FONT_URL))throw new Error('Font unavailable');
