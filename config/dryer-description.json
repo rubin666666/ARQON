@@ -1,0 +1,286 @@
+{
+  "intro": {
+    "uk": "SAHARA від ARQON — це модульна конвеєрна сушарка безперервної дії, призначена для контрольованого видалення вологи з зерна та інших сипучих матеріалів.",
+    "en": "SAHARA by ARQON is a modular, continuous-flow conveyor dryer designed for controlled moisture removal from grain and other bulk materials."
+  },
+  "overview": {
+    "title": {
+      "uk": "Принцип роботи",
+      "en": "Operating principle"
+    },
+    "paragraphs": [
+      {
+        "uk": "Вологий продукт безперервно переміщується через сушильні зони, де через його шар проходить нагріте повітря. Тепло передається матеріалу, волога випаровується та виводиться разом із відпрацьованим повітрям. Після сушіння продукт проходить через зону охолодження та надходить на подальше зберігання або транспортування.",
+        "en": "Wet material moves continuously through drying zones, where heated air passes through the material bed. Heat is transferred to the material, moisture evaporates and is carried away with the exhaust air. After drying, the material passes through a cooling zone before storage or transport."
+      }
+    ]
+  },
+  "features": [
+    {
+      "title": {
+        "uk": "Повний контроль процесу",
+        "en": "Full process control"
+      },
+      "paragraphs": [
+        {
+          "uk": "SAHARA обладнана системою датчиків, яка контролює основні параметри роботи обладнання та технологічного процесу:",
+          "en": "SAHARA uses a sensor system to monitor the key operating and process parameters:"
+        }
+      ],
+      "points": [
+        {
+          "uk": "температуру в сушильних зонах;",
+          "en": "temperature in the drying zones;"
+        },
+        {
+          "uk": "температуру та параметри повітряного потоку;",
+          "en": "air temperature and airflow parameters;"
+        },
+        {
+          "uk": "вологість продукту;",
+          "en": "product moisture;"
+        },
+        {
+          "uk": "швидкість переміщення матеріалу;",
+          "en": "material conveying speed;"
+        },
+        {
+          "uk": "роботу вентиляторів, приводів і теплогенератора;",
+          "en": "operation of fans, drives and the heat generator;"
+        },
+        {
+          "uk": "інші параметри, необхідні для стабільної роботи системи.",
+          "en": "other parameters needed for stable system operation."
+        }
+      ],
+      "after": {
+        "uk": "Система автоматизації аналізує отримані дані та дозволяє точно налаштовувати режим сушіння відповідно до поточних умов.",
+        "en": "The automation system analyses the readings and enables precise adjustment of the drying regime to suit current conditions."
+      }
+    },
+    {
+      "title": {
+        "uk": "Універсальний технологічний режим",
+        "en": "Flexible drying settings"
+      },
+      "paragraphs": [
+        {
+          "uk": "SAHARA має широкий діапазон налаштувань температури, повітряного потоку, швидкості переміщення продукту та часу його перебування в сушарці.",
+          "en": "SAHARA offers a wide range of settings for temperature, airflow, conveying speed and the time the material spends inside the dryer."
+        },
+        {
+          "uk": "Система може працювати з різними типами теплогенераторів та джерелами теплової енергії, що дозволяє адаптувати обладнання до доступного палива та умов господарства.",
+          "en": "The system can work with different types of heat generators and thermal energy sources, adapting the equipment to available fuel and farm conditions."
+        },
+        {
+          "uk": "Технологічні режими можуть налаштовуватися під різні культури — кукурудзу, соняшник, ріпак, зернові та інші сипучі матеріали, для яких необхідне контрольоване зниження вологості.",
+          "en": "Drying regimes can be adjusted for corn, sunflower, rapeseed, cereals and other bulk materials requiring controlled moisture reduction."
+        }
+      ]
+    },
+    {
+      "title": {
+        "uk": "Не просто нагрів — контрольований процес сушіння",
+        "en": "More than heating: controlled drying"
+      },
+      "paragraphs": [
+        {
+          "uk": "Поєднання механічної системи переміщення, теплогенерації, вентиляції, системи датчиків та автоматизованого керування перетворює SAHARA на єдину технологічну систему, яку можна адаптувати під конкретний продукт і режим роботи.",
+          "en": "Combining mechanical conveying, heat generation, ventilation, sensors and automated control makes SAHARA an integrated process system that can be adapted to a specific product and operating regime."
+        }
+      ]
+    }
+  ],
+  "processTitle": {
+    "uk": "Як відбувається процес сушіння",
+    "en": "How the drying process works"
+  },
+  "steps": [
+    {
+      "title": {
+        "uk": "Завантаження",
+        "en": "Loading"
+      },
+      "paragraphs": [
+        {
+          "uk": "Вологе зерно надходить у приймальний бункер. Система отримує дані про вхідний продукт і встановлює оптимальні параметри сушіння відповідно до заданого результату.",
+          "en": "Wet grain enters the receiving hopper. The system collects information about the incoming product and sets optimal drying parameters for the required result."
+        }
+      ]
+    },
+    {
+      "title": {
+        "uk": "Сушіння",
+        "en": "Drying"
+      },
+      "paragraphs": [
+        {
+          "uk": "Скребковий транспортер рівномірно подає зерно до сушильної зони. Під шар зерна подається нагріте повітря. Проходячи крізь зерновий шар, воно передає тепло зерну та видаляє з нього вологу.",
+          "en": "A drag conveyor feeds grain evenly into the drying zone. Heated air is supplied beneath the grain bed. As it passes through the bed, it transfers heat to the grain and removes moisture."
+        }
+      ]
+    },
+    {
+      "title": {
+        "uk": "Постійний контроль",
+        "en": "Continuous monitoring"
+      },
+      "paragraphs": [
+        {
+          "uk": "Датчики безперервно контролюють температуру, вологість, повітряний потік та інші параметри процесу. Система автоматизації коригує режим роботи практично в реальному часі, підтримуючи задані параметри та зменшуючи ризик пересушування або недосушування.",
+          "en": "Sensors continuously monitor temperature, moisture, airflow and other process parameters. The automation system adjusts operation in near real time, maintaining the set parameters and reducing the risk of over-drying or under-drying."
+        }
+      ]
+    },
+    {
+      "title": {
+        "uk": "Перемішування та досушування",
+        "en": "Mixing and final drying"
+      },
+      "paragraphs": [
+        {
+          "uk": "Після першого проходження зерно переміщується на наступний шар сушильної зони. При цьому зерновий потік перемішується, що сприяє рівномірному розподілу тепла та завершенню процесу сушіння.",
+          "en": "After the first pass, grain moves to the next layer of the drying zone. The grain stream is mixed during the transfer, helping distribute heat evenly and complete the drying process."
+        }
+      ]
+    },
+    {
+      "title": {
+        "uk": "Охолодження",
+        "en": "Cooling"
+      },
+      "paragraphs": [
+        {
+          "uk": "Після сушильної зони зерно надходить у зону охолодження. Його температура знижується до безпечного рівня, після чого зерно можна направляти безпосередньо на зберігання. Це зменшує ризик утворення конденсату під час охолодження зерна у сховищі.",
+          "en": "After leaving the drying zone, grain enters the cooling zone. Its temperature drops to a safe level, allowing it to go directly into storage. This reduces the risk of condensation as grain cools in storage."
+        }
+      ]
+    },
+    {
+      "title": {
+        "uk": "Дбайливе поводження із зерном",
+        "en": "Gentle grain handling"
+      },
+      "paragraphs": [
+        {
+          "uk": "Конструкція SAHARA мінімізує механічний вплив на продукт. У процесі сушіння немає високошвидкісних робочих органів або падіння зерна з великої висоти.",
+          "en": "SAHARA is designed to minimise mechanical stress on the product. Drying involves no high-speed working parts or grain falling from a significant height."
+        },
+        {
+          "uk": "Це дозволяє використовувати SAHARA не тільки для товарного зерна, а й для крихких культур та підготовки посівного матеріалу, де особливо важливо зберегти цілісність зерна.",
+          "en": "This makes SAHARA suitable not only for commodity grain but also for fragile crops and seed preparation, where preserving grain integrity is particularly important."
+        }
+      ]
+    }
+  ],
+  "benefitsTitle": {
+    "uk": "Переваги модульної конструкції SAHARA",
+    "en": "Benefits of SAHARA’s modular design"
+  },
+  "benefits": [
+    {
+      "title": {
+        "uk": "Зручне транспортування",
+        "en": "Convenient transport"
+      },
+      "paragraphs": [
+        {
+          "uk": "Модулі мають габарити, що дозволяють транспортувати їх без використання спеціальної великогабаритної техніки.",
+          "en": "The modules are sized for transport without specialised oversized transport equipment."
+        }
+      ]
+    },
+    {
+      "title": {
+        "uk": "Швидкий монтаж",
+        "en": "Fast installation"
+      },
+      "paragraphs": [
+        {
+          "uk": "Монтаж виконується без залучення великовантажних автокранів, що спрощує встановлення та зменшує витрати.",
+          "en": "Installation does not require heavy-duty mobile cranes, simplifying setup and reducing costs."
+        }
+      ]
+    },
+    {
+      "title": {
+        "uk": "Без капітального фундаменту",
+        "en": "No permanent foundation"
+      },
+      "paragraphs": [
+        {
+          "uk": "SAHARA може встановлюватися на підготовленому рівному майданчику без будівництва традиційного капітального фундаменту.",
+          "en": "SAHARA can be installed on a prepared, level site without building a conventional permanent foundation."
+        }
+      ]
+    },
+    {
+      "title": {
+        "uk": "Мобільність",
+        "en": "Mobility"
+      },
+      "paragraphs": [
+        {
+          "uk": "Модульна конструкція дозволяє розглядати SAHARA як мобільне технологічне обладнання та адаптувати його розміщення до конкретного виробничого майданчика.",
+          "en": "The modular design allows SAHARA to be used as mobile process equipment, with its location adapted to the specific production site."
+        }
+      ]
+    },
+    {
+      "title": {
+        "uk": "Масштабування продуктивності",
+        "en": "Scalable capacity"
+      },
+      "paragraphs": [
+        {
+          "uk": "За необхідності продуктивність можна збільшувати шляхом додавання модулів. Це дозволяє розвивати сушильний комплекс поетапно, без необхідності одразу інвестувати в обладнання максимальної продуктивності.",
+          "en": "Capacity can be increased by adding modules when needed. This allows the drying facility to grow in stages, without an immediate investment in equipment with the highest capacity."
+        }
+      ]
+    },
+    {
+      "title": {
+        "uk": "Будь-яке джерело тепла",
+        "en": "Flexible heat sources"
+      },
+      "paragraphs": [
+        {
+          "uk": "SAHARA не прив'язана до конкретного типу теплогенератора. Система може працювати з різними джерелами теплової енергії — відповідно до доступного палива та умов господарства.",
+          "en": "SAHARA is not tied to a specific type of heat generator. The system can use different thermal energy sources to suit available fuel and farm conditions."
+        }
+      ]
+    },
+    {
+      "title": {
+        "uk": "Просте обслуговування та ремонт",
+        "en": "Straightforward maintenance and repairs"
+      },
+      "paragraphs": [
+        {
+          "uk": "Модульна конструкція корпусу спрощує заміну окремих пошкоджених елементів. Не потрібно демонтувати всю сушарку — замінюється лише необхідний компонент, що скорочує час простою та витрати на ремонт.",
+          "en": "The modular housing makes individual damaged elements easier to replace. There is no need to dismantle the entire dryer: only the required component is replaced, reducing downtime and repair costs."
+        }
+      ]
+    },
+    {
+      "title": {
+        "uk": "Встановлення всередині існуючих будівель",
+        "en": "Installation inside existing buildings"
+      },
+      "paragraphs": [
+        {
+          "uk": "Компактність і модульність SAHARA дозволяють встановлювати сушарку не тільки на відкритому майданчику, а й усередині існуючих виробничих приміщень. Такі рішення вже реалізовувалися на замовлення.",
+          "en": "SAHARA’s compact, modular design allows installation outdoors or inside existing production buildings. Such installations have already been delivered as custom projects."
+        }
+      ]
+    }
+  ],
+  "closingTitle": {
+    "uk": "SAHARA адаптується до господарства, а не навпаки",
+    "en": "SAHARA adapts to your farm"
+  },
+  "closing": {
+    "uk": "Модульний принцип дозволяє змінювати спосіб транспортування, монтажу, розміщення та масштабування обладнання відповідно до конкретних умов. Це зменшує початкові капітальні витрати та дозволяє розвивати сушильний комплекс поступово.",
+    "en": "The modular approach allows transport, installation, location and capacity expansion to be adapted to specific conditions. This reduces initial capital costs and enables gradual development of the drying facility."
+  }
+}

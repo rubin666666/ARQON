@@ -2,6 +2,7 @@
 import { site, localText, asset } from '@/lib/site';
 import { MobileDisclosure } from './mobile-disclosure';
 import Image from 'next/image';
+import description from '@/config/dryer-description.json';
 import { CopyAccent } from './copy-accent';
 
 export function CompanyExpertise({ en }: { en: boolean }) {
@@ -31,10 +32,16 @@ export function CompanyExpertise({ en }: { en: boolean }) {
 export function Technology({en}:{en:boolean}){
 
  const t=(uk:string,english:string)=>en?english:uk;
+ const copy=(value:{uk:string;en:string})=>value[en?'en':'uk'];
+ const cards=(items:{title:{uk:string;en:string};paragraphs:{uk:string;en:string}[];points?:{uk:string;en:string}[];after?:{uk:string;en:string}}[],numbered=false)=><div className="dryer-description-grid">{items.map((item,index)=><details className="dryer-description-card" key={item.title.en}><summary>{numbered&&<span className="dryer-description-number" aria-hidden="true">{String(index+1).padStart(2,'0')}</span>}<span>{copy(item.title)}</span><span className="dryer-description-toggle" aria-hidden="true">+</span></summary><div className="dryer-description-body">{item.paragraphs.map(p=><p key={p.en}>{copy(p)}</p>)}{item.points&&<ul>{item.points.map(p=><li key={p.en}>{copy(p)}</li>)}</ul>}{item.after&&<p>{copy(item.after)}</p>}</div></details>)}</div>;
  const flows=[['hot',t('Гаряче повітря','Hot air')],['warm',t('Тепле повітря','Warm air')],['medium',t('Повітря середньої температури','Intermediate-temperature air')],['cold',t('Холодне повітря','Cold air')],['grain',t('Рух зерна','Grain movement')]];
  const alt=t('Розріз сушарки SAHARA з кольоровими стрілками потоків повітря та руху зерна.','SAHARA dryer cutaway with colored airflow arrows and grain movement.');
  const legend=<ul className="flow-legend">{flows.map(([id,label])=><li key={id}><span className={'flow-key flow-'+id} aria-hidden="true">→</span>{label}</li>)}</ul>;
- return <section id="technology" className="section dryer-technology"><div className="section-heading"><div><p className="eyebrow">{t('Технологія сушіння','Drying technology')}</p><h2>{t('Як працює','How it works:')} <em>SAHARA</em></h2></div><p>{t('Потоки повітря та рух зерна — на одному розрізі сушарки.','Airflow and grain movement in one dryer cutaway.')}</p></div>
+ return <section id="technology" className="section dryer-technology"><div className="section-heading"><div><p className="eyebrow">{t('Технологія сушіння','Drying technology')}</p><h2>{t('Як працює','How it works:')} <em>SAHARA</em></h2></div><p>{copy(description.intro)}</p></div>
  <figure className="flow-figure"><div className="flow-image"><Image src={asset('/images/sahara-flow-v2.webp')} alt={alt} width={1536} height={864} loading="lazy"/></div><figcaption><h3>{t('Пояснення потоків','Flow legend')}</h3>{legend}<p className="visualization-note">{t('Схематична візуалізація за матеріалами виробника.','Conceptual visualization adapted from the manufacturer’s illustration.')}</p></figcaption></figure>
+ <div className="dryer-description-section"><h3>{copy(description.processTitle)}</h3>{cards(description.steps,true)}</div>
+ <div className="dryer-description-section"><h3>{t('Керування та режими роботи','Control and operating regimes')}</h3>{cards([description.overview,...description.features])}</div>
+ <div className="dryer-description-section"><h3>{copy(description.benefitsTitle)}</h3>{cards(description.benefits,true)}</div>
+ <div className="dryer-description-closing"><h3>{copy(description.closingTitle)}</h3><p>{copy(description.closing)}</p></div>
  </section>;
 }
