@@ -4314,10 +4314,12 @@ html:not(.dark) body {
   border-left: 1px solid color-mix(in srgb, var(--foreground) 28%, var(--border));
 }
 
-@media (max-width: 1000px) {
+@media (max-width: 680px) {
+  .benefits > div:nth-child(n) {
+    border: 0;
+  }
   .benefits > div:not(:first-child) {
-    border-left: 0;
-    border-top: 1px solid color-mix(in srgb, var(--foreground) 28%, var(--border));
+    border-top: 1px solid var(--border);
   }
 }
 
