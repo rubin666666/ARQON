@@ -4049,9 +4049,9 @@ html:not(.dark) :is(.company-grid article, .products article, .engineering-calcu
 .flow-figure .flow-legend li {font-size:16px;font-weight:500;line-height:1.5;color:var(--foreground);}
 .flow-figure .flow-key {width:40px;height:32px;font-size:28px;}
 .flow-figure .visualization-note {font-size:14px;line-height:1.6;color:var(--foreground);margin-top:22px;}
-.flow-figure figcaption { text-align: center; }
+.flow-figure figcaption { text-align: left; }
 .flow-figure h3 { font-size: 24px; }
-.flow-figure .flow-legend { justify-content: center; }
+.flow-figure .flow-legend { justify-content: flex-start; }
 .flow-figure .flow-legend li { font-size: clamp(16px, 1.3vw, 18px); }
 .flow-figure .flow-key { width: 44px; height: 34px; font-size: 30px; }
 @media(max-width:680px){.flow-figure .flow-legend{justify-items:start;}.flow-figure .flow-legend li{width:100%;}.flow-figure h3{font-size:22px;}}
