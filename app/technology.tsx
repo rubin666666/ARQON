@@ -4,6 +4,9 @@ import { MobileDisclosure } from './mobile-disclosure';
 import Image from 'next/image';
 import description from '@/config/dryer-description.json';
 import { CopyAccent } from './copy-accent';
+import { Dialog, DialogTrigger, DialogContent, DialogTitle, DialogDescription, DialogClose } from '@/components/ui/dialog';
+import { Tabs } from '@base-ui/react/tabs';
+import { ArrowUpRight } from 'lucide-react';
 
 export function CompanyExpertise({ en }: { en: boolean }) {
   const t = (a: string, b: string) => (en ? b : a);
@@ -39,10 +42,27 @@ export function Technology({en}:{en:boolean}){
  const legend=<ul className="flow-legend">{flows.map(([id,label])=><li key={id}><span className={'flow-key flow-'+id} aria-hidden="true">→</span>{label}</li>)}</ul>;
  return <section id="technology" className="section dryer-technology"><div className="section-heading"><div><p className="eyebrow">{t('Технологія сушіння','Drying technology')}</p><h2>{t('Як працює','How it works:')} <em>SAHARA</em></h2></div><p>{copy(description.intro)}</p></div>
  <figure className="flow-figure"><div className="flow-image"><Image src={asset('/images/sahara-flow-v2.webp')} alt={alt} width={1536} height={864} loading="lazy"/></div><figcaption><h3>{t('Пояснення потоків','Flow legend')}</h3>{legend}<p className="visualization-note">{t('Схематична візуалізація за матеріалами виробника.','Conceptual visualization adapted from the manufacturer’s illustration.')}</p></figcaption></figure>
- <details className="dryer-description"><summary><span className="dryer-description-label"><strong>{t('Докладніше про сушарку','More about the dryer')}</strong><small>{t('Етапи сушіння · Керування · Модульна конструкція','Drying stages · Controls · Modular design')}</small></span><span className="dryer-description-toggle" aria-hidden="true">+</span></summary><div className="dryer-description-content">
- <div className="dryer-description-section"><h3>{copy(description.processTitle)}</h3>{cards(description.steps,true)}</div>
- <div className="dryer-description-section"><h3>{t('Керування та режими роботи','Control and operating regimes')}</h3><div className="dryer-description-controls">{cards([description.overview,description.features[1]])}{cards([description.features[0],description.features[2]])}</div></div>
- <div className="dryer-description-section"><h3>{copy(description.benefitsTitle)}</h3>{cards(description.benefits,true)}</div>
- <div className="dryer-description-closing"><h3>{copy(description.closingTitle)}</h3><p>{copy(description.closing)}</p></div>
- </div></details></section>;
+
+ <Dialog>
+   <DialogTrigger className="dryer-description-launch">
+     <span className="dryer-description-label"><strong>{t('Докладніше про сушарку','More about the dryer')}</strong><small>{t('Етапи сушіння · Керування · Модульна конструкція','Drying stages · Controls · Modular design')}</small></span>
+     <span className="dryer-description-toggle" aria-hidden="true"><ArrowUpRight size={24}/></span>
+   </DialogTrigger>
+   <DialogContent className="arqon-dialog dryer-description-dialog" showCloseButton={false}>
+     <div className="dryer-dialog-heading">
+       <div><DialogTitle>{t('Докладніше про сушарку','More about the dryer')}</DialogTitle><DialogDescription>SAHARA · ARQON</DialogDescription></div>
+       <DialogClose className="modal-close" aria-label={t('Закрити опис сушарки','Close dryer description')}>×</DialogClose>
+     </div>
+     <Tabs.Root defaultValue="process" className="dryer-dialog-tabs">
+       <Tabs.List className="dryer-dialog-tablist" aria-label={t('Розділи опису сушарки','Dryer description sections')}>
+         <Tabs.Tab value="process">{t('Процес сушіння','Drying process')}</Tabs.Tab>
+         <Tabs.Tab value="controls">{t('Керування','Controls')}</Tabs.Tab>
+         <Tabs.Tab value="benefits">{t('Переваги','Benefits')}</Tabs.Tab>
+       </Tabs.List>
+       <Tabs.Panel value="process" className="dryer-dialog-panel"><h3>{copy(description.processTitle)}</h3>{cards(description.steps,true)}</Tabs.Panel>
+       <Tabs.Panel value="controls" className="dryer-dialog-panel"><h3>{t('Керування та режими роботи','Control and operating regimes')}</h3><div className="dryer-description-controls">{cards([description.overview,description.features[1]])}{cards([description.features[0],description.features[2]])}</div></Tabs.Panel>
+       <Tabs.Panel value="benefits" className="dryer-dialog-panel"><h3>{copy(description.benefitsTitle)}</h3>{cards(description.benefits,true)}<div className="dryer-description-closing"><h3>{copy(description.closingTitle)}</h3><p>{copy(description.closing)}</p></div></Tabs.Panel>
+     </Tabs.Root>
+   </DialogContent>
+ </Dialog></section>;
 }
