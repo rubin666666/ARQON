@@ -158,7 +158,10 @@ export default function Home({
             onClick={() => {
               const v = !en;
               E(v);
-              history.replaceState(null, '', `${localeUrl(v)}${location.search}${location.hash}`);
+              const params = new URLSearchParams(location.search);
+              params.delete('lang');
+              const query = params.toString();
+              history.replaceState(null, '', `${localeUrl(v)}${query ? `?${query}` : ''}${location.hash}`);
             }}
             aria-label={en ? 'Українська' : 'English'}
           >
