@@ -36,7 +36,7 @@
   },
   "closing": {
     "uk": "Один технологічний партнер — від концепції до системи керування.",
-    "en": "One technology partner — from concept to operating system."
+    "en": "One technology partner — from concept to control system."
   },
   "who": {
     "lead": {
@@ -60,7 +60,7 @@
       },
       {
         "uk": "Механічне проєктування та конструкторська документація",
-        "en": "Mechanical engineering and manufacturing documentation"
+        "en": "Mechanical design and engineering documentation"
       },
       {
         "uk": "Промислова автоматизація та системи керування",
@@ -76,7 +76,7 @@
       },
       {
         "uk": "Збір, моніторинг та аналіз виробничих даних",
-        "en": "Data collection, monitoring, and analytics"
+        "en": "Production data collection, monitoring, and analysis"
       },
       {
         "uk": "Дистанційний моніторинг і керування обладнанням",
@@ -121,7 +121,7 @@
         },
         "role": {
           "uk": "Розробка промислового програмного забезпечення та систем автоматизації.",
-          "en": "Industrial software and automation development."
+          "en": "Development of industrial software and automation systems."
         }
       },
       {
@@ -147,7 +147,7 @@
     },
     "body": {
       "uk": "Наша мета — зробити промислове обладнання більш автоматизованим, контрольованим, ефективним і зручним в експлуатації, створюючи рішення, які можуть розвиватися разом із потребами клієнта.",
-      "en": "Our objective is to make industrial equipment more automated, measurable, efficient, and easier to operate while creating solutions that can evolve with the customer's needs."
+      "en": "Our objective is to make industrial equipment more automated, controllable, efficient, and easier to operate while creating solutions that can evolve with the customer's needs."
     }
   },
   "productIntro": {

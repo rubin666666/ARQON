@@ -456,7 +456,7 @@ export function Calculator({ en, model, onModelChange: setModel }: { en: boolean
       <div className="scenario-tools">
         <button type="button" className="button button-secondary" onClick={shareScenario}>{t('Поділитися сценарієм', 'Share scenario')}</button>
         <button type="button" className="text-link" onClick={resetScenario}>{t('Скинути', 'Reset')}</button>
-        <output>{scenarioNotice === 'copied' ? t('Посилання скопійовано', 'Link copied') : scenarioNotice === 'reset' ? t('Параметри скинуто', 'Inputs reset') : scenarioNotice === 'invalid' ? t('Не вдалося відновити або зберегти сценарій. Перевірте параметри.', 'Unable to restore or share the scenario. Check your inputs.') : scenarioNotice === 'manual' ? t('Скопіюйте посилання нижче', 'Copy the link below') : t('Параметри зберігаються у цьому браузері', 'Inputs are saved in this browser')}</output>
+        <output>{scenarioNotice === 'copied' ? t('Посилання скопійовано', 'Link copied') : scenarioNotice === 'reset' ? t('Параметри скинуто', 'Inputs reset') : scenarioNotice === 'invalid' ? t('Не вдалося відновити або зберегти сценарій. Перевірте параметри.', 'Unable to restore or save the scenario. Check your inputs.') : scenarioNotice === 'manual' ? t('Скопіюйте посилання нижче', 'Copy the link below') : t('Параметри зберігаються у цьому браузері', 'Inputs are saved in this browser')}</output>
         {manualLink && <input aria-label={t('Посилання на сценарій', 'Scenario link')} value={manualLink} readOnly onFocus={e=>e.target.select()} />}
       </div>
       <Dialog open={open} onOpenChange={setOpen}>

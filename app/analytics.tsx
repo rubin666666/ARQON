@@ -56,7 +56,7 @@ export function Analytics({ en }: { en: boolean }) {
       <p>
         {en
           ? 'Allow anonymous usage analytics to help improve the website?'
-          : 'Дозволити аналітику використання для покращення сайту?'}{' '}
+          : 'Дозволити анонімну аналітику використання для покращення сайту?'}{' '}
         <a href="#privacy">{en ? 'Privacy' : 'Конфіденційність'}</a>
       </p>
       <button onClick={() => choose('declined')}>

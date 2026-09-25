@@ -30,7 +30,7 @@ export function About({ en }: { en: boolean }) {
         </article>
       </div>
       <div id="network" className="network company-network-panel">
-        <MobileDisclosure title={t('Міжнародна інженерно-виробнича мережа', 'International engineering network')}>
+        <MobileDisclosure title={t('Міжнародна інженерно-виробнича мережа', 'International engineering and manufacturing network')}>
           <p className="network-lead">{localText(site.network.lead, en)}</p>
           <div className="network-places">
             {site.network.places.map(place=><div key={place.name.en}><strong>{localText(place.name,en)}</strong><p>{localText(place.role,en)}</p></div>)}
