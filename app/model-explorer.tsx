@@ -1,22 +1,23 @@
 'use client';
-import { useState } from 'react';
+import { useRef, useState } from 'react';
 import { ModelPhoto } from './model-photo';
 import { Dialog, DialogContent, DialogTitle, DialogDescription, DialogClose } from '@/components/ui/dialog';
 import { site, asset, localText } from '@/lib/site';
 
-export function ModelExplorer({en,onCalculate,open: controlledOpen,onOpenChange}: {en:boolean;onCalculate:(id:string)=>void;open?:boolean;onOpenChange?: (open:boolean)=>void}) {
+export function ModelExplorer({en,onCalculate,open: controlledOpen,onOpenChange,initialModelId}: {en:boolean;onCalculate:(id:string)=>void;open?:boolean;onOpenChange?: (open:boolean)=>void;initialModelId?:string|null}) {
+  const selectedCard=useRef<HTMLElement|null>(null);
   const [detailId,setDetailId]=useState<string|null>(null);
   const [localOpen,setLocalOpen]=useState(false);
   const open=controlledOpen ?? localOpen;
   const setOpen=(value:boolean)=>{setLocalOpen(value);onOpenChange?.(value);};
   const t=(uk:string,english:string)=>en?english:uk;
   return <><button type="button" className="button button-secondary compare-button" onClick={()=>setOpen(true)}>{t('Галерея моделей','Model gallery')}</button>
-    <Dialog open={open} onOpenChange={setOpen}><DialogContent id="model-gallery" className="arqon-dialog gallery-dialog" showCloseButton={false}>
+    <Dialog open={open} onOpenChange={setOpen} onOpenChangeComplete={value=>{if(value)selectedCard.current?.scrollIntoView({block:'start',behavior:'instant'});}}><DialogContent id="model-gallery" className="arqon-dialog gallery-dialog" showCloseButton={false}>
       <DialogClose className="modal-close" aria-label={t('Закрити галерею','Close gallery')}>×</DialogClose>
       <DialogTitle>{t('Моделі SAHARA','SAHARA models')}</DialogTitle>
       <DialogDescription>{t('Оберіть модель, перегляньте доступні характеристики та відкрийте розрахунок.','Choose a model, review available specifications, and open the calculator.')}</DialogDescription>
       <div className="gallery-grid">
-        {site.models.map(m=><article className="gallery-card" key={m.id}>
+        {site.models.map(m=><article className="gallery-card" key={m.id} ref={m.id===initialModelId?selectedCard:undefined}>
           <ModelPhoto name={m.name} src={m.image} en={en} />
           <div className="gallery-card-copy"><h3>{m.name}</h3><dl>{m.specifications.slice(0,3).map(spec=><div key={spec.id}><dt>{localText(spec.label,en)}</dt><dd>{localText(spec.value,en)}</dd></div>)}</dl><button type="button" className="text-link" onClick={()=>setDetailId(m.id)}>{t("Усі характеристики","All specifications")}</button><button type="button" className="button" onClick={()=>{setOpen(false);onCalculate(m.id);}}>{t('Розрахувати','Calculate')} {m.name}</button></div>
         </article>)}

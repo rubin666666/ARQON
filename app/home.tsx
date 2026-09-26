@@ -52,6 +52,7 @@ export default function Home({
     [selectedModel, setSelectedModel] = useState(site.models[0].id),
     [calculatorOpen, setCalculatorOpen] = useState(false),
     [galleryOpen, setGalleryOpen] = useState(false),
+    [galleryModel, setGalleryModel] = useState<string|null>(null),
     [detailModel, setDetailModel] = useState<string|null>(null),
     [allModels] = useState(false),
     [activeSection, setActiveSection] = useState('');
@@ -86,6 +87,7 @@ export default function Home({
     const revealModel=()=>{
       const id=location.hash.slice(1);
       if(site.models.some(m=>m.id===id)){
+        setGalleryModel(id);
         setGalleryOpen(true);
       }
     };
@@ -212,7 +214,7 @@ export default function Home({
                         <a
                           key={m.id}
                           href={'#' + m.id}
-                          onClick={() => { M(false); setGalleryOpen(true); }}
+                          onClick={() => { M(false); setGalleryModel(m.id); setGalleryOpen(true); }}
                         >
                           {m.name}
                         </a>
@@ -320,10 +322,10 @@ export default function Home({
               <span className="eyebrow">{t('Серія SAHARA','SAHARA series')}</span>
               <h3>{t('Оберіть сушарку для свого сезону','Choose the dryer for your season')}</h3>
               <p>{t('Перегляньте доступні моделі та відкрийте розрахунок для обраної сушарки.','Review the available models and open a calculation for your selected dryer.')}</p>
-              <ModelExplorer en={en} open={galleryOpen} onOpenChange={setGalleryOpen} onCalculate={calculateModel} />
+              <ModelExplorer en={en} open={galleryOpen} initialModelId={galleryModel} onOpenChange={value=>{setGalleryOpen(value);if(!value)setGalleryModel(null);}} onCalculate={calculateModel} />
             </div>
           </div>
-          {!allModels && <div className="product-previews">{site.models.slice(0,3).map(m=><button key={m.id} type="button" className="product-preview" aria-label={t('Відкрити галерею продуктів: ','Open product gallery: ')+m.name} aria-expanded={galleryOpen} aria-controls="model-gallery" onClick={()=>setGalleryOpen(true)}><Image src={asset('/sahara-contour.png')} width={240} height={240} alt={`${m.name} — ${t('технічна ілюстрація серії','technical series illustration')}`} loading="lazy"/><span>{m.name}</span><ArrowUpRight size={18}/></button>)}</div>}
+          {!allModels && <div className="product-previews">{site.models.slice(0,3).map(m=><button key={m.id} type="button" className="product-preview" aria-label={t('Відкрити галерею продуктів: ','Open product gallery: ')+m.name} aria-expanded={galleryOpen} aria-controls="model-gallery" onClick={()=>{setGalleryModel(m.id);setGalleryOpen(true);}}><Image src={asset('/sahara-contour.png')} width={240} height={240} alt={`${m.name} — ${t('технічна ілюстрація серії','technical series illustration')}`} loading="lazy"/><span>{m.name}</span><ArrowUpRight size={18}/></button>)}</div>}
           {allModels && <figure className="product-context"><Image src={asset('/images/sahara-context-v2.webp')} alt={t('Візуалізація сушарки SAHARA поруч із зерновим комплексом','Visualization of a SAHARA dryer alongside a grain facility')} width={1536} height={864} loading="lazy"/><figcaption><span className="eyebrow">{t('Серія SAHARA','SAHARA series')}</span><h3>{t('Технологія для вашого врожаю','Technology for your harvest')}</h3><p>{t('Концептуальна візуалізація застосування','Conceptual application visualization')}</p></figcaption></figure>}
           <div className="products" id="product-models">
             {(allModels ? site.models : []).map((m) => (
