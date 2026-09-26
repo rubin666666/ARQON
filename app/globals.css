@@ -4452,8 +4452,20 @@ html:not(.dark) body {
 .dryer-dialog-panel .dryer-description-grid { column-gap:28px; }
 .dryer-dialog-panel .dryer-description-item { padding:16px 0; gap:8px; }
 .dryer-dialog-panel .dryer-description-body { font-size:14px; line-height:1.6; }
-.dryer-dialog-panel .dryer-description-closing { margin-top:16px; padding-top:18px; }
-.dryer-dialog-panel .dryer-description-closing p { font-size:14px; }
+.dryer-technology > .dryer-description-closing { margin-top:24px; padding-top:20px; }
+@media(min-width:1024px) {
+ .dryer-description-dialog[data-slot="dialog-content"] { width:min(1280px,calc(100vw - 40px)) !important; max-width:1280px !important; }
+ .dryer-dialog-heading { padding:16px 24px 12px; }
+ .dryer-dialog-tablist { margin:0 24px 10px; }
+ .dryer-dialog-panel { padding:0 24px 16px; scrollbar-gutter:auto; }
+ .dryer-dialog-panel > h3 { padding:4px 0 8px; }
+ .dryer-dialog-panel .dryer-description-item { padding:10px 0; gap:6px; }
+ .dryer-dialog-panel .dryer-description-body { line-height:1.45; }
+ .dryer-dialog-panel .dryer-description-body p { margin-bottom:8px; font-size:inherit; line-height:inherit; }
+ .dryer-dialog-panel .dryer-description-body p:last-child { margin-bottom:0; }
+ .dryer-dialog-panel .dryer-description-body ul { margin-bottom:8px; }
+ .dryer-dialog-panel .dryer-description-body li { margin:3px 0; }
+}
 @media(max-width:680px) {
  .dryer-description-launch { padding:22px 18px; gap:12px; }
  .dryer-description-dialog[data-slot="dialog-content"] { width:calc(100vw - 20px) !important; height:calc(100dvh - 20px); max-height:calc(100dvh - 20px); }

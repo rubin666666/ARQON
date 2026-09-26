@@ -61,8 +61,9 @@ export function Technology({en}:{en:boolean}){
        </Tabs.List>
        <Tabs.Panel value="process" className="dryer-dialog-panel"><h3>{copy(description.processTitle)}</h3>{cards(description.steps,true)}</Tabs.Panel>
        <Tabs.Panel value="controls" className="dryer-dialog-panel"><h3>{t('Керування та режими роботи','Control and operating regimes')}</h3><div className="dryer-description-controls">{cards([description.overview,description.features[1]])}{cards([description.features[0],description.features[2]])}</div></Tabs.Panel>
-       <Tabs.Panel value="benefits" className="dryer-dialog-panel"><h3>{copy(description.benefitsTitle)}</h3>{cards(description.benefits,true)}<div className="dryer-description-closing"><h3>{copy(description.closingTitle)}</h3><p>{copy(description.closing)}</p></div></Tabs.Panel>
+       <Tabs.Panel value="benefits" className="dryer-dialog-panel"><h3>{copy(description.benefitsTitle)}</h3>{cards(description.benefits,true)}</Tabs.Panel>
      </Tabs.Root>
    </DialogContent>
- </Dialog></section>;
+ </Dialog>
+ <div className="dryer-description-closing"><h3>{copy(description.closingTitle)}</h3><p>{copy(description.closing)}</p></div></section>;
 }
