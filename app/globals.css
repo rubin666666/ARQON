@@ -4127,8 +4127,17 @@ html:not(.dark) :is(.company-grid article, .products article, .engineering-calcu
 }
 
 /* Final design pass: clearer hierarchy, shared surfaces, and visible states. */
+.first-screen { display: contents; }
 @media (min-width: 1001px) {
-  .hero { min-block-size: min(760px, calc(100svh - 94px)); }
+  .first-screen {
+    display: flex;
+    flex-direction: column;
+    min-height: calc(100svh - 80px);
+    padding-bottom: clamp(24px, 4svh, 56px);
+  }
+  .first-screen > .hero { flex: 1; min-block-size: auto; padding-block: clamp(20px, 4svh, 56px); }
+  .first-screen > .benefits { flex-shrink: 0; margin-bottom: 0; transform: none; }
+  .first-screen > .benefits > .reveal-on-scroll { opacity: 1; transform: none; }
   .hero-art > img { object-position: center; }
 }
 

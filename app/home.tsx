@@ -74,7 +74,7 @@ export default function Home({
     return ()=>{cancelAnimationFrame(frame);window.removeEventListener('scroll',update);window.removeEventListener('resize',update);};
   },[]);
   useEffect(()=>{
-    const elements=[...document.querySelectorAll<HTMLElement>('main > section, .benefits > div, .products article')];
+    const elements=[...document.querySelectorAll<HTMLElement>('main > section, .hero, .benefits > div, .products article')];
     if(!('IntersectionObserver' in window)){elements.forEach(el=>el.classList.add('is-visible'));return;}
     elements.forEach(el=>el.classList.add('reveal-on-scroll'));
     const observer=new IntersectionObserver(entries=>entries.forEach(entry=>{
@@ -228,6 +228,7 @@ export default function Home({
         </Dialog>
       </header>
       <main id="main">
+        <div className="first-screen">
         <section className="hero">
           <div className="hero-copy">
             <p className="eyebrow">{localText(site.tagline, en)}</p>
@@ -304,6 +305,7 @@ export default function Home({
               </div>
             </div>
           ))}
+        </div>
         </div>
         <About en={en} />
         <section id="products" className="section">
