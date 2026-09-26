@@ -16,11 +16,11 @@ export function About({ en }: { en: boolean }) {
     t('Виробництво через партнерів', 'Manufacturing through partners'),
   ];
   return <section id="about" className="section about-compact">
-    <header className="about-intro">
+    <div className="about-intro">
       <p className="eyebrow">{t('Про ARQON', 'About ARQON')}</p>
       <h2><CopyAccent text={localText(site.tagline, en)} phrase={t('Інтелект.', 'Intelligence.')} /></h2>
       <p>{t('ARQON розробляє промислове обладнання, автоматизацію та власне програмне забезпечення — від концепції до запуску єдиної системи.', 'ARQON develops industrial equipment, automation and proprietary software — from concept to the launch of a unified system.')}</p>
-    </header>
+    </div>
     <div className="about-overview">
       <div id="company-expertise">
         <h3>{t('Компетенції', 'Expertise')}</h3>
