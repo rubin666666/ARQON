@@ -4523,3 +4523,21 @@ html:not(.dark) body {
  .about-full-copy,.about-full-network dl { grid-template-columns:1fr; }
  .about-compact .about-intro > p:last-child { font-size:16px; }
 }
+
+/* Company details use the same stable tabbed dialog as the dryer. */
+.about-dialog .dryer-dialog-panel h3 { margin:0 0 12px; font-size:18px; line-height:1.4; }
+.about-dialog .dryer-dialog-panel p,.about-dialog .dryer-dialog-panel dd { margin:0 0 12px; font-size:15px; line-height:1.6; color:var(--muted); }
+.about-modal-columns { display:grid; grid-template-columns:1fr 1fr; gap:32px; }
+.about-modal-expertise { margin-top:20px; }
+.about-modal-expertise ol { display:grid; grid-template-columns:1fr 1fr; gap:0 28px; list-style:none; padding:0; margin:0; }
+.about-modal-expertise li { display:flex; align-items:center; gap:12px; border-top:1px solid var(--border); padding:10px 0; font-size:14px; line-height:1.5; }
+.about-modal-expertise li > span { flex-shrink:0; color:var(--primary); font-size:12px; }
+.about-modal-network { display:grid; grid-template-columns:repeat(3,1fr); gap:24px; margin:24px 0; }
+.about-modal-network > div { border-top:2px solid var(--primary); padding-top:12px; }
+.about-modal-network dt { font-size:18px; font-weight:600; color:var(--primary); margin-bottom:10px; }
+.about-dialog .dryer-dialog-panel .about-modal-closing { border-top:1px solid var(--border); margin:20px 0 0; padding-top:16px; color:var(--foreground); }
+@media(max-width:760px) {
+ .about-modal-columns,.about-modal-expertise ol,.about-modal-network { grid-template-columns:1fr; }
+ .about-modal-columns { gap:20px; }
+ .about-modal-network { gap:16px; }
+}
