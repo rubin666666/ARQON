@@ -4209,7 +4209,8 @@ html:not(.dark) :is(.company-grid article, .products article, .engineering-calcu
   }
 
   .hero-art {
-    animation: arqon-reveal var(--motion-standard) var(--ease-standard) both, arqon-float 8s ease-in-out 700ms infinite alternate;
+    animation: arqon-float 10s ease-in-out infinite alternate;
+    will-change: transform;
   }
 
   .products article {
@@ -4259,8 +4260,8 @@ html:not(.dark) :is(.company-grid article, .products article, .engineering-calcu
 }
 
 @keyframes arqon-float {
-  from { transform: translateY(0); }
-  to { transform: translateY(-8px); }
+  from { transform: translate3d(0,0,0); }
+  to { transform: translate3d(0,-4px,0); }
 }
 
 @keyframes arqon-target-pulse {
@@ -4603,3 +4604,8 @@ html:not(.dark) body {
  .about-dialog .about-modal-card { padding:18px; }
  .about-dialog .dryer-dialog-panel .about-modal-closing { padding:14px 16px; }
 }
+
+/* Original solid-line artwork: dark ink in light mode, light ink in dark mode. */
+.hero-art > img, .hero-mobile-art img, .model-photo > img, .product-preview > img { filter:none; }
+.dark .hero-art > img, .dark .hero-mobile-art img, .dark .model-photo > img, .dark .product-preview > img { filter:invert(1); mix-blend-mode:screen; }
+.model-photo > img, .model-photo:hover > img, .model-photo:active > img { scale:none; transform:none; transition:none; animation:none; }

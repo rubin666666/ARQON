@@ -239,7 +239,7 @@ export default function Home({
               <br />
               <em>SAHARA.</em>
             </h1>
-            <figure className="hero-mobile-art"><Image width={1024} height={1024} src={asset('/sahara-contour.png')} alt={t('Технічна ілюстрація зерносушарки SAHARA','SAHARA grain dryer technical illustration')} fetchPriority="high"/></figure>
+            <figure className="hero-mobile-art"><Image width={1024} height={1024} src={asset('/sahara-hero.png')} alt={t('Технічна ілюстрація зерносушарки SAHARA','SAHARA grain dryer technical illustration')} fetchPriority="high"/></figure>
             <p>
               {t(
                 'Зерносушарки SAHARA — обладнання Arqon, де інженерія, автоматизація й програмне забезпечення працюють як одна система.',
@@ -261,7 +261,7 @@ export default function Home({
             <Image
               width={1024}
               height={1024}
-              src={asset('/sahara-contour.png')}
+              src={asset('/sahara-hero.png')}
               alt={t(
                 'Технічна ілюстрація зерносушарки SAHARA',
                 'SAHARA grain dryer technical illustration',
@@ -327,7 +327,7 @@ export default function Home({
               <ModelExplorer en={en} open={galleryOpen} initialModelId={galleryModel} onOpenChange={value=>{setGalleryOpen(value);if(!value)setGalleryModel(null);}} onCalculate={calculateModel} />
             </div>
           </div>
-          {!allModels && <div className="product-previews">{site.models.slice(0,3).map(m=><button key={m.id} type="button" className="product-preview" aria-label={t('Відкрити галерею продуктів: ','Open product gallery: ')+m.name} aria-expanded={galleryOpen} aria-controls="model-gallery" onClick={()=>{setGalleryModel(m.id);setGalleryOpen(true);}}><Image src={asset('/sahara-contour.png')} width={240} height={240} alt={`${m.name} — ${t('технічна ілюстрація серії','technical series illustration')}`} loading="lazy"/><span>{m.name}</span><ArrowUpRight size={18}/></button>)}</div>}
+          {!allModels && <div className="product-previews">{site.models.slice(0,3).map(m=><button key={m.id} type="button" className="product-preview" aria-label={t('Відкрити галерею продуктів: ','Open product gallery: ')+m.name} aria-expanded={galleryOpen} aria-controls="model-gallery" onClick={()=>{setGalleryModel(m.id);setGalleryOpen(true);}}><Image src={asset('/sahara-hero.png')} width={240} height={240} alt={`${m.name} — ${t('технічна ілюстрація серії','technical series illustration')}`} loading="lazy"/><span>{m.name}</span><ArrowUpRight size={18}/></button>)}</div>}
           {allModels && <figure className="product-context"><Image src={asset('/images/sahara-context-v2.webp')} alt={t('Візуалізація сушарки SAHARA поруч із зерновим комплексом','Visualization of a SAHARA dryer alongside a grain facility')} width={1536} height={864} loading="lazy"/><figcaption><span className="eyebrow">{t('Серія SAHARA','SAHARA series')}</span><h3>{t('Технологія для вашого врожаю','Technology for your harvest')}</h3><p>{t('Концептуальна візуалізація застосування','Conceptual application visualization')}</p></figcaption></figure>}
           <div className="products" id="product-models">
             {(allModels ? site.models : []).map((m) => (

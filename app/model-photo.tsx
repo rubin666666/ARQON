@@ -6,7 +6,7 @@ import { asset } from '@/lib/site';
 
 export function ModelPhoto({ name, src, en }: { name: string; src: string; en: boolean }) {
   const [open, setOpen] = useState(false);
-  const previewSrc = asset('/sahara-contour.png');
+  const previewSrc = asset('/sahara-hero.png');
   const fullSrc = asset(src || '/images/sahara-product-v2.webp');
   return <>
     <button type="button" className="model-photo" aria-label={`${en ? 'Enlarge image' : 'Збільшити зображення'} ${name}`} onClick={() => setOpen(true)}>
