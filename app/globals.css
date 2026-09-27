@@ -4562,7 +4562,8 @@ html:not(.dark) body {
 .about-dialog .about-modal-card h3 { font-size:21px; margin-bottom:14px; }
 .about-dialog .about-modal-card p:last-child,.about-dialog .about-modal-card dd { margin-bottom:0; }
 .about-dialog .dryer-dialog-panel .about-modal-closing { padding:16px 20px; margin-top:20px; border:1px solid color-mix(in srgb,var(--primary) 30%,var(--border)); border-left:3px solid var(--primary); border-radius:12px; background:color-mix(in srgb,var(--primary) 7%,var(--background)); font-weight:500; }
-.about-expertise-layout { display:grid; grid-template-columns:minmax(0,.8fr) minmax(0,1.6fr); gap:24px; align-items:start; }
+.about-expertise-intro { margin-bottom:8px; }
+.about-expertise-layout { display:grid; grid-template-columns:minmax(0,.8fr) minmax(0,1.6fr); gap:24px; align-items:stretch; }
 .about-modal-expertise { margin:0; }
 .about-expertise-groups { display:grid; grid-template-columns:repeat(2,minmax(0,1fr)); gap:12px; }
 .about-dialog .about-expertise-groups .about-modal-card { padding:16px; }

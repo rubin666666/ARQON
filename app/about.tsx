@@ -58,9 +58,10 @@ export function About({ en }: { en: boolean }) {
             <p className="about-modal-closing">{localText(site.closing, en)}</p>
           </Tabs.Panel>
           <Tabs.Panel keepMounted value="expertise" className="dryer-dialog-panel">
+            <div className="about-expertise-intro"><h3>{t('Чим ми займаємося', 'What we do')}</h3><p>{localText(site.what.lead, en)}</p></div>
             <div className="about-expertise-layout">
               <article className="about-modal-card about-technology-card"><span className="about-card-index">ARQON</span><h3>{t('Наші технології', 'Our technology')}</h3><p>{localText(site.technology.lead, en)}</p><p>{localText(site.technology.body, en)}</p></article>
-              <article className="about-modal-expertise"><h3>{t('Чим ми займаємося', 'What we do')}</h3><p>{localText(site.what.lead, en)}</p><div className="about-expertise-groups">{directions.map((direction,i) => <section className="about-modal-card" key={direction}><h4><span className="about-card-index" aria-hidden="true">0{i+1}</span>{direction}</h4><ul>{site.what.items.slice(i*2,i*2+2).map(item => <li key={item.en}>{localText(item,en)}</li>)}</ul></section>)}</div></article>
+              <div className="about-modal-expertise about-expertise-groups">{directions.map((direction,i) => <section className="about-modal-card" key={direction}><h4><span className="about-card-index" aria-hidden="true">0{i+1}</span>{direction}</h4><ul>{site.what.items.slice(i*2,i*2+2).map(item => <li key={item.en}>{localText(item,en)}</li>)}</ul></section>)}</div>
             </div>
           </Tabs.Panel>
           <Tabs.Panel keepMounted value="network" className="dryer-dialog-panel">
