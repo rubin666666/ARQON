@@ -252,9 +252,6 @@ p {
   border-radius: 3px;
   transition: filter 0.2s;
 }
-.dark .button:not(.button-secondary) {
-  color: var(--background);
-}
 .button:hover {
   filter: brightness(1.12);
 }
