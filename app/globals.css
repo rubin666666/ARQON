@@ -4606,6 +4606,9 @@ html:not(.dark) body {
 }
 
 /* Original solid-line artwork: dark ink in light mode, light ink in dark mode. */
-.hero-art > img, .hero-mobile-art img, .model-photo > img, .product-preview > img { filter:none; }
+.hero-art > img, .hero-mobile-art img, .model-photo > img, .product-preview > img { filter:none; mix-blend-mode:multiply; }
 .dark .hero-art > img, .dark .hero-mobile-art img, .dark .model-photo > img, .dark .product-preview > img { filter:invert(1); mix-blend-mode:screen; }
+/* Blend the animated figure itself: its transform isolates child blending. */
+.hero-art, .hero-mobile-art, .model-photo { isolation:auto; mix-blend-mode:multiply; }
+.dark .hero-art, .dark .hero-mobile-art, .dark .model-photo { isolation:auto; mix-blend-mode:screen; }
 .model-photo > img, .model-photo:hover > img, .model-photo:active > img { scale:none; transform:none; transition:none; animation:none; }
