@@ -4508,6 +4508,14 @@ html:not(.dark) body {
 .about-locations li { display:grid; grid-template-columns:90px 1fr; gap:16px; padding:10px 0; border-top:1px solid var(--border); line-height:1.45; }
 .about-locations strong { color:var(--primary); font-weight:600; }
 .about-locations li > span { color:var(--muted); }
+@media(min-width:761px) {
+ .about-overview > div { display:flex; flex-direction:column; }
+ .about-overview h3 { flex-shrink:0; }
+ .about-overview ul { flex:1; }
+ .about-directions { grid-template-rows:repeat(2,minmax(0,1fr)); }
+ .about-locations { display:grid; grid-template-rows:repeat(3,minmax(0,1fr)); }
+ .about-locations li { align-items:center; }
+}
 .about-details { margin-top:24px; border-top:1px solid var(--border); border-bottom:1px solid var(--border); }
 .about-details > summary { display:flex; align-items:center; justify-content:space-between; gap:16px; padding:16px 0; cursor:pointer; list-style:none; font-size:16px; font-weight:600; }
 .about-details > summary::-webkit-details-marker { display:none; }
