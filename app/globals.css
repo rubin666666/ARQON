@@ -4469,7 +4469,7 @@ html:not(.dark) body {
  .dryer-technology > .section-heading > p { width:100%; max-width:560px; justify-self:end; margin:0; }
 }
 @media(min-width:1024px) {
- .dryer-description-dialog[data-slot="dialog-content"] { width:min(1280px,calc(100vw - 40px)) !important; max-width:1280px !important; height:auto; }
+ .dryer-description-dialog[data-slot="dialog-content"] { width:min(1280px,calc(100vw - 40px)) !important; max-width:1280px !important; height:min(700px,calc(100dvh - 40px)); }
  /* Shared grid row takes the tallest tab's height without displaying inactive text. */
  .dryer-dialog-tabs { display:grid; grid-template-rows:auto minmax(0,1fr); }
  .dryer-dialog-tablist { grid-area:1 / 1; }
@@ -4564,7 +4564,6 @@ html:not(.dark) body {
 }
 
 /* Structured company panels, without changing the shared dryer dialog. */
-.about-dialog[data-slot="dialog-content"] { width:min(1100px,calc(100vw - 40px)) !important; max-width:1100px !important; }
 .about-dialog .dryer-dialog-heading { padding:22px 24px 18px; }
 .about-dialog .dryer-dialog-tablist { margin-bottom:20px; }
 .about-dialog .dryer-dialog-panel { padding-bottom:24px; }
@@ -4587,6 +4586,9 @@ html:not(.dark) body {
 .about-modal-network { gap:20px; margin:20px 0 0; }
 .about-modal-network dt { font-size:24px; margin-bottom:16px; }
 @media(min-width:1024px) {
+ .about-dialog .dryer-dialog-heading { padding:16px 24px 12px; }
+ .about-dialog .dryer-dialog-tablist { margin-bottom:10px; }
+ .about-dialog .dryer-dialog-panel { padding-bottom:16px; }
  .about-dialog .dryer-dialog-panel:not([hidden]) { display:flex; flex-direction:column; }
  .about-dialog .about-modal-columns { flex:1; }
  .about-dialog .dryer-dialog-panel > article { display:flex; flex:1; flex-direction:column; }
@@ -4600,7 +4602,4 @@ html:not(.dark) body {
  .about-dialog .dryer-dialog-heading { padding:18px 16px 14px; }
  .about-dialog .about-modal-card { padding:18px; }
  .about-dialog .dryer-dialog-panel .about-modal-closing { padding:14px 16px; }
-}
-@media(max-width:680px) {
- .about-dialog[data-slot="dialog-content"] { width:calc(100vw - 20px) !important; }
 }
