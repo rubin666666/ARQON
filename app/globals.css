@@ -3794,11 +3794,11 @@ html {
   background-image: linear-gradient(120deg, var(--gradient-amber), transparent 75%);
 }
 
-/* Light graphite theme with brighter cards and strong text contrast. */
+/* Warm orange-tinted light theme with bright reading surfaces. */
 :root:not(.dark) {
-  --background: #e8eaed;
-  --surface: #f7f8fa;
-  --surface-raised: #f7f8fa;
+  --background: #f8dfc8;
+  --surface: #fff7ef;
+  --surface-raised: #fff7ef;
   --surface-input: #ffffff;
   --border: #858c96;
   --muted: #3e4650;
@@ -3815,7 +3815,7 @@ html:not(.dark) :is(.technology-detail, .calculator .result, .site-footer, .capa
   background-image: none;
 }
 
-/* Consistent card surfaces on the graphite page. */
+/* Consistent card surfaces on the warm page. */
 html:not(.dark) :is(.company-grid article, .products article, .engineering-calculator .calc-group, .engineering-calculator .result) {
   background-color: var(--surface);
   background-image: none;
