@@ -3796,9 +3796,10 @@ html {
 
 /* Warm orange-tinted light theme with bright reading surfaces. */
 :root:not(.dark) {
-  --background: #f8dfc8;
-  --surface: #fff7ef;
-  --surface-raised: #fff7ef;
+  --background: #fff4e8;
+  --surface: #fffcf8;
+  --surface-raised: #fffcf8;
+  --primary: #a6380b;
   --surface-input: #ffffff;
   --border: #858c96;
   --muted: #3e4650;
@@ -3811,6 +3812,13 @@ html {
   --card-shadow-hover: 0 10px 28px #1113181a;
 }
 html:not(.dark) body { background-image: none; }
+html:not(.dark) :is(.button:not(.button-secondary), .dryer-description-launch) {
+  background: var(--primary);
+  color: #fff;
+}
+html:not(.dark) :is(.button:not(.button-secondary), .dryer-description-launch):hover:not(:disabled) {
+  background: #8f2f08;
+}
 html:not(.dark) :is(.technology-detail, .calculator .result, .site-footer, .capabilities li) {
   background-image: none;
 }
