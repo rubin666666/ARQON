@@ -34,8 +34,8 @@ export function Calculator({ en, model, onModelChange, open, onOpenChange }: {en
   const [storedDraft, setDraft] = useState<Draft>(initial);
   const selected = data.models.find(m => m.id === model);
   const reference = selected?.reference.find(p => p.cropId === storedDraft.cropId);
-  // Normalize old saved/shared scenarios to the manufacturer's fixed regime.
-  const draft: Draft = {...storedDraft,priceModelId:model,dryerPrice:storedDraft.priceModelId===model?storedDraft.dryerPrice:'', ...(reference ? {initialMoisture:String(reference.input),finalMoisture:String(reference.output)} : {})};
+  // Preserve incoming moisture; target moisture follows the selected crop.
+  const draft: Draft = {...storedDraft,priceModelId:model,dryerPrice:storedDraft.priceModelId===model?storedDraft.dryerPrice:'', ...(reference ? {finalMoisture:String(reference.output)} : {})};
   const [loaded, setLoaded] = useState(false);
   const [notice, setNotice] = useState('');
   const [link, setLink] = useState('');
@@ -111,7 +111,7 @@ export function Calculator({ en, model, onModelChange, open, onOpenChange }: {en
   const missingCodes=result.missing.filter(code=>code!=='OPERATING_RATES'||!result.missing.includes('INVESTMENT'));
   const missingFields:Record<string,string>={INVESTMENT:'eng-dryerPrice',OPERATING_RATES:'eng-dryerPrice',ENERGY_PRICES:input.fuelPrice===null?'eng-fuelPrice':'eng-electricityPrice',ELEVATOR_TARIFF:'eng-elevatorTariff',SERVICE_TARIFF:'eng-serviceTariff',GRAIN_PRICES:input.currentGrainPrice===null?'eng-currentGrainPrice':'eng-futureGrainPrice',STORAGE_COSTS:'eng-storageCostPerTonne',TRANSPORT_INPUTS:input.truckPayloadTonnes===null?'eng-truckPayloadTonnes':input.truckLitresPer100Km===null?'eng-truckLitresPer100Km':input.transportDieselPrice===null?'eng-transportDieselPrice':'eng-driverPerTrip'};
   const warnings: Record<string,string> = {
-    UNSUPPORTED_REGIME:t('Використовуйте фіксований режим виробника.','Use the fixed manufacturer regime.'),
+    UNSUPPORTED_REGIME:t('Кінцева вологість має відповідати режиму виробника.','Final moisture must match the manufacturer regime.'),
     INVALID_INPUT:t('Перевірте введені значення: обсяг має бути більшим за нуль, ціни й витрати — невід’ємними. Для ввімкненої послуги потрібен додатний обсяг.','Check your inputs: volume must be greater than zero; prices and costs cannot be negative. An enabled service requires a positive volume.'),
     SEASON_TOO_SHORT:t('Потрібний час перевищує доступні години сезону.','Required operating time exceeds available seasonal hours.'),
     THERMAL_POWER_INSUFFICIENT:t('Розрахункова теплова потреба перевищує потужність моделі.','Required thermal power exceeds model capacity.'),
@@ -138,6 +138,7 @@ export function Calculator({ en, model, onModelChange, open, onOpenChange }: {en
     if(['truckPayloadTonnes','volume','serviceVolume','availableHours','serviceTariff'].includes(key)&&value===0)return t('Значення має бути більшим за нуль.','Value must be greater than zero.');
     if(['volume','serviceVolume'].includes(key)&&value>1e9)return t('Максимум — 1 000 000 000 т.','Maximum: 1,000,000,000 t.');
     if(['initialMoisture','finalMoisture'].includes(key)&&(value<=0||value>=100))return t('Вологість має бути більшою за 0% і меншою за 100%.','Moisture must be greater than 0% and below 100%.');
+    if(key==='initialMoisture'&&value<=Number(draft.finalMoisture))return t('Початкова вологість має бути вищою за кінцеву.','Initial moisture must exceed final moisture.');
     if(key==='finalMoisture'&&number(draft.initialMoisture)!==null&&value>=Number(draft.initialMoisture))return t('Кінцева вологість має бути нижчою за початкову.','Final moisture must be below initial moisture.');
     return '';
   }
@@ -220,9 +221,9 @@ export function Calculator({ en, model, onModelChange, open, onOpenChange }: {en
           {select('calc-crop',t('Культура','Crop'),draft.cropId,data.crops.map(c=>({value:c.id,label:c[en?'en':'uk']})),applyReference)}
           {numeric('dailyHours',t('Робочих годин на добу','Operating hours per day'),true)}
           {numeric('volume',t('Прогнозований урожай за сезон, т','Forecast total seasonal harvest, t'),true)}
-          <div className="field"><label htmlFor="eng-initialMoisture">{t('Початкова вологість, %','Initial moisture, %')}</label><input id="eng-initialMoisture" value={draft.initialMoisture} readOnly aria-describedby="maximum-moisture"/><p id="maximum-moisture" className="engineering-caption">{t('У розрахунок взято максимально можливу вологість зерна для цього режиму.','The calculation uses the maximum incoming grain moisture for this regime.')}</p></div>
+          {numeric('initialMoisture',t('Початкова вологість, %','Initial moisture, %'),true)}
           <div className="field"><label htmlFor="eng-finalMoisture">{t('Кінцева вологість, %','Final moisture, %')}</label><input id="eng-finalMoisture" value={draft.finalMoisture} readOnly/></div>
-        </div>{reference && <div className="engineering-reference"><p>{t('Розрахунковий режим','Calculation regime')}: <b>{reference.input} → {reference.output}% · {reference.temperature} °C · {reference.status==='pending'?t('продуктивність уточнюється','capacity pending'):reference.capacity+' '+t('т/год висушеного зерна','t/h dried grain')}</b></p></div>}</fieldset>
+        </div>{reference && <div className="engineering-reference"><p>{t('Довідковий режим виробника','Manufacturer reference regime')}: <b>{reference.input} → {reference.output}% · {reference.temperature} °C · {reference.status==='pending'?t('продуктивність уточнюється','capacity pending'):reference.capacity+' '+t('т/год висушеного зерна','t/h dried grain')}</b></p>{result.missing.includes('CAPACITY_CURVE')&&<p>{t('Для введеної вологості немає підтвердженої продуктивності. Баланс зерна розраховано; час, повна собівартість та окупність потребують даних виробника.','No confirmed capacity is available for this moisture. Grain balance is calculated; duration, full cost and payback need manufacturer data.')}</p>}</div>}</fieldset>
         <fieldset className="calc-group" data-step="1"><legend><Fuel size={18}/>{t('02 — Енергоносії','02 — Energy')}</legend><div className="fields">
           {select('eng-fuel',t('Паливо для розрахунку','Scenario fuel'),draft.fuelId,data.fuels.map(f=>({value:f.id,label:f[en?'en':'uk']})),value=>{setDraft(d=>({...d,fuelId:value,fuelPrice:''}));})}
           {numeric('fuelPrice',`${t('Ціна палива','Fuel price')}, ${t('грн','UAH')}/${fuelUnit}`,true)}

@@ -8,7 +8,7 @@ const input={modelId:'sahara-s9',cropId:'corn',volume:1,initialMoisture:25,final
 function fixture(){const d=structuredClone(actual);d.models[0].reference=d.models[0].previousReference;Object.assign(d.models[0],{thermalApproved:true,electricalPower:20,burnerPower:5000,supportedFuels:['diesel'],burnerEfficiency:.9,lossFactor:.1,recoveredFraction:.05,operatorPerHour:10,maintenancePerHour:5,seasonalFixed:100});Object.assign(d.crops[0],{grainHeat:.0015,latentHeat:2.3,waterDelta:50,grainDelta:30});d.fuels[0].heatingValue=36;return d;}
 await test('manufacturer data yields mass and capacity without inventing operating rates',()=>{const r=calculateEngineering(input,actual);assert.equal(r.status,'ready');assert.ok(Math.abs(r.own.waterKg-117.647058824)<.0001);assert.equal(r.own.dryMatterKg,750);assert.equal(r.capacity,6);assert.ok(r.own.fuelQuantity>0);assert.ok(Number.isFinite(r.economicEffect));assert.equal(r.paybackSeasons,null);});
 await test('every supplied model/crop point reproduces its capacity and working hours',()=>{for(const m of actual.models)for(const p of m.reference){const r=calculateEngineering({...input,modelId:m.id,cropId:p.cropId,initialMoisture:p.input,finalMoisture:p.output,volume:1000},actual);assert.equal(r.capacity,p.status==='pending'?null:p.capacity);assert.equal(r.own.hours,p.status==='pending'?null:r.own.finalKg/1000/p.capacity);assert.ok(Math.abs(r.own.rawKg-r.own.finalKg-r.own.waterKg)<1e-7);}});
-await test('rejects arbitrary and obsolete moisture regimes',()=>{for(const change of [{initialMoisture:20},{initialMoisture:30},{finalMoisture:14}]){const r=calculateEngineering({...input,...change},actual);assert.equal(r.status,'invalid');assert.ok(r.warnings.includes('UNSUPPORTED_REGIME'));}});
+await test('rejects unsupported target moisture',()=>{for(const change of [{finalMoisture:14}]){const r=calculateEngineering({...input,...change},actual);assert.equal(r.status,'invalid');assert.ok(r.warnings.includes('UNSUPPORTED_REGIME'));}});
 await test('prices scale only their matching energy costs',()=>{const d=fixture(),i={...input,finalMoisture:15};const a=calculateEngineering(i,d),b=calculateEngineering({...i,fuelPrice:66},d),c=calculateEngineering({...i,electricityPrice:8.8},d);assert.equal(a.status,'ready');assert.ok(Math.abs(b.own.fuelCost/a.own.fuelCost-1.1)<1e-10);assert.equal(a.own.electricityCost,b.own.electricityCost);assert.ok(Math.abs(c.own.electricityCost/a.own.electricityCost-1.1)<1e-10);});
 await test('service revenue is not profit and fixed cost is counted exactly once',()=>{const d=fixture(),r=calculateEngineering({...input,finalMoisture:15,volume:10,serviceEnabled:true,serviceVolume:5,serviceTariff:500},d);assert.equal(r.serviceRevenue,2500);assert.equal(r.serviceProfit,2500-r.service.dryingCost);assert.ok(Math.abs(r.own.fixedCost+r.service.fixedCost-1000)<1e-10);assert.ok(Math.abs(r.totalHours-(r.own.finalKg+r.service.finalKg)/1000/r.capacity)<1e-10);assert.equal(r.own.perTonne,r.own.dryingCost/10);});
 await test('service OFF ignores hidden fields and returns zero service profit',()=>{const r=calculateEngineering({...input,serviceVolume:NaN,serviceTariff:NaN},actual);assert.notEqual(r.status,'invalid');assert.equal(r.serviceRevenue,0);assert.equal(r.serviceProfit,0);});
@@ -101,4 +101,14 @@ await test('daily schedule changes days but not energy or financial results',()=
  const a=calculateEngineering({...control,dailyHours:20},actual),b=calculateEngineering({...control,dailyHours:10},actual);
  assert.equal(b.totalDays,a.totalDays*2);assert.equal(b.own.days,a.own.days*2);assert.equal(b.totalHours,a.totalHours);assert.equal(b.own.dryingCost,a.own.dryingCost);
  for(const dailyHours of [0,0.5,25,NaN,Infinity])assert.equal(calculateEngineering({...control,dailyHours},actual).status,'invalid');
+});
+
+await test('editable incoming moisture updates balance without inventing capacity',()=>{
+ for(const initialMoisture of [20,30]) {
+ const r=calculateEngineering({...input,initialMoisture},actual);
+ assert.equal(r.status,'partial');assert.ok(r.missing.includes('CAPACITY_CURVE'));
+ assert.equal(r.capacity,null);assert.equal(r.totalHours,null);assert.equal(r.paybackSeasons,null);
+ assert.ok(Math.abs(r.own.finalKg-1000*(1-initialMoisture/100)/.85)<1e-8);
+ }
+ for(const initialMoisture of [0,15,100])assert.equal(calculateEngineering({...input,initialMoisture},actual).status,'invalid');
 });
