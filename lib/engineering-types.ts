@@ -7,7 +7,7 @@ export type EngineeringInput = {
   delayedSale: boolean; currentGrainPrice: number | null; futureGrainPrice: number | null;
   dryerPrice: number | null; installation: number | null; additionalInvestment: number;
   elevatorDistanceKm?: number; truckPayloadTonnes?: number | null; truckLitresPer100Km?: number | null; transportDieselPrice?: number | null; driverPerTrip?: number | null; storageCostPerTonne?: number | null;
-  availableHours: number | null; ambientTemperature?: number; operatorPerHour?: number | null; maintenancePerSeason?: number | null;
+  dailyHours?: number; availableHours: number | null; ambientTemperature?: number; operatorPerHour?: number | null; maintenancePerSeason?: number | null;
 };
 export type EngineeringData = {
   fixedRegimes?: boolean;

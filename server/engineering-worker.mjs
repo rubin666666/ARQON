@@ -4,7 +4,7 @@ import {calculateEngineering} from '../lib/engineering.mjs';
 import {createEngineeringReport} from '../lib/engineering-report.mjs';
 
 const inputKeys=['modelId','cropId','volume','initialMoisture','finalMoisture','fuelId','fuelPrice','electricityPrice','serviceEnabled','serviceVolume','serviceTariff','elevatorTariff','elevatorBasis','elevatorOtherPerTonne','ownOtherPerTonne','delayedSale','currentGrainPrice','futureGrainPrice','dryerPrice','installation','additionalInvestment','availableHours'];
-const optionalInputKeys=['elevatorDistanceKm','truckPayloadTonnes','truckLitresPer100Km','transportDieselPrice','driverPerTrip','storageCostPerTonne','ambientTemperature','operatorPerHour','maintenancePerSeason'];
+const optionalInputKeys=['dailyHours','elevatorDistanceKm','truckPayloadTonnes','truckLitresPer100Km','transportDieselPrice','driverPerTrip','storageCostPerTonne','ambientTemperature','operatorPerHour','maintenancePerSeason'];
 const hash=async value=>Array.from(new Uint8Array(await crypto.subtle.digest('SHA-256',new TextEncoder().encode(value)))).map(v=>v.toString(16).padStart(2,'0')).join('');
 const secureUrl=value=>typeof value==='string' && value.startsWith('https://');
 const missingNames={TRANSPORT_INPUTS:['Параметри доставки на елеватор','Elevator transport inputs'],STORAGE_COSTS:['Витрати відкладеного продажу','Delayed-sale costs'],

@@ -96,3 +96,9 @@ await test('removed investment and maintenance fields cannot alter updated calcu
  assert.equal(a.own.dryingCost,a.own.fuelCost+a.own.electricityCost+a.own.operatorCost+a.own.fixedCost);
  assert.equal(a.own.usefulMJ,a.own.waterHeatingMJ+a.own.evaporationMJ+a.own.grainHeatingMJ);
 });
+
+await test('daily schedule changes days but not energy or financial results',()=>{
+ const a=calculateEngineering({...control,dailyHours:20},actual),b=calculateEngineering({...control,dailyHours:10},actual);
+ assert.equal(b.totalDays,a.totalDays*2);assert.equal(b.own.days,a.own.days*2);assert.equal(b.totalHours,a.totalHours);assert.equal(b.own.dryingCost,a.own.dryingCost);
+ for(const dailyHours of [0,0.5,25,NaN,Infinity])assert.equal(calculateEngineering({...control,dailyHours},actual).status,'invalid');
+});
