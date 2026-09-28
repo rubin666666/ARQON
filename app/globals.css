@@ -4683,6 +4683,11 @@ html:not(.dark) .engineering-result .button {
   border-color: #fffcf8;
   color: #22262b;
 }
+html:not(.dark) .engineering-result .engineering-pending {
+  background: #30363d;
+  color: #fff;
+  border: 1px solid #78818c;
+}
 html:not(.dark) .engineering-result .button:hover:not(:disabled) {
   background: #f6e3d4;
   color: #22262b;
