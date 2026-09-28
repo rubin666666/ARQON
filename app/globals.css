@@ -3813,11 +3813,11 @@ html {
 }
 html:not(.dark) body { background-image: none; }
 html:not(.dark) :is(.button:not(.button-secondary), .dryer-description-launch) {
-  background: var(--primary);
+  background: #22262b;
   color: #fff;
 }
 html:not(.dark) :is(.button:not(.button-secondary), .dryer-description-launch):hover:not(:disabled) {
-  background: #8f2f08;
+  background: #a6380b;
 }
 html:not(.dark) :is(.technology-detail, .calculator .result, .site-footer, .capabilities li) {
   background-image: none;
@@ -4617,3 +4617,80 @@ html:not(.dark) body {
 .hero-art, .hero-mobile-art, .model-photo { isolation:auto; mix-blend-mode:multiply; }
 .dark .hero-art, .dark .hero-mobile-art, .dark .model-photo { isolation:auto; mix-blend-mode:screen; }
 .model-photo > img, .model-photo:hover > img, .model-photo:active > img { scale:none; transform:none; transition:none; animation:none; }
+
+/* Light theme: distinct page, reading surfaces and action areas. */
+html:not(.dark) header {
+  background: #fffcf8;
+  border-bottom: 1px solid var(--border);
+}
+html:not(.dark) :is(.arqon-dialog, .dryer-description-dialog, .calculator-window, .engineering-lead-dialog, .menu-dialog)[data-slot="dialog-content"] {
+  background: #fffcf8;
+  color: var(--foreground);
+  border: 1px solid var(--border);
+  box-shadow: 0 20px 70px #11131830;
+}
+html:not(.dark) :is(.company-grid article, .products article, .about-modal-card, .engineering-comparison, .calculator-launch-card, .technology-detail, .engineering-calculator .calc-group) {
+  background-color: #ffffff;
+  border-color: var(--border);
+  box-shadow: var(--card-shadow);
+}
+html:not(.dark) .button.button-secondary {
+  background: #fffcf8;
+  border-color: #656c74;
+  color: #22262b;
+}
+html:not(.dark) .button.button-secondary:hover:not(:disabled) {
+  background: #f4e4d5;
+  border-color: #a6380b;
+}
+html:not(.dark) :is(.modal-close, .model-photo-close) {
+  background: #fff;
+  border-color: #656c74;
+  color: #22262b;
+}
+html:not(.dark) :is(.modal-close, .model-photo-close):hover {
+  background: #f4e4d5;
+  border-color: #a6380b;
+}
+html:not(.dark) :is(.field input, .field select, .field textarea) {
+  background: #fff;
+  color: #111318;
+  border-color: #656c74;
+}
+html:not(.dark) :is(input, textarea)::placeholder { color: #59616b; opacity: 1; }
+html:not(.dark) .engineering-comparison tbody tr:nth-child(even) { background: #f1f2f3; }
+html:not(.dark) .engineering-comparison tr[aria-current="true"],
+html:not(.dark) .engineering-model-card[data-selected="true"] {
+  background: #f6e3d4;
+  box-shadow: inset 3px 0 #a6380b;
+}
+html:not(.dark) .engineering-comparison thead { background: #e5e8eb; color: #111318; }
+html:not(.dark) .dryer-dialog-tablist { background: #eceff1; border-color: #858c96; }
+html:not(.dark) .dryer-dialog-tablist [aria-selected="true"] { background: #a6380b; color: #fff; }
+html:not(.dark) :is(.engineering-calculator .result, .site-footer) {
+  --background: #22262b;
+  --surface: #30363d;
+  --surface-raised: #30363d;
+  --foreground: #fff;
+  --muted: #d2d7dd;
+  --border: #78818c;
+  --primary: #ff9c66;
+  background: #22262b;
+  color: #fff;
+}
+html:not(.dark) .engineering-result .button {
+  background: #fffcf8;
+  border-color: #fffcf8;
+  color: #22262b;
+}
+html:not(.dark) .engineering-result .button:hover:not(:disabled) {
+  background: #f6e3d4;
+  color: #22262b;
+}
+html:not(.dark) .site-footer .brand .brand-light-letters {
+  display: block;
+  position: absolute;
+  inset: 0;
+  filter: brightness(0) invert(1);
+  clip-path: polygon(25% 0, 100% 0, 100% 100%, 0 100%, 0 67%, 25% 67%);
+}
