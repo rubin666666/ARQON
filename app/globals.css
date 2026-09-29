@@ -4727,3 +4727,42 @@ html:not(.dark) .site-footer .brand .brand-light-letters {
   .calculator-wizard-footer { padding-inline: 14px; gap: 8px; }
   .calculator-wizard-footer .button { min-height: 44px; padding-inline: 12px; }
 }
+
+/* Calculator presentation: shared hierarchy without changes to calculation data. */
+.calculator-window.calculator-wizard[data-slot="dialog-content"] { height: min(860px,90dvh); }
+.calculator-context { display:flex; flex-wrap:wrap; gap:8px 18px; padding:12px 22px; border-bottom:1px solid var(--border); background:var(--surface); font-size:13px; flex-shrink:0; font-variant-numeric:tabular-nums; }
+.calculator-context strong { color:var(--primary); }
+.calculator-context span + span { border-left:1px solid var(--border); padding-left:18px; }
+.calculator-progress li[data-complete="true"] > span { border-color:var(--primary); color:var(--primary); background:color-mix(in srgb,var(--primary) 8%,transparent); }
+.calculator-price-grid { display:grid; grid-template-columns:repeat(2,minmax(0,1fr)); gap:20px; margin:20px 0 26px; align-items:stretch; }
+.calculator-price-grid > .calc-group:first-child { grid-column:1 / -1; }
+.calculator-window .calculator-price-grid > .calc-group { margin:0; padding:20px; border-radius:16px; }
+.calculator-price-grid > .calc-group:not(:first-child) .fields { grid-template-columns:1fr; }
+.calculator-price-grid .field { align-content:start; }
+.calculator-input-wrap { display:flex; align-items:center; position:relative; min-width:0; }
+.calculator-window .calculator-input-wrap input { width:100%; min-width:0; }
+.calculator-input-wrap:has(.calculator-input-unit) input { padding-right:110px; }
+.calculator-input-unit { position:absolute; right:12px; pointer-events:none; color:var(--muted); font-size:12px; white-space:nowrap; }
+.calculator-help { margin:14px 0 0; font-size:13px; line-height:1.6; }
+.calculator-help > summary { cursor:pointer; color:var(--foreground); padding:8px 0; font-weight:500; }
+.calculator-help .engineering-caption { margin:8px 0; }
+.calculator-wizard .engineering-outcomes { grid-template-columns:repeat(3,minmax(0,1fr)); gap:14px; border:0; padding:0; }
+.calculator-wizard .engineering-outcomes > div { display:flex; flex-direction:column; align-items:flex-start; justify-content:space-between; gap:20px; padding:22px 18px; border:1px solid var(--border); border-radius:16px; background:var(--surface); min-width:0; }
+.calculator-wizard .engineering-outcomes dt { max-width:100%; font-size:14px; }
+.calculator-wizard .engineering-outcomes dd { text-align:left; font-size:clamp(24px,2.4vw,32px); line-height:1.2; overflow-wrap:anywhere; font-variant-numeric:tabular-nums; }
+.calculator-wizard .engineering-outcomes dd small { display:block; margin-top:8px; font-size:12px; color:var(--muted); font-weight:400; }
+html:not(.dark) .calculator-wizard .engineering-result { --background:#fffcf8; --surface:#fff; --surface-raised:#fff; --foreground:#111318; --muted:#515962; --border:#b5b8bc; --primary:#a6380b; background:#fffcf8; color:#111318; }
+html:not(.dark) .calculator-wizard .engineering-result .engineering-pending { background:#f7ecdf; color:#383d43; border-color:#c9ae96; }
+html:not(.dark) .calculator-wizard .engineering-outcomes > div { border-color:#c9b6a7; box-shadow:0 3px 12px #40271408; }
+html:not(.dark) .calculator-wizard .engineering-result .button:not(.button-secondary) { background:#22262b; border-color:#22262b; color:#fff; }
+html:not(.dark) .calculator-wizard .engineering-result .button:hover:not(:disabled) { background:#a6380b; border-color:#a6380b; color:#fff; }
+@media(max-width:680px) {
+ .calculator-context { padding:10px 14px; gap:6px 10px; font-size:12px; }
+ .calculator-context span + span { padding-left:10px; }
+ .calculator-price-grid { grid-template-columns:1fr; gap:18px; }
+ .calculator-window .calculator-price-grid > .calc-group { padding:16px; }
+ .calculator-wizard .engineering-outcomes { grid-template-columns:1fr; gap:12px; }
+ .calculator-wizard .engineering-outcomes > div { gap:12px; padding:18px; }
+}
+
+html:not(.dark) .calculator-wizard .engineering-outcomes dd { color:#111318; }
