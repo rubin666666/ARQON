@@ -8,7 +8,7 @@ export function ModelPhoto({ name, src, en }: { name: string; src: string; en: b
   const [open, setOpen] = useState(false);
   const [index,setIndex]=useState(0);
   const touchStart=useRef<{x:number;y:number}|null>(null);
-  const previewSrc = asset('/sahara-hero.png');
+  const previewSrc = asset('/sahara-hero.webp');
   const fullSrc = asset(src || '/images/sahara-product-v2.webp');
   const images=[{src:previewSrc,label:en?'Technical series illustration':'Технічна ілюстрація серії'},{src:fullSrc,label:src?name:(en?'SAHARA series photo':'Фото серії SAHARA')}];
   const move=(direction:number)=>setIndex(i=>(i+direction+images.length)%images.length);

@@ -149,8 +149,8 @@ export default function Home({
       <a className="skip" href="#main">{t('До вмісту', 'Skip to content')}</a>
       <header>
         <a href="#main" className="brand">
-          <Image width={1952} height={816} src={asset('/arqon-logo.png')} alt="ARQON Engineering & Innovation" />
-          <Image className="brand-light-letters" src={asset('/arqon-logo.png')} width={1952} height={816} alt="" aria-hidden="true" />
+          <Image width={1952} height={816} src={asset('/arqon-logo.webp')} alt="ARQON Engineering & Innovation" />
+          <Image className="brand-light-letters" src={asset('/arqon-logo.webp')} width={1952} height={816} alt="" aria-hidden="true" />
         </a>
         <nav className="desktop-nav">
           {nav.filter(([id]) => ['about', 'products', 'technology', 'calculator', 'contacts'].includes(id)).map(([id, label]) => <a key={id} href={'#' + id} aria-current={activeSection === id ? 'location' : undefined}>{label}</a>)}
@@ -239,7 +239,7 @@ export default function Home({
               <br />
               <em>SAHARA.</em>
             </h1>
-            <figure className="hero-mobile-art"><Image width={1024} height={1024} src={asset('/sahara-hero.png')} alt={t('Технічна ілюстрація зерносушарки SAHARA','SAHARA grain dryer technical illustration')} fetchPriority="high"/></figure>
+            <figure className="hero-mobile-art"><Image width={1024} height={1024} src={asset('/sahara-hero.webp')} alt={t('Технічна ілюстрація зерносушарки SAHARA','SAHARA grain dryer technical illustration')} fetchPriority="high"/></figure>
             <p>
               {t(
                 'Зерносушарки SAHARA — обладнання Arqon, де інженерія, автоматизація й програмне забезпечення працюють як одна система.',
@@ -261,7 +261,7 @@ export default function Home({
             <Image
               width={1024}
               height={1024}
-              src={asset('/sahara-hero.png')}
+              src={asset('/sahara-hero.webp')}
               alt={t(
                 'Технічна ілюстрація зерносушарки SAHARA',
                 'SAHARA grain dryer technical illustration',
@@ -327,7 +327,7 @@ export default function Home({
               <ModelExplorer en={en} open={galleryOpen} initialModelId={galleryModel} onOpenChange={value=>{setGalleryOpen(value);if(!value)setGalleryModel(null);}} onCalculate={calculateModel} />
             </div>
           </div>
-          {!allModels && <div className="product-previews">{site.models.slice(0,3).map(m=><button key={m.id} type="button" className="product-preview" aria-label={t('Відкрити галерею продуктів: ','Open product gallery: ')+m.name} aria-expanded={galleryOpen} aria-controls="model-gallery" onClick={()=>{setGalleryModel(m.id);setGalleryOpen(true);}}><Image src={asset('/sahara-hero.png')} width={240} height={240} alt={`${m.name} — ${t('технічна ілюстрація серії','technical series illustration')}`} loading="lazy"/><span>{m.name}</span><ArrowUpRight size={18}/></button>)}</div>}
+          {!allModels && <div className="product-previews">{site.models.slice(0,3).map(m=><button key={m.id} type="button" className="product-preview" aria-label={t('Відкрити галерею продуктів: ','Open product gallery: ')+m.name} aria-expanded={galleryOpen} aria-controls="model-gallery" onClick={()=>{setGalleryModel(m.id);setGalleryOpen(true);}}><Image src={asset('/sahara-hero.webp')} width={240} height={240} alt={`${m.name} — ${t('технічна ілюстрація серії','technical series illustration')}`} loading="lazy"/><span>{m.name}</span><ArrowUpRight size={18}/></button>)}</div>}
           {allModels && <figure className="product-context"><Image src={asset('/images/sahara-context-v2.webp')} alt={t('Візуалізація сушарки SAHARA поруч із зерновим комплексом','Visualization of a SAHARA dryer alongside a grain facility')} width={1536} height={864} loading="lazy"/><figcaption><span className="eyebrow">{t('Серія SAHARA','SAHARA series')}</span><h3>{t('Технологія для вашого врожаю','Technology for your harvest')}</h3><p>{t('Концептуальна візуалізація застосування','Conceptual application visualization')}</p></figcaption></figure>}
           <div className="products" id="product-models">
             {(allModels ? site.models : []).map((m) => (
@@ -398,8 +398,8 @@ export default function Home({
         <div className="footer-main">
           <section className="footer-identity" aria-label="ARQON">
             <a className="brand footer-logo" href="#main">
-              <Image src={asset('/arqon-logo.png')} width={1952} height={816} alt="ARQON Engineering & Innovation" />
-              <Image className="brand-light-letters" src={asset('/arqon-logo.png')} width={1952} height={816} alt="" aria-hidden="true" />
+              <Image src={asset('/arqon-logo.webp')} width={1952} height={816} alt="ARQON Engineering & Innovation" />
+              <Image className="brand-light-letters" src={asset('/arqon-logo.webp')} width={1952} height={816} alt="" aria-hidden="true" />
             </a>
           </section>
           <nav className="footer-nav" aria-labelledby="footer-nav-title">
