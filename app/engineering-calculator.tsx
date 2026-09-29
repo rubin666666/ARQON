@@ -34,8 +34,8 @@ export function Calculator({ en, model, onModelChange, open, onOpenChange }: {en
   const [storedDraft, setDraft] = useState<Draft>(initial);
   const selected = data.models.find(m => m.id === model);
   const reference = selected?.reference.find(p => p.cropId === storedDraft.cropId);
-  // Preserve incoming moisture; target moisture follows the selected crop.
-  const draft: Draft = {...storedDraft,priceModelId:model,dryerPrice:storedDraft.priceModelId===model?storedDraft.dryerPrice:'', ...(reference ? {finalMoisture:String(reference.output)} : {})};
+  // The client requests a fixed maximum incoming moisture for each crop.
+  const draft: Draft = {...storedDraft,priceModelId:model,dryerPrice:storedDraft.priceModelId===model?storedDraft.dryerPrice:'', ...(reference ? {initialMoisture:String(data.crops.find(c=>c.id===storedDraft.cropId)?.maxIncomingMoisture ?? reference.input),finalMoisture:String(reference.output)} : {})};
   const [loaded, setLoaded] = useState(false);
   const [notice, setNotice] = useState('');
   const [link, setLink] = useState('');
@@ -181,7 +181,7 @@ export function Calculator({ en, model, onModelChange, open, onOpenChange }: {en
   }
   function applyReference(cropId=draft.cropId) {
     const p = selected?.reference.find(p=>p.cropId===cropId);
-    setDraft(d=>({...d,cropId,...(p ? {initialMoisture:String(p.input),finalMoisture:String(p.output)} : {})}));
+    setDraft(d=>({...d,cropId,...(p ? {initialMoisture:String(data.crops.find(c=>c.id===cropId)?.maxIncomingMoisture ?? p.input),finalMoisture:String(p.output)} : {})}));
   }
   async function share() {
     if (result.status==='invalid') return;
@@ -221,9 +221,9 @@ export function Calculator({ en, model, onModelChange, open, onOpenChange }: {en
           {select('calc-crop',t('Культура','Crop'),draft.cropId,data.crops.map(c=>({value:c.id,label:c[en?'en':'uk']})),applyReference)}
           {numeric('dailyHours',t('Робочих годин на добу','Operating hours per day'),true)}
           {numeric('volume',t('Прогнозований урожай за сезон, т','Forecast total seasonal harvest, t'),true)}
-          {numeric('initialMoisture',t('Початкова вологість, %','Initial moisture, %'),true)}
+          <div className="field"><label htmlFor="eng-initialMoisture">{t('Початкова вологість, %','Initial moisture, %')}</label><input id="eng-initialMoisture" value={draft.initialMoisture} readOnly aria-describedby="incoming-moisture-hint"/><p id="incoming-moisture-hint" className="engineering-caption">{t('Розрахунок від максимальної вологості для обраної культури. Значення змінюється автоматично при виборі культури.','Calculation uses the maximum incoming moisture for the selected crop. The value changes automatically with the crop.')}</p></div>
           <div className="field"><label htmlFor="eng-finalMoisture">{t('Кінцева вологість, %','Final moisture, %')}</label><input id="eng-finalMoisture" value={draft.finalMoisture} readOnly/></div>
-        </div>{reference && <div className="engineering-reference"><p>{t('Довідковий режим виробника','Manufacturer reference regime')}: <b>{reference.input} → {reference.output}% · {reference.temperature} °C · {reference.status==='pending'?t('продуктивність уточнюється','capacity pending'):reference.capacity+' '+t('т/год висушеного зерна','t/h dried grain')}</b></p>{result.missing.includes('CAPACITY_CURVE')&&<p>{t('Для введеної вологості немає підтвердженої продуктивності. Баланс зерна розраховано; час, повна собівартість та окупність потребують даних виробника.','No confirmed capacity is available for this moisture. Grain balance is calculated; duration, full cost and payback need manufacturer data.')}</p>}</div>}</fieldset>
+        </div>{reference && <div className="engineering-reference"><p>{t('Розрахункова вологість','Calculation moisture')}: <b>{draft.initialMoisture} → {draft.finalMoisture}%</b></p>{result.capacity!==null&&<p>{t('Продуктивність за даними виробника','Manufacturer capacity')}: <b>{result.capacity} {t('т/год висушеного зерна','t/h dried grain')}</b></p>}{result.missing.includes('CAPACITY_CURVE')&&<p>{t('Продуктивність для оновленої вологості ще уточнюється. Баланс зерна розраховано; час, повна собівартість та окупність з’являться після підтвердження даних виробником.','Capacity for the updated moisture is pending confirmation. Grain balance is calculated; duration, full cost and payback will be available once manufacturer data is confirmed.')}</p>}</div>}</fieldset>
         <fieldset className="calc-group" data-step="1"><legend><Fuel size={18}/>{t('02 — Енергоносії','02 — Energy')}</legend><div className="fields">
           {select('eng-fuel',t('Паливо для розрахунку','Scenario fuel'),draft.fuelId,data.fuels.map(f=>({value:f.id,label:f[en?'en':'uk']})),value=>{setDraft(d=>({...d,fuelId:value,fuelPrice:''}));})}
           {numeric('fuelPrice',`${t('Ціна палива','Fuel price')}, ${t('грн','UAH')}/${fuelUnit}`,true)}

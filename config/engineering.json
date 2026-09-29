@@ -29,7 +29,8 @@
           50,
           55
         ]
-      }
+      },
+      "maxIncomingMoisture": 25
     },
     {
       "id": "sunflower",
@@ -57,7 +58,8 @@
           40,
           45
         ]
-      }
+      },
+      "maxIncomingMoisture": 14
     },
     {
       "id": "rapeseed",
@@ -85,7 +87,8 @@
           45,
           50
         ]
-      }
+      },
+      "maxIncomingMoisture": 12
     }
   ],
   "fuels": [

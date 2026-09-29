@@ -112,3 +112,14 @@ await test('editable incoming moisture updates balance without inventing capacit
  }
  for(const initialMoisture of [0,15,100])assert.equal(calculateEngineering({...input,initialMoisture},actual).status,'invalid');
 });
+
+await test('client crop maxima keep historical capacities separate from new regimes',()=>{
+ const expected={corn:25,sunflower:14,rapeseed:12};
+ for(const m of actual.models)for(const c of actual.crops){
+ assert.equal(c.maxIncomingMoisture,expected[c.id]);
+ const ref=m.reference.find(p=>p.cropId===c.id);
+ const r=calculateEngineering({...input,modelId:m.id,cropId:c.id,initialMoisture:c.maxIncomingMoisture,finalMoisture:ref.output},actual);
+ assert.notEqual(r.status,'invalid');assert.ok(r.own.finalKg>0);
+ if(ref.input!==c.maxIncomingMoisture){assert.equal(r.capacity,null);assert.ok(r.missing.includes('CAPACITY_CURVE'));}
+ }
+});

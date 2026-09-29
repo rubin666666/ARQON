@@ -12,7 +12,7 @@ export type EngineeringInput = {
 export type EngineeringData = {
   fixedRegimes?: boolean;
   version: string; waterHeat: number; ambientTemperature?: number;
-  crops: { id: string; uk: string; en: string; grainHeat: number | null; latentHeat: number | null; waterDelta: number | null; grainDelta: number | null; finalGrainTemperature?: number | null; regime?: {input:number[];output:number[];air:number[];grain:number[]} }[];
+  crops: { id: string; uk: string; en: string; maxIncomingMoisture?: number; grainHeat: number | null; latentHeat: number | null; waterDelta: number | null; grainDelta: number | null; finalGrainTemperature?: number | null; regime?: {input:number[];output:number[];air:number[];grain:number[]} }[];
   fuels: { id: string; uk: string; en: string; unit: string; heatingValue: number | null; efficiency?: number }[];
   models: { id: string; name: string; price: number | null; installation: number | null;
     electricalPower: number | null; burnerPower: number | null; supportedFuels: string[] | null;
