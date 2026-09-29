@@ -18,14 +18,22 @@ const initial = { cropId:'corn', volume:'1000', initialMoisture:'25', finalMoist
 type Draft = typeof initial;
 type NumericKey = { [K in keyof Draft]: Draft[K] extends string ? K : never }[keyof Draft];
 const numericKeys = ['dailyHours','elevatorDistanceKm','truckPayloadTonnes','truckLitresPer100Km','transportDieselPrice','driverPerTrip','storageCostPerTonne','ambientTemperature','operatorPerHour','maintenancePerSeason','volume','initialMoisture','finalMoisture','fuelPrice','electricityPrice','serviceVolume','serviceTariff','elevatorTariff','elevatorOtherPerTonne','ownOtherPerTonne','currentGrainPrice','futureGrainPrice','dryerPrice','installation','additionalInvestment','availableHours'];
-function restore(raw: string | null): {draft: Draft; modelId: string} | null {
+function restore(raw: string | null): {draft: Draft; modelId: string; modelPrices: Record<string,string>} | null {
   if (!raw || raw.length > 6000) return null;
   try {
     const value = JSON.parse(raw), d = {...initial,...value.draft};
     if (value.version !== 2 || !d || !data.models.some(m => m.id === value.modelId) || !data.crops.some(c => c.id === d.cropId) || !data.fuels.some(f => f.id === d.fuelId)) return null;
     if (!['tonne','tonne-point'].includes(d.elevatorBasis) || typeof d.serviceEnabled !== 'boolean' || typeof d.delayedSale !== 'boolean') return null;
     if (numericKeys.some(k => typeof d[k] !== 'string' || d[k].length > 18 || (d[k] !== '' && !/^-?\d+(?:[.,]\d+)?$/.test(d[k])))) return null;
-    return {modelId:value.modelId,draft:{...Object.fromEntries(Object.keys(initial).map(k => [k,d[k]])),priceModelId:value.modelId} as Draft};
+    const modelPrices:Record<string,string> = {};
+    if (value.modelPrices !== undefined) {
+      if (!value.modelPrices || typeof value.modelPrices !== 'object' || Array.isArray(value.modelPrices)) return null;
+      for (const [id,price] of Object.entries(value.modelPrices)) {
+        if (!data.models.some(m=>m.id===id) || typeof price!=='string' || price.length>18 || (price!=='' && !/^\d+(?:[.,]\d+)?$/.test(price))) return null;
+        modelPrices[id]=price;
+      }
+    } else if (!d.priceModelId || d.priceModelId===value.modelId) modelPrices[value.modelId]=d.dryerPrice;
+    return {modelId:value.modelId,modelPrices,draft:{...Object.fromEntries(Object.keys(initial).map(k => [k,d[k]])),priceModelId:value.modelId} as Draft};
   } catch { return null; }
 }
 const number = parseNumericText;
@@ -33,10 +41,11 @@ export function Calculator({ en, model, onModelChange, open, onOpenChange }: {en
   const [leadInput,setLeadInput]=useState<EngineeringInput|null>(null);
   const t = (uk: string, english: string) => en ? english : uk;
   const [storedDraft, setDraft] = useState<Draft>(initial);
+  const [modelPrices,setModelPrices] = useState<Record<string,string>>({});
   const selected = data.models.find(m => m.id === model);
   const reference = selected?.reference.find(p => p.cropId === storedDraft.cropId);
   // The client requests a fixed maximum incoming moisture for each crop.
-  const draft: Draft = {...storedDraft,priceModelId:model,dryerPrice:storedDraft.priceModelId===model?storedDraft.dryerPrice:'', ...(reference ? {initialMoisture:String(data.crops.find(c=>c.id===storedDraft.cropId)?.maxIncomingMoisture ?? reference.input),finalMoisture:String(reference.output)} : {})};
+  const draft: Draft = {...storedDraft,priceModelId:model,dryerPrice:modelPrices[model]??'', ...(reference ? {initialMoisture:String(data.crops.find(c=>c.id===storedDraft.cropId)?.maxIncomingMoisture ?? reference.input),finalMoisture:String(reference.output)} : {})};
   const [loaded, setLoaded] = useState(false);
   const [notice, setNotice] = useState('');
   const [link, setLink] = useState('');
@@ -56,7 +65,7 @@ export function Calculator({ en, model, onModelChange, open, onOpenChange }: {en
     const shared = new URLSearchParams(location.search).get('engineering');
     if(shared || new URLSearchParams(location.search).has('scenario'))onOpenChange(true);
     const saved = restore(shared ?? readPreference('arqon-engineering-v2'));
-    if (saved) { setDraft(saved.draft); onModelChange(saved.modelId); }
+    if (saved) { setDraft(saved.draft); setModelPrices(saved.modelPrices); onModelChange(saved.modelId); }
     if (shared && !saved) setNotice('invalid-link');
     if (!shared && !saved) {
       const legacyRaw = new URLSearchParams(location.search).get('scenario') ?? readPreference('arqon-scenario-v1');
@@ -69,7 +78,7 @@ export function Calculator({ en, model, onModelChange, open, onOpenChange }: {en
     setLoaded(true);
   }, [onModelChange,onOpenChange]);
   /* oxlint-enable react/react-compiler */
-  const serialized = JSON.stringify({version:2,modelId:model,draft});
+  const serialized = JSON.stringify({version:2,modelId:model,draft,modelPrices});
   useEffect(() => {
     if (!loaded) return;
 
@@ -79,7 +88,7 @@ export function Calculator({ en, model, onModelChange, open, onOpenChange }: {en
       if (url.searchParams.has('engineering')) { url.searchParams.set('engineering',serialized); history.replaceState(null,'',url); }
     }
   },[serialized,loaded]);
-  function set<K extends keyof Draft>(key: K, value: Draft[K]) { setDraft(d => ({...d,[key]:value,...(key==='dryerPrice'?{priceModelId:model}:{})})); setNotice(''); setLink(''); }
+  function set<K extends keyof Draft>(key: K, value: Draft[K]) { if(key==='dryerPrice')setModelPrices(prices=>({...prices,[model]:String(value)})); setDraft(d => ({...d,[key]:value,...(key==='dryerPrice'?{priceModelId:model}:{})})); setNotice(''); setLink(''); }
   const input: EngineeringInput = {
     elevatorDistanceKm:number(draft.elevatorDistanceKm) ?? NaN,truckPayloadTonnes:number(draft.truckPayloadTonnes),truckLitresPer100Km:number(draft.truckLitresPer100Km),transportDieselPrice:number(draft.transportDieselPrice),driverPerTrip:number(draft.driverPerTrip),storageCostPerTonne:number(draft.storageCostPerTonne),
     modelId:model,cropId:draft.cropId,volume:number(draft.volume) ?? NaN,initialMoisture:number(draft.initialMoisture) ?? NaN,finalMoisture:number(draft.finalMoisture) ?? NaN,
@@ -131,6 +140,7 @@ export function Calculator({ en, model, onModelChange, open, onOpenChange }: {en
   };
   function fieldError(key:NumericKey,required=false) {
     const value=number(draft[key]);
+    if(value===null && ['fuelPrice','electricityPrice','elevatorTariff','dryerPrice'].includes(key))return '';
     if(value===null)return required || ['elevatorOtherPerTonne','ownOtherPerTonne','additionalInvestment'].includes(key)?t('Вкажіть значення.','Enter a value.'):'';
     if(!Number.isFinite(value))return t('Введіть коректне число.','Enter a valid number.');
     if(key==='dailyHours')return value<1 || value>24 ? t('Від 1 до 24 годин на добу.','From 1 to 24 hours per day.') : '';
@@ -149,9 +159,9 @@ export function Calculator({ en, model, onModelChange, open, onOpenChange }: {en
     return <div className="field"><label htmlFor={id}>{label}{required && " *"}</label><input id={id} type="text" inputMode="decimal" autoComplete="off" required={required} value={editing===key?draft[key]:formatNumericText(draft[key],en)} aria-invalid={Boolean(visibleError)} data-field-error={error||undefined} aria-describedby={[visibleError?id+'-error':'',hint?id+'-hint':''].filter(Boolean).join(' ')||undefined} placeholder={required ? undefined : t('Не задано','Not provided')} onFocus={()=>setEditing(key)} onBlur={()=>{setEditing(null);setTouched(v=>({...v,[key]:true}));set(key,normalizeNumericText(draft[key]) as Draft[typeof key]);}} onChange={e => set(key,normalizeNumericText(e.target.value) as Draft[typeof key])}/>{visibleError&&<p id={id+'-error'} className="engineering-field-error" aria-live="polite">{visibleError}</p>}{hint&&<p className="engineering-caption" id={id+'-hint'}>{hint}</p>}</div>;
   }
   function revealError(scope='#calculator-inputs') {
-    setAttempted(true);
     const field=document.querySelector<HTMLInputElement>(`${scope} input[data-field-error]`);
     if(!field)return false;
+    setAttempted(true);
     const step=field.closest<HTMLElement>('[data-step]')?.dataset.step;
     if(step!==undefined)setMobileStep(Number(step));
     let parent=field.parentElement;
@@ -160,11 +170,12 @@ export function Calculator({ en, model, onModelChange, open, onOpenChange }: {en
     return true;
   }
   function focusField(id:string) { const field=document.getElementById(id); if(!field)return; const step=field.closest<HTMLElement>('[data-step]')?.dataset.step; if(step!==undefined)setMobileStep(Number(step)); let parent=field.parentElement; while(parent){if(parent instanceof HTMLDetailsElement)parent.open=true;parent=parent.parentElement;} requestAnimationFrame(()=>{field.focus();field.scrollIntoView({block:'center'});}); }
-  function nextStep() { if(!revealError(`#calculator-inputs [data-step="${mobileStep}"]`))setMobileStep(step=>Math.min(2,step+1)); }
+  function goToStep(step:number) { setMobileStep(step); requestAnimationFrame(()=>{document.querySelector('.calculator-window-body')?.scrollTo({top:0});document.getElementById(step===2?'calculator-result':'calculator-step-title')?.focus({preventScroll:true});}); }
+  function nextStep() { if(!revealError(`#calculator-inputs [data-step="${mobileStep}"]`))goToStep(Math.min(2,mobileStep+1)); }
   function viewResults() {
     if(revealError())return;
     if(document.activeElement instanceof HTMLElement)document.activeElement.blur();
-    document.getElementById('calculator-result')?.scrollIntoView({block:'start'});document.getElementById('calculator-result')?.focus({preventScroll:true});track('calculation_completed',{model,status:result.status});
+    goToStep(2);track('calculation_completed',{model,status:result.status});
   }
   function select(id: string, label: string, value: string, options: {value:string;label:string}[], change:(s:string)=>void) {
     return <label className="field" htmlFor={id}><span>{label}</span><select id={id} value={value} onChange={e=>change(e.target.value)}>{options.map(o=><option key={o.value} value={o.value}>{o.label}</option>)}</select></label>;
@@ -174,8 +185,8 @@ export function Calculator({ en, model, onModelChange, open, onOpenChange }: {en
   }
   const metric = (label: string, value: number | null | undefined, unit: string) => <div><dt>{label}</dt><dd>{format(value)} <small>{unit}</small></dd></div>;
   const financialMetric=(label:string,value:number|null|undefined,unit:string)=>value==null?null:metric(label,value,unit);
-  function chooseModel(id:string) { if(id===model)return; set('dryerPrice',''); onModelChange(id); }
-  function comparison(m:EngineeringData['models'][number]):EngineeringResult { return calculateEngineering({...input,modelId:m.id,dryerPrice:m.id===model?input.dryerPrice:null,installation:null},data); }
+  function chooseModel(id:string) { if(id===model)return; setEditing(null); onModelChange(id); }
+  function comparison(m:EngineeringData['models'][number]):EngineeringResult { return calculateEngineering({...input,modelId:m.id,dryerPrice:number(modelPrices[m.id]??''),installation:null},data); }
   const seasonFit=(r:EngineeringResult)=>input.availableHours===null?t('Вкажіть час сезону','Enter seasonal hours'):r.totalHours===null?t('Немає даних','No data'):r.totalHours<=input.availableHours?t('Встигає за сезон','Fits your season'):t('Не встигає за сезон','Exceeds your season');
   function compareCard(m:EngineeringData['models'][number]) {
     const r:EngineeringResult=comparison(m);
@@ -187,7 +198,7 @@ export function Calculator({ en, model, onModelChange, open, onOpenChange }: {en
   }
   async function share() {
     if (result.status==='invalid') return;
-    const url = new URL(location.href);url.searchParams.delete('scenario');url.searchParams.set('engineering',JSON.stringify({version:2,modelId:model,draft}));url.hash='calculator';
+    const url = new URL(location.href);url.searchParams.delete('scenario');url.searchParams.set('engineering',JSON.stringify({version:2,modelId:model,draft,modelPrices}));url.hash='calculator';
     try { await navigator.clipboard.writeText(url.href);setNotice('copied'); } catch {setLink(url.href);}
   }
   async function download() {
@@ -206,37 +217,33 @@ export function Calculator({ en, model, onModelChange, open, onOpenChange }: {en
   }
   return <section id="calculator" className="section calculator-launcher">
     <div className="calculator-launch-card"><div><p className="eyebrow">{t('Калькулятор ефективності','Efficiency calculator')}</p><h2>{t('Порахуйте свій сезон','Calculate your season')}</h2><p>{t('Оберіть модель, порівняйте умови сушіння та збережіть результат у PDF.','Choose a model, compare drying scenarios and save your results as a PDF.')}</p></div><button type="button" id="calculator-launch" className="button" onClick={()=>onOpenChange(true)} aria-haspopup="dialog"><CalculatorIcon size={20}/>{t('Відкрити калькулятор','Open calculator')}<ArrowUpRight size={18}/></button></div>
-    <Dialog open={open} onOpenChange={value=>{if(!value){setLeadInput(null);setPdfOpen(false);setClientName('');setClientContact('');setMobileStep(0);}onOpenChange(value);}}><DialogContent className="engineering-calculator calculator-window" showCloseButton={false}>
+    <Dialog open={open} onOpenChange={value=>{if(!value){setLeadInput(null);setPdfOpen(false);setClientName('');setClientContact('');setMobileStep(0);}onOpenChange(value);}}><DialogContent className="engineering-calculator calculator-window calculator-wizard" showCloseButton={false}>
       <div className="calculator-window-heading"><div><DialogTitle>{t('Калькулятор ефективності','Efficiency calculator')}</DialogTitle><DialogDescription>{t('Заповніть параметри — доступні результати оновлюються одразу.','Enter your parameters — available results update immediately.')}</DialogDescription></div><DialogClose className="modal-close" aria-label={t('Закрити калькулятор','Close calculator')}/></div>
+      <ol className="calculator-progress" aria-label={t('Кроки калькулятора','Calculator steps')}>{[t('Зерно та модель','Grain and model'),t('Ціни й витрати','Prices and costs'),t('Результат','Results')].map((label,index)=><li key={label} aria-current={mobileStep===index?'step':undefined}><span>{index+1}</span>{label}</li>)}</ol>
       <div className="calculator-window-body">
+      <h3 id="calculator-step-title" className="sr-only" tabIndex={-1}>{t(`Крок ${mobileStep+1} з 3`,`Step ${mobileStep+1} of 3`)}</h3>
     <div className="calculator">
-      <div className="calc-fields" id="calculator-inputs" data-mobile-step={mobileStep}>
-        <fieldset className="calculator-step-controls">
-          <legend className="sr-only">{t('Кроки калькулятора','Calculator steps')}</legend>
-          <output className="calculator-step-status" aria-live="polite" aria-current="step">{t(`Крок ${mobileStep + 1} з 3`,`Step ${mobileStep + 1} of 3`)}</output>
-          <button type="button" className="button button-secondary" disabled={mobileStep===0} onClick={() => setMobileStep(step => Math.max(0, step - 1))}>{t('Назад','Back')}</button>
-          {mobileStep < 2 && <button type="button" className="button" onClick={nextStep}>{t('Далі','Next')}<ArrowUpRight size={18}/></button>}
-        </fieldset>
-        <p className="engineering-caption">{t('Поля з * потрібні для повного розрахунку. Доступні часткові результати можна переглянути праворуч або нижче.','Fields marked * are needed for the full calculation. Available partial results appear alongside or below the form.')}</p>
-        <fieldset className="calc-group" data-step="0"><legend><Wheat size={18}/>{t('01 — Зерно та модель','01 — Grain and model')}</legend><div className="fields">
+      <div className="calc-fields" id="calculator-inputs" hidden={mobileStep===2}>
+        <p className="engineering-caption">{t('Поля з * потрібні для повного розрахунку. Якщо ціни ще невідомі, залиште їх порожніми — покажемо доступний частковий результат.','Fields marked * are needed for a full calculation. Leave unknown prices blank to see the available partial results.')}</p>
+        <fieldset className="calc-group" data-step="0" hidden={mobileStep!==0}><legend><Wheat size={18}/>{t('01 — Зерно та модель','01 — Grain and model')}</legend><div className="fields">
           {select('calc-model',t('Модель сушарки','Dryer model'),model,data.models.map(m=>({value:m.id,label:m.name})),chooseModel)}
           {select('calc-crop',t('Культура','Crop'),draft.cropId,data.crops.map(c=>({value:c.id,label:c[en?'en':'uk']})),applyReference)}
           {numeric('dailyHours',t('Робочих годин на добу','Operating hours per day'),true)}
           {numeric('volume',t('Прогнозований урожай за сезон, т','Forecast total seasonal harvest, t'),true)}
         </div>{reference && <div className="engineering-reference"><p>{data.crops.find(c=>c.id===draft.cropId)?.[en?'en':'uk']}: <b>{draft.initialMoisture}% → {draft.finalMoisture}%</b></p><p className="engineering-caption">{t('Початкова → кінцева вологість. Режим змінюється автоматично разом із культурою.','Incoming → final moisture. The regime changes automatically with the crop.')}</p>{result.capacity!==null&&<p>{t('Продуктивність за даними виробника','Manufacturer capacity')}: <b>{result.capacity} {t('т/год висушеного зерна','t/h dried grain')}</b></p>}{result.missing.includes('CAPACITY_CURVE')&&<p>{t('Продуктивність для оновленої вологості ще уточнюється. Баланс зерна розраховано; час, повна собівартість та окупність з’являться після підтвердження даних виробником.','Capacity for the updated moisture is pending confirmation. Grain balance is calculated; duration, full cost and payback will be available once manufacturer data is confirmed.')}</p>}</div>}</fieldset>
-        <fieldset className="calc-group" data-step="1"><legend><Fuel size={18}/>{t('02 — Енергоносії','02 — Energy')}</legend><div className="fields">
+        <div data-step="1" hidden={mobileStep!==1}><fieldset className="calc-group"><legend><Fuel size={18}/>{t('Енергоносії','Energy')}</legend><div className="fields">
           {select('eng-fuel',t('Паливо для розрахунку','Scenario fuel'),draft.fuelId,data.fuels.map(f=>({value:f.id,label:f[en?'en':'uk']})),value=>{setDraft(d=>({...d,fuelId:value,fuelPrice:''}));})}
           {numeric('fuelPrice',`${t('Ціна палива','Fuel price')}, ${t('грн','UAH')}/${fuelUnit}`,true)}
           {numeric('ambientTemperature',t('Температура довкілля, °C','Ambient temperature, °C'),true)}
           {numeric('electricityPrice',t('Електроенергія, грн/кВт·год','Electricity, UAH/kWh'),true)}
         </div><p className="engineering-caption">{t('ККД: газ і дизель — 90%, щепа — 65%. Тепловтрати 5%, потім рекуперація 20%. Нагрів сухої речовини до 50 °C. Для соняшнику — до 45 °C. Електрична потужність уже враховує коефіцієнт 0,8. Витрата розрахункова, не паспортна.','Efficiency: gas/diesel 90%, wood chips 65%. Apply 5% losses, then 20% recovery. Dry matter heated to 50 °C. Sunflower is heated to 45 °C. Electrical power already includes the 0.8 factor. Consumption is calculated, not a rated specification.')}</p>
         </fieldset>
-        <fieldset className="calc-group" data-step="2"><legend><CalculatorIcon size={18}/>{t('03 — Порівняння з елеватором','03 — Elevator comparison')}</legend><div className="fields">
+        <fieldset className="calc-group"><legend><CalculatorIcon size={18}/>{t('Порівняння з елеватором','Elevator comparison')}</legend><div className="fields">
           <fieldset className="engineering-tariff-options"><legend>{t('Одиниця тарифу елеватора','Elevator billing unit')}</legend>{(['tonne-point','tonne'] as const).map(basis=><label key={basis}><input type="radio" name="elevator-basis" value={basis} checked={draft.elevatorBasis===basis} onChange={()=>set('elevatorBasis',basis)}/>{basis==='tonne-point'?t('грн/т-%','UAH/t-%'):t('грн/т','UAH/t')}</label>)}</fieldset>
           {numeric('elevatorTariff',t('Тариф сушіння на елеваторі','Elevator drying tariff') + (draft.elevatorBasis==='tonne-point' ? t(', грн/т-%', ', UAH/t-%') : t(', грн/т', ', UAH/t')),true)}
 
         </div></fieldset>
-        <fieldset className="calc-group" data-step="2"><legend>{t('Ціна сушарки','Dryer price')}</legend><div className="fields">
+        <fieldset className="calc-group"><legend>{t('Ціна сушарки','Dryer price')}</legend><div className="fields">
           {numeric('dryerPrice',t('Вартість сушарки, грн','Dryer price, UAH'),true)}
 </div><p className="engineering-caption">{t('Ціни обладнання уточнюються. Вкажіть отриману пропозицію або залиште поля порожніми. Комерційна пропозиція ARQON.UA діє 10 робочих днів. Всі суми порівнюйте на однаковій основі щодо ПДВ.','Equipment prices are pending. Enter a received quote or leave the fields blank. An ARQON.UA commercial offer is valid for 10 business days. Use the same VAT basis for all amounts.')}</p></fieldset>
         <p className="eyebrow">{t('Додаткові умови — за бажанням','Optional scenario details')}</p>
@@ -257,9 +264,9 @@ export function Calculator({ en, model, onModelChange, open, onOpenChange }: {en
         {checkbox('delayedSale',t('Порівняти продаж зараз і після зберігання','Compare immediate and delayed sale'))}
         {draft.delayedSale && <><div className="fields">{numeric('currentGrainPrice',t('Ціна продажу зараз, грн/т','Immediate sale price, UAH/t'),true)}{numeric('futureGrainPrice',t('Очікувана ціна після зберігання, грн/т','Expected later price, UAH/t'),true)}{numeric('storageCostPerTonne',t('Зберігання та супутні витрати, грн/т сухого зерна','Storage and related costs, UAH/t dried grain'),true)}</div><p className="engineering-caption">{t('Потенційний ефект, не гарантований прибуток. Врахуйте зберігання, вентиляцію, електроенергію, контроль, очікувані втрати й вартість оборотних коштів. Не дублюйте ці витрати в інших полях.','Potential effect, not guaranteed profit. Include storage, ventilation, electricity, monitoring, expected losses and working-capital costs. Do not duplicate these costs in other fields.')}</p></>}
         </details>
-        <button type="button" className="button" onClick={viewResults}>{t('Переглянути результат','View results')}<ArrowUpRight size={18}/></button>
+        </div>
       </div>
-      <aside className="result engineering-result" id="calculator-result" tabIndex={-1} aria-busy={pdfBusy} aria-label={t('Результати','Results')}>
+      <aside className="result engineering-result" id="calculator-result" hidden={mobileStep!==2} tabIndex={-1} aria-busy={pdfBusy} aria-label={t('Результати','Results')}>
         <p className="result-label">{t('Ваш сезон','Your season')}</p><h3>{selected?.name} <span>· {data.crops.find(c=>c.id===draft.cropId)?.[en?'en':'uk']}</span></h3>
         <p className="engineering-status">{result.status==='invalid' ? t('Перевірте введені дані','Check your inputs') : result.status==='ready' ? t('Попередня оцінка','Preliminary estimate') : t('Доступний частковий розрахунок','Partial calculation available')}</p>
         {result.status==='invalid' ? <p className="error" role="alert">{result.warnings.map(k=>warnings[k] || warnings.INVALID_INPUT).join(' ')}</p> : <>
@@ -306,12 +313,12 @@ export function Calculator({ en, model, onModelChange, open, onOpenChange }: {en
       {pdfBusy && <output className="engineering-pdf-status" aria-live="polite">{t('Готуємо PDF…','Preparing PDF…')}</output>}
       </aside>
     </div>
-    <div className="scenario-tools"><button type="button" className="button button-secondary" onClick={share} disabled={result.status==='invalid'}>{t('Поділитися сценарієм','Share scenario')}</button><button type="button" className="text-link" onClick={()=>{setDraft(initial);setMobileStep(0);setAttempted(false);setTouched({});onModelChange(data.models[0].id);setNotice('reset');setLink('');const u=new URL(location.href);u.searchParams.delete('engineering');u.searchParams.delete('scenario');history.replaceState(null,'',u);}}><RotateCcw size={16}/>{t('Скинути','Reset')}</button></div>
+    <div className="scenario-tools" hidden={mobileStep!==2}><button type="button" className="button button-secondary" onClick={share} disabled={result.status==='invalid'}>{t('Поділитися сценарієм','Share scenario')}</button><button type="button" className="text-link" onClick={()=>{setDraft(initial);setModelPrices({});goToStep(0);setAttempted(false);setTouched({});onModelChange(data.models[0].id);setNotice('reset');setLink('');const u=new URL(location.href);u.searchParams.delete('engineering');u.searchParams.delete('scenario');history.replaceState(null,'',u);}}><RotateCcw size={16}/>{t('Скинути','Reset')}</button></div>
     {notice && <output>{notice==='copied'?t('Посилання скопійовано.','Link copied.'):notice==='reset'?t('Параметри скинуто.','Parameters reset.'):notice==='legacy'?t('Відновлено основні параметри старого сценарію. Логістику, ціни продажу та нові поля перевірте окремо.','Restored core values from your previous scenario. Review logistics, sale prices and new fields separately.'):notice==='pdf-error'?t('Не вдалося сформувати PDF. Спробуйте ще раз.','Could not generate PDF. Please retry.'):t('Не вдалося відновити сценарій із посилання.','Unable to restore the linked scenario.')}</output>}
     {link && <label className="field">{t('Скопіюйте посилання','Copy the link')}<input readOnly value={link} onFocus={e=>e.currentTarget.select()}/></label>}
-    {showComparison && <div id="engineering-comparison" className="engineering-comparison"><h3>{t('Моделі для ваших умов','Models for your scenario')}</h3><p className="engineering-caption">{t('Ті самі обсяги, культура й вологість. Ціни порівнюються лише з довідника моделей; введена ціна використовується для обраної моделі. Для інших потрібні окремі пропозиції. При зміні моделі введіть її ціну заново.','Same volumes, crop and moisture. Comparison uses model-specific catalogue prices only; your entered price is used for the selected model. Other models need their own quotes. Re-enter the price when switching models.')}</p><div className="engineering-model-cards">{data.models.map(compareCard)}</div><section className="comparison-scroll engineering-comparison-table" aria-label={t('Порівняння моделей, прокрутіть горизонтально','Model comparison, scroll horizontally')}><table><caption className="sr-only">{t('Порівняння моделей сушарок','Dryer model comparison')}</caption><thead><tr><th scope="col">{t('Модель','Model')}</th><th scope="col">{t('т/год','t/h')}</th><th scope="col">{t('Годин за сезон','Hours / season')}</th><th scope="col">{t('Сушіння, грн/т','Drying, UAH/t')}</th><th scope="col">{t('Окупність, сезонів','Payback, seasons')}</th><th scope="col">{t('Ваш сезон','Your season')}</th><th scope="col">{t('Дія','Action')}</th></tr></thead><tbody>{data.models.map(compareRow)}</tbody></table></section></div>}
+    {showComparison && mobileStep===2 && <div id="engineering-comparison" className="engineering-comparison"><h3>{t('Моделі для ваших умов','Models for your scenario')}</h3><p className="engineering-caption">{t('Ті самі обсяги, культура й вологість. Для кожної моделі використовуємо окремо введену ціну. Ціни зберігаються при перемиканні моделей; без ціни повна собівартість та окупність недоступні.','Same volumes, crop and moisture. Each model uses its own saved quote. Prices are remembered when switching models; full cost and payback require a model-specific price.')}</p><div className="engineering-model-cards">{data.models.map(compareCard)}</div><section className="comparison-scroll engineering-comparison-table" aria-label={t('Порівняння моделей, прокрутіть горизонтально','Model comparison, scroll horizontally')}><table><caption className="sr-only">{t('Порівняння моделей сушарок','Dryer model comparison')}</caption><thead><tr><th scope="col">{t('Модель','Model')}</th><th scope="col">{t('т/год','t/h')}</th><th scope="col">{t('Годин за сезон','Hours / season')}</th><th scope="col">{t('Сушіння, грн/т','Drying, UAH/t')}</th><th scope="col">{t('Окупність, сезонів','Payback, seasons')}</th><th scope="col">{t('Ваш сезон','Your season')}</th><th scope="col">{t('Дія','Action')}</th></tr></thead><tbody>{data.models.map(compareRow)}</tbody></table></section></div>}
     <Dialog open={pdfOpen} onOpenChange={value=>{setPdfOpen(value);if(!value){setClientName('');setClientContact('');}}}><DialogContent className="engineering-lead-dialog" showCloseButton={false}><DialogClose className="modal-close" aria-label={t('Закрити звіт','Close report')}/><DialogTitle>{t('Результат розрахунку у PDF','Calculation result PDF')}</DialogTitle><DialogDescription>{t('Контакти використовуються тільки для підпису у файлі. Вони не надсилаються нам, не зберігаються в браузері й не додаються до посилання.','Contact details are used only to personalize the file. They are not sent to us, stored in your browser or added to the scenario link.')}</DialogDescription><form onSubmit={event=>{event.preventDefault();void download();}} className="fields"><label className="field">{t('Ім’я (необов’язково)','Name (optional)')}<input minLength={2} maxLength={100} autoComplete="name" value={clientName} onChange={e=>setClientName(e.target.value)}/></label><label className="field">{t('Email або телефон (необов’язково)','Email or phone (optional)')}<input minLength={5} maxLength={100} value={clientContact} onChange={e=>setClientContact(e.target.value)}/></label><button type="submit" className="button" disabled={pdfBusy}>{pdfBusy?t('Готуємо PDF…','Preparing PDF…'):t('Завантажити файл','Download file')}<Download size={18}/></button>{notice==='pdf-error'&&<p role="alert">{t('Не вдалося сформувати файл. Спробуйте ще раз.','Could not generate the file. Please retry.')}</p>}</form></DialogContent></Dialog>
     <Dialog open={leadInput!==null} onOpenChange={open=>{if(!open)setLeadInput(null);}}><DialogContent className="engineering-lead-dialog"><DialogTitle>{t('Ваш персональний звіт','Your personalized report')}</DialogTitle><DialogDescription>{t('Розрахунок для обраних умов сезону.','Calculation for your seasonal conditions.')}</DialogDescription>{leadInput&&<EngineeringLead input={leadInput} en={en}/>}</DialogContent></Dialog>
-      </div></DialogContent></Dialog>
+      </div><div className="calculator-wizard-footer"><button type="button" className="button button-secondary" disabled={mobileStep===0} onClick={()=>goToStep(mobileStep-1)}>{t('Назад','Back')}</button><output aria-live="polite">{t(`Крок ${mobileStep+1} з 3`,`Step ${mobileStep+1} of 3`)}</output>{mobileStep<2?<button type="button" className="button" onClick={mobileStep===0?nextStep:viewResults}>{mobileStep===0?t('Далі','Next'):t('Результат','Results')}<ArrowUpRight size={18}/></button>:<button type="button" className="button" onClick={()=>goToStep(0)}>{t('Змінити дані','Edit inputs')}</button>}</div></DialogContent></Dialog>
   </section>;
 }

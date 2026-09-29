@@ -4709,3 +4709,21 @@ html:not(.dark) .site-footer .brand .brand-light-letters {
 .engineering-result .engineering-outcomes .engineering-no-payback { font-size:17px; }
 .engineering-result .engineering-details li .text-link { display:block; margin:6px 0 12px; }
 .engineering-calculator input[inputmode="decimal"] { font-variant-numeric:tabular-nums; }
+
+/* One shared three-step flow; the footer stays outside the scrolling content. */
+.calculator-wizard [hidden] { display: none !important; }
+.calculator-window.calculator-wizard .calculator { display: block; max-width: 900px; margin: 0 auto; }
+.calculator-wizard .calculator-window-body { flex: 1; }
+.calculator-progress { display: grid; grid-template-columns: repeat(3,minmax(0,1fr)); gap: 12px; list-style: none; margin: 0; padding: 16px 22px; border-bottom: 1px solid var(--border); flex-shrink: 0; }
+.calculator-progress li { display: flex; align-items: center; gap: 9px; color: var(--muted); font-size: 14px; }
+.calculator-progress li > span { display: grid; place-items: center; width: 28px; height: 28px; flex-shrink: 0; border: 1px solid var(--border); border-radius: 50%; }
+.calculator-progress li[aria-current] { color: var(--foreground); font-weight: 600; }
+.calculator-progress li[aria-current] > span { background: var(--primary); color: var(--primary-foreground); border-color: var(--primary); }
+.calculator-wizard-footer { display: flex; align-items: center; justify-content: space-between; gap: 12px; padding: 14px 22px max(14px,env(safe-area-inset-bottom)); border-top: 1px solid var(--border); background: var(--background); flex-shrink: 0; }
+.calculator-wizard-footer output { color: var(--muted); font-size: 13px; }
+@media(max-width:680px) {
+  .calculator-progress { gap: 6px; padding: 12px 14px; }
+  .calculator-progress li { flex-direction: column; gap: 5px; text-align: center; font-size: 11px; }
+  .calculator-wizard-footer { padding-inline: 14px; gap: 8px; }
+  .calculator-wizard-footer .button { min-height: 44px; padding-inline: 12px; }
+}
