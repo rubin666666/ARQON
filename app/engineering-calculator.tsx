@@ -1,6 +1,7 @@
 'use client';
 import { useEffect, useState } from 'react';
 import { Wheat, Fuel, Calculator as CalculatorIcon, ArrowUpRight, Download, RotateCcw } from 'lucide-react';
+import { parseNumericText, normalizeNumericText, formatNumericText } from '@/lib/calculator-number.mjs';
 import rawData from '@/config/engineering.json';
 import { parseScenario } from '@/lib/scenario';
 import { calculateEngineering } from '@/lib/engineering.mjs';
@@ -27,7 +28,7 @@ function restore(raw: string | null): {draft: Draft; modelId: string} | null {
     return {modelId:value.modelId,draft:{...Object.fromEntries(Object.keys(initial).map(k => [k,d[k]])),priceModelId:value.modelId} as Draft};
   } catch { return null; }
 }
-const number = (v: string) => v.trim() === '' ? null : Number(v.replace(',','.'));
+const number = parseNumericText;
 export function Calculator({ en, model, onModelChange, open, onOpenChange }: {en: boolean; model: string; onModelChange: (model: string) => void; open:boolean; onOpenChange:(open:boolean)=>void}) {
   const [leadInput,setLeadInput]=useState<EngineeringInput|null>(null);
   const t = (uk: string, english: string) => en ? english : uk;
@@ -46,6 +47,7 @@ export function Calculator({ en, model, onModelChange, open, onOpenChange }: {en
   const [clientName,setClientName]=useState('');
   const [clientContact,setClientContact]=useState('');
   const [attempted,setAttempted]=useState(false);
+  const [editing,setEditing]=useState<NumericKey|null>(null);
   const [touched,setTouched]=useState<Partial<Record<NumericKey,boolean>>>({});
   const [showComparison, setShowComparison] = useState(false);
   const [mobileStep, setMobileStep] = useState(0);
@@ -144,7 +146,7 @@ export function Calculator({ en, model, onModelChange, open, onOpenChange }: {en
   }
   function numeric(key: NumericKey, label: string, required=false) {
     const error=fieldError(key,required),visibleError=(attempted||touched[key])?error:"",hint=hints[key],id=`eng-${key}`;
-    return <div className="field"><label htmlFor={id}>{label}{required && " *"}</label><input id={id} type="number" inputMode="decimal" min={0} max={key==='ambientTemperature'?25:key==='dailyHours'?24:undefined} step={key==='elevatorDistanceKm'?5:'any'} required={required} value={draft[key]} aria-invalid={Boolean(visibleError)} data-field-error={error||undefined} aria-describedby={[visibleError?id+'-error':'',hint?id+'-hint':''].filter(Boolean).join(' ')||undefined} placeholder={required ? undefined : t('Не задано','Not provided')} onBlur={()=>setTouched(v=>({...v,[key]:true}))} onChange={e => set(key,e.target.value as Draft[typeof key])}/>{visibleError&&<p id={id+'-error'} className="engineering-field-error" aria-live="polite">{visibleError}</p>}{hint&&<p className="engineering-caption" id={id+'-hint'}>{hint}</p>}</div>;
+    return <div className="field"><label htmlFor={id}>{label}{required && " *"}</label><input id={id} type="text" inputMode="decimal" autoComplete="off" required={required} value={editing===key?draft[key]:formatNumericText(draft[key],en)} aria-invalid={Boolean(visibleError)} data-field-error={error||undefined} aria-describedby={[visibleError?id+'-error':'',hint?id+'-hint':''].filter(Boolean).join(' ')||undefined} placeholder={required ? undefined : t('Не задано','Not provided')} onFocus={()=>setEditing(key)} onBlur={()=>{setEditing(null);setTouched(v=>({...v,[key]:true}));set(key,normalizeNumericText(draft[key]) as Draft[typeof key]);}} onChange={e => set(key,normalizeNumericText(e.target.value) as Draft[typeof key])}/>{visibleError&&<p id={id+'-error'} className="engineering-field-error" aria-live="polite">{visibleError}</p>}{hint&&<p className="engineering-caption" id={id+'-hint'}>{hint}</p>}</div>;
   }
   function revealError(scope='#calculator-inputs') {
     setAttempted(true);
@@ -221,9 +223,7 @@ export function Calculator({ en, model, onModelChange, open, onOpenChange }: {en
           {select('calc-crop',t('Культура','Crop'),draft.cropId,data.crops.map(c=>({value:c.id,label:c[en?'en':'uk']})),applyReference)}
           {numeric('dailyHours',t('Робочих годин на добу','Operating hours per day'),true)}
           {numeric('volume',t('Прогнозований урожай за сезон, т','Forecast total seasonal harvest, t'),true)}
-          <div className="field"><label htmlFor="eng-initialMoisture">{t('Початкова вологість, %','Initial moisture, %')}</label><input id="eng-initialMoisture" value={draft.initialMoisture} readOnly aria-describedby="incoming-moisture-hint"/><p id="incoming-moisture-hint" className="engineering-caption">{t('Розрахунок від максимальної вологості для обраної культури. Значення змінюється автоматично при виборі культури.','Calculation uses the maximum incoming moisture for the selected crop. The value changes automatically with the crop.')}</p></div>
-          <div className="field"><label htmlFor="eng-finalMoisture">{t('Кінцева вологість, %','Final moisture, %')}</label><input id="eng-finalMoisture" value={draft.finalMoisture} readOnly/></div>
-        </div>{reference && <div className="engineering-reference"><p>{t('Розрахункова вологість','Calculation moisture')}: <b>{draft.initialMoisture} → {draft.finalMoisture}%</b></p>{result.capacity!==null&&<p>{t('Продуктивність за даними виробника','Manufacturer capacity')}: <b>{result.capacity} {t('т/год висушеного зерна','t/h dried grain')}</b></p>}{result.missing.includes('CAPACITY_CURVE')&&<p>{t('Продуктивність для оновленої вологості ще уточнюється. Баланс зерна розраховано; час, повна собівартість та окупність з’являться після підтвердження даних виробником.','Capacity for the updated moisture is pending confirmation. Grain balance is calculated; duration, full cost and payback will be available once manufacturer data is confirmed.')}</p>}</div>}</fieldset>
+        </div>{reference && <div className="engineering-reference"><p>{data.crops.find(c=>c.id===draft.cropId)?.[en?'en':'uk']}: <b>{draft.initialMoisture}% → {draft.finalMoisture}%</b></p><p className="engineering-caption">{t('Початкова → кінцева вологість. Режим змінюється автоматично разом із культурою.','Incoming → final moisture. The regime changes automatically with the crop.')}</p>{result.capacity!==null&&<p>{t('Продуктивність за даними виробника','Manufacturer capacity')}: <b>{result.capacity} {t('т/год висушеного зерна','t/h dried grain')}</b></p>}{result.missing.includes('CAPACITY_CURVE')&&<p>{t('Продуктивність для оновленої вологості ще уточнюється. Баланс зерна розраховано; час, повна собівартість та окупність з’являться після підтвердження даних виробником.','Capacity for the updated moisture is pending confirmation. Grain balance is calculated; duration, full cost and payback will be available once manufacturer data is confirmed.')}</p>}</div>}</fieldset>
         <fieldset className="calc-group" data-step="1"><legend><Fuel size={18}/>{t('02 — Енергоносії','02 — Energy')}</legend><div className="fields">
           {select('eng-fuel',t('Паливо для розрахунку','Scenario fuel'),draft.fuelId,data.fuels.map(f=>({value:f.id,label:f[en?'en':'uk']})),value=>{setDraft(d=>({...d,fuelId:value,fuelPrice:''}));})}
           {numeric('fuelPrice',`${t('Ціна палива','Fuel price')}, ${t('грн','UAH')}/${fuelUnit}`,true)}
@@ -236,9 +236,10 @@ export function Calculator({ en, model, onModelChange, open, onOpenChange }: {en
           {numeric('elevatorTariff',t('Тариф сушіння на елеваторі','Elevator drying tariff') + (draft.elevatorBasis==='tonne-point' ? t(', грн/т-%', ', UAH/t-%') : t(', грн/т', ', UAH/t')),true)}
 
         </div></fieldset>
-        <details className="engineering-details"><summary>{t('Інвестиції та окупність','Investment and payback')}{draft.dryerPrice!=='' && t(' · Заповнено',' · Entered')}</summary><div className="fields">
+        <fieldset className="calc-group" data-step="2"><legend>{t('Ціна сушарки','Dryer price')}</legend><div className="fields">
           {numeric('dryerPrice',t('Вартість сушарки, грн','Dryer price, UAH'),true)}
-</div><p className="engineering-caption">{t('Ціни обладнання уточнюються. Вкажіть отриману пропозицію або залиште поля порожніми. Комерційна пропозиція ARQON.UA діє 10 робочих днів. Всі суми порівнюйте на однаковій основі щодо ПДВ.','Equipment prices are pending. Enter a received quote or leave the fields blank. An ARQON.UA commercial offer is valid for 10 business days. Use the same VAT basis for all amounts.')}</p></details>
+</div><p className="engineering-caption">{t('Ціни обладнання уточнюються. Вкажіть отриману пропозицію або залиште поля порожніми. Комерційна пропозиція ARQON.UA діє 10 робочих днів. Всі суми порівнюйте на однаковій основі щодо ПДВ.','Equipment prices are pending. Enter a received quote or leave the fields blank. An ARQON.UA commercial offer is valid for 10 business days. Use the same VAT basis for all amounts.')}</p></fieldset>
+        <p className="eyebrow">{t('Додаткові умови — за бажанням','Optional scenario details')}</p>
         <details className="engineering-details"><summary>{t('Послуги іншим господарствам','Services for other farms')}{draft.serviceEnabled && t(' · Увімкнено',' · Enabled')}</summary>
           {checkbox('serviceEnabled',t('Сушити зерно для інших господарств','Dry grain for other farms'))}
           {draft.serviceEnabled && <><div className="fields">{numeric('serviceVolume',t('Стороннє зерно за сезон, т','Service grain per season, t'),true)}{numeric('serviceTariff',t('Тариф послуги, грн/т вхідного зерна','Service tariff, UAH/t of incoming grain'),true)}</div><p className="engineering-caption">{t('Для послуги застосовується та сама культура й вологість. Виручка та прибуток рахуються окремо від власного зерна.','Service uses the same crop and moisture. Revenue and profit are separate from your own grain.')}</p></>}
@@ -262,13 +263,18 @@ export function Calculator({ en, model, onModelChange, open, onOpenChange }: {en
         <p className="result-label">{t('Ваш сезон','Your season')}</p><h3>{selected?.name} <span>· {data.crops.find(c=>c.id===draft.cropId)?.[en?'en':'uk']}</span></h3>
         <p className="engineering-status">{result.status==='invalid' ? t('Перевірте введені дані','Check your inputs') : result.status==='ready' ? t('Попередня оцінка','Preliminary estimate') : t('Доступний частковий розрахунок','Partial calculation available')}</p>
         {result.status==='invalid' ? <p className="error" role="alert">{result.warnings.map(k=>warnings[k] || warnings.INVALID_INPUT).join(' ')}</p> : <>
+          <dl className="engineering-metrics engineering-outcomes" aria-live="polite">
+            {metric(t('Собівартість сушіння','Drying cost'),result.own?.perTonne,t('грн/т','UAH/t'))}
+            {metric(t('Економія за сезон','Seasonal savings'),result.savings,t('грн/сезон','UAH/season'))}
+            {result.warnings.includes('NO_PAYBACK')?<div><dt>{t('Окупність','Payback')}</dt><dd className="engineering-no-payback">{t('Не досягається','Not reached')}</dd></div>:metric(t('Окупність','Payback'),result.paybackSeasons,t('сезонів','seasons'))}
+          </dl>
           {result.own&&<figure className="engineering-balance"><figcaption>{t('Баланс власного зерна','Own grain balance')}<strong>{format(result.own.rawKg/1000)} {t('т до сушіння','t before drying')}</strong></figcaption><div className="engineering-balance-bar" aria-hidden="true"><span style={{width:(result.own.finalKg/result.own.rawKg*100)+'%'}}/><span style={{width:(result.own.waterKg/result.own.rawKg*100)+'%'}}/></div><div className="engineering-balance-key"><p><i/>{t('Після сушіння','After drying')}<b>{format(result.own.finalKg/1000)} {t('т','t')}</b></p><p><i/>{t('Видалена вода','Water removed')}<b>{format(result.own.waterKg/1000)} {t('т','t')}</b></p></div></figure>}
           <dl className="engineering-metrics engineering-primary-metrics" aria-live="polite">
             {metric(t('Продуктивність за висушеним зерном','Dried grain capacity'),result.capacity,t('т/год','t/h'))}
             {metric(t('Тривалість власного сушіння','Own drying duration'),result.own?.days,t(`діб по ${draft.dailyHours} год`,`days at ${draft.dailyHours} h/day`))}
           </dl>
           <details className="engineering-details engineering-financial-details">
-            <summary>{t('Фінансові показники','Financial details')}</summary>
+            <summary>{t('Як пораховано','How it is calculated')}</summary>
           <dl className="engineering-metrics engineering-financial">
             {financialMetric(t('Розрахункове паливо на тонну вхідного зерна','Calculated fuel per incoming tonne'),result.own?.fuelQuantity==null?null:result.own.fuelQuantity/input.volume,fuelUnit+t('/т','/t'))}
             {financialMetric(t('Паливо за сезон','Seasonal fuel cost'),result.own?.fuelCost,t('грн','UAH'))}
@@ -282,12 +288,9 @@ export function Calculator({ en, model, onModelChange, open, onOpenChange }: {en
             {draft.delayedSale && financialMetric(t('Потенційний ефект відкладеного продажу','Potential delayed-sale effect'),result.priceEffect,t('грн','UAH'))}
             {financialMetric(t('Сумарний потенційний ефект','Combined potential effect'),result.economicEffect,t('грн/сезон','UAH/season'))}
             {financialMetric(t('Окупність на власному зерні','Own grain payback'),result.paybackSeasons,t('сезонів','seasons'))}
-          </dl></details><dl className="engineering-metrics engineering-outcomes">
-            {financialMetric(t('Економія на власному зерні','Own grain savings'),result.savings,t('грн/сезон','UAH/season'))}
-            {financialMetric(t('Окупність на власному зерні','Own grain payback'),result.paybackSeasons,t('сезонів','seasons'))}
-          </dl>{result.missing.length>0&&<p className="engineering-pending">{t('Для повної оцінки витрат та окупності ще потрібні параметри виробника або введені ціни. Доступні показники наведено вище.','A complete cost and payback estimate still needs manufacturer parameters or entered prices. Available results are shown above.')}</p>}
+          </dl></details>{result.missing.length>0&&<p className="engineering-pending">{t('Прочерк означає, що даних для показника поки недостатньо. Нижче вказано, що потрібно додати.','A dash means there is not enough data for that result yet. See the specific requirements below.')}</p>}
           {result.warnings.map(code=><p key={code} className="notice">{warnings[code]}</p>)}
-          {missingCodes.length>0 && <details className="engineering-details" open><summary>{t('Що потрібно для повного розрахунку','What is needed for a complete calculation')} ({missingCodes.length})</summary><ul>{missingCodes.map(code=><li key={code}>{labels[code]}{missingFields[code]&&<button type="button" className="text-link" onClick={()=>focusField(missingFields[code])}>{t('Заповнити','Enter value')}</button>}</li>)}</ul></details>}
+          {missingCodes.length>0 && <details className="engineering-details" open><summary>{t('Що потрібно для повного розрахунку','What is needed for a complete calculation')} ({missingCodes.length})</summary><ul>{missingCodes.map(code=><li key={code}>{code==='INVESTMENT'?t('Для собівартості й окупності введіть ціну сушарки.','Enter the dryer price for full cost and payback.'):labels[code]}{!missingFields[code]&&<p className="engineering-caption">{t('Потрібне підтвердження виробника. Додаткових полів для вас немає.','Manufacturer confirmation is needed. There are no additional fields for you to complete.')}</p>}{missingFields[code]&&<button type="button" className="text-link" onClick={()=>focusField(missingFields[code])}>{t('Заповнити','Enter value')}</button>}</li>)}</ul></details>}
           <p className="engineering-caption">{t('Окупність враховує лише ціну сушарки; монтаж, підключення та додаткове обладнання не включені. Обслуговування: 1% ціни сушарки за сезон. Амортизація не враховується. Зарплата оператора включається лише за наявності введеного тарифу. Маса розрахована без втрат сухої речовини. Продуктивність доступна лише для наданих виробником режимів. Прочерк означає відсутні дані, а не нульові витрати.','Payback uses the dryer price only; installation, connections and additional equipment are excluded. Maintenance: 1% of dryer price per season. Depreciation is excluded. Operator wages are included only when a rate is entered. Mass assumes no dry-matter loss. Capacity is available only for manufacturer-supplied regimes. A dash means missing data, not zero costs.')}</p>
           <details className="engineering-details"><summary>{t('Матеріальний баланс та енергія','Material balance and energy')}</summary><dl className="engineering-metrics">
             {metric(t('Суха речовина','Dry matter'),result.own?.dryMatterKg,t('кг','kg'))}{metric(t('Енергія палива з урахуванням ККД','Fuel energy including efficiency'),result.own?.burnerMJ,t('МДж','MJ'))}

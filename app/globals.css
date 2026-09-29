@@ -4699,3 +4699,13 @@ html:not(.dark) .site-footer .brand .brand-light-letters {
   filter: brightness(0) invert(1);
   clip-path: polygon(25% 0, 100% 0, 100% 100%, 0 100%, 0 67%, 25% 67%);
 }
+
+/* Calculator headline results and readable numeric inputs. */
+.engineering-result .engineering-outcomes { grid-template-columns:1fr; gap:0; margin:16px 0 24px; border:1px solid var(--border); border-radius:14px; padding:0 16px; }
+.engineering-result .engineering-outcomes > div { display:flex; justify-content:space-between; align-items:center; gap:16px; padding:14px 0; }
+.engineering-result .engineering-outcomes > div + div { border-top:1px solid var(--border); }
+.engineering-result .engineering-outcomes dd { text-align:right; margin:0; font-size:24px; }
+.engineering-result .engineering-outcomes dt { max-width:48%; }
+.engineering-result .engineering-outcomes .engineering-no-payback { font-size:17px; }
+.engineering-result .engineering-details li .text-link { display:block; margin:6px 0 12px; }
+.engineering-calculator input[inputmode="decimal"] { font-variant-numeric:tabular-nums; }
