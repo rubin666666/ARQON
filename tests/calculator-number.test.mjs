@@ -1,7 +1,7 @@
 import test from 'node:test';
 import assert from 'node:assert/strict';
 import {parseNumericText,formatNumericText,normalizeNumericText} from '../lib/calculator-number.mjs';
-test('numeric inputs accept grouped amounts and either decimal separator',()=>{
+await test('numeric inputs accept grouped amounts and either decimal separator',()=>{
  for(const text of ['4 500 000,25','4\u00a0500\u202f000.25'])assert.equal(parseNumericText(text),4500000.25);
  assert.equal(formatNumericText('4500000.25'),'4 500 000,25');
  assert.equal(formatNumericText('4500000.25',true),'4 500 000.25');
