@@ -65,5 +65,5 @@ export function Technology({en}:{en:boolean}){
      </Tabs.Root>
    </DialogContent>
  </Dialog>
- <div className="dryer-description-closing"><h3>{copy(description.closingTitle)}</h3><p>{copy(description.closing)}</p></div></section>;
+ <div className="dryer-description-closing"><h3>{copy(description.closingTitle)}</h3><p>{copy(description.closing)}</p></div><div className="technology-next"><details><summary>{t('Що означає рекуперація?','What is heat recovery?')}</summary><p>{t('Повторне використання частини тепла відпрацьованого повітря в процесі сушіння.','Reuse of part of the exhaust air heat in the drying process.')}</p></details><a className="button button-secondary" href="#products">{t('Перейти до моделей SAHARA','Explore SAHARA models')}<ArrowUpRight size={18}/></a></div></section>;
 }

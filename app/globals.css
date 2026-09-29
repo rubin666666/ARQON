@@ -4766,3 +4766,36 @@ html:not(.dark) .calculator-wizard .engineering-result .button:hover:not(:disabl
 }
 
 html:not(.dark) .calculator-wizard .engineering-outcomes dd { color:#111318; }
+
+/* Model browsing: persistent controls and confirmed specifications. */
+.gallery-dialog[data-slot="dialog-content"],.model-drawer[data-slot="dialog-content"],.model-comparison-dialog[data-slot="dialog-content"] { display:flex; flex-direction:column; padding:0 !important; overflow:hidden; gap:0; max-height:90dvh; }
+.model-comparison-dialog[data-slot="dialog-content"] { width:min(1120px,calc(100vw - 24px)) !important; max-width:1120px !important; }
+.model-dialog-header { position:relative; padding:24px 78px 18px 24px; flex-shrink:0; border-bottom:1px solid var(--border); }
+.model-dialog-header .modal-close { top:20px; right:20px; }
+.model-dialog-header h2 { margin:0 0 8px; }
+.model-dialog-header p { margin:0; font-size:14px; color:var(--muted); }
+.model-dialog-scroll { overflow:auto; overscroll-behavior:contain; min-height:0; padding:24px; }
+.model-comparison-picker { margin:0 0 24px; padding:18px; border:1px solid var(--border); border-radius:14px; }
+.model-comparison-picker > div { display:flex; flex-wrap:wrap; gap:12px; margin:10px 0 16px; }
+.model-comparison-picker label { display:flex; align-items:center; gap:8px; padding:10px; cursor:pointer; }
+.model-comparison-picker input { width:18px; height:18px; accent-color:var(--primary); }
+.spec-comparison-scroll { overflow-x:auto; }
+.spec-comparison-scroll table { border-collapse:collapse; width:100%; min-width:620px; }
+.spec-comparison-scroll th,.spec-comparison-scroll td { padding:16px; text-align:left; border-bottom:1px solid var(--border); }
+.spec-comparison-scroll thead th { color:var(--primary); background:var(--surface); }
+.spec-comparison-scroll tbody th { font-weight:500; width:35%; }
+.model-photo-viewer[data-slot="dialog-content"] { grid-template-rows:auto minmax(0,1fr) auto; }
+.model-photo-stage { touch-action:pan-y pinch-zoom; }
+.model-photo-stage .series-outline { background:transparent; }
+html:not(.dark) .model-photo-stage .series-outline { filter:invert(1); }
+.photo-navigation { display:flex; align-items:center; justify-content:center; gap:24px; }
+.photo-navigation .button { min-width:48px; min-height:44px; }
+.technology-next { display:flex; align-items:center; justify-content:space-between; gap:24px; margin-top:24px; }
+.technology-next details { max-width:600px; }
+.technology-next summary { cursor:pointer; padding:12px 0; }
+@media(max-width:680px) {
+ .model-dialog-header { padding:18px 68px 14px 16px; }
+ .model-dialog-scroll { padding:16px; }
+ .technology-next { flex-direction:column; align-items:stretch; }
+ .spec-comparison-scroll th,.spec-comparison-scroll td { padding:12px; }
+}
