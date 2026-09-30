@@ -1563,6 +1563,16 @@
   "faq": [
     {
       "question": {
+        "uk": "Що означає рекуперація?",
+        "en": "What is heat recovery?"
+      },
+      "answer": {
+        "uk": "Повторне використання частини тепла відпрацьованого повітря в процесі сушіння.",
+        "en": "Reuse of part of the exhaust air heat in the drying process."
+      }
+    },
+    {
+      "question": {
         "uk": "Що означає тариф за 1 т-%?",
         "en": "What does the tariff per t-% mean?"
       },
