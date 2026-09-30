@@ -4799,3 +4799,24 @@ html:not(.dark) .model-photo-stage .series-outline { filter:invert(1); }
  .technology-next { flex-direction:column; align-items:stretch; }
  .spec-comparison-scroll th,.spec-comparison-scroll td { padding:12px; }
 }
+
+/* Direct step navigation, keyboard-safe fields, and comparison context. */
+.calculator-progress li > button { display:flex; align-items:center; gap:9px; width:100%; min-height:44px; background:none; border:0; color:inherit; font:inherit; text-align:left; cursor:pointer; border-radius:8px; }
+.calculator-progress li > button > span { display:grid; place-items:center; width:28px; height:28px; flex-shrink:0; border:1px solid var(--border); border-radius:50%; }
+.calculator-progress li[data-complete="true"] > button > span { color:var(--primary); border-color:var(--primary); }
+.calculator-progress button[aria-current="step"] > span { background:var(--primary); color:var(--primary-foreground); border-color:var(--primary); }
+.calculator-progress button:focus-visible { outline:2px solid var(--primary); outline-offset:3px; }
+.condition-summary { color:var(--primary); font-weight:500; }
+.spec-comparison-scroll { max-height:60dvh; overflow:auto; isolation:isolate; }
+.spec-comparison-scroll table { border-collapse:separate; border-spacing:0; }
+.spec-comparison-scroll thead th { position:sticky; top:0; z-index:2; background:var(--surface); }
+.spec-comparison-scroll tr > th:first-child { position:sticky; left:0; z-index:1; background:var(--surface); }
+.spec-comparison-scroll thead th:first-child { z-index:3; }
+@media(max-width:680px) {
+ .calculator-progress li > button { flex-direction:column; text-align:center; gap:5px; padding:4px 0; }
+ .calculator-window.calculator-wizard[data-slot="dialog-content"] { height:min(860px,calc(var(--calc-viewport-height,100dvh) - 20px)); max-height:calc(var(--calc-viewport-height,100dvh) - 20px); top:calc(var(--calc-viewport-top,0px) + var(--calc-viewport-height,100dvh)/2); }
+ .calculator-window .field input,.calculator-window .field select { font-size:16px; min-height:44px; scroll-margin-block:20px; }
+ .calculator-window .text-link,.gallery-card .text-link,.model-drawer .button,.engineering-details > summary { min-height:44px; padding-block:12px; }
+ .spec-comparison-scroll tbody th { min-width:140px; width:140px; max-width:140px; }
+ .spec-comparison-scroll td { min-width:160px; }
+}

@@ -4,7 +4,7 @@ import Image from 'next/image';
 import { Dialog, DialogContent, DialogTitle, DialogClose } from '@/components/ui/dialog';
 import { asset } from '@/lib/site';
 
-export function ModelPhoto({ name, src, en }: { name: string; src: string; en: boolean }) {
+export function ModelPhoto({ name, src, en, onReturn }: { name: string; src: string; en: boolean; onReturn?:()=>void }) {
   const [open, setOpen] = useState(false);
   const [index,setIndex]=useState(0);
   const touchStart=useRef<{x:number;y:number}|null>(null);
@@ -17,7 +17,7 @@ export function ModelPhoto({ name, src, en }: { name: string; src: string; en: b
       <Image width={1024} height={1024} src={previewSrc} alt={`${name} — ${en ? 'technical series illustration' : 'технічна ілюстрація серії'}`} loading="lazy" />
       <span className="model-photo-hint" aria-hidden="true">↗</span>
     </button>
-    <Dialog open={open} onOpenChange={setOpen}>
+    <Dialog open={open} onOpenChange={setOpen} onOpenChangeComplete={value=>{if(!value)onReturn?.();}}>
       <DialogContent className="model-photo-viewer translate-x-0 translate-y-0" showCloseButton={false} aria-describedby={undefined} onClick={(event) => { if (event.target === event.currentTarget || (event.target instanceof HTMLElement && event.target.classList.contains('model-photo-stage'))) setOpen(false); }}>
         <DialogTitle>{name} · {images[index].label}</DialogTitle>
         <DialogClose className="model-photo-close" aria-label={en ? 'Close image' : 'Закрити зображення'}>×</DialogClose>
