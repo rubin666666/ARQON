@@ -3,7 +3,7 @@ import { site, localText } from '@/lib/site';
 import { CopyAccent } from './copy-accent';
 import { Dialog, DialogTrigger, DialogContent, DialogTitle, DialogDescription, DialogClose } from '@/components/ui/dialog';
 import { Tabs } from '@base-ui/react/tabs';
-import { ArrowUpRight } from 'lucide-react';
+import { ArrowUpRight, Cog } from 'lucide-react';
 
 export function About({ en }: { en: boolean }) {
   const t = (uk: string, english: string) => en ? english : uk;
@@ -36,8 +36,8 @@ export function About({ en }: { en: boolean }) {
     </div>
     <Dialog>
       <DialogTrigger className="dryer-description-launch about-dialog-launch">
-        <span className="dryer-description-label"><strong>{t('Докладніше про компанію', 'More about the company')}</strong><small>{t('Компанія · Компетенції · Міжнародна мережа', 'Company · Expertise · International network')}</small></span>
-        <span className="dryer-description-toggle" aria-hidden="true"><ArrowUpRight size={24}/></span>
+        <span className="description-entry-icon" aria-hidden="true"><Cog size={42} strokeWidth={1.4} /></span><span className="dryer-description-label"><strong>{t('Докладніше про компанію', 'More about the company')}</strong><small>{t('Компанія · Компетенції · Міжнародна мережа', 'Company · Expertise · International network')}</small></span>
+        <span className="description-entry-art" aria-hidden="true"><Cog strokeWidth={0.7} /></span><span className="description-entry-action" aria-hidden="true">{t('Докладніше','Learn more')}<ArrowUpRight size={20}/></span>
       </DialogTrigger>
       <DialogContent className="arqon-dialog dryer-description-dialog about-dialog" showCloseButton={false}>
         <div className="dryer-dialog-heading">

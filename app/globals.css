@@ -3812,11 +3812,11 @@ html {
   --card-shadow-hover: 0 10px 28px #1113181a;
 }
 html:not(.dark) body { background-image: none; }
-html:not(.dark) :is(.button:not(.button-secondary), .dryer-description-launch) {
+html:not(.dark) :is(.button:not(.button-secondary)) {
   background: #22262b;
   color: #fff;
 }
-html:not(.dark) :is(.button:not(.button-secondary), .dryer-description-launch):hover:not(:disabled) {
+html:not(.dark) :is(.button:not(.button-secondary)):hover:not(:disabled) {
   background: #a6380b;
 }
 html:not(.dark) :is(.technology-detail, .calculator .result, .site-footer, .capabilities li) {
@@ -4451,7 +4451,7 @@ html:not(.dark) body {
 .dryer-description-launch { display:flex; align-items:center; gap:20px; width:100%; margin-top:24px; padding:26px 30px; border:1px solid var(--primary); border-radius:20px; background:linear-gradient(110deg,#99330b,#b64610); color:#fff; text-align:left; cursor:pointer; }
 .dryer-description-launch:hover { background:linear-gradient(110deg,#ac3c0d,#c14d15); }
 .dryer-description-launch:focus-visible { outline:3px solid var(--foreground); outline-offset:4px; }
-.dryer-description-launch:hover .dryer-description-toggle { transform:translate(2px,-2px); }
+
 .dryer-description-dialog[data-slot="dialog-content"] { display:flex; flex-direction:column; gap:0; width:min(1100px,calc(100vw - 40px)) !important; max-width:1100px !important; height:min(820px,calc(100dvh - 40px)); max-height:calc(100dvh - 40px); padding:0 !important; overflow:hidden; background:var(--background); color:var(--foreground); }
 .dryer-dialog-heading { display:flex; align-items:center; justify-content:space-between; gap:16px; padding:22px 26px 18px; flex-shrink:0; }
 .dryer-dialog-heading [data-slot="dialog-title"] { margin:0; padding-right:0; font-size:24px; line-height:1.25; }
@@ -4820,3 +4820,42 @@ html:not(.dark) .model-photo-stage .series-outline { filter:invert(1); }
  .spec-comparison-scroll tbody th { min-width:140px; width:140px; max-width:140px; }
  .spec-comparison-scroll td { min-width:160px; }
 }
+
+/* Shared company and dryer information cards. */
+.dryer-description-launch {
+  position:relative; isolation:isolate; overflow:hidden; min-height:176px;
+  padding:36px; gap:28px; border:1px solid var(--border);
+  background:var(--surface); color:var(--foreground); box-shadow:var(--card-shadow);
+  transition:border-color .18s ease, box-shadow .18s ease;
+}
+html:not(.dark) .dryer-description-launch { background:#fff; }
+.dryer-description-launch:hover {
+  background:var(--surface); border-color:var(--primary);
+  box-shadow:0 0 0 1px color-mix(in srgb,var(--primary) 18%,transparent),0 8px 32px var(--ambient-glow);
+}
+html:not(.dark) .dryer-description-launch:hover { background:#fff; }
+.description-entry-icon {
+  display:grid; place-items:center; flex:0 0 80px; height:80px;
+  border:1px solid color-mix(in srgb,var(--primary) 30%,var(--border));
+  border-radius:20px; background:var(--ambient-glow); color:var(--primary);
+}
+.dryer-description-launch .dryer-description-label { position:relative; z-index:1; gap:12px; }
+.dryer-description-launch .dryer-description-label strong { font-size:clamp(23px,2vw,30px); }
+.dryer-description-launch .dryer-description-label small { color:var(--muted); font-size:14px; }
+.description-entry-art { position:absolute; z-index:-1; right:22%; top:50%; transform:translateY(-50%); color:var(--primary); opacity:.07; pointer-events:none; }
+.description-entry-art svg { width:240px; height:240px; }
+.description-entry-action {
+  display:flex; align-items:center; justify-content:center; gap:16px; flex-shrink:0;
+  margin-left:auto; padding:16px 22px; min-height:52px; border-radius:12px;
+  background:#ac3b0b; color:#fff; font-size:15px; font-weight:600;
+}
+@media(max-width:760px) {
+  .dryer-description-launch { display:grid; grid-template-columns:56px minmax(0,1fr); gap:20px 16px; min-height:220px; padding:24px; }
+  .description-entry-icon { width:56px; height:56px; border-radius:14px; }
+  .description-entry-icon svg { width:32px; height:32px; }
+  .dryer-description-launch .dryer-description-label strong { font-size:22px; }
+  .dryer-description-launch .dryer-description-label small { font-size:13px; line-height:1.6; }
+  .description-entry-action { grid-column:1/-1; width:100%; margin-left:0; }
+  .description-entry-art { right:-28px; }
+}
+@media(prefers-reduced-motion:reduce) { .dryer-description-launch { transition:none; } }

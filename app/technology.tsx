@@ -6,7 +6,7 @@ import description from '@/config/dryer-description.json';
 import { CopyAccent } from './copy-accent';
 import { Dialog, DialogTrigger, DialogContent, DialogTitle, DialogDescription, DialogClose } from '@/components/ui/dialog';
 import { Tabs } from '@base-ui/react/tabs';
-import { ArrowUpRight } from 'lucide-react';
+import { ArrowUpRight, Factory } from 'lucide-react';
 
 export function CompanyExpertise({ en }: { en: boolean }) {
   const t = (a: string, b: string) => (en ? b : a);
@@ -45,8 +45,8 @@ export function Technology({en}:{en:boolean}){
 
  <Dialog>
    <DialogTrigger className="dryer-description-launch">
-     <span className="dryer-description-label"><strong>{t('Докладніше про сушарку','More about the dryer')}</strong><small>{t('Етапи сушіння · Керування · Модульна конструкція','Drying stages · Controls · Modular design')}</small></span>
-     <span className="dryer-description-toggle" aria-hidden="true"><ArrowUpRight size={24}/></span>
+     <span className="description-entry-icon" aria-hidden="true"><Factory size={42} strokeWidth={1.4} /></span><span className="dryer-description-label"><strong>{t('Докладніше про сушарку','More about the dryer')}</strong><small>{t('Етапи сушіння · Керування · Модульна конструкція','Drying stages · Controls · Modular design')}</small></span>
+     <span className="description-entry-art" aria-hidden="true"><Factory strokeWidth={0.7} /></span><span className="description-entry-action" aria-hidden="true">{t('Докладніше','Learn more')}<ArrowUpRight size={20}/></span>
    </DialogTrigger>
    <DialogContent className="arqon-dialog dryer-description-dialog" showCloseButton={false}>
      <div className="dryer-dialog-heading">
