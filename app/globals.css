@@ -3769,12 +3769,10 @@ html {
 .capabilities li {
   background-image: linear-gradient(110deg, var(--gradient-warm), transparent 85%);
 }
-.calculator .result {
+.calculator .result,
+.calculator .calc-group {
   background-image: radial-gradient(ellipse at 100% 0%, var(--gradient-warm), transparent 65%),
     linear-gradient(155deg, transparent 40%, var(--gradient-amber));
-}
-.calc-group {
-  background-image: linear-gradient(120deg, var(--gradient-cool), transparent 70%);
 }
 .site-footer {
   background-image: radial-gradient(ellipse at 0% 100%, var(--gradient-warm), transparent 60%),
