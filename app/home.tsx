@@ -91,8 +91,10 @@ export default function Home({
         setGalleryOpen(true);
       }
     };
-    revealModel();window.addEventListener('hashchange',revealModel);
-    return ()=>window.removeEventListener('hashchange',revealModel);
+    const linkedId=new URLSearchParams(location.search).get('model');
+    const frame=requestAnimationFrame(()=>{if(linkedId&&site.models.some(m=>m.id===linkedId))setDetailModel(linkedId);else revealModel();});
+    window.addEventListener('hashchange',revealModel);
+    return ()=>{cancelAnimationFrame(frame);window.removeEventListener('hashchange',revealModel);};
   },[]);
   useEffect(()=>{
     const id=decodeURIComponent(location.hash.slice(1));

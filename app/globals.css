@@ -4870,3 +4870,39 @@ html:not(.dark) .dryer-description-launch:hover { background:#fff; }
  .model-detail-actions .button { min-height:44px; }
  .comparison-swipe-hint:not([hidden]) { display:block; margin:0 0 12px; padding:10px 12px; border:1px solid var(--border); border-radius:10px; color:var(--foreground); background:var(--ambient-glow); font-size:13px; }
 }
+
+/* Scenario review and model comparison controls. */
+.calculator-tools { display:flex; align-items:center; flex-wrap:wrap; gap:12px 20px; margin-bottom:12px; }
+.calculator-tools .text-link { display:flex; align-items:center; gap:8px; min-height:44px; }
+.calculator-tools button:disabled { opacity:.45; cursor:default; }
+.scenario-comparison { margin-top:24px; padding:20px; border:1px solid var(--border); border-radius:16px; background:var(--surface); }
+.scenario-comparison > p { color:var(--muted); line-height:1.6; }
+.scenario-columns { display:grid; grid-template-columns:repeat(2,minmax(0,1fr)); gap:16px; margin-top:20px; }
+.scenario-columns article { padding:18px; border:1px solid var(--border); border-radius:12px; background:var(--surface-raised); min-width:0; }
+.scenario-columns h4 { color:var(--primary); margin:0 0 12px; }
+.scenario-columns dl > div { border-top:1px solid var(--border); padding-block:12px; }
+.scenario-columns dt { color:var(--muted); font-size:13px; }
+.scenario-columns dd { margin:6px 0 0; font-size:20px; font-variant-numeric:tabular-nums; }
+.scenario-differences { padding:0; list-style:none; }
+.scenario-differences li { display:flex; flex-direction:column; gap:6px; padding:12px 0; border-bottom:1px solid var(--border); }
+.pdf-preview-summary { padding:16px; border:1px solid var(--border); border-radius:12px; background:var(--surface); line-height:1.6; }
+.pdf-preview-summary ul { padding-left:20px; }
+.model-card-compare { display:flex; align-items:center; gap:10px; min-height:44px; cursor:pointer; }
+.model-card-compare input { width:18px; height:18px; accent-color:var(--primary); }
+.gallery-comparison-bar { display:flex; justify-content:space-between; align-items:center; gap:16px; padding:16px 24px; border-top:1px solid var(--border); background:var(--surface); flex-shrink:0; }
+.comparison-chips { display:flex; align-items:center; flex-wrap:wrap; gap:8px; margin-top:8px; font-size:13px; }
+.comparison-chips button { min-height:36px; padding:6px 12px; border:1px solid var(--border); border-radius:8px; color:var(--foreground); background:var(--surface-raised); }
+.model-share { margin:16px 0; }
+.model-share input { width:100%; min-width:0; }
+@media(max-width:680px) {
+ .scenario-comparison { padding:14px; }
+ .scenario-columns { gap:8px; }
+ .scenario-columns article { padding:10px; }
+ .scenario-columns dd { font-size:17px; }
+ .gallery-comparison-bar { flex-direction:column; align-items:stretch; padding:12px 16px; gap:10px; }
+ .gallery-comparison-bar > .button { width:100%; min-height:44px; }
+ .comparison-chips button { min-height:44px; }
+}
+
+.engineering-lead-dialog [data-slot="dialog-title"] { font-size:24px; line-height:1.25; padding-right:44px; white-space:normal; overflow-wrap:anywhere; }
+@media(max-width:680px) { .engineering-lead-dialog { padding:20px; } .engineering-lead-dialog [data-slot="dialog-title"] { font-size:21px; } }
