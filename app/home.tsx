@@ -324,7 +324,7 @@ export default function Home({
               <span className="eyebrow">{t('Серія SAHARA','SAHARA series')}</span>
               <h3>{t('Оберіть сушарку для свого сезону','Choose the dryer for your season')}</h3>
               <p>{t('Перегляньте доступні моделі та відкрийте розрахунок для обраної сушарки.','Review the available models and open a calculation for your selected dryer.')}</p>
-              <ModelExplorer en={en} open={galleryOpen} initialModelId={galleryModel} onOpenChange={value=>{setGalleryOpen(value);if(!value)setGalleryModel(null);}} onCalculate={calculateModel} />
+              <ModelExplorer en={en} onResume={()=>{setGalleryOpen(false);setCalculatorOpen(true);}} open={galleryOpen} initialModelId={galleryModel} onOpenChange={value=>{setGalleryOpen(value);if(!value)setGalleryModel(null);}} onCalculate={calculateModel} />
             </div>
           </div>
           {!allModels && <div className="product-previews">{site.models.slice(0,3).map(m=><button key={m.id} type="button" className="product-preview" aria-label={t('Відкрити галерею продуктів: ','Open product gallery: ')+m.name} aria-expanded={galleryOpen} aria-controls="model-gallery" onClick={()=>{setGalleryModel(m.id);setGalleryOpen(true);}}><Image src={asset('/sahara-hero.webp')} width={240} height={240} alt={`${m.name} — ${t('технічна ілюстрація серії','technical series illustration')}`} loading="lazy"/><span>{m.name}</span><ArrowUpRight size={18}/></button>)}</div>}
@@ -371,7 +371,7 @@ export default function Home({
         </section>
         <ModelDetails en={en} id={detailModel} onClose={()=>setDetailModel(null)} onCalculate={calculateModel} />
         <Technology en={en} />
-        <Calculator en={en} model={selectedModel} onModelChange={setSelectedModel} open={calculatorOpen} onOpenChange={setCalculatorOpen} />
+        <Calculator en={en} onBrowseModels={()=>{setCalculatorOpen(false);setGalleryModel(null);setGalleryOpen(true);}} model={selectedModel} onModelChange={setSelectedModel} open={calculatorOpen} onOpenChange={setCalculatorOpen} />
         {site.equipmentPublished && <section id="equipment" className="section">
           <p className="eyebrow">{t('Додаткове обладнання', 'Optional equipment')}</p>
           <h2>
