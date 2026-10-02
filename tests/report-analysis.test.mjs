@@ -39,3 +39,31 @@ await test('UA and EN reports stay five pages with full and missing data',async(
   assert.equal((await PDFDocument.load(bytes)).getPageCount(),5);
  }
 });
+
+await test('season costs reconcile and speculative grain prices never change base payback',()=>{
+ const a=reportAnalysis(input,data), r=a.baseline.result;
+ const cost=r.own.fuelCost+r.own.electricityCost+r.own.operatorCost+r.own.fixedCost+input.volume*input.ownOtherPerTonne;
+ assert.ok(Math.abs(r.ownSystemCost-cost)<1e-8);
+ assert.equal(r.savings,r.elevatorCost-cost);
+ assert.equal(r.paybackSeasons,input.dryerPrice/r.savings);
+ assert.equal(r.servicePaybackSeasons,input.dryerPrice/(r.savings+r.serviceProfit));
+ assert.ok(Math.abs(r.combinedPaybackSeasons-input.dryerPrice/(r.savings+r.serviceProfit+r.priceRevenue-r.storageCost))<1e-12);
+ const b=reportAnalysis({...input,futureGrainPrice:12000,serviceVolume:2000},data).baseline.result;
+ assert.equal(b.paybackSeasons,r.paybackSeasons);
+ for(const s of a.tariff)assert.ok(Math.abs(s.result.savings-(r.savings+(s.input.elevatorTariff-input.elevatorTariff)*input.volume*10))<1e-8);
+ const byTonne=reportAnalysis({...input,elevatorBasis:'tonne'},data);
+ assert.ok(Math.abs(byTonne.tariff[2].result.savings-byTonne.baseline.result.savings-input.volume*30)<1e-8);
+});
+await test('report handles transport, optional sections off and long names in both languages',async()=>{
+ const font=fs.readFileSync(new URL('../public/fonts/NotoSans.ttf',import.meta.url));
+ for(const en of [false,true])for(const patch of [
+  {elevatorDistanceKm:50,truckPayloadTonnes:25,truckLitresPer100Km:35,transportDieselPrice:60,driverPerTrip:1200,fuelId:'natural_gas'},
+  {serviceEnabled:false,delayedSale:false,elevatorTariff:0,elevatorOtherPerTonne:0},
+  {fuelId:'wood_chips',fuelPrice:null,electricityPrice:null,dryerPrice:null,elevatorTariff:null,currentGrainPrice:null,futureGrainPrice:null,storageCostPerTonne:null,serviceTariff:null,elevatorDistanceKm:10}
+ ]) {
+  const i={...input,...patch},result=calculateEngineering(i,data);
+  const snapshot={input:i,result,modelName:'S13',cropName:en?'Corn':'Кукурудза',fuelName:en?'Fuel':'Паливо',fuelUnit:i.fuelId==='natural_gas'?'m³':'kg',missing:result.missing.map(k=>'Parameter required for this calculation: '+k),warnings:result.warnings,clientName:'А'.repeat(100),clientContact:'a'.repeat(88)+'@example.com'};
+  const bytes=await createEngineeringReport(snapshot,en,font,data);
+  assert.equal((await PDFDocument.load(bytes)).getPageCount(),5);
+ }
+});
