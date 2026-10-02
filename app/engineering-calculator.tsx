@@ -239,7 +239,7 @@ export function Calculator({ en, model, onModelChange, open, onOpenChange, onBro
     setPdfBusy(true);
     try {
       const {downloadEngineeringReport} = await import('@/lib/engineering-report.mjs');
-      const file=await downloadEngineeringReport({clientName:clientName.trim(),clientContact:clientContact.trim(),input,result,modelName:selected?.name || model,cropName:data.crops.find(c=>c.id===draft.cropId)![en?'en':'uk'],fuelName:fuel[en?'en':'uk'],fuelUnit,missing:result.missing.map(k=>labels[k]),warnings:result.warnings.map(k=>warnings[k])},en,asset('/fonts/NotoSans.ttf'));
+      const file=await downloadEngineeringReport({clientName:clientName.trim(),clientContact:clientContact.trim(),input,result,modelName:selected?.name || model,cropName:data.crops.find(c=>c.id===draft.cropId)![en?'en':'uk'],fuelName:fuel[en?'en':'uk'],fuelUnit,missing:result.missing.map(k=>labels[k]),warnings:result.warnings.map(k=>warnings[k])},en,asset('/fonts/NotoSans.ttf'),data);
       setPdfFile({...file,scenario:serialized,en});setPdfOpen(false);setClientName('');setClientContact('');
       track('technical_summary_download',{model});
     } catch {setNotice('pdf-error');} finally {setPdfBusy(false);}
