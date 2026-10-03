@@ -354,7 +354,7 @@ export default function Home({
                   })}</dl>
                   <button type="button" className="text-link model-detail-link" onClick={()=>setDetailModel(m.id)}>{t('Детальніше','View details')}</button>
                   <button
-                    className="button button-secondary model-action"
+                    className="button model-action"
                     aria-label={`${t('Розрахувати для', 'Calculate for')} ${m.name}`}
                     onClick={() => {
                       setSelectedModel(m.id);
