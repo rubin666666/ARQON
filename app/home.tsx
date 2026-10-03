@@ -145,6 +145,7 @@ export default function Home({
     ['video', t('Відео', 'Videos')],
     ['contacts', t('Контакти', 'Contacts')],
     ['partners', t('Партнери', 'Partners')],
+    ...(site.faq.some(f=>localText(f.question,en)&&localText(f.answer,en)) ? [['faq', t('Питання та відповіді','Questions and answers')]] : []),
   ].filter(([id]) => id !== 'photo' || site.photos.length).filter(([id]) => id !== 'video' || site.videos.length).filter(([id]) => id !== 'partners' || site.partners.length).filter(([id]) => id !== 'contacts' || hasContacts(en)).filter(([id]) => id !== 'equipment' || site.equipmentPublished);
   return (
     <>
@@ -406,7 +407,7 @@ export default function Home({
           </section>
           <nav className="footer-nav" aria-labelledby="footer-nav-title">
             <h2 id="footer-nav-title" className="footer-caption">{t('Розділи', 'Explore')}</h2>
-            {nav.filter(([id])=>['about','products','technology','calculator','contacts'].includes(id)).map(([id,label])=><a key={id} href={'#'+id}>{label}<ArrowUpRight size={15}/></a>)}
+            {nav.filter(([id])=>['about','products','technology','calculator','contacts','faq'].includes(id)).map(([id,label])=><a key={id} href={'#'+id}>{label}<ArrowUpRight size={15}/></a>)}
           </nav>
           {!!site.socials.length && <nav className="footer-socials" aria-labelledby="footer-social-title">
             <h2 id="footer-social-title" className="footer-caption">{t('Соціальні мережі', 'Social')}</h2>
