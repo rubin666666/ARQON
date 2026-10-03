@@ -256,7 +256,7 @@ export function Calculator({ en, model, onModelChange, open, onOpenChange, onBro
       <div className="calculator-context" aria-label={t('Обрані умови','Selected conditions')}><strong>{selected?.name}</strong><span>{data.crops.find(c=>c.id===draft.cropId)?.[en?'en':'uk']}</span><span>{format(input.volume)} {t('т','t')}</span><span>{draft.initialMoisture}% → {draft.finalMoisture}%</span></div>
       <div className="calculator-window-body">
       <div className="calculator-tools"><button type="button" className="text-link" disabled={!previousEdit} onClick={undoEdit}><RotateCcw size={16}/>{t("Скасувати останню зміну","Undo last change")}</button>{baseline&&<span className="engineering-caption">{t("Сценарій A зафіксовано. Змініть дані для сценарію B.","Scenario A pinned. Edit inputs for scenario B.")}</span>}</div><button type="button" className="text-link calculator-browse-models" onClick={()=>{setPreviousEdit(null);setEditKey(null);onBrowseModels();}}>{t("Переглянути моделі — дані збережено","Browse models — inputs saved")}</button><h3 id="calculator-step-title" className="sr-only" tabIndex={-1}>{t(`Крок ${mobileStep+1} з 3`,`Step ${mobileStep+1} of 3`)}</h3>
-    <div className="calculator">
+    <div className="calculator" data-editing={mobileStep!==2}>
       <div className="calc-fields" id="calculator-inputs" hidden={mobileStep===2}>
         <p className="engineering-caption">{t('Поля з * потрібні для повного розрахунку. Якщо ціни ще невідомі, залиште їх порожніми — покажемо доступний частковий результат.','Fields marked * are needed for a full calculation. Leave unknown prices blank to see the available partial results.')}</p>
         <fieldset className="calc-group" data-step="0" hidden={mobileStep!==0}><legend><Wheat size={18}/>{t('01 — Зерно та модель','01 — Grain and model')}</legend><div className="fields">
@@ -300,6 +300,16 @@ export function Calculator({ en, model, onModelChange, open, onOpenChange, onBro
         </details>
         </div>
       </div>
+      {mobileStep!==2 && <aside className="calculator-live-summary" aria-label={t('Короткий результат','Quick results')}>
+        <p className="eyebrow">{t('Ваш сезон','Your season')}</p><h3>{selected?.name} · {data.crops.find(c=>c.id===draft.cropId)?.[en?'en':'uk']}</h3>
+        <p className="engineering-status">{result.status==='invalid'?t('Перевірте введені дані','Check your inputs'):result.status==='ready'?t('Попередня оцінка','Preliminary estimate'):t('Доступний частковий розрахунок','Partial calculation available')}</p>
+        {result.status==='invalid'?<p className="error">{result.warnings.map(k=>warnings[k]||warnings.INVALID_INPUT).join(' ')}</p>:<><dl className="engineering-metrics engineering-outcomes">
+          {metric(t('Собівартість сушіння','Drying cost'),result.own?.perTonne,t('грн/т','UAH/t'))}
+          {metric(t('Економія за сезон','Seasonal savings'),result.savings,t('грн/сезон','UAH/season'))}
+          {result.warnings.includes('NO_PAYBACK')?<div data-value-state="negative"><dt>{t('Окупність','Payback')}</dt><dd className="engineering-no-payback">{t('Не досягається','Not reached')}</dd></div>:metric(t('Окупність','Payback'),result.paybackSeasons,t('сезонів','seasons'))}
+        </dl>{result.missing.length>0&&<p className="engineering-caption">{t('Прочерк означає, що даних для показника поки недостатньо.','A dash means there is not enough data for that result yet.')}</p>}</>}
+        <button type="button" className="text-link" onClick={viewResults}>{t('Переглянути повний результат','View full results')}<ArrowUpRight size={18}/></button>
+      </aside>}
       <aside className="result engineering-result" id="calculator-result" hidden={mobileStep!==2} tabIndex={-1} aria-busy={pdfBusy} aria-label={t('Результати','Results')}>
         <p className="result-label">{t('Ваш сезон','Your season')}</p><h3>{selected?.name} <span>· {data.crops.find(c=>c.id===draft.cropId)?.[en?'en':'uk']}</span></h3>
         <p className="engineering-status" data-status={result.status}>{result.status==='invalid' ? t('Перевірте введені дані','Check your inputs') : result.status==='ready' ? t('Попередня оцінка','Preliminary estimate') : t('Доступний частковий розрахунок','Partial calculation available')}</p>

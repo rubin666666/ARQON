@@ -5172,3 +5172,31 @@ html:not(.dark) :is(.about-modal-card, .dryer-description-item) { box-shadow:non
  .gallery-dialog .gallery-card-copy > .text-link { margin-block:0; }
  .spec-comparison-scroll { max-height:50dvh; }
 }
+
+/* Wide-screen live results retain the existing mobile step flow. */
+.calculator-live-summary { display:none; }
+@media(min-width:1100px) {
+ .calculator-window.calculator-wizard[data-slot="dialog-content"] { width:calc(100vw - 48px); max-width:1440px; }
+ .calculator-window.calculator-wizard .calculator[data-editing="true"] { display:grid; grid-template-columns:minmax(0,1.65fr) minmax(280px,1fr); gap:24px; max-width:none; align-items:start; }
+ .calculator-live-summary { display:block; position:sticky; top:0; padding:20px; border:1px solid var(--border); border-radius:16px; background:var(--surface); max-height:calc(90dvh - 290px); overflow:auto; overscroll-behavior:contain; }
+ .calculator-live-summary h3 { margin:0 0 12px; font-size:22px; }
+ .calculator-live-summary .eyebrow { margin-bottom:10px; }
+ .calculator-wizard .calculator-live-summary .engineering-outcomes { grid-template-columns:1fr; gap:10px; }
+ .calculator-wizard .calculator-live-summary .engineering-outcomes > div { padding:12px; }
+ .calculator-live-summary .engineering-outcomes dt { margin-bottom:6px; }
+ .calculator-wizard .calculator-live-summary .engineering-outcomes dd { font-size:24px; }
+ .calculator-live-summary .engineering-status { margin-block:12px; }
+ .calculator-live-summary > .text-link { width:100%; }
+}
+:is(.calculator-window, .arqon-dialog, .menu-dialog) :is(button,a,input,select,textarea,summary,[tabindex="0"]):focus-visible { outline:2px solid var(--primary); outline-offset:3px; }
+.calculator-window :is(input,select,textarea) { scroll-margin-block:24px; }
+
+@media(min-width:1100px) {
+ .calculator-wizard .calculator-tools { display:inline-flex; vertical-align:middle; margin:0 24px 12px 0; }
+ .calculator-wizard .calculator-browse-models { display:inline-flex; vertical-align:middle; margin:0 0 12px; }
+ .calculator-live-summary { padding:16px; }
+ .calculator-live-summary .engineering-outcomes > div { display:grid; grid-template-columns:minmax(0,1fr) minmax(0,1fr); gap:12px; align-items:center; }
+ .calculator-live-summary .engineering-outcomes dt { margin:0; font-size:13px; }
+ .calculator-wizard .calculator-live-summary .engineering-outcomes dd { font-size:20px; }
+ .calculator-live-summary .engineering-outcomes dd small { margin-top:3px; }
+}
