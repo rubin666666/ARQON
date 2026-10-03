@@ -4942,7 +4942,7 @@ main > .section { padding-block: var(--space-section); }
 :is(.about-modal-card, .technology-detail) { border-radius: var(--radius-card); }
 main > :is(#about, #technology, #equipment) {
   background: var(--section-surface);
-  box-shadow: 28px 0 var(--section-surface), -28px 0 var(--section-surface);
+  border-radius: 28px;
 }
 html:not(.dark) :is(.calculator-launch-card, .dryer-description-launch, .engineering-calculator .result, .engineering-calculator .calc-group) {
   background-color: var(--surface);
@@ -4998,7 +4998,7 @@ html:not(.dark) :is(.calculator-launch-card, .dryer-description-launch, .enginee
 .scenario-table tbody tr:last-child > * { border-bottom: 0; }
 @media(max-width:760px) {
   .section .section-heading { gap: 20px; margin-bottom: 24px; }
-  main > :is(#about, #technology, #equipment) { box-shadow: 16px 0 var(--section-surface), -16px 0 var(--section-surface); }
+  main > :is(#about, #technology, #equipment) { border-radius: 20px; }
   .gallery-card { grid-template-columns: minmax(0,1fr); padding: 20px; }
   .gallery-card .model-photo { max-width: 230px; margin-inline: auto; }
   .gallery-capacity > div { grid-template-columns: minmax(0,1fr) !important; }
