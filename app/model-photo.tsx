@@ -15,6 +15,7 @@ export function ModelPhoto({ name, src, en, onReturn }: { name: string; src: str
   return <>
     <button type="button" className="model-photo" aria-label={`${en ? 'Enlarge image' : 'Збільшити зображення'} ${name}`} onClick={() => {setIndex(0);setOpen(true);}}>
       <Image width={1024} height={1024} src={previewSrc} alt={`${name} — ${en ? 'technical series illustration' : 'технічна ілюстрація серії'}`} loading="lazy" />
+      <span className="model-photo-caption">{images[0].label}</span>
       <span className="model-photo-hint" aria-hidden="true">↗</span>
     </button>
     <Dialog open={open} onOpenChange={setOpen} onOpenChangeComplete={value=>{if(!value)onReturn?.();}}>

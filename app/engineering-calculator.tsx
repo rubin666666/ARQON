@@ -214,7 +214,7 @@ export function Calculator({ en, model, onModelChange, open, onOpenChange, onBro
   function checkbox(key: 'serviceEnabled' | 'delayedSale', label: string) {
     return <label className="engineering-toggle"><input type="checkbox" checked={draft[key]} onChange={e=>set(key,e.target.checked)}/><span>{label}</span></label>;
   }
-  const metric = (label: string, value: number | null | undefined, unit: string) => <div><dt>{label}</dt><dd>{format(value)} <small>{unit}</small></dd></div>;
+  const metric = (label: string, value: number | null | undefined, unit: string) => <div data-value-state={value == null ? "missing" : value < 0 ? "negative" : "available"}><dt>{label}</dt><dd>{format(value)} <small>{unit}</small></dd></div>;
   const financialMetric=(label:string,value:number|null|undefined,unit:string)=>value==null?null:metric(label,value,unit);
   function chooseModel(id:string) { if(id===model)return; setEditKey(null);rememberEdit('model',true); setHasSavedScenario(true); setEditing(null); onModelChange(id); }
   function comparison(m:EngineeringData['models'][number]):EngineeringResult { return calculateEngineering({...input,modelId:m.id,dryerPrice:number(modelPrices[m.id]??''),installation:null},data); }
@@ -302,13 +302,13 @@ export function Calculator({ en, model, onModelChange, open, onOpenChange, onBro
       </div>
       <aside className="result engineering-result" id="calculator-result" hidden={mobileStep!==2} tabIndex={-1} aria-busy={pdfBusy} aria-label={t('Результати','Results')}>
         <p className="result-label">{t('Ваш сезон','Your season')}</p><h3>{selected?.name} <span>· {data.crops.find(c=>c.id===draft.cropId)?.[en?'en':'uk']}</span></h3>
-        <p className="engineering-status">{result.status==='invalid' ? t('Перевірте введені дані','Check your inputs') : result.status==='ready' ? t('Попередня оцінка','Preliminary estimate') : t('Доступний частковий розрахунок','Partial calculation available')}</p>
+        <p className="engineering-status" data-status={result.status}>{result.status==='invalid' ? t('Перевірте введені дані','Check your inputs') : result.status==='ready' ? t('Попередня оцінка','Preliminary estimate') : t('Доступний частковий розрахунок','Partial calculation available')}</p>
         {result.status==='invalid' ? <p className="error" role="alert">{result.warnings.map(k=>warnings[k] || warnings.INVALID_INPUT).join(' ')}</p> : <>
           {missingCodes.length>0 && <details className="engineering-details" open><summary>{t('Що потрібно для повного розрахунку','What is needed for a complete calculation')} ({missingCodes.length})</summary><ul>{missingCodes.map(code=><li key={code}>{code==='INVESTMENT'?t('Для собівартості й окупності введіть ціну сушарки.','Enter the dryer price for full cost and payback.'):labels[code]}{!missingFields[code]&&<p className="engineering-caption">{t('Потрібне підтвердження виробника. Додаткових полів для вас немає.','Manufacturer confirmation is needed. There are no additional fields for you to complete.')}</p>}{missingFields[code]&&<button type="button" className="text-link" onClick={()=>focusField(missingFields[code])}>{t('Заповнити','Enter value')}</button>}</li>)}</ul></details>}
           <dl className="engineering-metrics engineering-outcomes" aria-live="polite">
             {metric(t('Собівартість сушіння','Drying cost'),result.own?.perTonne,t('грн/т','UAH/t'))}
             {metric(t('Економія за сезон','Seasonal savings'),result.savings,t('грн/сезон','UAH/season'))}
-            {result.warnings.includes('NO_PAYBACK')?<div><dt>{t('Окупність','Payback')}</dt><dd className="engineering-no-payback">{t('Не досягається','Not reached')}</dd></div>:metric(t('Окупність','Payback'),result.paybackSeasons,t('сезонів','seasons'))}
+            {result.warnings.includes('NO_PAYBACK')?<div data-value-state="negative"><dt>{t('Окупність','Payback')}</dt><dd className="engineering-no-payback">{t('Не досягається','Not reached')}</dd></div>:metric(t('Окупність','Payback'),result.paybackSeasons,t('сезонів','seasons'))}
           </dl>
           {result.own&&<figure className="engineering-balance"><figcaption>{t('Баланс власного зерна','Own grain balance')}<strong>{format(result.own.rawKg/1000)} {t('т до сушіння','t before drying')}</strong></figcaption><div className="engineering-balance-bar" aria-hidden="true"><span style={{width:(result.own.finalKg/result.own.rawKg*100)+'%'}}/><span style={{width:(result.own.waterKg/result.own.rawKg*100)+'%'}}/></div><div className="engineering-balance-key"><p><i/>{t('Після сушіння','After drying')}<b>{format(result.own.finalKg/1000)} {t('т','t')}</b></p><p><i/>{t('Видалена вода','Water removed')}<b>{format(result.own.waterKg/1000)} {t('т','t')}</b></p></div></figure>}
           <dl className="engineering-metrics engineering-primary-metrics" aria-live="polite">

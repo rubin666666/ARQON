@@ -5019,3 +5019,52 @@ html:not(.dark) :is(.calculator-launch-card, .dryer-description-launch, .enginee
   .scenario-table tbody td { border-bottom:0; }
   .scenario-table tbody tr:last-child > * { border-bottom:0; }
 }
+
+/* Shared gallery framing and result hierarchy. */
+.products .model-photo, .gallery-card .model-photo, .model-drawer .model-photo { width:100%; margin:0 auto; padding:12px; max-width:440px; }
+.products .model-photo img, .gallery-card .model-photo img, .model-drawer .model-photo img { width:100%; aspect-ratio:4/3; object-fit:contain; }
+.model-photo-caption { display:block; padding:10px 38px 0 0; color:var(--muted); font-size:12px; line-height:1.5; text-align:left; }
+.model-photo-hint { bottom:12px; right:12px; }
+.engineering-outcomes { gap:16px; border-top:0; padding-top:0; }
+.engineering-outcomes > div { padding:20px; border:1px solid var(--border); border-radius:14px; background:var(--surface); min-width:0; }
+.engineering-outcomes dt { font-size:14px; line-height:1.5; margin-bottom:12px; }
+.engineering-outcomes dd { margin:0; font-variant-numeric:tabular-nums; overflow-wrap:anywhere; }
+.engineering-outcomes dd small { display:block; margin-top:6px; color:var(--muted); font-size:13px; font-weight:400; }
+.engineering-outcomes [data-value-state="missing"] { border-style:dashed; }
+.engineering-outcomes [data-value-state="missing"] dd { color:var(--muted); }
+.engineering-outcomes [data-value-state="negative"] { border-color:#b7463f; background:color-mix(in srgb,#b7463f 8%,var(--surface)); }
+.engineering-outcomes [data-value-state="negative"] dd { color:#a32925; }
+.dark .engineering-outcomes [data-value-state="negative"] dd { color:#ffaaa2; }
+.engineering-status[data-status="partial"] { border-style:dashed; }
+.engineering-status[data-status="invalid"] { border-color:#b7463f; }
+.engineering-primary-metrics { padding-block:20px; border-block:1px solid var(--border); }
+.engineering-primary-metrics dd { font-size:24px; }
+.dryer-description-dialog .dryer-dialog-heading { padding:20px 24px 16px; }
+.dryer-description-dialog .dryer-dialog-tablist { margin:0 24px 20px; }
+.dryer-description-dialog .dryer-dialog-panel { padding:0 24px 24px; }
+.dryer-description-dialog .dryer-dialog-panel > h3 { margin:0 0 20px; padding:0; border:0; font-size:21px; }
+.dryer-dialog-panel .dryer-description-grid { gap:16px; align-items:stretch; }
+.dryer-dialog-panel .dryer-description-item { padding:20px; border:1px solid var(--border); border-radius:16px; background:var(--surface); gap:12px; }
+.dryer-dialog-panel .dryer-description-body { line-height:1.6; }
+.about-dialog .about-modal-columns, .about-dialog .about-modal-network, .about-dialog .dryer-dialog-panel > article { flex:0 0 auto; }
+.about-expertise-intro { margin-bottom:20px; }
+@media(max-width:760px) {
+ .gallery-dialog .model-dialog-header { padding:12px 64px 8px 16px; }
+ .gallery-dialog .model-dialog-header h2 { font-size:20px; margin-bottom:4px; }
+ .gallery-dialog .model-dialog-header p { font-size:13px; line-height:1.4; }
+ .gallery-dialog .model-dialog-header .modal-close { top:12px; right:12px; }
+ .gallery-dialog .gallery-resume { margin:0; padding-block:6px; min-height:44px; font-size:13px; }
+ .gallery-dialog .model-dialog-scroll { padding:12px; }
+ .gallery-dialog .model-dialog-scroll > .engineering-caption { margin:0 0 12px; }
+ .gallery-dialog .gallery-comparison-bar { padding:8px 12px; gap:6px; }
+ .gallery-comparison-bar > div { display:flex; flex-wrap:wrap; align-items:center; gap:4px 12px; }
+ .gallery-comparison-bar strong { font-size:13px; }
+ .gallery-comparison-bar .comparison-chips { margin:0; gap:6px; font-size:12px; }
+ .gallery-dialog .gallery-comparison-bar > .button { min-height:44px; padding:10px 12px; }
+ .gallery-card .model-photo { max-width:240px; padding:0; }
+ .engineering-outcomes > div { padding:16px; }
+ .dryer-description-dialog .dryer-dialog-heading { padding:16px; }
+ .dryer-description-dialog .dryer-dialog-tablist { margin:0 16px 16px; }
+ .dryer-description-dialog .dryer-dialog-panel { padding:0 16px 16px; }
+ .dryer-dialog-panel .dryer-description-item { padding:16px; }
+}
