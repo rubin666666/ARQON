@@ -5146,3 +5146,29 @@ html:not(.dark) :is(.about-modal-card, .dryer-description-item) { box-shadow:non
  .dryer-technology .flow-image-button { padding-bottom:48px; }
  .dryer-technology .flow-zoom { right:12px; bottom:8px; }
 }
+
+/* Compact mobile browsing and an independently pannable diagram. */
+.diagram-toolbar { border:0; padding:0; margin:0; min-width:0; display:flex; align-items:center; flex-wrap:wrap; gap:12px; }
+.diagram-toolbar output { min-width:52px; text-align:center; font-variant-numeric:tabular-nums; }
+.diagram-toolbar .button { min-width:44px; min-height:44px; padding:8px 12px; }
+.diagram-viewport { overflow:auto; max-height:55dvh; border-radius:14px; background:#171819; touch-action:none; cursor:grab; overscroll-behavior:contain; }
+.diagram-viewport:active { cursor:grabbing; }
+.diagram-viewport:focus-visible { outline:2px solid var(--primary); outline-offset:3px; }
+.diagram-canvas { min-width:100%; }
+.diagram-canvas img { display:block; width:100%; max-width:none; height:auto; user-select:none; pointer-events:none; }
+.spec-comparison-scroll thead th { box-shadow:0 2px 0 var(--border); font-weight:600; }
+.spec-comparison-scroll thead th:not(:first-child) { font-size:20px; }
+@media(max-width:760px) {
+ .gallery-dialog .gallery-card { padding:16px; gap:12px; }
+ .gallery-dialog .gallery-card .model-photo { max-width:170px; }
+ .gallery-dialog .gallery-card .model-photo img { aspect-ratio:16/9; }
+ .gallery-dialog .model-photo-caption { font-size:11px; padding-top:6px; }
+ .gallery-dialog .gallery-card-copy h3 { font-size:28px; }
+ .gallery-dialog .gallery-card-copy .gallery-capacity { margin-top:4px; }
+ .gallery-dialog .gallery-card-copy .gallery-capacity > div { grid-template-columns:minmax(0,1fr) minmax(85px,.65fr) !important; gap:10px; align-items:center; padding-block:10px; }
+ .gallery-dialog .gallery-capacity .spec-amount { font-size:24px; }
+ .gallery-dialog .gallery-capacity > div:first-child .spec-amount { font-size:28px; }
+ .gallery-dialog .gallery-capacity .spec-unit { display:block; font-size:12px; }
+ .gallery-dialog .gallery-card-copy > .text-link { margin-block:0; }
+ .spec-comparison-scroll { max-height:50dvh; }
+}
