@@ -5112,3 +5112,37 @@ html:not(.dark) :is(.calculator-launch-card, .dryer-description-launch, .enginee
  .site-footer .footer-nav { grid-column:1/-1; grid-row:2; }
  .site-footer .footer-top { grid-column:2; grid-row:1; }
 }
+
+/* Balance the page composition without changing client content. */
+main > :is(#about, #technology, #equipment) {
+  margin-inline:clamp(12px,2vw,28px);
+  padding-inline:max(18px,calc(min(5vw,96px) - clamp(12px,2vw,28px)));
+}
+@media(min-width:1001px) {
+ .hero { grid-template-columns:minmax(0,1.15fr) minmax(0,1fr); gap:clamp(24px,3vw,56px); }
+ .hero h1 { font-size:clamp(42px,4.1vw,72px); line-height:1.1; letter-spacing:-.04em; text-wrap:initial; }
+ .hero-copy { min-width:0; }
+ .hero-art { width:100%; max-width:620px; }
+ .hero-art > img { max-height:480px; object-fit:contain; }
+ .dryer-technology .flow-figure { display:grid; grid-template-columns:minmax(0,2.2fr) minmax(260px,1fr); align-items:stretch; }
+ .dryer-technology .flow-figure figcaption { border-top:0; border-left:1px solid var(--border); display:flex; flex-direction:column; justify-content:center; text-align:left; }
+ .dryer-technology .flow-legend { display:grid; grid-template-columns:1fr; gap:12px; justify-content:start; }
+ .dryer-technology .flow-legend li { justify-content:start; text-align:left; font-size:15px; }
+}
+.dryer-technology .flow-image-button { align-self:stretch; min-width:0; }
+.dryer-technology .flow-image-button img { height:100%; max-height:460px; object-fit:contain; }
+.dryer-technology .flow-zoom { font-size:13px; padding:10px 14px; gap:8px; }
+.flow-dialog .flow-legend { margin-top:16px; }
+:is(.faq-list, .flow-figure, .about-modal-card, .dryer-description-item, .product-preview) { box-shadow:none; border-color:color-mix(in srgb,var(--border) 65%,var(--surface)); }
+html:not(.dark) :is(.about-modal-card, .dryer-description-item) { box-shadow:none; }
+.product-preview:hover, .product-preview:focus-visible { box-shadow:none; border-color:var(--primary); }
+.dryer-description-launch { box-shadow:none; border-color:color-mix(in srgb,var(--border) 65%,var(--surface)); }
+.gallery-launch-panel, .calculator-launch-card { border-color:color-mix(in srgb,var(--primary) 30%,var(--border)); }
+@media(max-width:1000px) {
+ .dryer-technology .flow-image-button img { height:auto; max-height:360px; }
+}
+@media(max-width:760px) {
+ main > :is(#about, #technology, #equipment) { padding-inline:18px; }
+ .dryer-technology .flow-image-button { padding-bottom:48px; }
+ .dryer-technology .flow-zoom { right:12px; bottom:8px; }
+}
