@@ -5200,3 +5200,35 @@ html:not(.dark) :is(.about-modal-card, .dryer-description-item) { box-shadow:non
  .calculator-wizard .calculator-live-summary .engineering-outcomes dd { font-size:20px; }
  .calculator-live-summary .engineering-outcomes dd small { margin-top:3px; }
 }
+
+/* Consistent gallery rows, compact information panels and a quieter footer. */
+@media(min-width:761px) {
+ .gallery-dialog .gallery-card { align-items:stretch; }
+ .gallery-dialog .gallery-card-copy { display:grid; grid-template-rows:auto auto 1fr auto auto; align-content:start; }
+ .gallery-dialog .gallery-card-copy h3 { margin:0 0 12px; }
+ .gallery-dialog .gallery-card-copy .model-card-compare { min-height:44px; margin:0; }
+ .gallery-dialog .gallery-capacity { display:grid; grid-template-rows:repeat(3,minmax(116px,1fr)); }
+ .gallery-dialog .gallery-card-copy .gallery-capacity > div { align-content:start; }
+ .gallery-dialog .gallery-capacity dt { min-height:40px; line-height:1.5; }
+ .gallery-dialog .gallery-card-copy > .text-link { min-height:44px; margin:8px 0; }
+ .gallery-dialog .gallery-card-copy > .button { margin:0; align-self:end; }
+}
+.dryer-dialog-panel .about-modal-card { padding:20px; }
+.dryer-dialog-panel .about-modal-card h3 { margin:0 0 12px; font-size:21px; line-height:1.35; }
+.dryer-dialog-panel .about-card-index { display:inline-flex; align-items:center; justify-content:center; min-width:30px; height:30px; padding:0 5px; border:1px solid var(--border); border-radius:8px; font-size:13px; letter-spacing:0; font-variant-numeric:tabular-nums; }
+.dryer-dialog-panel .about-expertise-group h4 { align-items:center; }
+.dryer-dialog-panel .dryer-description-item h4 { display:flex; align-items:flex-start; gap:10px; line-height:1.5; }
+.dryer-dialog-panel .dryer-description-number { flex-shrink:0; margin-right:0; }
+.dryer-dialog-panel .dryer-description-controls > .dryer-description-grid { display:grid; grid-template-columns:minmax(0,1fr); gap:16px; }
+.dryer-dialog-panel .dryer-description-grid > .dryer-description-item { border:1px solid var(--border); }
+.dryer-dialog-panel .about-modal-network { margin-top:0; }
+.site-footer .footer-logo { width:170px; max-width:100%; }
+.site-footer .footer-logo img { height:auto; max-height:72px; object-fit:contain; }
+.site-footer .footer-nav { column-gap:28px; row-gap:4px; }
+.site-footer .footer-nav a { min-height:44px; padding:10px 0; border:0; border-radius:4px; background:transparent; box-shadow:none; text-wrap:initial; }
+.site-footer .footer-nav a:hover, .site-footer .footer-nav a:focus-visible { background:transparent; box-shadow:none; text-decoration:underline; text-underline-offset:5px; transform:none; }
+.site-footer .footer-nav a svg { width:16px; height:16px; opacity:.65; }
+@media(max-width:760px) {
+ .dryer-dialog-panel .about-modal-card { padding:16px; }
+ .site-footer .footer-nav { column-gap:20px; }
+}
