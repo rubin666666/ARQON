@@ -4,6 +4,7 @@ import { Check, Wheat, Fuel, Calculator as CalculatorIcon, ArrowUpRight, Downloa
 import { parseNumericText, normalizeNumericText, formatNumericText } from '@/lib/calculator-number.mjs';
 import rawData from '@/config/engineering.json';
 import { parseScenario } from '@/lib/scenario';
+import { resolveScenarioSource } from '@/lib/scenario-source.mjs';
 import { calculateEngineering } from '@/lib/engineering.mjs';
 import type { EngineeringData, EngineeringInput, EngineeringResult } from '@/lib/engineering-types';
 import { ScenarioComparison } from './scenario-comparison';
@@ -91,19 +92,29 @@ export function Calculator({ en, model, onModelChange, open, onOpenChange, onBro
   },[open]);
   /* oxlint-disable react/react-compiler */
   useEffect(() => {
-    const shared = new URLSearchParams(location.search).get('engineering');
-    if(shared || new URLSearchParams(location.search).has('scenario'))onOpenChange(true);
-    const saved = restore(shared ?? readPreference('arqon-engineering-v2'));
-    if (saved) { setHasSavedScenario(saved.modelId!==data.models[0].id || Object.keys(initial).some(key=>key!=='priceModelId' && saved.draft[key as keyof Draft]!==initial[key as keyof Draft])); setDraft(saved.draft); setModelPrices(saved.modelPrices); onModelChange(saved.modelId); }
-    if (shared && !saved) setNotice('invalid-link');
-    if (!shared && !saved) {
-      const legacyRaw = new URLSearchParams(location.search).get('scenario') ?? readPreference('arqon-scenario-v1');
-      const legacy = parseScenario(legacyRaw);
-      if (legacy && data.crops.some(c=>c.id===legacy.crop)) {
-        setDraft({...initial,cropId:legacy.crop,volume:String(legacy.volume),initialMoisture:String(legacy.initialMoisture),finalMoisture:String(legacy.finalMoisture),fuelPrice:legacy.diesel,electricityPrice:legacy.electricity,elevatorTariff:String(legacy.elevatorTariff),elevatorBasis:'tonne-point',delayedSale:legacy.delayedSale});
-        onModelChange(legacy.model);setNotice('legacy');
-      } else if (legacyRaw) setNotice('invalid-link');
+    const params = new URLSearchParams(location.search);
+    const source = resolveScenarioSource({shared:params.get('engineering'),legacy:params.get('scenario'),saved:readPreference('arqon-engineering-v2'),savedLegacy:readPreference('arqon-scenario-v1')},restore,raw=>{
+      const legacy=parseScenario(raw);
+      return legacy&&data.crops.some(c=>c.id===legacy.crop)?legacy:null;
+    });
+    if(params.has('engineering') || params.has('scenario'))onOpenChange(true);
+    if(source.current) {
+      const saved=source.current;
+      setHasSavedScenario(saved.modelId!==data.models[0].id || Object.values(saved.modelPrices).some(price=>price!=='') || Object.keys(initial).some(key=>key!=='priceModelId' && saved.draft[key as keyof Draft]!==initial[key as keyof Draft]));
+      setDraft(saved.draft);setModelPrices(saved.modelPrices);onModelChange(saved.modelId);
+    } else if(source.legacy) {
+      const legacy=source.legacy;
+      setDraft({...initial,cropId:legacy.crop,volume:String(legacy.volume),initialMoisture:String(legacy.initialMoisture),finalMoisture:String(legacy.finalMoisture),fuelPrice:legacy.diesel,electricityPrice:legacy.electricity,elevatorTariff:String(legacy.elevatorTariff),elevatorBasis:'tonne-point',delayedSale:legacy.delayedSale});
+      onModelChange(legacy.model);setHasSavedScenario(true);setNotice('legacy');
     }
+    // Once imported, the legacy URL must not override later edits on reload.
+    if(source.invalidLink || params.has('scenario')) {
+      const url=new URL(location.href);
+      url.searchParams.delete('scenario');
+      if(source.invalidLink)url.searchParams.delete('engineering');
+      history.replaceState(null,'',url);
+    }
+    if(source.invalidLink)setNotice('invalid-link');
     setLoaded(true);
   }, [onModelChange,onOpenChange]);
   /* oxlint-enable react/react-compiler */
