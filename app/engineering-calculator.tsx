@@ -1,7 +1,7 @@
 'use client';
-import { useEffect, useState } from 'react';
+import { useEffect, useLayoutEffect, useState } from 'react';
 import { Check, Wheat, Fuel, Calculator as CalculatorIcon, ArrowUpRight, Download, RotateCcw } from 'lucide-react';
-import { parseNumericText, normalizeNumericText, formatNumericText } from '@/lib/calculator-number.mjs';
+import { parseNumericText, normalizeNumericText, formatNumericText, commitNumericText } from '@/lib/calculator-number.mjs';
 import rawData from '@/config/engineering.json';
 import { parseScenario } from '@/lib/scenario';
 import { resolveScenarioSource } from '@/lib/scenario-source.mjs';
@@ -76,6 +76,14 @@ export function Calculator({ en, model, onModelChange, open, onOpenChange, onBro
   const [showComparison, setShowComparison] = useState(false);
   const [resetOpen,setResetOpen]=useState(false);
   const [mobileStep, setMobileStep] = useState(0);
+  const [focusTarget,setFocusTarget]=useState<{id:string;center:boolean}|null>(null);
+  useLayoutEffect(()=>{
+    if(!open||!focusTarget)return;
+    const field=document.getElementById(focusTarget.id);
+    field?.focus({preventScroll:true});
+    if(focusTarget.center)field?.scrollIntoView({block:'center'});
+    else document.querySelector('.calculator-window-body')?.scrollTo({top:0});
+  },[focusTarget,open]);
   useEffect(()=>{
     if(!open || !window.visualViewport)return;
     const viewport=window.visualViewport;
@@ -198,7 +206,7 @@ export function Calculator({ en, model, onModelChange, open, onOpenChange, onBro
     const units:Partial<Record<NumericKey,string>>={volume:t('т','t'),dailyHours:t('год','h'),fuelPrice:t('грн','UAH')+'/'+fuelUnit,electricityPrice:t('грн/кВт·год','UAH/kWh'),ambientTemperature:'°C',dryerPrice:t('грн','UAH'),elevatorTariff:draft.elevatorBasis==='tonne-point'?t('грн/т-%','UAH/t-%'):t('грн/т','UAH/t'),serviceVolume:t('т','t'),currentGrainPrice:t('грн/т','UAH/t'),futureGrainPrice:t('грн/т','UAH/t')};
     const unit=units[key],displayLabel=unit?label.replace(', '+unit,''):label;
     const error=fieldError(key,required),visibleError=(attempted||touched[key])?error:"",hint=hints[key],id=`eng-${key}`;
-    return <div className="field"><label htmlFor={id}>{displayLabel}{required && " *"}</label><div className="calculator-input-wrap"><input aria-label={label+(required?" *":"")} id={id} type="text" inputMode="decimal" autoComplete="off" required={required} value={editing===key?draft[key]:formatNumericText(draft[key],en)} aria-invalid={Boolean(visibleError)} data-field-error={error||undefined} aria-describedby={[visibleError?id+'-error':'',hint?id+'-hint':''].filter(Boolean).join(' ')||undefined} placeholder={required ? undefined : t('Не задано','Not provided')} enterKeyHint="next" onKeyDown={event=>{if(event.key!=='Enter')return;event.preventDefault();const fields=Array.from(document.querySelectorAll<HTMLElement>('#calculator-inputs input:not([type="radio"]):not([type="checkbox"]), #calculator-inputs select')).filter(field=>field.getClientRects().length>0&&!field.matches(':disabled'));const next=fields[fields.indexOf(event.currentTarget)+1];if(next)next.focus();else if(mobileStep===0)nextStep();else viewResults();}} onFocus={()=>{setEditKey(null);setEditing(key);}} onBlur={()=>{setEditing(null);setTouched(v=>({...v,[key]:true}));set(key,normalizeNumericText(draft[key]) as Draft[typeof key]);}} onChange={e => set(key,normalizeNumericText(e.target.value) as Draft[typeof key])}/>{unit&&<span className="calculator-input-unit" aria-hidden="true">{unit}</span>}</div>{visibleError&&<p id={id+'-error'} className="engineering-field-error" aria-live="polite">{visibleError}</p>}{hint&&(hint.length>140?<details className="calculator-help"><summary>{t('Пояснення до поля','Field guidance')}</summary><p className="engineering-caption" id={id+'-hint'}>{hint}</p></details>:<p className="engineering-caption" id={id+'-hint'}>{hint}</p>)}</div>;
+    return <div className="field"><label htmlFor={id}>{displayLabel}{required && " *"}</label><div className="calculator-input-wrap"><input aria-label={label+(required?" *":"")} id={id} type="text" inputMode="decimal" autoComplete="off" required={required} value={editing===key?draft[key]:formatNumericText(draft[key],en)} aria-invalid={Boolean(visibleError)} data-field-error={error||undefined} aria-describedby={[visibleError?id+'-error':'',hint?id+'-hint':''].filter(Boolean).join(' ')||undefined} placeholder={required ? undefined : t('Не задано','Not provided')} enterKeyHint="next" onKeyDown={event=>{if(event.key!=='Enter'||event.nativeEvent.isComposing)return;event.preventDefault();setTouched(v=>({...v,[key]:true}));if(error)return;const fields=Array.from(document.querySelectorAll<HTMLElement>('#calculator-inputs input:not([type="radio"]):not([type="checkbox"]), #calculator-inputs select')).filter(field=>field.getClientRects().length>0&&!field.matches(':disabled'));const next=fields[fields.indexOf(event.currentTarget)+1];if(next)next.focus();else if(mobileStep===0)nextStep();else viewResults();}} onFocus={()=>{setEditKey(null);setEditing(key);}} onBlur={()=>{setEditing(null);setTouched(v=>({...v,[key]:true}));set(key,commitNumericText(draft[key]) as Draft[typeof key]);}} onChange={e => set(key,normalizeNumericText(e.target.value) as Draft[typeof key])}/>{unit&&<span className="calculator-input-unit" aria-hidden="true">{unit}</span>}</div>{visibleError&&<p id={id+'-error'} className="engineering-field-error" aria-live="polite">{visibleError}</p>}{hint&&(hint.length>140?<details className="calculator-help"><summary>{t('Пояснення до поля','Field guidance')}</summary><p className="engineering-caption" id={id+'-hint'}>{hint}</p></details>:<p className="engineering-caption" id={id+'-hint'}>{hint}</p>)}</div>;
   }
   function revealError(scope='#calculator-inputs') {
     const field=document.querySelector<HTMLInputElement>(`${scope} input[data-field-error]`);
@@ -208,11 +216,11 @@ export function Calculator({ en, model, onModelChange, open, onOpenChange, onBro
     if(step!==undefined)setMobileStep(Number(step));
     let parent=field.parentElement;
     while(parent){if(parent instanceof HTMLDetailsElement)parent.open=true;parent=parent.parentElement;}
-    requestAnimationFrame(()=>{field.focus({preventScroll:true});field.scrollIntoView({block:'center'});});
+    setFocusTarget({id:field.id,center:true});
     return true;
   }
-  function focusField(id:string) { const field=document.getElementById(id); if(!field)return; const step=field.closest<HTMLElement>('[data-step]')?.dataset.step; if(step!==undefined)setMobileStep(Number(step)); let parent=field.parentElement; while(parent){if(parent instanceof HTMLDetailsElement)parent.open=true;parent=parent.parentElement;} requestAnimationFrame(()=>{field.focus();field.scrollIntoView({block:'center'});}); }
-  function goToStep(step:number) { setMobileStep(step); requestAnimationFrame(()=>{document.querySelector('.calculator-window-body')?.scrollTo({top:0});document.getElementById(step===2?'calculator-result':'calculator-step-title')?.focus({preventScroll:true});}); }
+  function focusField(id:string) { const field=document.getElementById(id); if(!field)return; const step=field.closest<HTMLElement>('[data-step]')?.dataset.step; if(step!==undefined)setMobileStep(Number(step)); let parent=field.parentElement; while(parent){if(parent instanceof HTMLDetailsElement)parent.open=true;parent=parent.parentElement;} setFocusTarget({id,center:true}); }
+  function goToStep(step:number) { setMobileStep(step); setFocusTarget({id:step===2?'calculator-result':'calculator-step-title',center:false}); }
   function nextStep() { if(!revealError(`#calculator-inputs [data-step="${mobileStep}"]`))goToStep(Math.min(2,mobileStep+1)); }
   function viewResults() {
     if(revealError())return;
@@ -261,7 +269,7 @@ export function Calculator({ en, model, onModelChange, open, onOpenChange, onBro
   }
   return <section id="calculator" className="section calculator-launcher">
     <div className="calculator-launch-card"><div><p className="eyebrow">{t('Калькулятор ефективності','Efficiency calculator')}</p><h2>{t('Порахуйте свій сезон','Calculate your season')}</h2><p>{t('Оберіть модель, порівняйте умови сушіння та збережіть результат у PDF.','Choose a model, compare drying scenarios and save your results as a PDF.')}</p></div><button type="button" id="calculator-launch" className="button" onClick={()=>onOpenChange(true)} aria-haspopup="dialog"><CalculatorIcon size={20}/>{hasSavedScenario?t('Продовжити мій розрахунок','Continue my calculation'):t('Відкрити калькулятор','Open calculator')}<ArrowUpRight size={18}/></button></div>
-    <Dialog open={open} onOpenChange={value=>{if(!value){setLeadInput(null);setPdfOpen(false);setClientName('');setClientContact('');setMobileStep(0);}onOpenChange(value);}}><DialogContent className="engineering-calculator calculator-window calculator-wizard" showCloseButton={false}>
+    <Dialog open={open} onOpenChange={value=>{if(!value){setFocusTarget(null);setLeadInput(null);setPdfOpen(false);setClientName('');setClientContact('');setMobileStep(0);}onOpenChange(value);}}><DialogContent className="engineering-calculator calculator-window calculator-wizard" showCloseButton={false}>
       <div className="calculator-window-heading"><div><DialogTitle>{t('Калькулятор ефективності','Efficiency calculator')}</DialogTitle><DialogDescription>{t('Заповніть параметри — доступні результати оновлюються одразу.','Enter your parameters — available results update immediately.')}</DialogDescription></div><DialogClose className="modal-close" aria-label={t('Закрити калькулятор','Close calculator')}/></div>
       <ol className="calculator-progress" aria-label={t('Кроки калькулятора','Calculator steps')}>{[t('Зерно та модель','Grain and model'),t('Ціни й витрати','Prices and costs'),t('Результат','Results')].map((label,index)=><li key={label} data-complete={index<mobileStep} aria-current={mobileStep===index?'step':undefined}><button type="button" aria-current={mobileStep===index?'step':undefined} onClick={()=>{if(index===mobileStep)return;if(index===2)viewResults();else if(index===0||!revealError('#calculator-inputs [data-step="0"]'))goToStep(index);}}><span>{index<mobileStep?<Check size={16} aria-label={t('Пройдено','Completed')}/>:index+1}</span>{label}</button></li>)}</ol>
       <div className="calculator-context" aria-label={t('Обрані умови','Selected conditions')}><strong>{selected?.name}</strong><span>{data.crops.find(c=>c.id===draft.cropId)?.[en?'en':'uk']}</span><span>{format(input.volume)} {t('т','t')}</span><span>{draft.initialMoisture}% → {draft.finalMoisture}%</span></div>

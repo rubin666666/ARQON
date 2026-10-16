@@ -14,7 +14,8 @@
     "build:pages": "node scripts/build-pages.mjs",
     "test": "node --test tests/*.test.mjs",
     "typecheck": "tsc --noEmit",
-    "lint:app": "oxlint app lib scripts server tests"
+    "lint:app": "oxlint app lib scripts server tests",
+    "test:browser": "playwright test"
   },
   "dependencies": {
     "@base-ui/react": "1.7.0",
@@ -43,6 +44,7 @@
     "@cloudflare/vite-plugin": "1.37.1",
     "@cloudflare/workers-types": "4.20260515.1",
     "@openai/sites-vite-plugin": "0.2.0",
+    "@playwright/test": "^1.64.1",
     "@tailwindcss/postcss": "4.2.1",
     "@types/node": "22.19.19",
     "@types/react": "19.2.14",

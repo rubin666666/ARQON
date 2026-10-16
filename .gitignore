@@ -41,3 +41,6 @@ next-env.d.ts
 *.tsbuildinfo
 
 .pages-output
+
+/test-results/
+/playwright-report/

@@ -29,6 +29,8 @@ jobs:
         env:
           PAGES_BASE_PATH: ${{ steps.pages.outputs.base_path }}
       - run: node scripts/check-static.mjs
+      - run: npx playwright install --with-deps chromium
+      - run: npm run test:browser
       - name: Resolve static output
         id: output
         run: echo "directory=$(cat .pages-output)" >> "$GITHUB_OUTPUT"
