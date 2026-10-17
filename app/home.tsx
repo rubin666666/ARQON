@@ -186,7 +186,7 @@ export default function Home({
             className="icon"
             aria-label={t('Меню', 'Menu')}
             aria-expanded={menu}
-            onClick={() => M(!menu)}
+            onClick={event => {event.currentTarget.focus();M(!menu);}}
           >
             {menu ? <X /> : <Menu />}
           </button>
