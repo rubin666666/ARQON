@@ -250,7 +250,7 @@ export default function Home({
               )}
             </p>
             <div className="hero-links">
-              <a className="button" href="#calculator" onClick={()=>setCalculatorOpen(true)}>
+              <a className="button" href="#calculator" onClick={event=>{event.currentTarget.focus();setCalculatorOpen(true);}}>
                 {t('Розрахувати окупність', 'Calculate payback')}
                 <ArrowUpRight size={18} />
               </a>

@@ -77,8 +77,9 @@ for(const en of [false,true]) {
   });
 }
 
-test('shared scenario opens in a fresh browser context and retains language and model prices',async({page,browser})=>{
-  await page.context().grantPermissions(['clipboard-read','clipboard-write']);
+test('shared scenario opens in a fresh browser context and retains language and model prices',async({page,browser,browserName})=>{
+  if(browserName==='chromium')await page.context().grantPermissions(['clipboard-read','clipboard-write']);
+  else await page.addInitScript(()=>Object.defineProperty(navigator,'clipboard',{value:{writeText:()=>Promise.reject(new Error('Clipboard unavailable'))}}));
   await open(page);
   await fill(page,'volume','2345');
   await page.getByRole('button',{name:'Далі',exact:true}).click();
@@ -89,7 +90,7 @@ test('shared scenario opens in a fresh browser context and retains language and 
   await fill(page,'dryerPrice','2222222');
   await page.getByRole('button',{name:'Результат',exact:true}).click();
   await page.getByRole('button',{name:'Поділитися сценарієм',exact:true}).click();
-  const url=await page.evaluate(()=>navigator.clipboard.readText());
+  const url=browserName==='chromium'?await page.evaluate(()=>navigator.clipboard.readText()):await page.getByRole('textbox',{name:'Скопіюйте посилання',exact:true}).inputValue();
   expect(new URL(url).searchParams.has('engineering')).toBe(true);
   const context=await browser.newContext();
   try {
