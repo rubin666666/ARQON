@@ -89,6 +89,9 @@ export default function Home({
       if(site.models.some(m=>m.id===id)){
         setGalleryModel(id);
         setGalleryOpen(true);
+      } else {
+        setGalleryModel(null);
+        setGalleryOpen(false);
       }
     };
     const linkedId=new URLSearchParams(location.search).get('model');
