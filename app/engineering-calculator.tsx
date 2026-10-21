@@ -1,5 +1,5 @@
 'use client';
-import { useEffect, useLayoutEffect, useState } from 'react';
+import { useEffect, useLayoutEffect, useRef, useState } from 'react';
 import { Check, Wheat, Fuel, Calculator as CalculatorIcon, ArrowUpRight, Download, RotateCcw } from 'lucide-react';
 import { parseNumericText, normalizeNumericText, formatNumericText, commitNumericText } from '@/lib/calculator-number.mjs';
 import rawData from '@/config/engineering.json';
@@ -65,6 +65,7 @@ export function Calculator({ en, model, onModelChange, open, onOpenChange, onBro
   const [notice, setNotice] = useState('');
   const [link, setLink] = useState('');
   const [pdfBusy, setPdfBusy] = useState(false);
+  const pdfInFlight = useRef(false);
   const [pdfFile,setPdfFile]=useState<{url:string;filename:string;scenario:string;en:boolean}|null>(null);
   useEffect(()=>()=>{if(pdfFile)URL.revokeObjectURL(pdfFile.url);},[pdfFile]);
   const [pdfOpen,setPdfOpen]=useState(false);
@@ -254,14 +255,15 @@ export function Calculator({ en, model, onModelChange, open, onOpenChange, onBro
     try { await navigator.clipboard.writeText(url.href);setNotice('copied'); } catch {setLink(url.href);}
   }
   async function download() {
-    if (result.status==='invalid') return;
+    if (result.status==='invalid' || pdfInFlight.current) return;
+    pdfInFlight.current=true;
     setPdfBusy(true);
     try {
       const {downloadEngineeringReport} = await import('@/lib/engineering-report.mjs');
       const file=await downloadEngineeringReport({clientName:clientName.trim(),clientContact:clientContact.trim(),input,result,modelName:selected?.name || model,cropName:data.crops.find(c=>c.id===draft.cropId)![en?'en':'uk'],fuelName:fuel[en?'en':'uk'],fuelUnit,missing:result.missing.map(k=>labels[k]),warnings:result.warnings.map(k=>warnings[k])},en,asset('/fonts/NotoSans.ttf'),data);
       setPdfFile({...file,scenario:serialized,en});setPdfOpen(false);setClientName('');setClientContact('');
       track('technical_summary_download',{model});
-    } catch {setNotice('pdf-error');} finally {setPdfBusy(false);}
+    } catch {setNotice('pdf-error');} finally {pdfInFlight.current=false;setPdfBusy(false);}
   }
   function compareRow(m: EngineeringData['models'][number]) {
     const r: EngineeringResult = comparison(m);
