@@ -36,6 +36,13 @@ export function writePreference(key: string, value: string) {
     /* Keep the in-memory preference when storage is unavailable. */
   }
 }
+export function removePreference(key: string) {
+  try {
+    localStorage.removeItem(key);
+  } catch {
+    /* Keep working when browser storage is unavailable. */
+  }
+}
 export function track(
   event: string,
   details: Record<string, string | number | boolean> = {},

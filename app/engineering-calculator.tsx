@@ -10,7 +10,7 @@ import type { EngineeringData, EngineeringInput, EngineeringResult } from '@/lib
 import { ScenarioComparison } from './scenario-comparison';
 import { EngineeringLead } from './engineering-lead';
 import { Dialog, DialogContent, DialogTitle, DialogDescription, DialogClose } from '@/components/ui/dialog';
-import { site, localText, asset, track, readPreference, writePreference } from '@/lib/site';
+import { site, localText, asset, track, readPreference, writePreference, removePreference } from '@/lib/site';
 
 const data = rawData as EngineeringData;
 const initial = { cropId:'corn', volume:'1000', initialMoisture:'25', finalMoisture:'15', fuelId:'diesel', fuelPrice:'', electricityPrice:'',
@@ -128,15 +128,21 @@ export function Calculator({ en, model, onModelChange, open, onOpenChange, onBro
   }, [onModelChange,onOpenChange]);
   /* oxlint-enable react/react-compiler */
   const serialized = JSON.stringify({version:2,modelId:model,draft,modelPrices});
+  const initialDraft:Draft={...initial,priceModelId:data.models[0].id,dryerPrice:''};
+  const initialSerialized=JSON.stringify({version:2,modelId:data.models[0].id,draft:initialDraft,modelPrices:{}});
   useEffect(() => {
     if (!loaded) return;
 
     if (restore(serialized)) {
-      writePreference('arqon-engineering-v2',serialized);
+      if(serialized===initialSerialized) {
+        removePreference('arqon-engineering-v2');
+        removePreference('arqon-scenario-v1');
+      }
+      else writePreference('arqon-engineering-v2',serialized);
       const url = new URL(location.href);
       if (url.searchParams.has('engineering')) { url.searchParams.set('engineering',serialized); history.replaceState(null,'',url); }
     }
-  },[serialized,loaded]);
+  },[serialized,initialSerialized,loaded]);
   function set<K extends keyof Draft>(key: K, value: Draft[K]) { if(draft[key]===value)return; if(editing!==key)setEditKey(null); rememberEdit(key,editing!==key); setHasSavedScenario(true); if(key==='dryerPrice')setModelPrices(prices=>({...prices,[model]:String(value)})); setDraft(d => ({...d,[key]:value,...(key==='dryerPrice'?{priceModelId:model}:{})})); setNotice(''); setLink(''); }
   const input: EngineeringInput = {
     elevatorDistanceKm:number(draft.elevatorDistanceKm) ?? NaN,truckPayloadTonnes:number(draft.truckPayloadTonnes),truckLitresPer100Km:number(draft.truckLitresPer100Km),transportDieselPrice:number(draft.transportDieselPrice),driverPerTrip:number(draft.driverPerTrip),storageCostPerTonne:number(draft.storageCostPerTonne),
@@ -300,7 +306,7 @@ export function Calculator({ en, model, onModelChange, open, onOpenChange, onBro
         </div></fieldset>
         <fieldset className="calc-group"><legend>{t('Ціна сушарки','Dryer price')}</legend><div className="fields">
           {numeric('dryerPrice',t(`Вартість сушарки ${selected?.name??model}, грн`,`Dryer price ${selected?.name??model}, UAH`),true)}
-</div><details className="calculator-help"><summary>{t('Умови вартості обладнання','Equipment pricing terms')}</summary><p className="engineering-caption">{t('Ціни обладнання уточнюються. Вкажіть отриману пропозицію або залиште поля порожніми. Комерційна пропозиція ARQON.UA діє 10 робочих днів. Всі суми порівнюйте на однаковій основі щодо ПДВ.','Equipment prices are pending. Enter a received quote or leave the fields blank. An ARQON.UA commercial offer is valid for 10 business days. Use the same VAT basis for all amounts.')}</p></details></fieldset>
+</div><details className="calculator-help"><summary>{t('Умови вартості обладнання','Equipment pricing terms')}</summary><p className="engineering-caption">{t('Ціни обладнання уточнюються. Вкажіть отриману пропозицію або залиште поля порожніми для часткового розрахунку. Порівнюйте всі суми на однаковій основі щодо ПДВ.','Equipment prices are pending. Enter a received quote or leave the field blank for partial results. Compare all amounts on the same VAT basis.')}</p></details></fieldset>
         </div><p className="eyebrow">{t('Додаткові умови — за бажанням','Optional scenario details')}</p>
         <details className="engineering-details"><summary>{t('Послуги іншим господарствам','Services for other farms')}{draft.serviceEnabled && <span className="condition-summary">{t(' · Увімкнено',' · Enabled')}{Number(draft.serviceVolume)>0?` · ${format(Number(draft.serviceVolume))} ${t('т','t')}`:''}</span>}</summary>
           {checkbox('serviceEnabled',t('Сушити зерно для інших господарств','Dry grain for other farms'))}
@@ -365,6 +371,8 @@ export function Calculator({ en, model, onModelChange, open, onOpenChange, onBro
           {result.warnings.map(code=><p key={code} className="notice">{warnings[code]}</p>)}
 
           <details className="calculator-help"><summary>{t('Припущення та обмеження розрахунку','Calculation assumptions and limitations')}</summary><p className="engineering-caption">{t('Окупність враховує лише ціну сушарки; монтаж, підключення та додаткове обладнання не включені. Обслуговування: 1% ціни сушарки за сезон. Амортизація не враховується. Зарплата оператора включається лише за наявності введеного тарифу. Маса розрахована без втрат сухої речовини. Продуктивність доступна лише для наданих виробником режимів. Прочерк означає відсутні дані, а не нульові витрати.','Payback uses the dryer price only; installation, connections and additional equipment are excluded. Maintenance: 1% of dryer price per season. Depreciation is excluded. Operator wages are included only when a rate is entered. Mass assumes no dry-matter loss. Capacity is available only for manufacturer-supplied regimes. A dash means missing data, not zero costs.')}</p></details>
+          {result.missing.length>0 && <details className="engineering-details"><summary>{t('Що потрібно для повного розрахунку','What is needed for a complete calculation')} ({result.missing.length})</summary><ul>{result.missing.map(code=><li key={code}>{labels[code]}</li>)}</ul></details>}
+          <p className="engineering-caption engineering-scope-note" role="note">{t('Попередня сценарна оцінка, не комерційна пропозиція. Окупність враховує лише ціну сушарки; монтаж, підключення, додаткове обладнання й амортизація не включені. Сервісний резерв 1% ціни за сезон потребує підтвердження. Витрата палива є розрахунковою, не паспортною.','Preliminary scenario estimate, not a commercial offer. Payback uses the dryer price only; installation, connections, additional equipment, and depreciation are excluded. The 1% per-season service allowance needs confirmation. Fuel consumption is calculated, not a rated specification.')}</p>
           <details className="engineering-details"><summary>{t('Матеріальний баланс та енергія','Material balance and energy')}</summary><dl className="engineering-metrics">
             {metric(t('Суха речовина','Dry matter'),result.own?.dryMatterKg,t('кг','kg'))}{metric(t('Енергія палива з урахуванням ККД','Fuel energy including efficiency'),result.own?.burnerMJ,t('МДж','MJ'))}
             {metric(t('Паливо для власного зерна','Fuel for own grain'),result.own?.fuelQuantity,fuelUnit)}{metric(t('Електроенергія для власного зерна','Electricity for own grain'),result.own?.electricityKwh,t('кВт·год','kWh'))}
@@ -380,6 +388,7 @@ export function Calculator({ en, model, onModelChange, open, onOpenChange, onBro
       </aside>
     </div>
     <div className="scenario-tools" hidden={mobileStep!==2}><button type="button" className="button button-secondary" onClick={share} disabled={result.status==='invalid'}>{t('Поділитися сценарієм','Share scenario')}</button><button type="button" className="text-link" onClick={()=>setResetOpen(true)}><RotateCcw size={16}/>{t('Скинути','Reset')}</button></div>
+    <p className="engineering-caption scenario-storage-note" role="note">{t('Параметри зберігаються лише в цьому браузері. Спільне посилання містить введені параметри розрахунку та ціни моделей, але не контакти для PDF. Скидання очищає збережений сценарій і повертає початкові значення.','Inputs are stored only in this browser. A shared link includes calculation inputs and model prices, but not PDF contact details. Reset clears the saved scenario and restores the initial values.')}</p>
     {notice && <output>{notice==='copied'?t('Посилання скопійовано.','Link copied.'):notice==='reset'?t('Параметри скинуто.','Parameters reset.'):notice==='legacy'?t('Відновлено основні параметри старого сценарію. Логістику, ціни продажу та нові поля перевірте окремо.','Restored core values from your previous scenario. Review logistics, sale prices and new fields separately.'):notice==='pdf-error'?t('Не вдалося сформувати PDF. Спробуйте ще раз.','Could not generate PDF. Please retry.'):t('Не вдалося відновити сценарій із посилання.','Unable to restore the linked scenario.')}</output>}
     {link && <label className="field">{t('Скопіюйте посилання','Copy the link')}<input readOnly value={link} onFocus={e=>e.currentTarget.select()}/></label>}
     {mobileStep===2&&<section className="scenario-comparison"><h3>{t('Два сценарії','Two scenarios')}</h3><p>{t('Зафіксуйте поточні умови як A, змініть модель або ціни й поверніться до результату: B показує поточний розрахунок. Порівняння доступне до перезавантаження сторінки.','Pin current inputs as A, change the model or prices, then return to results: B shows your current calculation. This comparison lasts until the page is reloaded.')}</p><div className="engineering-actions"><button type="button" className="button button-secondary" disabled={result.status==='invalid'} onClick={()=>setBaseline({...input})}>{baseline?t('Оновити сценарій A поточними даними','Replace A with current inputs'):t('Зафіксувати сценарій A','Pin scenario A')}</button>{baseline&&<><button type="button" className="text-link" onClick={()=>goToStep(0)}>{t('Змінити сценарій B','Edit scenario B')}</button><button type="button" className="text-link" onClick={()=>setBaseline(null)}>{t('Прибрати порівняння','Remove comparison')}</button></>}</div>{baseline&&<ScenarioComparison en={en} a={baseline} b={input} data={data}/>}</section>}

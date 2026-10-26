@@ -49,6 +49,16 @@ await test('control payback is a scenario, not a catalogue price',()=>{
  assert.equal(r.paybackSeasons,4500000/r.savings);assert.ok(r.paybackSeasons>0);
  assert.equal(actual.models.find(m=>m.id==='sahara-s13').price,null);
 });
+await test('missing dryer price preserves partial results and withholds payback',()=>{
+ const withPrice=calculateEngineering(control,actual);
+ const partial=calculateEngineering({...control,dryerPrice:null},actual);
+ assert.equal(partial.status,'partial');
+ assert.equal(partial.investment,null);
+ assert.equal(partial.paybackSeasons,null);
+ assert.equal(partial.own.hours,withPrice.own.hours);
+ assert.equal(partial.own.waterKg,withPrice.own.waterKg);
+ assert.ok(partial.missing.includes('INVESTMENT'));
+});
 
 await test('workbook power values are consumed without a second 0.8 multiplier',()=>{
  const power=[19.76,38.96,45.2,70.4,92.48,136.16],burners=[800,1600,1600,2000,3400,6000];

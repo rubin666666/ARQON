@@ -3968,6 +3968,8 @@ html:not(.dark) :is(.company-grid article, .products article, .engineering-calcu
 .calculator-window .engineering-reference {padding:10px;margin-top:12px;}
 .calculator-window .engineering-details {margin-top:10px;padding-top:6px;}
 .calculator-window .engineering-pending {font-size:13px;padding:12px;margin:12px 0;}
+.engineering-scope-note {padding:12px;border-left:3px solid var(--primary);background:var(--surface);}
+.scenario-storage-note {max-width:760px;}
 .calculator-window .button {min-height:44px;padding:10px 14px;font-size:13px;}
 .calculator-window .scenario-tools {margin-top:18px;}
 @media(max-width:760px){
@@ -3988,6 +3990,8 @@ html:not(.dark) :is(.company-grid article, .products article, .engineering-calcu
 .product-preview span {font-size:clamp(22px,2vw,30px);font-weight:500;}
 .product-preview svg {margin-left:auto;flex-shrink:0;color:var(--primary);}
 .product-preview:focus-visible {outline:2px solid var(--primary);outline-offset:4px;}
+.product-list-controls {display:flex;justify-content:center;margin:18px 0 24px;}
+.product-list-controls .button {min-width:min(100%,260px);justify-content:center;}
 .products:empty {display:none;}
 @media(prefers-reduced-motion:no-preference){.product-preview,.product-preview img,.product-preview svg {transition:transform .2s ease,border-color .2s ease,box-shadow .2s ease;}@media(hover:hover){.product-preview:hover {transform:translateY(-3px);border-color:var(--primary);box-shadow:var(--card-shadow-hover);}.product-preview:hover svg {transform:translate(2px,-2px);}}.product-preview:active {transform:scale(.98);}}
 @media(max-width:640px){.product-previews {gap:8px;}.product-preview {position:relative;flex-direction:column;gap:10px;padding:10px 8px;border-radius:14px;text-align:center;}.product-preview img {width:100%;max-width:110px;}.product-preview span {font-size:22px;}.product-preview svg {display:none;}}
@@ -4353,6 +4357,9 @@ html:not(.dark) body {
     font-size: 12px;
     text-align: center;
   }
+  .calculator-step-progress {grid-column:1/-1;display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:6px;}
+  .calculator-step-progress span {height:4px;border-radius:4px;background:var(--border);}
+  .calculator-step-progress span[data-active="true"] {background:var(--primary);}
 
   .calculator-step-controls .button {
     width: 100%;
