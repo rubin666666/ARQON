@@ -35,6 +35,8 @@ for(const en of [false,true]) {
   test(`${en?'EN':'UA'} gallery, details, comparison and calculator handoff`,async({page})=>{
     await page.goto(en?'en/':'./');
     const launcher=page.getByRole('button',{name:en?'Model gallery':'Галерея моделей',exact:true});
+    await expect(page.locator('#product-models, .product-list-controls')).toHaveCount(0);
+    await expect(page.locator('.gallery-card')).toHaveCount(0);
     await launcher.click();
     await expect(page.locator('.gallery-card')).toHaveCount(6);
     const card=page.locator('.gallery-card').filter({has:page.getByRole('heading',{name:'S10',exact:true})});
