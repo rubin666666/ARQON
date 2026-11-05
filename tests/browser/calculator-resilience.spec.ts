@@ -40,6 +40,7 @@ test('PDF network failure permits retry and keeps entered values',async({page})=
   const download=await waiting;
   expect(await download.failure()).toBeNull();
   await expect(page.getByRole('link',{name:'Save the last generated PDF',exact:true})).toBeVisible();
+  await expect(page.getByText('Could not generate PDF. Please retry.',{exact:true})).toHaveCount(0);
   await expect(page.getByRole('dialog',{name:'Calculation result PDF',exact:true})).toHaveCount(0);
   await page.locator('.calculator-wizard-footer').getByRole('button',{name:'Edit inputs',exact:true}).click();
   await expect(page.locator('#eng-volume')).toHaveValue('2 345');

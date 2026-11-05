@@ -278,7 +278,7 @@ p {
   border-radius: 5px;
   overflow: hidden;
 }
-.hero-art > img {
+.hero-art img {
   display: block;
   width: 100%;
   aspect-ratio: 1;
@@ -1217,7 +1217,7 @@ footer > div a {
 .hero-art {
   border-radius: 3px;
 }
-.hero-art > img {
+.hero-art img {
   height: auto;
 }
 .art-top,
@@ -1276,7 +1276,7 @@ footer > div a {
   .hero-links {
     flex-wrap: wrap;
   }
-  .hero-art > img {
+  .hero-art img {
     aspect-ratio: auto;
   }
   .analytics-banner {
@@ -1483,14 +1483,14 @@ summary:focus-visible {
     var(--background) 76%
   );
 }
-.hero-art > img {
+.hero-art img {
   width: 100%;
   height: auto;
   aspect-ratio: 1;
   object-fit: contain;
   filter: none;
 }
-.dark .hero-art > img {
+.dark .hero-art img {
   filter: invert(1);
 }
 .hero-art .art-top,
@@ -1527,10 +1527,10 @@ summary:focus-visible {
   }
 }
 
-.hero-art > img {
+.hero-art img {
   mix-blend-mode: multiply;
 }
-.dark .hero-art > img {
+.dark .hero-art img {
   mix-blend-mode: screen;
 }
 
@@ -2434,7 +2434,7 @@ summary:focus-visible {
   width: 100%;
   justify-self: center;
 }
-.hero-art > img {
+.hero-art img {
   max-height: 350px;
   width: 100%;
   object-fit: contain;
@@ -2544,7 +2544,7 @@ summary:focus-visible {
   .hero-art {
     max-width: 340px;
   }
-  .hero-art > img {
+  .hero-art img {
     max-height: 235px;
   }
   .section-heading {
@@ -2918,7 +2918,7 @@ summary:focus-visible {
     linear-gradient(#ffffff06 1px, transparent 1px),
     linear-gradient(90deg, #ffffff06 1px, transparent 1px);
 }
-.hero-art > img {
+.hero-art img {
   max-height: 390px;
 }
 .hero-art .art-top,
@@ -3003,7 +3003,7 @@ footer > div:not(.footer-identity):not(:empty) {
   .hero-art {
     max-width: 380px;
   }
-  .hero-art > img {
+  .hero-art img {
     max-height: 265px;
   }
   footer {
@@ -3113,14 +3113,14 @@ html {
 .hero-art::before {
   display: none;
 }
-.hero-art > img {
+.hero-art img {
   max-height: min(62vh, 560px);
   aspect-ratio: auto;
   object-fit: contain;
   mix-blend-mode: normal;
   filter: invert(1);
 }
-.dark .hero-art > img {
+.dark .hero-art img {
   mix-blend-mode: normal;
   filter: none;
 }
@@ -3175,7 +3175,7 @@ html {
     max-width: 420px;
     justify-self: start;
   }
-  .hero-art > img {
+  .hero-art img {
     max-height: 340px;
   }
   .benefits > div {
@@ -3201,7 +3201,7 @@ html {
   .hero-art {
     max-width: 320px;
   }
-  .hero-art > img {
+  .hero-art img {
     max-height: 240px;
   }
   .benefits {
@@ -3258,7 +3258,7 @@ html {
   .hero h1 {
     font-size: clamp(76px, 4.3vw, 96px);
   }
-  .hero-art > img {
+  .hero-art img {
     max-height: min(68vh, 720px);
   }
 }
@@ -4145,7 +4145,7 @@ html:not(.dark) :is(.company-grid article, .products article, .engineering-calcu
   .first-screen > .hero { flex: 1; min-block-size: auto; padding-block: clamp(20px, 4svh, 56px); }
   .first-screen > .benefits { flex-shrink: 0; margin-bottom: 0; transform: none; }
   .first-screen > .benefits > .reveal-on-scroll { opacity: 1; transform: none; }
-  .hero-art > img { object-position: center; }
+  .hero-art img { object-position: center; }
 }
 
 .product-preview,
@@ -4616,8 +4616,8 @@ html:not(.dark) body {
 }
 
 /* Original solid-line artwork: dark ink in light mode, light ink in dark mode. */
-.hero-art > img, .hero-mobile-art img, .model-photo > img, .product-preview > img { filter:none; mix-blend-mode:multiply; }
-.dark .hero-art > img, .dark .hero-mobile-art img, .dark .model-photo > img, .dark .product-preview > img { filter:invert(1); mix-blend-mode:screen; }
+.hero-art img, .hero-mobile-art img, .model-photo > img, .product-preview > img { filter:none; mix-blend-mode:multiply; }
+.dark .hero-art img, .dark .hero-mobile-art img, .dark .model-photo > img, .dark .product-preview > img { filter:invert(1); mix-blend-mode:screen; }
 /* Blend the animated figure itself: its transform isolates child blending. */
 .hero-art, .hero-mobile-art, .model-photo { isolation:auto; mix-blend-mode:multiply; }
 .dark .hero-art, .dark .hero-mobile-art, .dark .model-photo { isolation:auto; mix-blend-mode:screen; }
@@ -5130,7 +5130,7 @@ main > :is(#about, #technology, #equipment) {
  .hero h1 { font-size:clamp(42px,4.1vw,72px); line-height:1.1; letter-spacing:-.04em; text-wrap:initial; }
  .hero-copy { min-width:0; }
  .hero-art { width:100%; max-width:none; }
- .hero-art > img { width:100%; height:auto; max-height:none; object-fit:contain; }
+ .hero-art img { width:100%; height:auto; max-height:none; object-fit:contain; }
  .dryer-technology .flow-figure { display:grid; grid-template-columns:minmax(0,2.2fr) minmax(260px,1fr); align-items:stretch; }
  .dryer-technology .flow-figure figcaption { border-top:0; border-left:1px solid var(--border); display:flex; flex-direction:column; justify-content:center; text-align:left; }
  .dryer-technology .flow-legend { display:grid; grid-template-columns:1fr; gap:12px; justify-content:start; }
@@ -5300,3 +5300,5 @@ html:not(.dark) :is(.about-modal-card, .dryer-description-item) { box-shadow:non
 }
 .site-footer .footer-nav a svg { color:var(--muted); opacity:1; }
 .site-footer .footer-top { color:var(--primary); }
+
+.hero-art > picture { display:contents; }

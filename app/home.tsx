@@ -237,7 +237,7 @@ export default function Home({
               <br />
               <em>SAHARA.</em>
             </h1>
-            <figure className="hero-mobile-art"><Image width={1024} height={1024} src={asset('/sahara-hero.webp')} alt={t('Технічна ілюстрація зерносушарки SAHARA','SAHARA grain dryer technical illustration')} fetchPriority="high"/></figure>
+            <figure className="hero-mobile-art"><picture><source media="(max-width: 680px)" srcSet={asset('/sahara-hero-mobile.webp')}/><Image width={1024} height={1024} src={asset('/sahara-hero.webp')} alt={t('Технічна ілюстрація зерносушарки SAHARA','SAHARA grain dryer technical illustration')} fetchPriority="high"/></picture></figure>
             <p>
               {t(
                 'Зерносушарки SAHARA — обладнання Arqon, де інженерія, автоматизація й програмне забезпечення працюють як одна система.',
@@ -256,7 +256,7 @@ export default function Home({
             </div>
           </div>
           <figure className="hero-art">
-            <Image
+            <picture><source media="(max-width: 680px)" srcSet={asset('/sahara-hero-mobile.webp')}/><Image
               width={1024}
               height={1024}
               src={asset('/sahara-hero.webp')}
@@ -265,7 +265,7 @@ export default function Home({
                 'SAHARA grain dryer technical illustration',
               )}
               fetchPriority="high"
-            />
+            /></picture>
           </figure>
         </section>
         <div className="benefits">
