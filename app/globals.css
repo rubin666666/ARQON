@@ -5302,3 +5302,9 @@ html:not(.dark) :is(.about-modal-card, .dryer-description-item) { box-shadow:non
 .site-footer .footer-top { color:var(--primary); }
 
 .hero-art > picture { display:contents; }
+
+.content-loading { min-height:240px; display:flex; flex:1; flex-direction:column; align-items:center; justify-content:center; gap:20px; padding:32px; text-align:center; color:var(--foreground); }
+.content-loading output { max-width:440px; }
+img[data-unavailable] { object-fit:contain!important; background:rgba(128,128,128,.08); border-radius:12px; }
+
+.gallery-dialog[data-slot="dialog-content"] { height:90dvh; }

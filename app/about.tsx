@@ -2,8 +2,8 @@
 import { site, localText } from '@/lib/site';
 import { CopyAccent } from './copy-accent';
 import { Dialog, DialogTrigger, DialogContent, DialogTitle, DialogDescription, DialogClose } from '@/components/ui/dialog';
-import {lazy,Suspense} from 'react';
-const AboutPanels=lazy(()=>import('./about-panels'));
+import {retryable} from '@/components/retryable-content';
+const AboutPanels=retryable(()=>import('./about-panels'),'about-panels');
 import { ArrowUpRight, Cog } from 'lucide-react';
 
 export function About({ en }: { en: boolean }) {
@@ -45,7 +45,7 @@ export function About({ en }: { en: boolean }) {
           <div><DialogTitle>{t('Докладніше про компанію', 'More about the company')}</DialogTitle><DialogDescription>ARQON · Engineering &amp; Innovation</DialogDescription></div>
           <DialogClose className="modal-close" aria-label={t('Закрити опис компанії', 'Close company description')}>×</DialogClose>
         </div>
-        <Suspense fallback={<output>{t('Завантаження…','Loading…')}</output>}><AboutPanels en={en}/></Suspense>
+        <AboutPanels en={en}/>
       </DialogContent>
     </Dialog>
   </section>;

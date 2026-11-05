@@ -54,3 +54,59 @@ test('mobile hero and window content load only the required resources',async({pa
   await expect(page.locator('.gallery-card')).toHaveCount(6);
   expect(requests.some(url=>url.includes('model-explorer-content'))).toBe(true);
 });
+
+test('failed gallery download can be retried inside a closeable dialog',async({page})=>{
+ await page.route('**/model-explorer-content-*.js',route=>route.abort());
+ await page.goto('en/');
+ await page.getByRole('button',{name:'Model gallery',exact:true}).click();
+ await expect(page.getByRole('button',{name:'Try again',exact:true})).toBeVisible();
+ await expect(page.getByRole('button',{name:'Close gallery',exact:true})).toBeVisible();
+ await page.unroute('**/model-explorer-content-*.js');
+ await page.getByRole('button',{name:'Try again',exact:true}).click();
+ await expect(page.locator('.gallery-card')).toHaveCount(6);
+});
+
+test('unavailable hero keeps its dimensions and uses a placeholder',async({page})=>{
+ await page.route('**/sahara-hero*.webp',route=>route.abort());
+ await page.goto('en/');
+ const image=page.locator('.hero-art img:visible, .hero-mobile-art img:visible');
+ await expect(image).toHaveAttribute('data-unavailable','true');
+ expect(await image.evaluate((img:HTMLImageElement)=>img.complete&&img.naturalWidth>0)).toBe(true);
+ const bounds=await image.boundingBox();expect(bounds?.width).toBeGreaterThan(100);
+});
+
+test('slow gallery can be closed before loading finishes',async({page})=>{
+ let release!:()=>void;
+ const hold=new Promise<void>(resolve=>{release=resolve;});
+ await page.route('**/model-explorer-content-*.js',async route=>{await hold;await route.continue().catch(()=>{});});
+ await page.goto('en/');
+ await page.getByRole('button',{name:'Model gallery',exact:true}).click();
+ await expect(page.getByText('Loading…',{exact:true})).toBeVisible();
+ await page.getByRole('button',{name:'Close gallery',exact:true}).click();
+ await expect(page.getByRole('dialog')).toHaveCount(0);
+ release();
+ await page.getByRole('button',{name:'Model gallery',exact:true}).click();
+ await expect(page.locator('.gallery-card')).toHaveCount(6);
+});
+
+test('company content recovers after a failed download',async({page})=>{
+ await page.route('**/about-panels-*.js',route=>route.abort());
+ await page.goto('en/');
+ await page.getByRole('button',{name:/More about the company/}).click();
+ await expect(page.getByRole('button',{name:'Try again',exact:true})).toBeVisible();
+ await page.unroute('**/about-panels-*.js');
+ await page.getByRole('button',{name:'Try again',exact:true}).click();
+ await expect(page.getByRole('tab',{name:'Company',exact:true})).toBeVisible();
+});
+
+test('a valid photo still displays after an unavailable gallery image',async({page})=>{
+ await page.route('**/sahara-hero.webp',route=>route.abort());
+ await page.goto('en/');
+ await page.getByRole('button',{name:'Model gallery',exact:true}).click();
+ await page.getByRole('button',{name:'Enlarge image S10',exact:true}).click();
+ const photo=page.locator('.model-photo-stage img');
+ await expect(photo).toHaveAttribute('data-unavailable','true');
+ await page.getByRole('button',{name:'Next image',exact:true}).click();
+ await expect(photo).not.toHaveAttribute('data-unavailable','true');
+ await expect.poll(()=>photo.evaluate((img:HTMLImageElement)=>img.complete&&img.naturalWidth>0)).toBe(true);
+});

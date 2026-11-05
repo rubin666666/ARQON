@@ -6,8 +6,8 @@ import Image from 'next/image';
 import description from '@/config/dryer-description.json';
 import { CopyAccent } from './copy-accent';
 import { Dialog, DialogTrigger, DialogContent, DialogTitle, DialogDescription, DialogClose } from '@/components/ui/dialog';
-import {lazy,Suspense} from 'react';
-const DryerPanels=lazy(()=>import('./dryer-panels'));
+import {retryable} from '@/components/retryable-content';
+const DryerPanels=retryable(()=>import('./dryer-panels'),'dryer-panels');
 import { ArrowUpRight, Factory } from 'lucide-react';
 
 export function CompanyExpertise({ en }: { en: boolean }) {
@@ -54,7 +54,7 @@ export function Technology({en}:{en:boolean}){
        <div><DialogTitle>{t('Докладніше про сушарку','More about the dryer')}</DialogTitle><DialogDescription>SAHARA · ARQON</DialogDescription></div>
        <DialogClose className="modal-close" aria-label={t('Закрити опис сушарки','Close dryer description')}>×</DialogClose>
      </div>
-     <Suspense fallback={<output>{t('Завантаження…','Loading…')}</output>}><DryerPanels en={en}/></Suspense>
+     <DryerPanels en={en}/>
    </DialogContent>
  </Dialog>
  <div className="dryer-description-closing"><h3>{copy(description.closingTitle)}</h3><p>{copy(description.closing)}</p></div><div className="technology-next"><a className="button button-secondary" href="#products">{t('Перейти до моделей SAHARA','Explore SAHARA models')}<ArrowUpRight size={18}/></a></div></section>;
