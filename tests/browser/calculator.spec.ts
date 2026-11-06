@@ -81,3 +81,20 @@ test('energy prices and model quote produce a complete result', async ({ page })
   await expect(page.getByRole('button', { name: 'Share scenario', exact: true })).toBeEnabled();
 });
 
+
+test('results reveal an invalid field inside a collapsed optional section',async({page})=>{
+ await page.getByRole('button',{name:'Next',exact:true}).click();
+ const section=page.locator('details.engineering-details').filter({hasText:'Services for other farms'});
+ await section.locator('summary').click();
+ await page.getByRole('checkbox',{name:'Dry grain for other farms',exact:true}).check();
+ const volume=page.locator('#eng-serviceVolume');
+ await volume.click();await volume.fill('0');await volume.press('Tab');
+ await section.locator('summary').click();
+ await page.getByRole('button',{name:'Results',exact:true}).click();
+ await expect(section).toHaveAttribute('open','');
+ await expect(volume).toBeFocused();
+ await expect(volume).toHaveAttribute('aria-describedby',/eng-serviceVolume-error/);
+ await expect(page.locator('#eng-serviceVolume-error')).toHaveText('Value must be greater than zero.');
+ await volume.fill('100');await volume.press('Tab');
+ await expect(volume).toHaveAttribute('aria-invalid','false');
+});

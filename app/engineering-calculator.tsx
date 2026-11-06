@@ -158,7 +158,7 @@ export function Calculator({ en, model, onModelChange, open, onOpenChange, onBro
   const result = calculateEngineering(input,data);
   const fuel = data.fuels.find(f => f.id === draft.fuelId)!;
   const fuelUnit = fuel.unit === 'L' ? t('л','L') : fuel.unit === 'kg' ? t('кг','kg') : t('м³','m³');
-  const format = (value: number | null | undefined, digits=1) => value == null || !Number.isFinite(value) ? '—' : value.toLocaleString(en?'en-GB':'uk-UA',{maximumFractionDigits:digits});
+  const format = (value: number | null | undefined, digits=2) => value == null || !Number.isFinite(value) ? '—' : value.toLocaleString(en?'en-GB':'uk-UA',{maximumFractionDigits:digits});
   const labels: Record<string,string> = {
     TRANSPORT_INPUTS:t('Параметри доставки на елеватор','Elevator transport inputs'),
     STORAGE_COSTS:t('Витрати зберігання та відкладеного продажу','Storage and delayed-sale costs'),

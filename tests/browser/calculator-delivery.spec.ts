@@ -49,6 +49,7 @@ for(const en of [false,true]) {
     await fill(page,'electricityPrice','8');
     await fill(page,'elevatorTariff','150');
     await page.getByRole('button',{name:en?'Results':'Результат',exact:true}).click();
+    const displayed=await page.locator('#calculator-result .engineering-outcomes dd').evaluateAll(nodes=>nodes.map(node=>Array.from(node.childNodes).filter(child=>child.nodeType===Node.TEXT_NODE).map(child=>child.textContent).join('').trim()));
     await page.getByRole('button',{name:en?'Download detailed PDF':'Завантажити розширений PDF',exact:true}).click();
     await expect(page.locator('.pdf-preview-summary')).toContainText('S10');
     const waiting=page.waitForEvent('download');
@@ -72,6 +73,7 @@ for(const en of [false,true]) {
       expect(compact).toContain('3456789');
       expect(text).toContain(en?'71.25':'71,25');
       expect(text).toContain(en?'Corn':'Кукурудза');
+      for(const value of displayed)expect(compact).toContain(value.replace(/[\s,]/g,''));
     } finally {await loading.destroy();}
     await expect(page.getByRole('link',{name:en?'Save the last generated PDF':'Зберегти останній сформований PDF',exact:true})).toBeVisible();
   });
