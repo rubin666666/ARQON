@@ -68,3 +68,30 @@ test('company and dryer tabs and FAQ remain usable on a narrow screen',async({pa
     await expect(question).not.toHaveAttribute('open','');
   }
 });
+
+test('drying stages stay attached to the diagram when enlarged',async({page},testInfo)=>{
+ await page.emulateMedia({reducedMotion:'reduce'});
+ await page.goto('en/');
+ const process=page.locator('#technology > .drying-process');
+ await expect(process.locator('li')).toHaveCount(3);
+ await expect(process).toContainText('Wet grain enters the receiving hopper.');
+ await expect(process).toContainText('Cooling');
+ await page.locator('.flow-figure').scrollIntoViewIfNeeded();
+ await page.screenshot({path:`work/process-${testInfo.project.name}.png`});
+ await page.getByRole('button',{name:'Enlarge drying diagram',exact:true}).click();
+ const stage=page.locator('.diagram-canvas');
+ const relative=()=>stage.evaluate(el=>{
+  const box=el.getBoundingClientRect(),marker=el.querySelector('.stage-drying')!.getBoundingClientRect();
+  return (marker.x+marker.width/2-box.x)/box.width;
+ });
+ await expect(stage.locator('.drying-marker')).toHaveCount(3);
+ expect(await relative()).toBeCloseTo(.5,2);
+ await page.getByRole('button',{name:'Zoom in',exact:true}).click();
+ expect(await relative()).toBeCloseTo(.5,2);
+ await page.getByRole('button',{name:'Close diagram',exact:true}).click();
+ await page.getByRole('link',{name:'Explore SAHARA models',exact:true}).click();
+ await expect(page).toHaveURL(/#products$/);
+ await page.getByRole('button',{name:'Model gallery',exact:true}).click();
+ await page.getByRole('button',{name:'Calculate S10',exact:true}).click();
+ await expect(page.locator('#calc-model')).toHaveValue('sahara-s10');
+});

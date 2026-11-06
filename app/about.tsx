@@ -2,8 +2,7 @@
 import { site, localText } from '@/lib/site';
 import { CopyAccent } from './copy-accent';
 import { Dialog, DialogTrigger, DialogContent, DialogTitle, DialogDescription, DialogClose } from '@/components/ui/dialog';
-import {retryable} from '@/components/retryable-content';
-const AboutPanels=retryable(()=>import('./about-panels'),'about-panels');
+import AboutPanels from './about-panels';
 import { ArrowUpRight, Cog } from 'lucide-react';
 
 export function About({ en }: { en: boolean }) {

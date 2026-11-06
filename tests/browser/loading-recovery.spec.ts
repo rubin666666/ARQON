@@ -48,23 +48,14 @@ test('mobile hero and window content load only the required resources',async({pa
   expect(requests.filter(url=>/model-explorer-content|about-panels|dryer-panels/.test(url))).toEqual([]);
   await page.getByRole('button',{name:/More about the company/}).click();
   await expect(page.getByRole('tab',{name:'Company',exact:true})).toBeVisible();
-  expect(requests.some(url=>url.includes('about-panels'))).toBe(true);
+  expect(requests.some(url=>url.includes('about-panels'))).toBe(false);
   await page.keyboard.press('Escape');
   await page.getByRole('button',{name:'Model gallery',exact:true}).click();
   await expect(page.locator('.gallery-card')).toHaveCount(6);
-  expect(requests.some(url=>url.includes('model-explorer-content'))).toBe(true);
+  expect(requests.some(url=>url.includes('model-explorer-content'))).toBe(false);
 });
 
-test('failed gallery download can be retried inside a closeable dialog',async({page})=>{
- await page.route('**/model-explorer-content-*.js',route=>route.abort());
- await page.goto('en/');
- await page.getByRole('button',{name:'Model gallery',exact:true}).click();
- await expect(page.getByRole('button',{name:'Try again',exact:true})).toBeVisible();
- await expect(page.getByRole('button',{name:'Close gallery',exact:true})).toBeVisible();
- await page.unroute('**/model-explorer-content-*.js');
- await page.getByRole('button',{name:'Try again',exact:true}).click();
- await expect(page.locator('.gallery-card')).toHaveCount(6);
-});
+
 
 test('unavailable hero keeps its dimensions and uses a placeholder',async({page})=>{
  await page.route('**/sahara-hero*.webp',route=>route.abort());
@@ -75,29 +66,9 @@ test('unavailable hero keeps its dimensions and uses a placeholder',async({page}
  const bounds=await image.boundingBox();expect(bounds?.width).toBeGreaterThan(100);
 });
 
-test('slow gallery can be closed before loading finishes',async({page})=>{
- let release!:()=>void;
- const hold=new Promise<void>(resolve=>{release=resolve;});
- await page.route('**/model-explorer-content-*.js',async route=>{await hold;await route.continue().catch(()=>{});});
- await page.goto('en/');
- await page.getByRole('button',{name:'Model gallery',exact:true}).click();
- await expect(page.getByText('Loading…',{exact:true})).toBeVisible();
- await page.getByRole('button',{name:'Close gallery',exact:true}).click();
- await expect(page.getByRole('dialog')).toHaveCount(0);
- release();
- await page.getByRole('button',{name:'Model gallery',exact:true}).click();
- await expect(page.locator('.gallery-card')).toHaveCount(6);
-});
 
-test('company content recovers after a failed download',async({page})=>{
- await page.route('**/about-panels-*.js',route=>route.abort());
- await page.goto('en/');
- await page.getByRole('button',{name:/More about the company/}).click();
- await expect(page.getByRole('button',{name:'Try again',exact:true})).toBeVisible();
- await page.unroute('**/about-panels-*.js');
- await page.getByRole('button',{name:'Try again',exact:true}).click();
- await expect(page.getByRole('tab',{name:'Company',exact:true})).toBeVisible();
-});
+
+
 
 test('a valid photo still displays after an unavailable gallery image',async({page})=>{
  await page.route('**/sahara-hero.webp',route=>route.abort());
@@ -109,4 +80,23 @@ test('a valid photo still displays after an unavailable gallery image',async({pa
  await page.getByRole('button',{name:'Next image',exact:true}).click();
  await expect(photo).not.toHaveAttribute('data-unavailable','true');
  await expect.poll(()=>photo.evaluate((img:HTMLImageElement)=>img.complete&&img.naturalWidth>0)).toBe(true);
+});
+
+
+test('all information windows work after the loaded page loses network access',async({page,context})=>{
+ await page.goto('en/');
+ await page.getByRole('button',{name:'Model gallery',exact:true}).waitFor();
+ await context.setOffline(true);
+ try {
+  await page.getByRole('button',{name:/More about the company/}).click();
+  await expect(page.getByRole('tab',{name:'Company',exact:true})).toBeVisible();
+  await page.keyboard.press('Escape');
+  await page.getByRole('button',{name:/More about the dryer/}).click();
+  await expect(page.getByRole('tab').first()).toBeVisible();
+  await page.keyboard.press('Escape');
+  await page.getByRole('button',{name:'Model gallery',exact:true}).click();
+  await expect(page.locator('.gallery-card')).toHaveCount(6);
+  await page.getByRole('button',{name:'All specifications',exact:true}).first().click();
+  await expect(page.locator('.model-specs')).toBeVisible();
+ } finally {await context.setOffline(false);}
 });

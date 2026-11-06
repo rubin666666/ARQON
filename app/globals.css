@@ -5334,3 +5334,30 @@ img[data-unavailable] { object-fit:contain!important; background:rgba(128,128,12
 .calculator-step-guide { margin:0 0 18px; }
 .metric-explanation { display:block; margin-top:12px; font-size:13px; line-height:1.6; font-weight:400; letter-spacing:normal; color:var(--muted); }
 .calculator-wizard .engineering-result > .engineering-outcomes > div { justify-content:flex-start; }
+
+.flow-image-stage,.diagram-canvas { position:relative; }
+.flow-image-stage { display:block; width:100%; }
+.dryer-technology .flow-image-stage img { display:block; height:auto; max-height:none; width:100%; }
+.drying-markers { position:absolute; inset:0; pointer-events:none; }
+.drying-marker { position:absolute; display:grid; place-items:center; width:34px; height:34px; border:2px solid white; border-radius:50%; background:#a63608; color:white; font-size:17px; font-weight:700; transform:translate(-50%,-50%); box-shadow:0 2px 8px #0007; }
+.stage-loading { left:14%; top:14%; }
+.stage-drying { left:50%; top:38%; }
+.stage-cooling { left:22%; top:60%; background:#175b7a; }
+.drying-process { list-style:none; display:grid; grid-template-columns:repeat(3,minmax(0,1fr)); gap:24px; margin:24px 0 32px; padding:0; }
+.drying-process li { display:flex; align-items:flex-start; gap:12px; min-width:0; }
+.process-number { flex:0 0 32px; height:32px; display:grid; place-items:center; border-radius:50%; background:var(--accent-wash); border:1px solid var(--border); color:var(--foreground); font-weight:600; }
+.drying-process h3 { margin:2px 0 10px; font-size:18px; }
+.drying-process p { margin:0; font-size:15px; line-height:1.7; color:var(--muted); }
+.drying-process-compact { margin:12px 0; gap:12px; }
+.drying-process-compact h3 { font-size:14px; margin:5px 0; }
+.technology-next p { max-width:660px; margin-bottom:16px; color:var(--muted); line-height:1.65; }
+@media(max-width:680px){
+ .drying-process { grid-template-columns:1fr; gap:20px; }
+ .drying-process-compact { display:flex; flex-wrap:wrap; gap:10px 16px; }
+ .drying-process-compact .process-number { flex-basis:24px; height:24px; }
+ .drying-marker { width:26px; height:26px; font-size:14px; }
+}
+.flow-stage-key { display:none; }
+@media(max-width:680px){
+ .flow-stage-key { display:block; padding-bottom:16px; margin-bottom:20px; border-bottom:1px solid var(--border); }
+}

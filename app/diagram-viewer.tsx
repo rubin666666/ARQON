@@ -1,9 +1,9 @@
 'use client';
 /* oxlint-disable jsx-a11y/no-noninteractive-tabindex -- The scrollable diagram must be keyboard-focusable for arrow-key panning. */
-import { useRef, useState } from 'react';
+import { useRef, useState, type ReactNode } from 'react';
 import Image from 'next/image';
 
-export function DiagramViewer({src,alt,en}:{src:string;alt:string;en:boolean}) {
+export function DiagramViewer({src,alt,en,annotations}:{src:string;alt:string;en:boolean;annotations?:ReactNode}) {
   const [scale,setScale]=useState(1);
   const viewport=useRef<HTMLElement>(null);
   const pointers=useRef(new Map<number,{x:number;y:number}>());
@@ -26,7 +26,7 @@ export function DiagramViewer({src,alt,en}:{src:string;alt:string;en:boolean}) {
       onPointerDown={event=>{if(event.pointerType==='mouse'&&event.button!==0)return;event.currentTarget.setPointerCapture(event.pointerId);pointers.current.set(event.pointerId,{x:event.clientX,y:event.clientY});if(pointers.current.size===2){const [a,b]=[...pointers.current.values()];pinch.current={distance:Math.hypot(a.x-b.x,a.y-b.y),scale:scaleRef.current};}}}
       onPointerMove={event=>{const previous=pointers.current.get(event.pointerId);if(!previous)return;pointers.current.set(event.pointerId,{x:event.clientX,y:event.clientY});if(pointers.current.size===2&&pinch.current){const [a,b]=[...pointers.current.values()];if(pinch.current.distance>0)zoom(pinch.current.scale*Math.hypot(a.x-b.x,a.y-b.y)/pinch.current.distance);}else if(pointers.current.size===1){event.currentTarget.scrollLeft+=previous.x-event.clientX;event.currentTarget.scrollTop+=previous.y-event.clientY;}}}
       onPointerUp={event=>release(event.pointerId)} onPointerCancel={event=>release(event.pointerId)} onLostPointerCapture={event=>release(event.pointerId)}>
-      <div className="diagram-canvas" style={{width:`${scale*100}%`}}><Image src={src} alt={alt} width={1536} height={864} draggable={false}/></div>
+      <div className="diagram-canvas" style={{width:`${scale*100}%`}}><Image src={src} alt={alt} width={1536} height={864} draggable={false}/>{annotations}</div>
     </section>
   </div>;
 }
