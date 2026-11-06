@@ -5326,3 +5326,11 @@ img[data-unavailable] { object-fit:contain!important; background:rgba(128,128,12
  .hero-copy .hero-links { display:flex; flex-direction:column; align-items:stretch; gap:12px; }
  .hero-links .text-link { position:static; margin-top:0; min-height:44px; }
 }
+
+.model-comparison-context { margin:24px 0 12px; color:var(--muted); max-width:900px; line-height:1.6; }
+.preview-capacity { display:block; font-size:13px; font-weight:400; line-height:1.5; margin-top:6px; color:var(--muted); }
+.model-choice-help { margin-bottom:24px; }
+.calculator-step-guide,.calculator-entry-guide { line-height:1.65; color:var(--muted); }
+.calculator-step-guide { margin:0 0 18px; }
+.metric-explanation { display:block; margin-top:12px; font-size:13px; line-height:1.6; font-weight:400; letter-spacing:normal; color:var(--muted); }
+.calculator-wizard .engineering-result > .engineering-outcomes > div { justify-content:flex-start; }
