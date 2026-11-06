@@ -5308,3 +5308,21 @@ html:not(.dark) :is(.about-modal-card, .dryer-description-item) { box-shadow:non
 img[data-unavailable] { object-fit:contain!important; background:rgba(128,128,128,.08); border-radius:12px; }
 
 .gallery-dialog[data-slot="dialog-content"] { height:90dvh; }
+
+/* Introduce the dryer before its engineering and financial details. */
+.hero-copy > .hero-description { margin:24px 0; max-width:600px; }
+.company-system-intro { max-width:var(--content-width,1440px); margin:32px auto 24px; padding-inline:24px; }
+.company-system-intro p { max-width:760px; color:var(--muted); line-height:1.7; }
+@media(max-width:680px) {
+ .hero-copy > .hero-description { margin:8px 0 20px; font-size:16px; line-height:1.6; }
+ .hero-copy .hero-links { flex-wrap:wrap; gap:16px; }
+}
+@media(max-width:680px) {
+ .hero { padding-bottom:48px; }
+ .hero-copy { min-height:0; }
+ .hero-mobile-art { flex:0 0 clamp(160px,27svh,240px); min-height:160px; }
+}
+@media(max-width:680px) {
+ .hero-copy .hero-links { display:flex; flex-direction:column; align-items:stretch; gap:12px; }
+ .hero-links .text-link { position:static; margin-top:0; min-height:44px; }
+}

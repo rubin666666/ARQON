@@ -6,6 +6,7 @@ import { EnquiryForm } from './enquiry-form';
 import { Calculator } from './engineering-calculator';
 import { About } from './about';
 import { Technology } from './technology';
+import dryerDescription from '@/config/dryer-description.json';
 import { ContentSections } from './content-sections';
 import { Analytics } from './analytics';
 import {
@@ -131,10 +132,10 @@ export default function Home({
     document.querySelector('link[rel="canonical"]')?.setAttribute('href', site.origin + localeUrl(en));
   }, [en]);
   const nav = [
-    ['about', t('Про компанію', 'About')],
-    ['products', t('Продукти', 'Products')],
     ['technology', t('Технологія', 'Technology')],
+    ['products', t('Продукти', 'Products')],
     ['calculator', t('Калькулятор окупності', 'Payback calculator')],
+    ['about', t('Про компанію', 'About')],
     ['equipment', t('Обладнання', 'Equipment')],
     ['photo', t('Фото', 'Photos')],
     ['video', t('Відео', 'Videos')],
@@ -229,28 +230,17 @@ export default function Home({
         <div className="first-screen">
         <section className="hero">
           <div className="hero-copy">
-            <p className="eyebrow">{localText(site.tagline, en)}</p>
-            <h1>
-              {t('Ваш урожай.', 'Your harvest.')}
-              <br />
-              {t('Наша технологія.', 'Our technology.')}
-              <br />
-              <em>SAHARA.</em>
-            </h1>
+            <p className="eyebrow hero-slogan">{t('Ваш урожай. Наша технологія.', 'Your harvest. Our technology.')}</p>
+            <h1>{t('Зерносушарки', 'Grain dryers')}<br /><em>SAHARA</em></h1>
+            <p className="hero-description">{localText(dryerDescription.intro,en)}</p>
             <figure className="hero-mobile-art"><picture><source media="(max-width: 680px)" srcSet={asset('/sahara-hero-mobile.webp')}/><Image width={1024} height={1024} src={asset('/sahara-hero.webp')} alt={t('Технічна ілюстрація зерносушарки SAHARA','SAHARA grain dryer technical illustration')} fetchPriority="high"/></picture></figure>
-            <p>
-              {t(
-                'Зерносушарки SAHARA — обладнання Arqon, де інженерія, автоматизація й програмне забезпечення працюють як одна система.',
-                'SAHARA grain dryers from Arqon, where engineering, automation and software work as one system.',
-              )}
-            </p>
             <div className="hero-links">
-              <a className="button" href="#calculator" onClick={event=>{event.currentTarget.focus();setCalculatorOpen(true);}}>
-                {t('Розрахувати окупність', 'Calculate payback')}
+              <a className="button" href="#technology">
+                {t('Як працює сушарка', 'How the dryer works')}
                 <ArrowUpRight size={18} />
               </a>
               <a className="text-link" href="#products">
-                {t('Дивитися моделі', 'See the models')}
+                {t('Переглянути моделі', 'View models')}
                 <ArrowRight size={16} />
               </a>
             </div>
@@ -268,6 +258,39 @@ export default function Home({
             /></picture>
           </figure>
         </section>
+        </div>
+        <Technology en={en} />
+        <section id="products" className="section">
+          <div className="section-heading">
+            <div>
+              <p className="eyebrow">{t('Продукти', 'Products')}</p>
+              <h2>
+                {t('Знайдіть свою', 'Find your')} <em>SAHARA.</em>
+              </h2>
+            </div>
+            <p>{localText(site.productIntro, en)}</p>
+          </div>
+          <div className="gallery-launch-panel">
+            <Image src={asset('/images/sahara-context-v2.webp')} alt={t('Сушарка SAHARA поруч із зерновим комплексом','SAHARA dryer alongside a grain facility')} width={1536} height={864} className="gallery-launch-image" loading="lazy" />
+            <div className="gallery-launch-copy">
+              <span className="eyebrow">{t('Серія SAHARA','SAHARA series')}</span>
+              <h3>{t('Оберіть сушарку для свого сезону','Choose the dryer for your season')}</h3>
+              <p>{t('Перегляньте доступні моделі та відкрийте розрахунок для обраної сушарки.','Review the available models and open a calculation for your selected dryer.')}</p>
+              <a className="text-link" href="#calculator" onClick={event=>{event.currentTarget.focus();setCalculatorOpen(true);}}>{t('Розрахувати окупність','Calculate payback')}<ArrowUpRight size={18}/></a>
+              <ModelExplorer en={en} onResume={()=>{setGalleryOpen(false);setCalculatorOpen(true);}} open={galleryOpen} initialModelId={galleryModel} onOpenChange={value=>{setGalleryOpen(value);if(!value)setGalleryModel(null);}} onCalculate={calculateModel} />
+            </div>
+          </div>
+          <div className="product-previews">{site.models.slice(0,3).map(m=><button key={m.id} type="button" className="product-preview" aria-label={t('Відкрити галерею продуктів: ','Open product gallery: ')+m.name} aria-expanded={galleryOpen} aria-controls="model-gallery" onClick={event=>{event.currentTarget.focus();setGalleryModel(m.id);setGalleryOpen(true);}}><Image src={asset('/sahara-contour.png')} width={240} height={240} alt={`${m.name} — ${t('технічна ілюстрація серії','technical series illustration')}`} loading="lazy"/><span>{m.name}</span><ArrowUpRight size={18}/></button>)}</div>
+        </section>
+        <ModelDetails en={en} id={detailModel} onClose={()=>setDetailModel(null)} onCalculate={calculateModel} />
+        <Calculator en={en} onBrowseModels={()=>{setCalculatorOpen(false);setGalleryModel(null);setGalleryOpen(true);}} model={selectedModel} onModelChange={setSelectedModel} open={calculatorOpen} onOpenChange={setCalculatorOpen} />
+        <About en={en} />
+        <div className="company-system-intro"><p>
+              {t(
+                'Зерносушарки SAHARA — обладнання Arqon, де інженерія, автоматизація й програмне забезпечення працюють як одна система.',
+                'SAHARA grain dryers from Arqon, where engineering, automation and software work as one system.',
+              )}
+            </p></div>
         <div className="benefits">
           {[Cog, SlidersHorizontal, Cpu].map((Icon, i) => (
             <div key={i}>
@@ -304,32 +327,6 @@ export default function Home({
             </div>
           ))}
         </div>
-        </div>
-        <About en={en} />
-        <section id="products" className="section">
-          <div className="section-heading">
-            <div>
-              <p className="eyebrow">{t('Продукти', 'Products')}</p>
-              <h2>
-                {t('Знайдіть свою', 'Find your')} <em>SAHARA.</em>
-              </h2>
-            </div>
-            <p>{localText(site.productIntro, en)}</p>
-          </div>
-          <div className="gallery-launch-panel">
-            <Image src={asset('/images/sahara-context-v2.webp')} alt={t('Сушарка SAHARA поруч із зерновим комплексом','SAHARA dryer alongside a grain facility')} width={1536} height={864} className="gallery-launch-image" loading="lazy" />
-            <div className="gallery-launch-copy">
-              <span className="eyebrow">{t('Серія SAHARA','SAHARA series')}</span>
-              <h3>{t('Оберіть сушарку для свого сезону','Choose the dryer for your season')}</h3>
-              <p>{t('Перегляньте доступні моделі та відкрийте розрахунок для обраної сушарки.','Review the available models and open a calculation for your selected dryer.')}</p>
-              <ModelExplorer en={en} onResume={()=>{setGalleryOpen(false);setCalculatorOpen(true);}} open={galleryOpen} initialModelId={galleryModel} onOpenChange={value=>{setGalleryOpen(value);if(!value)setGalleryModel(null);}} onCalculate={calculateModel} />
-            </div>
-          </div>
-          <div className="product-previews">{site.models.slice(0,3).map(m=><button key={m.id} type="button" className="product-preview" aria-label={t('Відкрити галерею продуктів: ','Open product gallery: ')+m.name} aria-expanded={galleryOpen} aria-controls="model-gallery" onClick={event=>{event.currentTarget.focus();setGalleryModel(m.id);setGalleryOpen(true);}}><Image src={asset('/sahara-contour.png')} width={240} height={240} alt={`${m.name} — ${t('технічна ілюстрація серії','technical series illustration')}`} loading="lazy"/><span>{m.name}</span><ArrowUpRight size={18}/></button>)}</div>
-        </section>
-        <ModelDetails en={en} id={detailModel} onClose={()=>setDetailModel(null)} onCalculate={calculateModel} />
-        <Technology en={en} />
-        <Calculator en={en} onBrowseModels={()=>{setCalculatorOpen(false);setGalleryModel(null);setGalleryOpen(true);}} model={selectedModel} onModelChange={setSelectedModel} open={calculatorOpen} onOpenChange={setCalculatorOpen} />
         {site.equipmentPublished && <section id="equipment" className="section">
           <p className="eyebrow">{t('Додаткове обладнання', 'Optional equipment')}</p>
           <h2>
