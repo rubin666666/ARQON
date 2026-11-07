@@ -9,6 +9,7 @@ import { calculateEngineering } from '@/lib/engineering.mjs';
 import type { EngineeringData, EngineeringInput, EngineeringResult } from '@/lib/engineering-types';
 import { ScenarioComparison } from './scenario-comparison';
 import { EngineeringLead } from './engineering-lead';
+import { CalculationBrief } from './calculation-brief';
 import { Dialog, DialogContent, DialogTitle, DialogDescription, DialogClose } from '@/components/ui/dialog';
 import { site, localText, asset, track, readPreference, writePreference, removePreference } from '@/lib/site';
 
@@ -395,7 +396,7 @@ export function Calculator({ en, model, onModelChange, open, onOpenChange, onBro
       {pdfBusy && <output className="engineering-pdf-status" aria-live="polite">{t('Готуємо PDF…','Preparing PDF…')}</output>}
       </aside>
     </div>
-    <div className="scenario-tools" hidden={mobileStep!==2}><button type="button" className="button button-secondary" onClick={share} disabled={result.status==='invalid'}>{t('Поділитися сценарієм','Share scenario')}</button><button type="button" className="text-link" onClick={()=>setResetOpen(true)}><RotateCcw size={16}/>{t('Скинути','Reset')}</button></div>
+    <div className="scenario-tools" hidden={mobileStep!==2}><button type="button" className="button button-secondary" onClick={share} disabled={result.status==='invalid'}>{t('Поділитися сценарієм','Share scenario')}</button><CalculationBrief input={input} en={en} modelName={selected?.name||model} cropName={data.crops.find(c=>c.id===draft.cropId)?.[en?'en':'uk']||draft.cropId} fuelName={fuel[en?'en':'uk']} fuelUnit={fuelUnit} disabled={result.status==='invalid'}/><button type="button" className="text-link" onClick={()=>setResetOpen(true)}><RotateCcw size={16}/>{t('Скинути','Reset')}</button></div>
     <p className="engineering-caption scenario-storage-note" role="note">{t('Параметри зберігаються лише в цьому браузері. Спільне посилання містить введені параметри розрахунку та ціни моделей, але не контакти для PDF. Скидання очищає збережений сценарій і повертає початкові значення.','Inputs are stored only in this browser. A shared link includes calculation inputs and model prices, but not PDF contact details. Reset clears the saved scenario and restores the initial values.')}</p>
     {notice && <output>{notice==='copied'?t('Посилання скопійовано.','Link copied.'):notice==='reset'?t('Параметри скинуто.','Parameters reset.'):notice==='legacy'?t('Відновлено основні параметри старого сценарію. Логістику, ціни продажу та нові поля перевірте окремо.','Restored core values from your previous scenario. Review logistics, sale prices and new fields separately.'):notice==='pdf-error'?t('Не вдалося сформувати PDF. Спробуйте ще раз.','Could not generate PDF. Please retry.'):t('Не вдалося відновити сценарій із посилання.','Unable to restore the linked scenario.')}</output>}
     {link && <label className="field">{t('Скопіюйте посилання','Copy the link')}<input readOnly value={link} onFocus={e=>e.currentTarget.select()}/></label>}
