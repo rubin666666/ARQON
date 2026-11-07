@@ -25,7 +25,7 @@ test('rotation and short screens keep calculator and gallery controls reachable'
  await page.getByRole('button',{name:'Edit inputs',exact:true}).click();
  await expect(page.locator('#eng-volume')).toHaveValue('2 345');
  await page.getByRole('button',{name:'Close calculator',exact:true}).click();
- await page.getByRole('button',{name:'Model gallery',exact:true}).click();
+ await page.getByRole('button',{name:'Open model gallery',exact:true}).click();
  await page.getByRole('checkbox',{name:'Compare S10',exact:true}).check();
  await page.setViewportSize({width:390,height:450});
  await page.getByRole('button',{name:'Close gallery',exact:true}).click();

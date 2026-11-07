@@ -34,13 +34,13 @@ for(const en of [false,true]) {
   });
   test(`${en?'EN':'UA'} gallery, details, comparison and calculator handoff`,async({page})=>{
     await page.goto(en?'en/':'./');
-    const launcher=page.getByRole('button',{name:en?'Model gallery':'Галерея моделей',exact:true});
+    const launcher=page.getByRole('button',{name:en?'Open model gallery':'Відкрити галерею моделей',exact:true});
     await expect(page.locator('#product-models, .product-list-controls')).toHaveCount(0);
     await expect(page.locator('.gallery-card')).toHaveCount(0);
     await launcher.click();
     await expect(page.locator('.gallery-card')).toHaveCount(6);
     const card=page.locator('.gallery-card').filter({has:page.getByRole('heading',{name:'S10',exact:true})});
-    await card.getByRole('button',{name:en?'All specifications':'Усі характеристики',exact:true}).click();
+    await card.getByRole('button',{name:en?'Open specifications':'Відкрити характеристики',exact:true}).click();
     await expect(page.locator('.model-specs')).toBeVisible();
     await noOverflow(page);
     await page.getByRole('button',{name:en?'Close details':'Закрити подробиці',exact:true}).click();
@@ -73,7 +73,7 @@ for(const theme of ['light','dark'] as const) {
       await section.scrollIntoViewIfNeeded();
       await noOverflow(page);
     }
-    await page.getByRole('button',{name:'Галерея моделей',exact:true}).click();
+    await page.getByRole('button',{name:'Відкрити галерею моделей',exact:true}).click();
     await noOverflow(page);
     const card=page.locator('.gallery-card').first();
     await card.getByRole('button',{name:'Розрахувати S9',exact:true}).scrollIntoViewIfNeeded();

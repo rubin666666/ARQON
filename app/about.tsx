@@ -37,7 +37,7 @@ export function About({ en }: { en: boolean }) {
     <Dialog>
       <DialogTrigger className="dryer-description-launch about-dialog-launch">
         <span className="description-entry-icon" aria-hidden="true"><Cog size={42} strokeWidth={1.4} /></span><span className="dryer-description-label"><strong>{t('Докладніше про компанію', 'More about the company')}</strong><small>{t('Компанія · Компетенції · Міжнародна мережа', 'Company · Expertise · International network')}</small></span>
-        <span className="description-entry-art" aria-hidden="true"><Cog strokeWidth={0.7} /></span><span className="description-entry-action" aria-hidden="true">{t('Докладніше','Learn more')}<ArrowUpRight size={20}/></span>
+        <span className="description-entry-art" aria-hidden="true"><Cog strokeWidth={0.7} /></span><span className="description-entry-action" aria-hidden="true">{t('Відкрити вікно','Open window')}<ArrowUpRight size={20}/></span>
       </DialogTrigger>
       <DialogContent className="arqon-dialog dryer-description-dialog about-dialog" showCloseButton={false}>
         <div className="dryer-dialog-heading">

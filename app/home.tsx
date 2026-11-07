@@ -237,7 +237,7 @@ export default function Home({
             <div className="hero-links">
               <a className="button" href="#technology">
                 {t('Як працює сушарка', 'How the dryer works')}
-                <ArrowUpRight size={18} />
+                <ArrowRight size={18} />
               </a>
               <a className="text-link" href="#products">
                 {t('Переглянути моделі', 'View models')}
@@ -275,10 +275,9 @@ export default function Home({
             <div className="gallery-launch-copy">
               <span className="eyebrow">{t('Серія SAHARA','SAHARA series')}</span>
               <h3>{t('Оберіть сушарку для свого сезону','Choose the dryer for your season')}</h3>
-              <p>{t('Перегляньте доступні моделі та відкрийте розрахунок для обраної сушарки.','Review the available models and open a calculation for your selected dryer.')}</p>
-              <a className="text-link" href="#calculator" onClick={event=>{event.currentTarget.focus();setCalculatorOpen(true);}}>{t('Розрахувати окупність','Calculate payback')}<ArrowUpRight size={18}/></a>
               <p className="engineering-caption">{t('У галереї: фото, характеристики та порівняння 2–3 моделей.','Inside the gallery: photos, specifications and comparison of 2–3 models.')}</p>
               <ModelExplorer en={en} onResume={()=>{setGalleryOpen(false);setCalculatorOpen(true);}} open={galleryOpen} initialModelId={galleryModel} onOpenChange={value=>{setGalleryOpen(value);if(!value)setGalleryModel(null);}} onCalculate={calculateModel} />
+              <a className="text-link" href="#calculator" aria-haspopup="dialog" onClick={event=>{event.currentTarget.focus();setCalculatorOpen(true);}}>{t('Розрахувати окупність','Calculate payback')}<ArrowUpRight size={18}/></a>
             </div>
           </div>
           <p className="model-comparison-context">{t('Порівняйте продуктивність за однакових умов: ','Compare capacity under the same conditions: ')}{localText(site.models[0].specifications[0].label,en)}. {t('т/год — кількість висушеного зерна за годину.','t/h means the amount of dried grain per hour.')}</p><div className="product-previews">{site.models.slice(0,3).map(m=><button key={m.id} type="button" className="product-preview" aria-label={t('Відкрити галерею продуктів: ','Open product gallery: ')+m.name} aria-expanded={galleryOpen} aria-controls="model-gallery" onClick={event=>{event.currentTarget.focus();setGalleryModel(m.id);setGalleryOpen(true);}}><Image src={asset('/sahara-contour.png')} width={240} height={240} alt={`${m.name} — ${t('технічна ілюстрація серії','technical series illustration')}`} loading="lazy"/><span>{m.name}<small className="preview-capacity">{localText(m.specifications[0].value,en)}</small></span><ArrowUpRight size={18}/></button>)}</div>

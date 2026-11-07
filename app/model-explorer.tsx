@@ -7,7 +7,7 @@ export function ModelExplorer(props:ComponentProps<typeof Gallery>) {
   const open=props.open??localOpen;
   if(open&&!loaded)setLoaded(true);
   const setOpen=(value:boolean)=>{setLocalOpen(value);props.onOpenChange?.(value);};
-  return <><button type="button" className="button button-secondary compare-button" aria-haspopup="dialog" aria-controls="model-gallery" aria-expanded={open} onClick={event=>{event.currentTarget.focus();setLoaded(true);setOpen(true);}}>{props.en?'Model gallery':'Галерея моделей'}</button>
+  return <><button type="button" className="button button-secondary compare-button" aria-haspopup="dialog" aria-controls="model-gallery" aria-expanded={open} onClick={event=>{event.currentTarget.focus();setLoaded(true);setOpen(true);}}>{props.en?'Open model gallery':'Відкрити галерею моделей'}</button>
     {(open||loaded)&&<Gallery {...props} open={open} onOpenChange={setOpen}/>}</>;
 }
 export function ModelDetails(props:ComponentProps<typeof Details>) {

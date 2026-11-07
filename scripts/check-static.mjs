@@ -52,7 +52,7 @@ for (const [route, lang] of [
   assert.ok(html.includes('id="technology"'));
   assert.ok(html.includes('id="about"'));
   assert.ok(html.includes(lang === 'en' ? 'Open calculator' : 'Відкрити калькулятор'));
-  assert.ok(html.includes(lang === 'en' ? 'Model gallery' : 'Галерея моделей'));
+  assert.ok(html.includes(lang === 'en' ? 'Open model gallery' : 'Відкрити галерею моделей'));
   assert.ok(html.includes(lang === 'en' ? 'aria-label="Українська"' : 'aria-label="English"'));
   const canonical = new URL(
     (html.match(/<link rel="canonical" href="([^"]+)"/) ?? [])[1],

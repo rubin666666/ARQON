@@ -16,9 +16,9 @@ test('model previews reopen the chosen card and images support keyboard navigati
   await expect(page.locator('.photo-navigation output')).toHaveText('1 / 2');
   await page.keyboard.press('Escape');
   await expect(image).toBeFocused();
-  await card.getByRole('button',{name:'All specifications',exact:true}).click();
+  await card.getByRole('button',{name:'Open specifications',exact:true}).click();
   await page.getByRole('button',{name:'Close details',exact:true}).click();
-  await expect(card.getByRole('button',{name:'All specifications',exact:true})).toBeFocused();
+  await expect(card.getByRole('button',{name:'Open specifications',exact:true})).toBeFocused();
   await page.locator('.gallery-card').last().scrollIntoViewIfNeeded();
   await page.getByRole('button',{name:'Close gallery',exact:true}).click();
   await expect(preview).toBeFocused();
@@ -29,7 +29,7 @@ test('model previews reopen the chosen card and images support keyboard navigati
 test('comparison can be scrolled with the keyboard on a narrow screen',async({page})=>{
   await page.setViewportSize({width:390,height:844});
   await page.goto('en/');
-  await page.getByRole('button',{name:'Model gallery',exact:true}).click();
+  await page.getByRole('button',{name:'Open model gallery',exact:true}).click();
   for(const model of ['S9','S10','S12'])await page.getByRole('checkbox',{name:`Compare ${model}`,exact:true}).check();
   await page.getByRole('button',{name:'Compare specifications',exact:true}).click();
   const table=page.getByRole('region',{name:'Specifications table',exact:true});
@@ -72,11 +72,15 @@ test('company and dryer tabs and FAQ remain usable on a narrow screen',async({pa
 test('drying stages stay attached to the diagram when enlarged',async({page},testInfo)=>{
  await page.emulateMedia({reducedMotion:'reduce'});
  await page.goto('en/');
- const process=page.locator('#technology > .drying-process');
+ const process=page.locator('#technology .flow-figure > .drying-process');
  await expect(process.locator('li')).toHaveCount(3);
  await expect(process).toContainText('Wet grain enters the receiving hopper.');
  await expect(process).toContainText('Cooling');
- await page.locator('.flow-figure').scrollIntoViewIfNeeded();
+ if(page.viewportSize()!.width<=1000){
+  const steps=await process.boundingBox(),legend=await page.locator('.flow-figure figcaption').boundingBox();
+  expect(steps!.y+steps!.height).toBeLessThanOrEqual(legend!.y+1);
+ }
+ await page.locator('.flow-image-button').scrollIntoViewIfNeeded();
  await page.screenshot({path:`work/process-${testInfo.project.name}.png`});
  await page.getByRole('button',{name:'Enlarge drying diagram',exact:true}).click();
  const stage=page.locator('.diagram-canvas');
@@ -89,9 +93,9 @@ test('drying stages stay attached to the diagram when enlarged',async({page},tes
  await page.getByRole('button',{name:'Zoom in',exact:true}).click();
  expect(await relative()).toBeCloseTo(.5,2);
  await page.getByRole('button',{name:'Close diagram',exact:true}).click();
- await page.getByRole('link',{name:'Explore SAHARA models',exact:true}).click();
+ await page.locator('.technology-next').getByRole('link',{name:'View models',exact:true}).click();
  await expect(page).toHaveURL(/#products$/);
- await page.getByRole('button',{name:'Model gallery',exact:true}).click();
+ await page.getByRole('button',{name:'Open model gallery',exact:true}).click();
  await page.getByRole('button',{name:'Calculate S10',exact:true}).click();
  await expect(page.locator('#calc-model')).toHaveValue('sahara-s10');
 });

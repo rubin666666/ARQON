@@ -5361,3 +5361,17 @@ img[data-unavailable] { object-fit:contain!important; background:rgba(128,128,12
 @media(max-width:680px){
  .flow-stage-key { display:block; padding-bottom:16px; margin-bottom:20px; border-bottom:1px solid var(--border); }
 }
+
+/* Keep the explanation next to its diagram; secondary details follow it. */
+.dryer-technology .flow-figure > .drying-process { grid-column:1 / -1; padding:24px; margin:0; border-top:1px solid var(--border); }
+@media(max-width:1000px) {
+ .dryer-technology .flow-figure { display:flex; flex-direction:column; }
+ .dryer-technology .flow-figure > .flow-image-button { order:0; }
+ .dryer-technology .flow-figure > .drying-process { order:1; }
+ .dryer-technology .flow-figure > figcaption { order:2; }
+}
+@media(max-width:680px) {
+ .dryer-technology .flow-figure > .drying-process { padding:18px; }
+ .gallery-launch-copy > .compare-button { width:100%; min-height:48px; }
+ .gallery-launch-copy > .text-link { min-height:44px; }
+}

@@ -50,7 +50,7 @@ test('mobile hero and window content load only the required resources',async({pa
   await expect(page.getByRole('tab',{name:'Company',exact:true})).toBeVisible();
   expect(requests.some(url=>url.includes('about-panels'))).toBe(false);
   await page.keyboard.press('Escape');
-  await page.getByRole('button',{name:'Model gallery',exact:true}).click();
+  await page.getByRole('button',{name:'Open model gallery',exact:true}).click();
   await expect(page.locator('.gallery-card')).toHaveCount(6);
   expect(requests.some(url=>url.includes('model-explorer-content'))).toBe(false);
 });
@@ -73,7 +73,7 @@ test('unavailable hero keeps its dimensions and uses a placeholder',async({page}
 test('a valid photo still displays after an unavailable gallery image',async({page})=>{
  await page.route('**/sahara-hero.webp',route=>route.abort());
  await page.goto('en/');
- await page.getByRole('button',{name:'Model gallery',exact:true}).click();
+ await page.getByRole('button',{name:'Open model gallery',exact:true}).click();
  await page.getByRole('button',{name:'Enlarge image S10',exact:true}).click();
  const photo=page.locator('.model-photo-stage img');
  await expect(photo).toHaveAttribute('data-unavailable','true');
@@ -85,7 +85,7 @@ test('a valid photo still displays after an unavailable gallery image',async({pa
 
 test('all information windows work after the loaded page loses network access',async({page,context})=>{
  await page.goto('en/');
- await page.getByRole('button',{name:'Model gallery',exact:true}).waitFor();
+ await page.getByRole('button',{name:'Open model gallery',exact:true}).waitFor();
  await context.setOffline(true);
  try {
   await page.getByRole('button',{name:/More about the company/}).click();
@@ -94,9 +94,9 @@ test('all information windows work after the loaded page loses network access',a
   await page.getByRole('button',{name:/More about the dryer/}).click();
   await expect(page.getByRole('tab').first()).toBeVisible();
   await page.keyboard.press('Escape');
-  await page.getByRole('button',{name:'Model gallery',exact:true}).click();
+  await page.getByRole('button',{name:'Open model gallery',exact:true}).click();
   await expect(page.locator('.gallery-card')).toHaveCount(6);
-  await page.getByRole('button',{name:'All specifications',exact:true}).first().click();
+  await page.getByRole('button',{name:'Open specifications',exact:true}).first().click();
   await expect(page.locator('.model-specs')).toBeVisible();
  } finally {await context.setOffline(false);}
 });
