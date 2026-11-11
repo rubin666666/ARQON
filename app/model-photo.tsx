@@ -10,11 +10,15 @@ export function ModelPhoto({ name, src, en, onReturn }: { name: string; src: str
   const touchStart=useRef<{x:number;y:number}|null>(null);
   const previewSrc = asset('/sahara-hero.webp');
   const fullSrc = asset(src || '/images/sahara-product-v2.webp');
-  const images=[{src:previewSrc,label:en?'Technical series illustration':'Технічна ілюстрація серії'},{src:fullSrc,label:src?name:(en?'SAHARA series photo':'Фото серії SAHARA')}];
+  const images=[
+    {src:previewSrc,label:en?'Outline illustration · SAHARA series':'Контурна ілюстрація · Серія SAHARA',description:en?'General exterior view of the dryer, shown as an outline illustration.':'Загальний зовнішній вигляд сушарки у вигляді контурної ілюстрації.'},
+    {src:fullSrc,label:src?`${en?'General view':'Загальний вигляд'} · ${name}`:(en?'General view · SAHARA series':'Загальний вигляд · Серія SAHARA'),description:en?'Exterior view of the dryer housing and its equipment.':'Зовнішній вигляд корпусу сушарки та її обладнання.'}
+  ];
+  const seriesNote=en?'Shared illustration of the SAHARA series, not a separate image of the selected model.':'Спільне зображення серії SAHARA, а не окреме зображення обраної моделі.';
   const move=(direction:number)=>setIndex(i=>(i+direction+images.length)%images.length);
   return <>
     <button type="button" className="model-photo" aria-label={`${en ? 'Enlarge image' : 'Збільшити зображення'} ${name}`} onClick={event => {event.currentTarget.focus();setIndex(0);setOpen(true);}}>
-      <Image width={1024} height={1024} src={previewSrc} alt={`${name} — ${en ? 'technical series illustration' : 'технічна ілюстрація серії'}`} loading="lazy" />
+      <Image width={1024} height={1024} src={previewSrc} alt={images[0].label} loading="lazy" />
       <span className="model-photo-caption">{images[0].label}</span>
       <span className="model-photo-hint" aria-hidden="true">↗</span>
     </button>
@@ -24,7 +28,7 @@ export function ModelPhoto({ name, src, en, onReturn }: { name: string; src: str
         <DialogClose className="model-photo-close" aria-label={en ? 'Close image' : 'Закрити зображення'}>×</DialogClose>
         <div className="model-photo-stage" onTouchStart={event=>{if(event.touches.length===1)touchStart.current={x:event.touches[0].clientX,y:event.touches[0].clientY};else touchStart.current=null;}} onTouchEnd={event=>{const start=touchStart.current;touchStart.current=null;if(!start)return;const dx=event.changedTouches[0].clientX-start.x,dy=event.changedTouches[0].clientY-start.y;if(Math.abs(dx)>60&&Math.abs(dx)>Math.abs(dy)*1.5)move(dx<0?1:-1);}} onTouchCancel={()=>{touchStart.current=null;}}>
            <Image width={1024} height={1024} src={images[index].src} alt={images[index].label} className={index===0?'series-outline':undefined} />
-        </div><div className="photo-navigation"><button className="button button-secondary" type="button" onClick={()=>move(-1)} aria-label={en?'Previous image':'Попереднє зображення'}>←</button><output aria-live="polite">{index+1} / {images.length}</output><button className="button button-secondary" type="button" onClick={()=>move(1)} aria-label={en?'Next image':'Наступне зображення'}>→</button></div>
+        </div><div className="photo-footer"><div className="photo-explanation"><p>{images[index].description}</p>{(index===0||!src)&&<p className="photo-series-note">{seriesNote}</p>}</div><div className="photo-navigation"><button className="button button-secondary" type="button" onClick={()=>move(-1)} aria-label={en?'Previous image':'Попереднє зображення'}>←</button><output aria-live="polite">{index+1} / {images.length}</output><button className="button button-secondary" type="button" onClick={()=>move(1)} aria-label={en?'Next image':'Наступне зображення'}>→</button></div></div>
       </DialogContent>
     </Dialog>
   </>;
