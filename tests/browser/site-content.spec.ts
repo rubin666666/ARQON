@@ -72,15 +72,21 @@ test('company and dryer tabs and FAQ remain usable on a narrow screen',async({pa
 test('drying stages stay attached to the diagram when enlarged',async({page},testInfo)=>{
  await page.emulateMedia({reducedMotion:'reduce'});
  await page.goto('en/');
- const process=page.locator('#technology .flow-figure > .drying-process');
+ const process=page.locator('#technology .flow-description .drying-process');
  await expect(process.locator('li')).toHaveCount(3);
  await expect(process).toContainText('Wet grain enters the receiving hopper.');
  await expect(process).toContainText('Cooling');
  if(page.viewportSize()!.width<=1000){
-  const steps=await process.boundingBox(),legend=await page.locator('.flow-figure figcaption').boundingBox();
-  expect(steps!.y+steps!.height).toBeLessThanOrEqual(legend!.y+1);
+  const steps=await process.boundingBox(),legend=await page.locator('.flow-figure .flow-caption').boundingBox();
+  expect(legend!.y+legend!.height).toBeLessThanOrEqual(steps!.y+1);
  }
  await page.locator('.flow-image-button').scrollIntoViewIfNeeded();
+ const before=await page.locator('.flow-image-button').boundingBox();
+ const panel=page.locator('.flow-description');
+ await panel.evaluate(el=>{el.scrollTop=200;});
+ expect(await panel.evaluate(el=>el.scrollTop)).toBeGreaterThan(0);
+ const after=await page.locator('.flow-image-button').boundingBox();
+ expect(after!.y).toBeCloseTo(before!.y,0);
  await page.screenshot({path:`work/process-${testInfo.project.name}.png`});
  await page.getByRole('button',{name:'Enlarge drying diagram',exact:true}).click();
  const stage=page.locator('.diagram-canvas');

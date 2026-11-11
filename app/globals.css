@@ -4006,7 +4006,7 @@ html:not(.dark) :is(.company-grid article, .products article, .engineering-calcu
 .flow-image-button {position:relative;display:block;width:100%;border:0;padding:0;background:#171819;cursor:zoom-in;}
 .flow-image-button img {display:block;width:100%;height:auto;}
 .flow-zoom {position:absolute;right:20px;bottom:20px;display:flex;gap:8px;align-items:center;padding:10px 14px;border-radius:24px;background:#171819d9;color:#fff;font-size:13px;}
-.flow-figure figcaption {padding:22px 26px;}
+.flow-figure .flow-caption {padding:22px 26px;}
 .flow-figure h3 {font-size:18px;margin-bottom:16px;}
 .flow-legend {display:flex;flex-wrap:wrap;gap:12px 24px;list-style:none;margin:0;padding:0;}
 .flow-legend li {display:flex;align-items:center;gap:10px;font-size:14px;}
@@ -4029,7 +4029,7 @@ html:not(.dark) :is(.company-grid article, .products article, .engineering-calcu
  .mobile-disclosure-content[data-expanded="true"] {padding-top:16px;}
  .company-grid article {padding:18px;}.company-grid article::before {display:none;}
  #company-expertise .technology-heading h2 {font-size:24px;}
- .flow-figure {border-radius:18px;}.flow-figure figcaption {padding:18px;}.flow-legend {display:grid;grid-template-columns:1fr;gap:10px;}
+ .flow-figure {border-radius:18px;}.flow-figure .flow-caption {padding:18px;}.flow-legend {display:grid;grid-template-columns:1fr;gap:10px;}
  .flow-zoom {right:10px;bottom:10px;padding:8px;font-size:0;gap:0;}
  .flow-dialog[data-slot="dialog-content"] {padding:18px !important;}.flow-dialog > img {max-height:none;}
  .product-context img {max-height:none;}
@@ -4050,19 +4050,19 @@ html:not(.dark) :is(.company-grid article, .products article, .engineering-calcu
 /* Static flow illustration and readable caption in both themes. */
 .flow-image {background:#171819;}
 .flow-image img {display:block;width:100%;height:auto;}
-.flow-figure figcaption {padding:26px 28px;background:var(--surface);color:var(--foreground);border-top:1px solid var(--border);}
+.flow-figure .flow-caption {padding:26px 28px;background:var(--surface);color:var(--foreground);border-top:1px solid var(--border);}
 .flow-figure h3 {font-size:22px;font-weight:650;margin-bottom:20px;}
 .flow-figure .flow-legend {gap:16px 28px;}
 .flow-figure .flow-legend li {font-size:16px;font-weight:500;line-height:1.5;color:var(--foreground);}
 .flow-figure .flow-key {width:40px;height:32px;font-size:28px;}
 .flow-figure .visualization-note {font-size:14px;line-height:1.6;color:var(--foreground);margin-top:22px;}
-.flow-figure figcaption { text-align: center; }
+.flow-figure .flow-caption { text-align: center; }
 .flow-figure h3 { font-size: 24px; }
 .flow-figure .flow-legend { justify-content: center; }
 .flow-figure .flow-legend li { font-size: clamp(16px, 1.3vw, 18px); }
 .flow-figure .flow-key { width: 44px; height: 34px; font-size: 30px; }
 @media(max-width:680px){.flow-figure .flow-legend{justify-items:center;}.flow-figure .flow-legend li{width:auto;max-width:100%;justify-content:center;}.flow-figure h3{font-size:22px;}}
-@media(max-width:680px){.flow-figure figcaption{padding:20px;}.flow-figure h3{font-size:20px;}.flow-figure .flow-legend{gap:14px;}}
+@media(max-width:680px){.flow-figure .flow-caption{padding:20px;}.flow-figure h3{font-size:20px;}.flow-figure .flow-legend{gap:14px;}}
 
 /* Keep international-network copy together instead of floating between sections. */
 .company .company-network-panel {margin-top:24px;padding:28px 30px;border:1px solid var(--border);border-radius:var(--radius-card);background:var(--surface);}
@@ -4430,7 +4430,7 @@ html:not(.dark) body {
 /* Keep gallery images and controls readable at phone and tablet widths. */
 .gallery-card .model-photo { position: relative; align-self: start; padding: 0; border: 0; border-radius: 14px; background: transparent; overflow: hidden; cursor: zoom-in; }
 .dryer-description-section > h3::before { flex-shrink: 0; white-space: nowrap; }
-.flow-figure figcaption, .flow-figure .flow-legend li { text-align: center; }
+.flow-figure .flow-caption, .flow-figure .flow-legend li { text-align: center; }
 @media (max-width: 680px) {
   .flow-figure .flow-legend { width: max-content; max-width: 100%; margin-inline: auto; justify-items: stretch; }
   .flow-figure .flow-legend li { display: grid; grid-template-columns: 44px minmax(0, 1fr); width: 100%; gap: 10px; text-align: left; }
@@ -5086,7 +5086,7 @@ html:not(.dark) :is(.calculator-launch-card, .dryer-description-launch, .enginee
 .gallery-launch-copy { padding:var(--space-card); }
 .gallery-launch-panel { margin-top:0; margin-bottom:24px; }
 :is(.flow-figure, .dryer-description-launch, .product-preview, .faq-list) { border-radius:var(--radius-card); }
-.flow-figure figcaption { padding:var(--space-card); }
+.flow-figure .flow-caption { padding:var(--space-card); }
 .flow-figure .visualization-note { color:var(--muted); font-weight:400; font-size:13px; }
 .dryer-technology > .dryer-description-closing { margin-top:32px; padding-top:0; }
 .dryer-description-closing p { max-width:75ch; }
@@ -5132,7 +5132,7 @@ main > :is(#about, #technology, #equipment) {
  .hero-art { width:100%; max-width:none; }
  .hero-art img { width:100%; height:auto; max-height:none; object-fit:contain; }
  .dryer-technology .flow-figure { display:grid; grid-template-columns:minmax(0,2.2fr) minmax(260px,1fr); align-items:stretch; }
- .dryer-technology .flow-figure figcaption { border-top:0; border-left:1px solid var(--border); display:flex; flex-direction:column; justify-content:center; text-align:left; }
+ .dryer-technology .flow-figure .flow-caption { border-top:0; border-left:1px solid var(--border); display:flex; flex-direction:column; justify-content:center; text-align:left; }
  .dryer-technology .flow-legend { display:grid; grid-template-columns:1fr; gap:12px; justify-content:start; }
  .dryer-technology .flow-legend li { justify-content:start; text-align:left; font-size:15px; }
 }
@@ -5260,8 +5260,8 @@ html:not(.dark) :is(.about-modal-card, .dryer-description-item) { box-shadow:non
 :is(.flow-figure, .flow-dialog) .flow-legend { display:grid; grid-template-columns:1fr; width:100%; gap:8px; justify-items:stretch; }
 :is(.flow-figure, .flow-dialog) .flow-legend li { display:grid; grid-template-columns:40px minmax(0,1fr); align-items:center; gap:12px; width:100%; padding:8px 0; text-align:left; justify-content:start; line-height:1.45; color:var(--foreground); }
 .flow-key { width:40px; height:34px; border-radius:9px; background:#24272b; border:1px solid currentColor; box-shadow:inset 0 0 0 3px #24272b; font-size:25px; }
-.flow-figure figcaption { background:color-mix(in srgb,var(--foreground) 3%,var(--surface)); }
-.flow-figure figcaption h3 { text-align:left; margin-bottom:16px; }
+.flow-figure .flow-caption { background:color-mix(in srgb,var(--foreground) 3%,var(--surface)); }
+.flow-figure .flow-caption h3 { text-align:left; margin-bottom:16px; }
 .flow-figure .visualization-note { text-align:left; border-top:1px solid var(--border); padding-top:14px; }
 @media(min-width:761px) { .flow-dialog .flow-legend { grid-template-columns:repeat(3,minmax(0,1fr)); gap:8px 24px; } }
 .calculator-wizard .engineering-result > .engineering-outcomes { margin-block:24px; gap:16px; }
@@ -5380,3 +5380,26 @@ img[data-unavailable] { object-fit:contain!important; background:rgba(128,128,12
 .calculation-brief textarea { width:100%; min-height:220px; resize:vertical; padding:14px; border:1px solid var(--border); border-radius:12px; background:var(--surface); color:var(--foreground); font:inherit; font-size:14px; line-height:1.65; }
 .model-preparation ul { padding-left:20px; }
 .model-preparation li { margin-bottom:8px; line-height:1.6; }
+
+/* Keep the diagram and its legend together while the stage description scrolls. */
+.dryer-technology .flow-figure { display:grid; grid-template-columns:minmax(0,1.65fr) minmax(280px,1fr); align-items:start; }
+.flow-visual { min-width:0; }
+.dryer-technology .flow-figure .flow-caption { display:block; border:0; border-top:1px solid var(--border); padding:16px 20px; }
+.dryer-technology .flow-caption h3 { font-size:16px; margin:0 0 10px; }
+.dryer-technology .flow-caption .flow-legend { grid-template-columns:repeat(2,minmax(0,1fr)); gap:6px 16px; }
+.dryer-technology .flow-caption .flow-legend li { grid-template-columns:28px minmax(0,1fr); gap:8px; padding:2px 0; font-size:13px; }
+.dryer-technology .flow-caption .flow-key { width:28px; height:24px; font-size:22px; }
+.dryer-technology .flow-caption .visualization-note { margin:10px 0 0; padding-top:8px; font-size:12px; }
+.flow-description { min-width:0; max-height:520px; overflow-y:auto; padding:24px; border-left:1px solid var(--border); scrollbar-gutter:stable; }
+.flow-description:focus-visible { outline:2px solid var(--primary); outline-offset:-3px; }
+.flow-description .drying-process { display:grid; grid-template-columns:1fr; margin:0; gap:24px; }
+.flow-scroll-hint { margin:0 0 18px; color:var(--muted); font-size:13px; }
+@media(max-width:1000px) {
+ .dryer-technology .flow-figure { display:block; }
+ .flow-description { max-height:clamp(180px,30svh,300px); padding:18px; border-left:0; border-top:1px solid var(--border); }
+ .dryer-technology .flow-image-button { padding-bottom:32px; }
+ .dryer-technology .flow-zoom { bottom:6px; font-size:12px; }
+ .dryer-technology .flow-figure .flow-caption { padding:12px; }
+ .dryer-technology .flow-caption .flow-legend { gap:4px 10px; }
+ .dryer-technology .flow-caption .flow-legend li { font-size:12px; line-height:1.3; }
+}
