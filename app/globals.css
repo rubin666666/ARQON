@@ -5427,3 +5427,7 @@ img[data-unavailable] { object-fit:contain!important; background:rgba(128,128,12
  .dryer-technology .flow-caption .visualization-note { font-size:11px; line-height:1.25; }
  .flow-description { max-height:130px; }
 }
+
+/* A static halo connects the current paragraph to its numbered diagram marker. */
+.drying-marker[data-active="true"] { background:#fff; color:#171819; border-color:#ff792e; box-shadow:0 0 0 4px #ff792e,0 0 0 7px #171819; z-index:1; }
+.drying-process > li[aria-current="step"] .process-number { background:var(--primary); color:#fff; border-color:var(--primary); box-shadow:0 0 0 2px var(--surface),0 0 0 3px var(--primary); }
