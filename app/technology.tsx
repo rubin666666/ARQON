@@ -1,6 +1,6 @@
 'use client';
 /* oxlint-disable jsx-a11y/no-noninteractive-tabindex -- The stage description must support keyboard scrolling. */
-import { useState } from 'react';
+import { useRef, useState } from 'react';
 import { site, localText, asset } from '@/lib/site';
 import { DiagramViewer } from './diagram-viewer';
 import { DryingMarkers, DryingProcess } from './drying-process';
@@ -38,7 +38,23 @@ export function CompanyExpertise({ en }: { en: boolean }) {
 
 export function Technology({en}:{en:boolean}){
  const [activeStage,setActiveStage]=useState(1);
+ const descriptionPanel=useRef<HTMLElement>(null);
+ const selectedScroll=useRef<number|null>(null);
+ function selectStage(stage:number){
+  const panel=descriptionPanel.current;
+  const item=panel?.querySelectorAll('.drying-process > li')[stage-1];
+  if(!panel||!item)return;
+  const next=stage===1?0:panel.scrollTop+item.getBoundingClientRect().top-panel.getBoundingClientRect().top-18;
+  panel.scrollTop=Math.max(0,Math.min(next,panel.scrollHeight-panel.clientHeight));
+  selectedScroll.current=panel.scrollTop;
+  setActiveStage(stage);
+ }
+
  function trackStage(panel:HTMLElement){
+  if(selectedScroll.current!==null){
+   const selected=selectedScroll.current;selectedScroll.current=null;
+   if(Math.abs(panel.scrollTop-selected)<2)return;
+  }
   const items=Array.from(panel.querySelectorAll('.drying-process > li'));
   const top=panel.getBoundingClientRect().top;
   const readingLine=top+Math.min(100,panel.clientHeight*.35);
@@ -55,7 +71,7 @@ export function Technology({en}:{en:boolean}){
  const alt=t('Розріз сушарки SAHARA з кольоровими стрілками потоків повітря та руху зерна.','SAHARA dryer cutaway with colored airflow arrows and grain movement.');
  const legend=<ul className="flow-legend">{flows.map(([id,label])=><li key={id}><span className={'flow-key flow-'+id} aria-hidden="true">→</span>{label}</li>)}</ul>;
  return <section id="technology" className="section dryer-technology"><div className="section-heading"><div><p className="eyebrow">{t('Технологія сушіння','Drying technology')}</p><h2>{t('Як працює','How it works')} <em>SAHARA</em></h2></div></div>
- <figure className="flow-figure"><div className="flow-visual"><Dialog><DialogTrigger className="flow-image-button" aria-label={t('Збільшити схему сушіння','Enlarge drying diagram')}><span className="flow-image-stage"><Image src={asset('/images/sahara-flow-v2.webp')} alt={alt} width={1536} height={864} loading="lazy"/><DryingMarkers activeStage={activeStage}/></span><span className="flow-zoom">{t('Збільшити схему','Enlarge diagram')}<ArrowUpRight size={18}/></span></DialogTrigger><DialogContent className="arqon-dialog flow-dialog" showCloseButton={false} aria-describedby={undefined}><DialogTitle>{t('Як працює SAHARA','How SAHARA works')}</DialogTitle><DialogClose className="modal-close" aria-label={t('Закрити схему','Close diagram')}>×</DialogClose><DryingProcess en={en} compact activeStage={activeStage}/><DiagramViewer annotations={<DryingMarkers activeStage={activeStage}/>} src={asset('/images/sahara-flow-v2.webp')} alt={alt} en={en}/>{legend}</DialogContent></Dialog><div className="flow-caption"><h3>{t('Пояснення потоків','Flow legend')}</h3>{legend}<p className="visualization-note">{t('Схематична візуалізація за матеріалами виробника.','Conceptual visualization adapted from the manufacturer’s illustration.')}</p></div></div><section className="flow-description" onScroll={event=>trackStage(event.currentTarget)} tabIndex={0} aria-label={t('Опис етапів сушіння — прокручуйте','Drying stages — scroll to read')}><p className="flow-scroll-hint">{t('Прокручуйте опис етапів ↓','Scroll through the stages ↓')}</p><DryingProcess en={en} activeStage={activeStage}/></section></figure>
+ <figure className="flow-figure"><div className="flow-visual"><Dialog><div className="flow-image-button"><span className="flow-image-stage"><Image src={asset('/images/sahara-flow-v2.webp')} alt={alt} width={1536} height={864} loading="lazy"/><DryingMarkers activeStage={activeStage} en={en} onSelect={selectStage}/></span><DialogTrigger className="flow-enlarge-button" aria-label={t('Збільшити схему сушіння','Enlarge drying diagram')}><span className="flow-zoom">{t('Збільшити схему','Enlarge diagram')}<ArrowUpRight size={18}/></span></DialogTrigger></div><DialogContent className="arqon-dialog flow-dialog" showCloseButton={false} aria-describedby={undefined}><DialogTitle>{t('Як працює SAHARA','How SAHARA works')}</DialogTitle><DialogClose className="modal-close" aria-label={t('Закрити схему','Close diagram')}>×</DialogClose><DryingProcess en={en} compact activeStage={activeStage}/><DiagramViewer annotations={<DryingMarkers activeStage={activeStage}/>} src={asset('/images/sahara-flow-v2.webp')} alt={alt} en={en}/>{legend}</DialogContent></Dialog><div className="flow-caption"><h3>{t('Пояснення потоків','Flow legend')}</h3>{legend}<p className="visualization-note">{t('Схематична візуалізація за матеріалами виробника.','Conceptual visualization adapted from the manufacturer’s illustration.')}</p></div></div><section id="drying-stage-description" ref={descriptionPanel} className="flow-description" onScroll={event=>trackStage(event.currentTarget)} tabIndex={0} aria-label={t('Опис етапів сушіння — прокручуйте','Drying stages — scroll to read')}><p className="flow-scroll-hint">{t('Прокручуйте опис етапів ↓','Scroll through the stages ↓')}</p><DryingProcess en={en} activeStage={activeStage}/></section></figure>
 
  <Dialog>
    <DialogTrigger className="dryer-description-launch">

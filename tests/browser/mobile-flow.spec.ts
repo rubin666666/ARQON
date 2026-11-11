@@ -29,3 +29,21 @@ test('stage highlight follows scrolling both ways and stays selected when enlarg
  await panel.evaluate(el=>{el.scrollTop=0;});
  await expect(marker).toHaveText('1');
 });
+
+test('diagram numbers open their descriptions without opening the enlarged image',async({page})=>{
+ await page.goto('en/');
+ const panel=page.locator('.flow-description');
+ for(const [number,title] of [[3,'Cooling'],[1,'Loading'],[2,'Drying']] as const){
+  const button=page.getByRole('button',{name:`Read stage ${number}: ${title}`,exact:true});
+  await button.click();
+  await expect(button).toHaveAttribute('aria-pressed','true');
+  await expect(panel.locator('[aria-current="step"] h3')).toHaveText(title);
+  await expect(page.getByRole('dialog')).toHaveCount(0);
+  const visible=await panel.evaluate((el,n)=>{const a=el.getBoundingClientRect();const b=el.querySelectorAll('h3')[n-1].getBoundingClientRect();return b.top>=a.top&&b.bottom<=a.bottom;},number);
+  expect(visible).toBe(true);
+ }
+ const first=page.getByRole('button',{name:'Read stage 1: Loading',exact:true});
+ await first.focus();await first.press('Enter');await expect(first).toHaveAttribute('aria-pressed','true');
+ await page.getByRole('button',{name:'Enlarge drying diagram',exact:true}).click();
+ await expect(page.getByRole('dialog')).toBeVisible();
+});

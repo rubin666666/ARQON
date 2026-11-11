@@ -5431,3 +5431,9 @@ img[data-unavailable] { object-fit:contain!important; background:rgba(128,128,12
 /* A static halo connects the current paragraph to its numbered diagram marker. */
 .drying-marker[data-active="true"] { background:#fff; color:#171819; border-color:#ff792e; box-shadow:0 0 0 4px #ff792e,0 0 0 7px #171819; z-index:1; }
 .drying-process > li[aria-current="step"] .process-number { background:var(--primary); color:#fff; border-color:var(--primary); box-shadow:0 0 0 2px var(--surface),0 0 0 3px var(--primary); }
+
+.flow-enlarge-button { position:absolute; inset:0; width:100%; border:0; padding:0; background:transparent; cursor:zoom-in; }
+.flow-enlarge-button:focus-visible { outline:3px solid var(--primary); outline-offset:-4px; }
+.drying-markers button.drying-marker { pointer-events:auto; cursor:pointer; z-index:2; padding:0; touch-action:manipulation; }
+.drying-markers button.drying-marker::after { content:""; position:absolute; width:44px; height:44px; left:50%; top:50%; transform:translate(-50%,-50%); }
+.drying-markers button.drying-marker:focus-visible { outline:3px solid white; outline-offset:7px; }
