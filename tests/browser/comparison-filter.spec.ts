@@ -1,0 +1,24 @@
+import {test,expect} from '@playwright/test';
+for(const en of [false,true])test(`comparison hides only matching specifications in ${en?'English':'Ukrainian'}`,async({page})=>{
+ await page.goto(en?'en/':'./');await page.getByRole('button',{name:en?'Open model gallery':'Відкрити галерею моделей',exact:true}).click();
+ for(const model of ['S9','S10','S12'])await page.getByRole('checkbox',{name:`${en?'Compare':'До порівняння'} ${model}`,exact:true}).check();
+ await page.getByRole('button',{name:en?'Compare specifications':'Порівняти характеристики',exact:true}).click();
+ const dialog=page.locator('.model-comparison-dialog');
+ const rows=dialog.locator('tbody tr').filter({hasNot:page.getByRole('button')});
+ const baseline=await rows.evaluateAll(elements=>elements.map(el=>({label:el.querySelector('th')!.textContent,values:[...el.querySelectorAll('td')].map(td=>td.textContent!.trim().replace(/\s+/g,' '))})));
+ const differing=baseline.filter(row=>new Set(row.values).size>1).map(row=>row.label);
+ expect(differing.length).toBeGreaterThan(0);expect(differing.length).toBeLessThan(baseline.length);
+ const toggle=dialog.getByRole('checkbox',{name:en?'Only differences':'Тільки відмінності',exact:true});
+ await toggle.check();
+ await expect(rows.locator('th')).toHaveText(differing as string[]);
+ await expect(dialog.locator('.comparison-filter output')).toContainText(`${differing.length} / ${baseline.length}`);
+ await toggle.focus();await toggle.press('Space');
+ await expect(rows).toHaveCount(baseline.length);
+ await toggle.check();
+ await page.setViewportSize({width:320,height:568});
+ await expect(toggle).toBeVisible();
+ expect(await page.evaluate(()=>document.documentElement.scrollWidth)).toBeLessThanOrEqual(320);
+ await page.screenshot({path:`work/comparison-filter-${en?'en':'uk'}-${test.info().project.name}.png`});
+ await dialog.getByRole('button',{name:en?'Calculate S10':'Розрахувати S10',exact:true}).click();
+ await expect(page.locator('#calc-model')).toHaveValue('sahara-s10');
+});
