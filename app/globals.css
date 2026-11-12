@@ -5429,8 +5429,10 @@ img[data-unavailable] { object-fit:contain!important; background:rgba(128,128,12
 }
 
 /* A static halo connects the current paragraph to its numbered diagram marker. */
+@media (pointer:coarse) {
 .drying-marker[data-active="true"] { background:#fff; color:#171819; border-color:#ff792e; box-shadow:0 0 0 4px #ff792e,0 0 0 7px #171819; z-index:1; }
 .drying-process > li[aria-current="step"] .process-number { background:var(--primary); color:#fff; border-color:var(--primary); box-shadow:0 0 0 2px var(--surface),0 0 0 3px var(--primary); }
+}
 
 .flow-enlarge-button { position:absolute; inset:0; width:100%; border:0; padding:0; background:transparent; cursor:zoom-in; }
 .flow-enlarge-button:focus-visible { outline:3px solid var(--primary); outline-offset:-4px; }
@@ -5515,3 +5517,37 @@ html:not(.dark) .photo-thumbnail .series-outline { filter:invert(1); }
  .about-overview .about-directions { grid-template-columns:1fr; grid-template-rows:none; }
  .about-locations li { grid-template-columns:1fr; gap:4px; }
 }
+/* Balanced section introductions and calls to action; detailed content stays left aligned. */
+:is(#technology,#products) > .section-heading { display:flex; flex-direction:column; align-items:center; text-align:center; gap:16px; }
+:is(#technology,#products) > .section-heading > p { max-width:64ch; margin:0 auto; }
+.about-compact .about-intro { text-align:center; max-width:960px; margin-inline:auto; }
+.about-compact .about-intro > p:not(.eyebrow) { max-width:74ch; margin-inline:auto; }
+.about-overview > div > h3 { text-align:center; }
+.dryer-technology > .dryer-description-closing { text-align:center; max-width:900px; margin-inline:auto; }
+.dryer-description-closing p { margin-inline:auto; }
+.technology-next { flex-direction:column; justify-content:center; text-align:center; gap:16px; }
+.technology-next p { max-width:68ch; margin:0 auto; }
+.model-comparison-context { max-width:88ch; margin:24px auto 20px; text-align:center; }
+.calculator-launch-card { flex-direction:column; align-items:center; text-align:center; padding:clamp(24px,4vw,48px); gap:24px; }
+.calculator-launch-card > div { width:100%; max-width:760px; }
+.calculator-launch-card p:not(.eyebrow) { max-width:68ch; margin-inline:auto; }
+.faq-section > :is(.eyebrow,h2) { text-align:center; }
+.faq-list { max-width:960px; margin-inline:auto; }
+.gallery-launch-copy { align-items:center; text-align:center; width:min(540px,55%); }
+.gallery-launch-copy > .text-link { justify-content:center; }
+.site-footer .footer-meta { justify-content:center; text-align:center; }
+@media(max-width:760px) {
+ .hero-copy > :is(.eyebrow,h1,.hero-description) { text-align:center; }
+ .hero-links { justify-content:center; }
+ .hero-links .text-link { justify-content:center; }
+ .gallery-launch-copy { width:100%; }
+ .calculator-launch-card .button { width:100%; }
+ .dryer-description-launch { text-align:center; }
+ .dryer-description-label { text-align:center; }
+ .description-entry-action { justify-content:center; }
+ .site-footer .footer-meta { justify-items:center; }
+}
+:is(#technology,#products) > .section-heading .eyebrow,
+.about-intro > .eyebrow,
+.calculator-launch-card .eyebrow,
+.faq-section > .eyebrow { width:100%; text-align:center; }

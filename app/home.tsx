@@ -152,7 +152,7 @@ export default function Home({
           <Image className="brand-light-letters" src={asset('/arqon-logo.webp')} width={1952} height={816} alt="" aria-hidden="true" />
         </a>
         <nav className="desktop-nav">
-          {nav.filter(([id]) => ['about', 'products', 'technology', 'calculator', 'contacts'].includes(id)).map(([id, label]) => <a key={id} href={'#' + id} aria-current={activeSection === id ? 'location' : undefined}>{label}</a>)}
+          {nav.filter(([id]) => ['about', 'products', 'technology', 'calculator', 'contacts', 'faq'].includes(id)).map(([id, label]) => <a key={id} href={'#' + id} aria-current={activeSection === id ? 'location' : undefined}>{id==='faq'?'FAQ':label}</a>)}
         </nav>
         <div className="header-actions">
           <button
