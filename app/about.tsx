@@ -23,6 +23,12 @@ export function About({ en }: { en: boolean }) {
       <p className="eyebrow">{t('Про ARQON', 'About ARQON')}</p>
       <h2><CopyAccent text={localText(site.tagline, en)} phrase={t('Інтелект.', 'Intelligence.')} /></h2>
       <p>{t('ARQON розробляє промислове обладнання, автоматизацію та власне програмне забезпечення — від концепції до запуску єдиної системи.', 'ARQON develops industrial equipment, automation and proprietary software — from concept to the launch of a unified system.')}</p>
+        <p className="company-system-copy">
+              {t(
+                'Зерносушарки SAHARA — обладнання Arqon, де інженерія, автоматизація й програмне забезпечення працюють як одна система.',
+                'SAHARA grain dryers from Arqon, where engineering, automation and software work as one system.',
+              )}
+            </p>
     </div>
     <div className="about-overview">
       <div id="company-expertise">
