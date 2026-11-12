@@ -1,0 +1,43 @@
+import {test,expect} from '@playwright/test';
+test('gallery zoom pans without changing the photo and resets on image selection',async({page})=>{
+ await page.goto('en/');await page.getByRole('button',{name:'Open model gallery',exact:true}).click();
+ await page.getByRole('button',{name:'Enlarge image S9',exact:true}).click();
+ const view=page.locator('.gallery-image-viewport');const zoom=page.locator('.gallery-zoom output');
+ await expect(zoom).toHaveText('100%');
+ await page.getByRole('button',{name:'Zoom in image',exact:true}).click();
+ await expect(zoom).toHaveText('150%');
+ const box=await view.boundingBox();
+ await page.mouse.move(box!.x+box!.width*.7,box!.y+box!.height*.7);await page.mouse.down();await page.mouse.move(box!.x+box!.width*.3,box!.y+box!.height*.3,{steps:8});await page.mouse.up();
+ expect(await view.evaluate(el=>el.scrollLeft+el.scrollTop)).toBeGreaterThan(0);
+ await view.focus();await view.press('ArrowRight');
+ await expect(page.locator('.photo-navigation output')).toHaveText('1 / 2');
+ await page.getByRole('button',{name:'Fit',exact:true}).click();await expect(zoom).toHaveText('100%');
+ await expect.poll(()=>view.evaluate(el=>el.scrollLeft+el.scrollTop)).toBe(0);
+ await page.getByRole('button',{name:'Zoom in image',exact:true}).click();
+ await page.locator('.photo-thumbnail').last().click();await expect(zoom).toHaveText('100%');
+ await page.setViewportSize({width:320,height:568});
+ await expect.poll(async()=>{const box=await page.locator('.photo-navigation').boundingBox();return box!.y+box!.height;}).toBeLessThanOrEqual(568);
+ await page.screenshot({path:`work/gallery-zoom-${test.info().project.name}.png`});
+});
+
+test('touch pinch zooms and dragging does not switch images',async({page,browserName})=>{
+ test.skip(browserName!=='chromium','Multi-touch injection uses Chromium DevTools.');
+ await page.goto('en/');await page.getByRole('button',{name:'Open model gallery',exact:true}).click();await page.getByRole('button',{name:'Enlarge image S9',exact:true}).click();
+ const region=page.locator('.gallery-image-viewport');const box=await region.boundingBox();
+ const x=box!.x+box!.width/2,y=box!.y+box!.height/2;
+ const client=await page.context().newCDPSession(page);
+ await client.send('Input.dispatchTouchEvent',{type:'touchStart',touchPoints:[{x:x-25,y,id:1},{x:x+25,y,id:2}]});
+ await client.send('Input.dispatchTouchEvent',{type:'touchMove',touchPoints:[{x:x-65,y,id:1},{x:x+65,y,id:2}]});
+ await client.send('Input.dispatchTouchEvent',{type:'touchEnd',touchPoints:[]});
+ await expect.poll(async()=>parseInt(await page.locator('.gallery-zoom output').innerText())).toBeGreaterThan(100);
+ await client.send('Input.dispatchTouchEvent',{type:'touchStart',touchPoints:[{x:x+65,y,id:1}]});
+ await client.send('Input.dispatchTouchEvent',{type:'touchMove',touchPoints:[{x:x-65,y,id:1}]});
+ await client.send('Input.dispatchTouchEvent',{type:'touchEnd',touchPoints:[]});
+ await expect(page.locator('.photo-navigation output')).toHaveText('1 / 2');
+ await page.getByRole('button',{name:'Fit',exact:true}).click();
+ await client.send('Input.dispatchTouchEvent',{type:'touchStart',touchPoints:[{x:x+65,y,id:1}]});
+ await client.send('Input.dispatchTouchEvent',{type:'touchMove',touchPoints:[{x:x-65,y,id:1}]});
+ await client.send('Input.dispatchTouchEvent',{type:'touchEnd',touchPoints:[]});
+ await expect(page.locator('.photo-navigation output')).toHaveText('2 / 2');
+ await client.detach();
+});
