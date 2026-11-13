@@ -84,7 +84,8 @@ test('drying stages stay attached to the diagram when enlarged',async({page},tes
  const before=await page.locator('.flow-image-button').boundingBox();
  const panel=page.locator('.flow-description');
  await panel.evaluate(el=>{el.scrollTop=200;});
- expect(await panel.evaluate(el=>el.scrollTop)).toBeGreaterThan(0);
+ if(page.viewportSize()!.width<=1000)expect(await panel.evaluate(el=>el.scrollTop)).toBeGreaterThan(0);
+ else expect(await panel.evaluate(el=>el.scrollHeight<=el.clientHeight+1)).toBe(true);
  const after=await page.locator('.flow-image-button').boundingBox();
  expect(after!.y).toBeCloseTo(before!.y,0);
  await page.screenshot({path:`work/process-${testInfo.project.name}.png`});
