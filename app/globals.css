@@ -5575,3 +5575,7 @@ html:not(.dark) .photo-thumbnail .series-outline { filter:invert(1); }
 .model-specification-group .model-specs dt, .model-specification-group .model-specs dd { text-align:left; overflow-wrap:anywhere; }
 .model-specification-group .model-specs dd { margin:0; color:var(--foreground); font-weight:600; }
 .model-specification-group .model-specs > div:last-child { padding-bottom:0; }
+
+.spec-comparison-scroll .comparison-group-heading th { padding:14px 16px; width:auto; font-size:16px; font-weight:600; color:var(--foreground); background:color-mix(in srgb,var(--primary) 12%,var(--surface)); border-top:1px solid var(--border); }
+
+.spec-comparison-scroll .comparison-group-heading th > span { display:block; max-width:calc(100vw - 100px); white-space:normal; overflow-wrap:anywhere; }

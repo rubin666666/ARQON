@@ -4,12 +4,18 @@ for(const en of [false,true])test(`comparison hides only matching specifications
  for(const model of ['S9','S10','S12'])await page.getByRole('checkbox',{name:`${en?'Compare':'До порівняння'} ${model}`,exact:true}).check();
  await page.getByRole('button',{name:en?'Compare specifications':'Порівняти характеристики',exact:true}).click();
  const dialog=page.locator('.model-comparison-dialog');
- const rows=dialog.locator('tbody tr').filter({hasNot:page.getByRole('button')});
+ const rows=dialog.locator('tr[data-spec-id]');
+ await expect(dialog.locator('.comparison-group-heading')).toHaveCount(3);
+ await expect(rows).toHaveCount(18);
  const baseline=await rows.evaluateAll(elements=>elements.map(el=>({label:el.querySelector('th')!.textContent,values:[...el.querySelectorAll('td')].map(td=>td.textContent!.trim().replace(/\s+/g,' '))})));
  const differing=baseline.filter(row=>new Set(row.values).size>1).map(row=>row.label);
  expect(differing.length).toBeGreaterThan(0);expect(differing.length).toBeLessThan(baseline.length);
  const toggle=dialog.getByRole('checkbox',{name:en?'Only differences':'Тільки відмінності',exact:true});
  await toggle.check();
+ for(const group of await dialog.locator('tbody[data-spec-group]').all()){
+  expect(await group.locator('tr[data-spec-id]').count()).toBeGreaterThan(0);
+  await expect(group.locator('.comparison-group-heading th')).toHaveAttribute('colspan','4');
+ }
  await expect(rows.locator('th')).toHaveText(differing as string[]);
  await expect(dialog.locator('.comparison-filter output')).toContainText(`${differing.length} / ${baseline.length}`);
  await toggle.focus();await toggle.press('Space');
