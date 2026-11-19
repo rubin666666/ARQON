@@ -40,7 +40,10 @@ test('browser Back and Forward follow model links without leaving a stale galler
  await expect(page.locator('#model-gallery')).toBeVisible();
  await page.getByRole('button',{name:'Close gallery',exact:true}).click();
  await page.goto('en/?model=sahara-s12');
- await expect(page.locator('.model-specs')).toBeVisible();
+ await expect(page.locator('.model-specification-groups')).toBeVisible();
+ await expect(page.locator('.model-specs')).toHaveCount(3);
+ await expect(page.locator('.model-specs [data-spec-id]')).toHaveCount(18);
+ for(const group of await page.locator('.model-specs').all())await expect(group).toBeVisible();
  await expect(page.getByRole('dialog')).toContainText('S12');
 });
 

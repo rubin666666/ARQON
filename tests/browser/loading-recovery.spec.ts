@@ -97,6 +97,9 @@ test('all information windows work after the loaded page loses network access',a
   await page.getByRole('button',{name:'Open model gallery',exact:true}).click();
   await expect(page.locator('.gallery-card')).toHaveCount(6);
   await page.getByRole('button',{name:'Open specifications',exact:true}).first().click();
-  await expect(page.locator('.model-specs')).toBeVisible();
+  await expect(page.locator('.model-specification-groups')).toBeVisible();
+ await expect(page.locator('.model-specs')).toHaveCount(3);
+ await expect(page.locator('.model-specs [data-spec-id]')).toHaveCount(18);
+ for(const group of await page.locator('.model-specs').all())await expect(group).toBeVisible();
  } finally {await context.setOffline(false);}
 });

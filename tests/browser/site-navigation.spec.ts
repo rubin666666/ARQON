@@ -41,7 +41,10 @@ for(const en of [false,true]) {
     await expect(page.locator('.gallery-card')).toHaveCount(6);
     const card=page.locator('.gallery-card').filter({has:page.getByRole('heading',{name:'S10',exact:true})});
     await card.getByRole('button',{name:en?'Open specifications':'Відкрити характеристики',exact:true}).click();
-    await expect(page.locator('.model-specs')).toBeVisible();
+    await expect(page.locator('.model-specification-groups')).toBeVisible();
+ await expect(page.locator('.model-specs')).toHaveCount(3);
+ await expect(page.locator('.model-specs [data-spec-id]')).toHaveCount(18);
+ for(const group of await page.locator('.model-specs').all())await expect(group).toBeVisible();
     await noOverflow(page);
     await page.getByRole('button',{name:en?'Close details':'Закрити подробиці',exact:true}).click();
     await expect(page.locator('.model-specs')).toHaveCount(0);
