@@ -5553,3 +5553,6 @@ html:not(.dark) .photo-thumbnail .series-outline { filter:invert(1); }
 .faq-section > .eyebrow { width:100%; text-align:center; }
 
 @media(min-width:1001px) { .flow-scroll-hint { display:none; } }
+
+/* Make the two model-card actions distinct and easy to tap. */
+.gallery-dialog .gallery-card-copy > .button.model-specifications-button { margin:12px 0; min-height:48px; border-color:var(--primary); }
