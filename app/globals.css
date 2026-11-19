@@ -5579,3 +5579,12 @@ html:not(.dark) .photo-thumbnail .series-outline { filter:invert(1); }
 .spec-comparison-scroll .comparison-group-heading th { padding:14px 16px; width:auto; font-size:16px; font-weight:600; color:var(--foreground); background:color-mix(in srgb,var(--primary) 12%,var(--surface)); border-top:1px solid var(--border); }
 
 .spec-comparison-scroll .comparison-group-heading th > span { display:block; max-width:calc(100vw - 100px); white-space:normal; overflow-wrap:anywhere; }
+
+/* One vertical scrolling region keeps comparison column headings in view. */
+.model-comparison-dialog[data-slot="dialog-content"] { height:90dvh; }
+.model-comparison-dialog > .model-dialog-scroll { display:flex; flex-direction:column; flex:1; overflow:hidden; }
+.model-comparison-dialog .comparison-filter,
+.model-comparison-dialog .comparison-swipe-hint,
+.model-comparison-dialog .comparison-empty { flex-shrink:0; }
+.model-comparison-dialog .spec-comparison-scroll { flex:1; min-height:0; max-height:none; scroll-padding-top:64px; }
+.model-comparison-dialog .spec-comparison-scroll > .calculator-help { margin:16px 0 0; }
