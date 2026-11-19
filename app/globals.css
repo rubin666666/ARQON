@@ -5556,3 +5556,12 @@ html:not(.dark) .photo-thumbnail .series-outline { filter:invert(1); }
 
 /* Make the two model-card actions distinct and easy to tap. */
 .gallery-dialog .gallery-card-copy > .button.model-specifications-button { margin:12px 0; min-height:48px; border-color:var(--primary); }
+
+/* Compact screens show the company capabilities with the company overview. */
+.about-compact > .benefits { display:none; }
+@media(max-width:1000px) {
+ .first-screen > .benefits { display:none; }
+ .about-compact > .benefits { display:grid; grid-template-columns:1fr; gap:12px; margin:24px 0; padding:0; transform:none; border:0; }
+ .about-compact > .benefits > div:nth-child(n) { display:flex; min-width:0; gap:12px; padding:16px; border:1px solid var(--border); border-radius:18px; background:var(--surface); }
+ .about-compact > .benefits p { margin:0; line-height:1.6; }
+}

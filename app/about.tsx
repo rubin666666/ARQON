@@ -1,5 +1,6 @@
 'use client';
 import { site, localText } from '@/lib/site';
+import { CompanyBenefits } from './company-benefits';
 import { CopyAccent } from './copy-accent';
 import { Dialog, DialogTrigger, DialogContent, DialogTitle, DialogDescription, DialogClose } from '@/components/ui/dialog';
 import AboutPanels from './about-panels';
@@ -30,6 +31,7 @@ export function About({ en }: { en: boolean }) {
               )}
             </p>
     </div>
+    <CompanyBenefits en={en} />
     <div className="about-overview">
       <div id="company-expertise">
         <h3>{t('Компетенції', 'Expertise')}</h3>

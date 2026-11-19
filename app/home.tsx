@@ -5,6 +5,7 @@ import Image from 'next/image';
 import { EnquiryForm } from './enquiry-form';
 import { Calculator } from './engineering-calculator';
 import { About } from './about';
+import { CompanyBenefits } from './company-benefits';
 import { Technology } from './technology';
 import dryerDescription from '@/config/dryer-description.json';
 import { ContentSections } from './content-sections';
@@ -25,9 +26,6 @@ import {
   X,
   Sun,
   Moon,
-  Cog,
-  SlidersHorizontal,
-  Cpu,
 } from 'lucide-react';
 
 import {
@@ -258,42 +256,7 @@ export default function Home({
             /></picture>
           </figure>
         </section>
-        <div className="benefits">
-          {[Cog, SlidersHorizontal, Cpu].map((Icon, i) => (
-            <div key={i}>
-              <Icon size={20} strokeWidth={1.5} />
-              <div>
-                <h3>
-                  {
-                    [
-                      t('Інженерія', 'Engineering'),
-                      t('Автоматизація', 'Automation'),
-                      t('Інтелект', 'Intelligence'),
-                    ][i]
-                  }
-                </h3>
-                <p>
-                  {
-                    [
-                      t(
-                        'Машинобудування, механічне проєктування й обладнання.',
-                        'Mechanical engineering, machinery and equipment design.',
-                      ),
-                      t(
-                        'Системи керування, PLC та HMI як частина продукту.',
-                        'Control systems, PLC and HMI as part of the product.',
-                      ),
-                      t(
-                        'Власне ПЗ, дані та дистанційний моніторинг.',
-                        'Proprietary software, data and remote monitoring.',
-                      ),
-                    ][i]
-                  }
-                </p>
-              </div>
-            </div>
-          ))}
-        </div>
+        <CompanyBenefits en={en} />
         </div>
         <Technology en={en} />
         <section id="products" className="section">
