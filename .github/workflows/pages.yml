@@ -73,6 +73,8 @@ jobs:
           path: dist/client
       - name: Point the preview server at the downloaded build
         run: echo "dist/client" > .pages-output
+      - name: Match the container home owner to the browser user
+        run: chown "$(id -u):$(id -g)" "$HOME"
       - run: npm run test:browser -- --project=${{ matrix.project }}
       - name: Save failed browser traces
         if: failure()

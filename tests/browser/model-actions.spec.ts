@@ -1,6 +1,6 @@
 import {test,expect} from '@playwright/test';
 for(const width of [320,1440,2560])test(`model actions and necessary scrolling at ${width}px`,async({page})=>{
- await page.setViewportSize({width,height:900});await page.goto('./');
+ await page.setViewportSize({width,height:900});await page.emulateMedia({reducedMotion:'reduce'});await page.goto('./');
  const launch=page.getByRole('button',{name:'Відкрити галерею моделей',exact:true});
  await expect(launch).not.toHaveClass(/button-secondary/);await launch.click();
  const gallery=page.locator('.gallery-dialog');
@@ -25,8 +25,12 @@ for(const width of [320,1440,2560])test(`model actions and necessary scrolling a
  await expect(body).toHaveCSS('overflow-y','auto');
  expect(await gallery.evaluate(el=>el.scrollHeight<=el.clientHeight+1)).toBe(true);
  expect(await body.evaluate(el=>el.scrollWidth<=el.clientWidth+1)).toBe(true);
- await expect.poll(async()=>body.evaluate(el=>{el.scrollTop=el.scrollHeight;return Math.abs(el.scrollHeight-el.clientHeight-el.scrollTop);})).toBeLessThan(2);
- await expect(gallery.getByRole('button',{name:'Розрахувати S18',exact:true})).toBeInViewport();
+ // Closing details restores the gallery position on the next animation frame.
+ // Retry scrolling only after this restoration; still require the last action in view.
+ await expect(async()=>{
+  await body.evaluate(el=>{el.scrollTop=el.scrollHeight;});
+  await expect(gallery.getByRole('button',{name:'Розрахувати S18',exact:true})).toBeInViewport({timeout:500});
+ }).toPass({timeout:5000});
  await expect(gallery.locator('.gallery-comparison-bar')).toBeInViewport();
 });
 
