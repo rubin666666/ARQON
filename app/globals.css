@@ -5565,3 +5565,13 @@ html:not(.dark) .photo-thumbnail .series-outline { filter:invert(1); }
  .about-compact > .benefits > div:nth-child(n) { display:flex; min-width:0; gap:12px; padding:16px; border:1px solid var(--border); border-radius:18px; background:var(--surface); }
  .about-compact > .benefits p { margin:0; line-height:1.6; }
 }
+
+/* Keep complete manufacturer values together under clear section headings. */
+.model-specification-groups { display:grid; gap:24px; margin-block:20px; }
+.model-specification-group { min-width:0; padding:16px; border:1px solid var(--border); border-radius:16px; background:var(--surface); }
+.model-specification-group h3 { margin:0 0 14px; font-size:18px; line-height:1.4; color:var(--foreground); }
+.model-specification-group .model-specs { margin:0; }
+.model-drawer .model-specification-group .model-specs > div { display:grid; grid-template-columns:minmax(0,1fr); gap:6px; padding-block:12px; }
+.model-specification-group .model-specs dt, .model-specification-group .model-specs dd { text-align:left; overflow-wrap:anywhere; }
+.model-specification-group .model-specs dd { margin:0; color:var(--foreground); font-weight:600; }
+.model-specification-group .model-specs > div:last-child { padding-bottom:0; }
