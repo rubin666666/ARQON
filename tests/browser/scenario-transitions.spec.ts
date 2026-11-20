@@ -28,6 +28,8 @@ test('gallery round trip keeps crop, quantities and separate model quotes',async
 test('browser Back and Forward follow model links without leaving a stale gallery',async({page})=>{
  await page.goto('en/#products');
  await page.getByRole('button',{name:'Menu',exact:true}).click();
+ const modelToggle=page.locator('.menu-model-picker > summary');
+ if(await modelToggle.isVisible())await modelToggle.click();
  await page.locator('.menu-models').getByRole('link',{name:'S10',exact:true}).click();
  await expect(page.locator('#model-gallery')).toBeVisible();
  await expect(page).toHaveURL(/#sahara-s10$/);

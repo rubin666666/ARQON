@@ -4,6 +4,7 @@ import { useState, useEffect } from 'react';
 import Image from 'next/image';
 import { EnquiryForm } from './enquiry-form';
 import { Calculator } from './engineering-calculator';
+import { CompactDisclosure } from './compact-disclosure';
 import { About } from './about';
 import { CompanyBenefits } from './company-benefits';
 import { Technology } from './technology';
@@ -206,7 +207,7 @@ export default function Home({
                     <ArrowUpRight size={17} />
                   </a>
                   {id === 'products' && (
-                    <div className="menu-models">
+                    <CompactDisclosure className="menu-model-picker" label={t('Моделі SAHARA','SAHARA models')}><div className="menu-models">
                       {site.models.map((m) => (
                         <a
                           key={m.id}
@@ -216,7 +217,7 @@ export default function Home({
                           {m.name}
                         </a>
                       ))}
-                    </div>
+                    </div></CompactDisclosure>
                   )}
                 </div>
               ))}

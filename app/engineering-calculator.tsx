@@ -1,5 +1,6 @@
 'use client';
 import { useEffect, useLayoutEffect, useRef, useState } from 'react';
+import { CompactDisclosure } from './compact-disclosure';
 import { Check, Wheat, Fuel, Calculator as CalculatorIcon, ArrowUpRight, Download, RotateCcw } from 'lucide-react';
 import { parseNumericText, normalizeNumericText, formatNumericText, commitNumericText } from '@/lib/calculator-number.mjs';
 import rawData from '@/config/engineering.json';
@@ -90,16 +91,27 @@ export function Calculator({ en, model, onModelChange, open, onOpenChange, onBro
   useEffect(()=>{
     if(!open || !window.visualViewport)return;
     const viewport=window.visualViewport;
+    let frame=0;
     const update=()=>{
-      const dialog=document.querySelector<HTMLElement>('.calculator-wizard');
-      if(!dialog)return;
-      dialog.style.setProperty('--calc-viewport-height',`${viewport.height}px`);
-      dialog.style.setProperty('--calc-viewport-top',`${viewport.offsetTop}px`);
-      const field=document.activeElement;
-      if(field instanceof HTMLInputElement && dialog.contains(field))field.scrollIntoView({block:'center',behavior:'instant'});
+      cancelAnimationFrame(frame);
+      frame=requestAnimationFrame(()=>{
+        const dialog=document.querySelector<HTMLElement>('.calculator-wizard');
+        if(!dialog)return;
+        dialog.style.setProperty('--calc-viewport-height',`${viewport.height}px`);
+        dialog.style.setProperty('--calc-viewport-top',`${viewport.offsetTop}px`);
+        const field=document.activeElement;
+        const body=dialog.querySelector<HTMLElement>('.calculator-window-body');
+        if(!(field instanceof HTMLInputElement)||!dialog.contains(field)||!body)return;
+        const rect=field.getBoundingClientRect(),area=body.getBoundingClientRect();
+        const top=Math.max(area.top,viewport.offsetTop)+12;
+        const bottom=Math.min(area.bottom,viewport.offsetTop+viewport.height)-12;
+        // Move only the obscured field, without recentering visible inputs.
+        if(rect.bottom>bottom)body.scrollTop+=rect.bottom-bottom;
+        else if(rect.top<top)body.scrollTop-=top-rect.top;
+      });
     };
     viewport.addEventListener('resize',update);update();
-    return ()=>viewport.removeEventListener('resize',update);
+    return ()=>{cancelAnimationFrame(frame);viewport.removeEventListener('resize',update);};
   },[open]);
   /* oxlint-disable react/react-compiler */
   useEffect(() => {
@@ -292,8 +304,10 @@ export function Calculator({ en, model, onModelChange, open, onOpenChange, onBro
       <div className="calculator-tools"><button type="button" className="text-link" disabled={!previousEdit} onClick={undoEdit}><RotateCcw size={16}/>{t("Скасувати останню зміну","Undo last change")}</button>{baseline&&<span className="engineering-caption">{t("Сценарій A зафіксовано. Змініть дані для сценарію B.","Scenario A pinned. Edit inputs for scenario B.")}</span>}</div><button type="button" className="text-link calculator-browse-models" onClick={()=>{setPreviousEdit(null);setEditKey(null);onBrowseModels();}}>{t("Переглянути моделі — дані збережено","Browse models — inputs saved")}</button><h3 id="calculator-step-title" className="sr-only" tabIndex={-1}>{t(`Крок ${mobileStep+1} з 3`,`Step ${mobileStep+1} of 3`)}</h3>
     <div className="calculator" data-editing={mobileStep!==2}>
       <div className="calc-fields" id="calculator-inputs" hidden={mobileStep===2}>
+        <CompactDisclosure className="calculator-instructions" label={t('Як заповнити','How to fill in')}>
         <p className="engineering-caption">{t('Поля з * потрібні для повного розрахунку. Якщо ціни ще невідомі, залиште їх порожніми — покажемо доступний частковий результат.','Fields marked * are needed for a full calculation. Leave unknown prices blank to see the available partial results.')}</p>
         {mobileStep===0&&<p className="calculator-step-guide">{t('Почніть із зерна та графіка роботи. На наступному кроці додайте відомі вам ціни.','Start with your grain and operating schedule. Add the prices you know on the next step.')}</p>}
+        </CompactDisclosure>
         <fieldset className="calc-group" data-step="0" hidden={mobileStep!==0}><legend><Wheat size={18}/>{t('01 — Зерно та модель','01 — Grain and model')}</legend><div className="fields">
           {select('calc-model',t('Модель сушарки','Dryer model'),model,data.models.map(m=>({value:m.id,label:m.name})),chooseModel)}
           {select('calc-crop',t('Культура','Crop'),draft.cropId,data.crops.map(c=>({value:c.id,label:c[en?'en':'uk']})),applyReference)}

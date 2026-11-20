@@ -5588,3 +5588,54 @@ html:not(.dark) .photo-thumbnail .series-outline { filter:invert(1); }
 .model-comparison-dialog .comparison-empty { flex-shrink:0; }
 .model-comparison-dialog .spec-comparison-scroll { flex:1; min-height:0; max-height:none; scroll-padding-top:64px; }
 .model-comparison-dialog .spec-comparison-scroll > .calculator-help { margin:16px 0 0; }
+
+/* Compact disclosure keeps the same content expanded on desktop. */
+.compact-disclosure > summary { display:none; }
+@media(max-width:760px) {
+ .compact-disclosure > summary { display:list-item; min-height:44px; padding:12px 0; cursor:pointer; font-size:14px; font-weight:500; }
+ .menu-model-picker { margin:0 0 4px; }
+ .menu-model-picker > summary { color:var(--muted); padding-left:12px; }
+ .menu-dialog .menu-links a { min-height:44px; }
+ .menu-dialog { top:70px!important; max-height:calc(100dvh - 82px)!important; }
+ .calculator-window-heading { padding:10px 14px; }
+ .calculator-window-heading [data-slot="dialog-title"] { font-size:17px; }
+ .calculator-window-heading [data-slot="dialog-description"] { font-size:12px; line-height:1.35; margin-top:3px; }
+ .calculator-progress { padding:4px 12px; gap:4px; }
+ .calculator-progress li > button { flex-direction:row; gap:5px; font-size:11px; line-height:1.25; text-align:left; }
+ .calculator-progress li > button > span { width:22px; height:22px; }
+ .calculator-context { padding:6px 14px; gap:4px 8px; font-size:11px; }
+ .calculator-context span + span { padding-left:8px; }
+ .calculator-window-body { padding:10px 14px; }
+ .calculator-wizard-footer { padding:8px 14px; }
+ .calculator-tools { margin:0; }
+ .calculator-tools:has(button:disabled):not(:has(.engineering-caption)) { display:none; }
+ .calculator-browse-models { margin:0!important; padding-block:8px; min-height:44px; font-size:12px; }
+ .calculator-instructions { margin:0 0 8px; }
+ .calculator-instructions .calculator-step-guide { font-size:14px; margin-bottom:12px; }
+ .calculator-window .calculator-price-grid { margin-top:0; }
+ .gallery-dialog .gallery-card .model-photo { max-width:140px; padding-bottom:6px; }
+ .gallery-dialog .gallery-card .model-photo img { height:88px; }
+ .gallery-dialog .model-photo-caption { font-size:10px; padding-top:4px; }
+ .gallery-dialog .gallery-card { gap:10px; padding:12px; }
+ .gallery-dialog .gallery-card-copy .gallery-capacity > div { padding-block:8px; }
+ .gallery-dialog .gallery-card-copy > .model-specifications-button { margin:8px 0; }
+ body,.hero-art,.reveal-on-scroll,.section-heading,.benefits > div { animation:none!important; }
+ .reveal-on-scroll { opacity:1!important; transform:none!important; transition:none!important; }
+ .arqon-dialog[data-open],.model-photo-viewer[data-open] { animation:compact-window-fade 140ms ease-out both!important; }
+ .arqon-dialog[data-closed],.model-photo-viewer[data-closed] { animation:compact-window-fade 100ms ease-in reverse both!important; }
+ .menu-dialog[data-open] .menu-calculator,.menu-dialog[data-open] .menu-links > div,
+ .engineering-result,.engineering-details[open] > *:not(summary) { animation:none!important; }
+ .button:hover:not(:disabled) svg,.text-link:hover svg,.product-preview:active { transform:none; }
+}
+@keyframes compact-window-fade { from {opacity:0;} to {opacity:1;} }
+@media(max-width:760px) and (prefers-reduced-motion:reduce) {
+ .arqon-dialog[data-open],.arqon-dialog[data-closed],.model-photo-viewer[data-open],.model-photo-viewer[data-closed] { animation:none!important; }
+}
+@media(max-width:599px) and (max-height:700px) {
+ .dryer-technology .flow-image-stage { width:min(100%,29svh); }
+ .dryer-technology .flow-figure .flow-caption { padding:6px 10px; }
+ .dryer-technology .flow-caption h3 { margin-bottom:4px; }
+ .dryer-technology .flow-caption .visualization-note { margin-top:4px; padding-top:4px; }
+ .flow-description { max-height:180px; padding:12px; }
+ .flow-description .flow-scroll-hint { margin-bottom:10px; }
+}

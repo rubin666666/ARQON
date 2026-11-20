@@ -1,0 +1,45 @@
+import {test,expect} from '@playwright/test';
+for(const width of [320,390])test(`compact controls and calmer motion at ${width}`,async({page},info)=>{
+ await page.setViewportSize({width,height:568});await page.goto('./');
+ await expect(page.locator('body')).toHaveCSS('animation-name','none');
+ await page.getByRole('button',{name:'Меню',exact:true}).click();
+ const menu=page.locator('.menu-dialog');
+ await expect(menu.locator('.menu-model-picker')).not.toHaveAttribute('open','');
+ await expect(menu.getByRole('link',{name:'Питання та відповіді',exact:true})).toBeInViewport();
+ await menu.locator('.menu-model-picker > summary').click();
+ await expect(menu.locator('.menu-models a')).toHaveCount(6);
+ await menu.getByRole('button',{name:'Закрити меню',exact:true}).click();
+ await page.locator('#calculator-launch').click();
+ const dialog=page.locator('.calculator-window'),body=dialog.locator('.calculator-window-body');
+ await expect(dialog.locator('.calculator-instructions')).not.toHaveAttribute('open','');
+ await expect(page.locator('#calc-model')).toBeInViewport();
+ expect(await body.evaluate(el=>el.clientHeight)).toBeGreaterThan(270);
+ await page.screenshot({path:`work/compact-calc-${width}-${info.project.name}.png`});
+ await dialog.locator('.calculator-instructions > summary').click();
+ await expect(dialog.locator('.calculator-instructions .calculator-step-guide')).toBeVisible();
+ await dialog.locator('.calculator-instructions > summary').click();
+ await page.getByRole('button',{name:'Далі',exact:false}).click();
+ await expect(page.locator('#eng-fuel')).toBeInViewport();
+ const input=dialog.locator('input[type="text"],input[type="number"]').filter({visible:true}).first();
+ await input.scrollIntoViewIfNeeded();await input.focus();
+ const before=await body.evaluate(el=>el.scrollTop);
+ await page.evaluate(()=>window.visualViewport?.dispatchEvent(new Event('resize')));
+ await page.waitForTimeout(100);
+ expect(Math.abs((await body.evaluate(el=>el.scrollTop))-before)).toBeLessThan(15);
+ await page.getByRole('button',{name:'Закрити калькулятор',exact:true}).click();
+ await page.getByRole('button',{name:'Відкрити галерею моделей',exact:true}).click();
+ await expect.poll(async()=>(await page.locator('.gallery-card .model-photo img').first().boundingBox())!.height).toBeLessThanOrEqual(90);
+ await page.getByRole('button',{name:'Закрити галерею',exact:true}).click();
+ expect(await page.locator('.flow-description').evaluate(el=>el.clientHeight)).toBeGreaterThanOrEqual(175);
+});
+test('desktop keeps menu models and calculator guidance expanded',async({page})=>{
+ await page.setViewportSize({width:1440,height:900});await page.goto('./');
+ await page.getByRole('button',{name:'Меню',exact:true}).click();
+ await expect(page.locator('.menu-models')).toBeVisible();
+ await expect(page.locator('.menu-model-picker > summary')).toBeHidden();
+ await page.getByRole('button',{name:'Закрити меню',exact:true}).click();
+ await page.locator('#calculator-launch').click();
+ await expect(page.locator('.calculator-instructions .calculator-step-guide')).toBeVisible();
+ await expect(page.locator('.calculator-instructions > summary')).toBeHidden();
+});
+
