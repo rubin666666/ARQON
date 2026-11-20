@@ -9,9 +9,16 @@ for(const en of [false,true])test(`mobile pair preserves every manufacturer valu
  const compare=page.getByRole('button',{name:en?'Compare specifications':'Порівняти характеристики',exact:true});
  await expect(compare).toBeHidden();
  for(const name of ['S9','S10']){
-  await page.getByRole('checkbox',{name:`${en?'Compare':'До порівняння'} ${name}`,exact:true}).check();
+  const checkbox=page.getByRole('checkbox',{name:`${en?'Compare':'До порівняння'} ${name}`,exact:true});
+  const label=page.locator('.model-card-compare').filter({has:checkbox});
+  expect((await label.boundingBox())!.height).toBeGreaterThanOrEqual(52);
+  await label.click();
+  await expect(checkbox).toBeChecked();
+  await expect(page.locator('.gallery-card').filter({has:checkbox})).toHaveAttribute('data-selected','true');
   await expect(compare).toBeVisible();
  }
+ await expect(page.locator('.model-selection-hint')).toContainText(en?'Compare now':'Можна порівняти');
+ await page.screenshot({path:`work/mobile-selection-${en?'en':'uk'}.png`});
  await compare.click();
  const pair=page.locator('.model-pair-comparison');
  await expect(pair).toBeVisible();
