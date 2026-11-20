@@ -47,6 +47,8 @@ test('company and dryer tabs and FAQ remain usable on a narrow screen',async({pa
     const launcher=page.getByRole('button',{name:new RegExp(name)});
     await launcher.click();
     const dialog=page.getByRole('dialog',{name,exact:true});
+    await expect(dialog.getByRole('tabpanel')).toHaveCount(1);
+    await expect(dialog.getByRole('button',{name:close,exact:true})).toBeInViewport();
     for(const tab of await dialog.getByRole('tab').all()) {
       await tab.click();
       await expect(tab).toHaveAttribute('aria-selected','true');

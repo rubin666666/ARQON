@@ -5639,3 +5639,18 @@ html:not(.dark) .photo-thumbnail .series-outline { filter:invert(1); }
  .flow-description { max-height:180px; padding:12px; }
  .flow-description .flow-scroll-hint { margin-bottom:10px; }
 }
+
+.about-mobile-links,.mobile-company-summary,.mobile-company-benefits { display:none; }
+@media(max-width:1000px) {
+ #about > .benefits,#about > .about-overview,#about > .about-dialog-launch,#about > .about-intro > .company-system-copy { display:none; }
+ .about-mobile-links { display:grid; gap:10px; margin-top:22px; }
+ .about-mobile-links > button { display:flex; align-items:center; justify-content:space-between; gap:12px; width:100%; min-height:56px; padding:14px 16px; border:1px solid var(--border); border-radius:14px; background:var(--surface); color:var(--foreground); font:inherit; text-align:left; cursor:pointer; }
+ .about-mobile-links > button > svg { flex-shrink:0; color:var(--primary); }
+ .about-mobile-links > button:focus-visible { outline:2px solid var(--primary); outline-offset:3px; }
+ .mobile-company-summary,.mobile-company-benefits { display:block; margin-block:18px; }
+ .mobile-company-benefits .benefits { display:grid; grid-template-columns:1fr; gap:10px; margin:0; padding:0; border:0; transform:none; }
+ .mobile-company-benefits .benefits > div:nth-child(n) { display:flex; gap:12px; padding:14px; border:1px solid var(--border); border-radius:14px; }
+ .about-topic-dialog .dryer-dialog-panel { padding-top:16px; }
+ #about.about-compact { padding-block:32px; }
+ #about .about-intro h2 { font-size:clamp(25px,6vw,32px); margin-bottom:12px; }
+}

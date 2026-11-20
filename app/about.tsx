@@ -1,4 +1,5 @@
 'use client';
+import {useRef,useState} from 'react';
 import { site, localText } from '@/lib/site';
 import { CompanyBenefits } from './company-benefits';
 import { CopyAccent } from './copy-accent';
@@ -7,6 +8,8 @@ import AboutPanels from './about-panels';
 import { ArrowUpRight, Cog } from 'lucide-react';
 
 export function About({ en }: { en: boolean }) {
+  const mobileLauncher=useRef<HTMLButtonElement|null>(null);
+  const [mobilePanel,setMobilePanel]=useState<string|null>(null);
   const t = (uk: string, english: string) => en ? english : uk;
   const directions = [
     t('Проєктування й обладнання', 'Engineering and equipment'),
@@ -31,6 +34,15 @@ export function About({ en }: { en: boolean }) {
               )}
             </p>
     </div>
+    <div className="about-mobile-links">
+      {[['company',t('Докладніше про компанію','More about the company')],['expertise',t('Компетенції','Expertise')],['network',t('Міжнародна мережа','International network')]].map(([id,label])=><button type="button" key={id} aria-haspopup="dialog" onClick={event=>{mobileLauncher.current=event.currentTarget;event.currentTarget.focus();setMobilePanel(id);}}><span>{label}</span><ArrowUpRight size={18} aria-hidden="true"/></button>)}
+    </div>
+    <Dialog open={mobilePanel!==null} onOpenChangeComplete={open=>{if(!open)mobileLauncher.current?.focus({preventScroll:true});}} onOpenChange={open=>{if(!open)setMobilePanel(null);}}>
+      <DialogContent className="arqon-dialog dryer-description-dialog about-dialog about-topic-dialog" showCloseButton={false}>
+        <div className="dryer-dialog-heading"><div><DialogTitle>{mobilePanel==='expertise'?t('Компетенції','Expertise'):mobilePanel==='network'?t('Міжнародна мережа','International network'):t('Докладніше про компанію','More about the company')}</DialogTitle><DialogDescription>ARQON · Engineering &amp; Innovation</DialogDescription></div><DialogClose className="modal-close" aria-label={t('Закрити опис компанії','Close company description')}>×</DialogClose></div>
+        {mobilePanel&&<AboutPanels key={mobilePanel} en={en} initialTab={mobilePanel} single/>}
+      </DialogContent>
+    </Dialog>
     <CompanyBenefits en={en} />
     <div className="about-overview">
       <div id="company-expertise">

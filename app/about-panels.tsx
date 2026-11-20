@@ -1,7 +1,8 @@
 'use client';
 import {site,localText} from '@/lib/site';
+import {CompanyBenefits} from './company-benefits';
 import {Tabs} from '@base-ui/react/tabs';
-export default function AboutPanels({en}:{en:boolean}) {
+export default function AboutPanels({en,initialTab="company",single=false}:{en:boolean;initialTab?:string;single?:boolean}) {
 const t=(uk:string,english:string)=>en?english:uk;
   const directions = [
     t('Проєктування й обладнання', 'Engineering and equipment'),
@@ -9,13 +10,14 @@ const t=(uk:string,english:string)=>en?english:uk;
     t('Промислове програмне забезпечення', 'Industrial software'),
     t('Моніторинг та інтеграція', 'Monitoring and integration'),
   ];
-return (        <Tabs.Root defaultValue="company" className="dryer-dialog-tabs">
-          <Tabs.List className="dryer-dialog-tablist" aria-label={t('Розділи опису компанії', 'Company description sections')}>
+return (        <Tabs.Root defaultValue={initialTab} className="dryer-dialog-tabs">
+          {!single&&<Tabs.List className="dryer-dialog-tablist" aria-label={t('Розділи опису компанії', 'Company description sections')}>
             <Tabs.Tab value="company">{t('Компанія', 'Company')}</Tabs.Tab>
             <Tabs.Tab value="expertise">{t('Компетенції', 'Expertise')}</Tabs.Tab>
             <Tabs.Tab value="network">{t('Міжнародна мережа', 'International network')}</Tabs.Tab>
-          </Tabs.List>
+          </Tabs.List>}
           <Tabs.Panel keepMounted value="company" className="dryer-dialog-panel">
+            <p className="mobile-company-summary">{t('Зерносушарки SAHARA — обладнання Arqon, де інженерія, автоматизація й програмне забезпечення працюють як одна система.', 'SAHARA grain dryers from Arqon, where engineering, automation and software work as one system.')}</p>
             <div className="about-modal-columns">
               <article className="about-modal-card"><span className="about-card-index" aria-hidden="true">01</span><h3>{t('Хто ми', 'Who we are')}</h3><p>{localText(site.who.lead, en)}</p><p>{localText(site.who.body, en)}</p></article>
               <article className="about-modal-card"><span className="about-card-index" aria-hidden="true">02</span><h3>{t('Наш підхід', 'Our approach')}</h3><p>{localText(site.approach.lead, en)}</p><p>{localText(site.approach.body, en)}</p></article>
@@ -23,7 +25,7 @@ return (        <Tabs.Root defaultValue="company" className="dryer-dialog-tabs">
             <p className="about-modal-closing">{localText(site.closing, en)}</p>
           </Tabs.Panel>
           <Tabs.Panel keepMounted value="expertise" className="dryer-dialog-panel">
-            <div className="about-expertise-intro"><h3>{t('Чим ми займаємося', 'What we do')}</h3><p>{localText(site.what.lead, en)}</p></div>
+            <div className="mobile-company-benefits"><CompanyBenefits en={en}/></div><div className="about-expertise-intro"><h3>{t('Чим ми займаємося', 'What we do')}</h3><p>{localText(site.what.lead, en)}</p></div>
             <div className="about-expertise-layout">
               <article className="about-modal-card about-technology-card"><span className="about-card-index">ARQON</span><h3>{t('Наші технології', 'Our technology')}</h3><p>{localText(site.technology.lead, en)}</p><p>{localText(site.technology.body, en)}</p></article>
               <div className="about-modal-expertise about-expertise-groups">{directions.map((direction,i) => <section className="about-modal-card" key={direction}><h4><span className="about-card-index" aria-hidden="true">0{i+1}</span>{direction}</h4><ul>{site.what.items.slice(i*2,i*2+2).map(item => <li key={item.en}>{localText(item,en)}</li>)}</ul></section>)}</div>

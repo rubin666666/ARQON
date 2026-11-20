@@ -47,7 +47,7 @@ test('mobile hero and window content load only the required resources',async({pa
   expect(requests.some(url=>url.endsWith('/sahara-hero.webp'))).toBe(false);
   expect(requests.filter(url=>/model-explorer-content|about-panels|dryer-panels/.test(url))).toEqual([]);
   await page.getByRole('button',{name:/More about the company/}).click();
-  await expect(page.getByRole('tab',{name:'Company',exact:true})).toBeVisible();
+  await expect(page.getByRole('dialog').getByRole('heading',{name:'Who we are',exact:true})).toBeVisible();
   expect(requests.some(url=>url.includes('about-panels'))).toBe(false);
   await page.keyboard.press('Escape');
   await page.getByRole('button',{name:'Open model gallery',exact:true}).click();
@@ -89,7 +89,7 @@ test('all information windows work after the loaded page loses network access',a
  await context.setOffline(true);
  try {
   await page.getByRole('button',{name:/More about the company/}).click();
-  await expect(page.getByRole('tab',{name:'Company',exact:true})).toBeVisible();
+  await expect(page.getByRole('dialog').getByRole('heading',{name:'Who we are',exact:true})).toBeVisible();
   await page.keyboard.press('Escape');
   await page.getByRole('button',{name:/More about the dryer/}).click();
   await expect(page.getByRole('tab').first()).toBeVisible();
