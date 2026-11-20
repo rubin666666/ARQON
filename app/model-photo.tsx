@@ -5,7 +5,7 @@ import { GalleryImage } from './gallery-image';
 import { Dialog, DialogContent, DialogTitle, DialogClose } from '@/components/ui/dialog';
 import { asset } from '@/lib/site';
 
-export function ModelPhoto({ name, src, en, onReturn }: { name: string; src: string; en: boolean; onReturn?:()=>void }) {
+export function ModelPhoto({ name, src, en, onReturn, returnTo="models" }: { name: string; src: string; en: boolean; onReturn?:()=>void; returnTo?:"models"|"specifications" }) {
   const [open, setOpen] = useState(false);
   const [index,setIndex]=useState(0);
   const previewSrc = asset('/sahara-hero.webp');
@@ -24,7 +24,7 @@ export function ModelPhoto({ name, src, en, onReturn }: { name: string; src: str
     </button>
     <Dialog open={open} onOpenChange={setOpen} onOpenChangeComplete={value=>{if(!value)onReturn?.();}}>
       <DialogContent className="model-photo-viewer translate-x-0 translate-y-0" showCloseButton={false} aria-describedby={undefined} onKeyDown={event=>{if(event.altKey||event.ctrlKey||event.metaKey||event.shiftKey)return;if(event.key==='ArrowLeft'||event.key==='ArrowRight'){event.preventDefault();move(event.key==='ArrowRight'?1:-1);}}} onClick={(event) => { if (event.target === event.currentTarget || (event.target instanceof HTMLElement && event.target.classList.contains('model-photo-stage'))) setOpen(false); }}>
-        <DialogTitle>{name} · {images[index].label}</DialogTitle>
+        <div className="photo-heading"><DialogClose className="dialog-back">← {returnTo==='specifications'?(en?'Back to specifications':'До характеристик'):(en?'Back to models':'До моделей')}</DialogClose><DialogTitle>{name} · {images[index].label}</DialogTitle></div>
         <DialogClose className="model-photo-close" aria-label={en ? 'Close image' : 'Закрити зображення'}>×</DialogClose>
         <div className="model-photo-stage"><GalleryImage key={images[index].src} src={images[index].src} alt={images[index].label} outline={index===0} en={en} onNavigate={move}/>
         </div><div className="photo-footer"><div className="photo-explanation"><p>{images[index].description}</p>{(index===0||!src)&&<p className="photo-series-note">{seriesNote}</p>}</div><div className="photo-navigation"><button className="button button-secondary" type="button" onClick={()=>move(-1)} aria-label={en?'Previous image':'Попереднє зображення'}>←</button><fieldset className="photo-thumbnails" aria-label={en?'Choose image':'Вибрати зображення'}>{images.map((image,i)=><button type="button" key={image.src} className="photo-thumbnail" aria-label={`${en?'Show':'Показати'}: ${image.label}`} aria-pressed={index===i} title={image.label} onClick={()=>setIndex(i)}><Image src={image.src} alt="" width={80} height={56} className={i===0?'series-outline':undefined}/><span>{i===0?(en?'Outline':'Контур'):(en?'View':'Вигляд')}</span></button>)}</fieldset><output aria-live="polite">{index+1} / {images.length}</output><button className="button button-secondary" type="button" onClick={()=>move(1)} aria-label={en?'Next image':'Наступне зображення'}>→</button></div></div>

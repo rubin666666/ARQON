@@ -65,6 +65,7 @@ test('PDF cancel, language and theme changes preserve the scenario after reload'
  await page.getByRole('button',{name:'Перемкнути тему',exact:true}).click();
  await expect(page.locator('html')).not.toHaveAttribute('class',before??'');
  await page.getByRole('button',{name:'Продовжити мій розрахунок',exact:true}).click();
+ await page.locator('.calculator-progress button').first().click();
  await expect(page.locator('#eng-volume')).toHaveValue('2 345,5');
  await page.getByRole('button',{name:'Далі',exact:true}).click();
  await expect(page.locator('#eng-fuelPrice')).toHaveValue('72,5');

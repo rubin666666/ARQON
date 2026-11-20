@@ -5654,3 +5654,28 @@ html:not(.dark) .photo-thumbnail .series-outline { filter:invert(1); }
  #about.about-compact { padding-block:32px; }
  #about .about-intro h2 { font-size:clamp(25px,6vw,32px); margin-bottom:12px; }
 }
+
+.dialog-back { display:inline-flex; align-items:center; min-height:44px; padding:6px 0; border:0; background:transparent; color:var(--foreground); font:inherit; font-size:13px; cursor:pointer; }
+.dialog-back:focus-visible { outline:2px solid var(--primary); outline-offset:3px; }
+.photo-heading { padding-right:52px; min-width:0; }
+.photo-heading h2 { padding-right:0; }
+.model-pair-comparison { display:none; }
+@media(max-width:680px) {
+ .gallery-comparison-bar[data-empty="true"] { padding:8px 12px; }
+ .gallery-dialog .gallery-comparison-bar[data-empty="true"] > .button { display:none; }
+ .gallery-comparison-bar[data-empty="true"] > div { display:flex; flex-wrap:wrap; gap:4px 8px; align-items:center; }
+ .gallery-comparison-bar[data-empty="true"] .comparison-chips { margin:0; font-size:11px; }
+ .model-comparison-dialog[data-pair="true"] .comparison-swipe-hint,
+ .model-comparison-dialog[data-pair="true"] .spec-comparison-scroll > table { display:none; }
+ .model-pair-comparison { display:block; min-width:0; }
+ .pair-model-names { position:sticky; top:0; z-index:2; display:grid; grid-template-columns:repeat(2,minmax(0,1fr)); gap:12px; padding:12px; background:var(--surface); border-bottom:2px solid var(--border); color:var(--primary); font-size:20px; }
+ .model-pair-comparison h3 { margin:20px 0 12px; font-size:16px; }
+ .pair-spec { border:1px solid var(--border); border-radius:12px; padding:12px; margin-bottom:10px; background:var(--surface); }
+ .pair-spec h4 { margin:0 0 12px; font-size:13px; font-weight:500; line-height:1.5; overflow-wrap:anywhere; }
+ .pair-spec dl,.pair-actions { display:grid; grid-template-columns:repeat(2,minmax(0,1fr)); gap:12px; margin:0; }
+ .pair-spec dl > div { min-width:0; }
+ .pair-spec dt { color:var(--muted); font-size:11px; }
+ .pair-spec dd { margin:4px 0 0; font-size:14px; overflow-wrap:anywhere; }
+ .pair-actions .button { padding:10px 6px; font-size:12px; }
+ .photo-heading .dialog-back { padding-block:0; }
+}

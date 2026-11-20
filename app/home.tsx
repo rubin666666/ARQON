@@ -50,6 +50,7 @@ export default function Home({
     [selectedModel, setSelectedModel] = useState(site.models[0].id),
     [calculatorOpen, setCalculatorOpen] = useState(false),
     [galleryOpen, setGalleryOpen] = useState(false),
+    [galleryFromCalculator,setGalleryFromCalculator] = useState(false),
     [galleryModel, setGalleryModel] = useState<string|null>(null),
     [detailModel, setDetailModel] = useState<string|null>(null),
     [activeSection, setActiveSection] = useState('');
@@ -83,6 +84,7 @@ export default function Home({
   useEffect(()=>{
     const revealModel=()=>{
       const id=location.hash.slice(1);
+      setGalleryFromCalculator(false);
       if(site.models.some(m=>m.id===id)){
         setGalleryModel(id);
         setGalleryOpen(true);
@@ -97,6 +99,7 @@ export default function Home({
     return ()=>{cancelAnimationFrame(frame);window.removeEventListener('hashchange',revealModel);};
   },[]);
   function calculateModel(id:string) {
+    setGalleryFromCalculator(false);
     setSelectedModel(id);
     setCalculatorOpen(true);
   }
@@ -276,14 +279,14 @@ export default function Home({
               <span className="eyebrow">{t('Серія SAHARA','SAHARA series')}</span>
               <h3>{t('Оберіть сушарку для свого сезону','Choose the dryer for your season')}</h3>
               <p className="engineering-caption">{t('У галереї: фото, характеристики та порівняння 2–3 моделей.','Inside the gallery: photos, specifications and comparison of 2–3 models.')}</p>
-              <ModelExplorer en={en} onResume={()=>{setGalleryOpen(false);setCalculatorOpen(true);}} open={galleryOpen} initialModelId={galleryModel} onOpenChange={value=>{setGalleryOpen(value);if(!value)setGalleryModel(null);}} onCalculate={calculateModel} />
+              <ModelExplorer en={en} onResume={galleryFromCalculator?()=>{setGalleryOpen(false);setGalleryFromCalculator(false);setCalculatorOpen(true);}:undefined} open={galleryOpen} initialModelId={galleryModel} onOpenChange={value=>{setGalleryOpen(value);if(!value){setGalleryModel(null);setGalleryFromCalculator(false);}}} onCalculate={calculateModel} />
               <a className="text-link" href="#calculator" aria-haspopup="dialog" onClick={event=>{event.currentTarget.focus();setCalculatorOpen(true);}}>{t('Розрахувати окупність','Calculate payback')}<ArrowUpRight size={18}/></a>
             </div>
           </div>
           <p className="model-comparison-context">{t('Порівняйте продуктивність за однакових умов: ','Compare capacity under the same conditions: ')}{localText(site.models[0].specifications[0].label,en)}. {t('т/год — кількість висушеного зерна за годину.','t/h means the amount of dried grain per hour.')}</p><div className="product-previews">{site.models.slice(0,3).map(m=><button key={m.id} type="button" className="product-preview" aria-label={t('Відкрити галерею продуктів: ','Open product gallery: ')+m.name} aria-expanded={galleryOpen} aria-controls="model-gallery" onClick={event=>{event.currentTarget.focus();setGalleryModel(m.id);setGalleryOpen(true);}}><Image src={asset('/sahara-contour.png')} width={240} height={240} alt={`${m.name} — ${t('технічна ілюстрація серії','technical series illustration')}`} loading="lazy"/><span>{m.name}<small className="preview-capacity">{localText(m.specifications[0].value,en)}</small></span><ArrowUpRight size={18}/></button>)}</div>
         </section>
         <ModelDetails en={en} id={detailModel} onClose={()=>setDetailModel(null)} onCalculate={calculateModel} />
-        <Calculator en={en} onBrowseModels={()=>{setCalculatorOpen(false);setGalleryModel(null);setGalleryOpen(true);}} model={selectedModel} onModelChange={setSelectedModel} open={calculatorOpen} onOpenChange={setCalculatorOpen} />
+        <Calculator en={en} onBrowseModels={()=>{setGalleryFromCalculator(true);setCalculatorOpen(false);setGalleryModel(null);setGalleryOpen(true);}} model={selectedModel} onModelChange={setSelectedModel} open={calculatorOpen} onOpenChange={setCalculatorOpen} />
         <About en={en} />
         {site.equipmentPublished && <section id="equipment" className="section">
           <p className="eyebrow">{t('Додаткове обладнання', 'Optional equipment')}</p>

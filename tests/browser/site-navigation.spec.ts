@@ -55,7 +55,10 @@ for(const en of [false,true]) {
     await page.getByRole('button',{name:en?'Compare specifications':'Порівняти характеристики',exact:true}).click();
     await noOverflow(page);
     const comparison=page.locator('.model-comparison-dialog');
-    await expect(comparison.getByRole('columnheader')).toHaveText([en?'Specification':'Характеристика','S9','S10']);
+    if(page.viewportSize()!.width<=680){
+      await expect(comparison.locator('.pair-model-names strong')).toHaveText(['S9','S10']);
+      await expect(comparison.locator('.pair-spec')).toHaveCount(18);
+    }else await expect(comparison.getByRole('columnheader')).toHaveText([en?'Specification':'Характеристика','S9','S10']);
     await comparison.getByRole('button',{name:en?'Calculate S10':'Розрахувати S10',exact:true}).click();
     await expect(page.locator('#calc-model')).toHaveValue('sahara-s10');
     await expect(page.locator('#model-gallery')).toHaveCount(0);

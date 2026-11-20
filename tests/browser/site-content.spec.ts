@@ -8,7 +8,7 @@ test('model previews reopen the chosen card and images support keyboard navigati
   const card=page.locator('.gallery-card').filter({has:page.getByRole('heading',{name:'S10',exact:true})});
   const image=card.getByRole('button',{name:'Enlarge image S10',exact:true});
   await image.click();
-  await expect(page.getByRole('button',{name:'Close image',exact:true})).toBeFocused();
+  await expect(page.getByRole('button',{name:'← Back to models',exact:true})).toBeFocused();
   await expect(page.locator('.photo-navigation output')).toHaveText('1 / 2');
   await page.keyboard.press('ArrowRight');
   await expect(page.locator('.photo-navigation output')).toHaveText('2 / 2');
