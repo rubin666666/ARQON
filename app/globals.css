@@ -5788,3 +5788,18 @@ html:not(.dark) .photo-thumbnail .series-outline { filter:invert(1); }
  .technology-next > .button { flex-shrink:0; }
  .calculator-launch-card { padding-block:36px; gap:20px; }
 }
+
+/* Desktop introductions share one measure and predictable section spacing. */
+@media(min-width:1001px) {
+ main > .section { padding-block:clamp(48px,4vw,64px); }
+ :is(#technology,#products) > .section-heading { width:100%; max-width:1280px; margin:0 auto 28px; gap:12px; }
+ :is(#technology,#products) > .section-heading > div { width:100%; min-width:0; }
+ :is(#technology,#products) > .section-heading > p,
+ #products > .model-comparison-context { width:100%; max-width:1280px; margin-inline:auto; }
+ :is(#technology,#products) > .section-heading h2 { margin-bottom:0; }
+ .section .media-heading { width:100%; max-width:1280px; margin:0 auto 28px; text-align:center; }
+ .section .media-heading .eyebrow { justify-content:center; }
+ .section .media-heading .media-controls { justify-content:center; }
+ .about-compact .about-intro { margin-bottom:32px; }
+ :is(.section-heading,.about-intro,.media-heading,.calculator-launch-card) h2 { max-width:100%; overflow-wrap:normal; word-break:normal; hyphens:none; }
+}
