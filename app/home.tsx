@@ -236,15 +236,16 @@ export default function Home({
             <h1>{t('Зерносушарки', 'Grain dryers')}<br /><em>SAHARA</em></h1>
             <p className="hero-description">{localText(dryerDescription.intro,en)}</p>
             <figure className="hero-mobile-art"><picture><source media="(max-width: 680px)" srcSet={asset('/sahara-hero-mobile.webp')}/><Image width={1024} height={1024} src={asset('/sahara-hero.webp')} alt={t('Технічна ілюстрація зерносушарки SAHARA','SAHARA grain dryer technical illustration')} fetchPriority="high"/></picture></figure>
-            <div className="hero-links">
+            <div className="hero-links" aria-label={t("Що зробити далі","Choose your next step")}>
               <a className="button" href="#technology">
                 {t('Як працює сушарка', 'How the dryer works')}
                 <ArrowRight size={18} />
               </a>
-              <a className="text-link" href="#products">
+              <a className="button button-secondary" href="#products">
                 {t('Переглянути моделі', 'View models')}
                 <ArrowRight size={16} />
               </a>
+              <button type="button" className="text-link hero-calculator" aria-haspopup="dialog" onClick={event=>{event.currentTarget.focus();setCalculatorOpen(true);}}>{t('Розрахувати свій сезон','Calculate your season')}<ArrowUpRight size={18}/></button>
             </div>
           </div>
           <figure className="hero-art">
@@ -357,6 +358,11 @@ export default function Home({
           </button>
         </DialogContent>
       </Dialog>
+      <nav className="mobile-section-nav" aria-label={t('Швидкі переходи','Quick navigation')} data-visible={!!activeSection&&activeSection!=='technology'}>
+        <a href="#technology" aria-current={activeSection==='technology'?'location':undefined}>{t('Технологія','Technology')}</a>
+        <a href="#products" aria-current={activeSection==='products'?'location':undefined}>{t('Моделі','Models')}</a>
+        <button type="button" aria-haspopup="dialog" onClick={event=>{event.currentTarget.focus();setCalculatorOpen(true);}}>{t('Калькулятор','Calculator')}</button>
+      </nav>
       <Analytics en={en} />
     </>
   );

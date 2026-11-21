@@ -28,6 +28,8 @@ for(const width of [320,390])test(`compact controls and calmer motion at ${width
  expect(Math.abs((await body.evaluate(el=>el.scrollTop))-before)).toBeLessThan(15);
  await page.getByRole('button',{name:'Закрити калькулятор',exact:true}).click();
  await page.getByRole('button',{name:'Відкрити галерею моделей',exact:true}).click();
+ // A desktop pointer can land on the photo after the dialog opens and trigger its hover scale.
+ await page.mouse.move(0,0);
  await expect.poll(async()=>(await page.locator('.gallery-card .model-photo img').first().boundingBox())!.height).toBeLessThanOrEqual(90);
  await page.getByRole('button',{name:'Закрити галерею',exact:true}).click();
  expect(await page.locator('.flow-description').evaluate(el=>el.clientHeight)).toBeGreaterThanOrEqual(175);

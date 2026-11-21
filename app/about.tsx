@@ -39,7 +39,7 @@ export function About({ en }: { en: boolean }) {
     </div>
     <Dialog open={mobilePanel!==null} onOpenChangeComplete={open=>{if(!open)mobileLauncher.current?.focus({preventScroll:true});}} onOpenChange={open=>{if(!open)setMobilePanel(null);}}>
       <DialogContent className="arqon-dialog dryer-description-dialog about-dialog about-topic-dialog" showCloseButton={false}>
-        <div className="dryer-dialog-heading"><div><DialogTitle>{mobilePanel==='expertise'?t('Компетенції','Expertise'):mobilePanel==='network'?t('Міжнародна мережа','International network'):t('Докладніше про компанію','More about the company')}</DialogTitle><DialogDescription>ARQON · Engineering &amp; Innovation</DialogDescription></div><DialogClose className="modal-close" aria-label={t('Закрити опис компанії','Close company description')}>×</DialogClose></div>
+        <div className="dryer-dialog-heading"><div><DialogClose className="dialog-back">← {t("До розділу «Про компанію»","Back to About")}</DialogClose><DialogTitle>{mobilePanel==='expertise'?t('Компетенції','Expertise'):mobilePanel==='network'?t('Міжнародна мережа','International network'):t('Докладніше про компанію','More about the company')}</DialogTitle><DialogDescription>ARQON · Engineering &amp; Innovation</DialogDescription></div><DialogClose className="modal-close" aria-label={t('Закрити опис компанії','Close company description')}>×</DialogClose></div>
         {mobilePanel&&<AboutPanels key={mobilePanel} en={en} initialTab={mobilePanel} single/>}
       </DialogContent>
     </Dialog>

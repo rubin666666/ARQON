@@ -114,15 +114,11 @@ export function ContentSections({ en }: { en: boolean }) {
         <section className="section faq-section" id="faq">
           <p className="eyebrow">FAQ</p>
           <h2>{t('Питання та відповіді', 'Questions and answers')}</h2>
-          <div className="faq-list">
-            {site.faq
-              .filter(f => localText(f.question, en) && localText(f.answer, en))
-              .map((f, i) => (
-                <details key={i}>
-                  <summary>{localText(f.question, en)}</summary>
-                  <p>{localText(f.answer, en)}</p>
-                </details>
-              ))}
+          <div className="faq-groups">
+            {[{id:'technology',uk:'Технологія сушіння',en:'Drying technology',questions:site.faq.slice(0,1)},{id:'calculation',uk:'Розрахунок і збереження',en:'Calculation and saving',questions:site.faq.slice(1)}].map(group=>{
+              const questions=group.questions.filter(f=>localText(f.question,en)&&localText(f.answer,en));
+              return questions.length>0&&<section className="faq-topic" key={group.id} aria-labelledby={'faq-topic-'+group.id}><h3 id={'faq-topic-'+group.id}>{en?group.en:group.uk}</h3><div className="faq-list">{questions.map(f=><details key={f.question.en}><summary>{localText(f.question,en)}</summary><p>{localText(f.answer,en)}</p></details>)}</div></section>;
+            })}
           </div>
         </section>
       )}
