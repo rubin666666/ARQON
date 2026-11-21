@@ -5794,6 +5794,7 @@ html:not(.dark) .photo-thumbnail .series-outline { filter:invert(1); }
  main > .section { padding-block:clamp(48px,4vw,64px); }
  :is(#technology,#products) > .section-heading { width:100%; max-width:1280px; margin:0 auto 28px; gap:12px; }
  :is(#technology,#products) > .section-heading > div { width:100%; min-width:0; }
+ :is(#technology,#products) > .section-heading .eyebrow { justify-content:center; }
  :is(#technology,#products) > .section-heading > p,
  #products > .model-comparison-context { width:100%; max-width:1280px; margin-inline:auto; }
  :is(#technology,#products) > .section-heading h2 { margin-bottom:0; }
