@@ -10,13 +10,16 @@ for(const size of [{width:1440,height:900},{width:320,height:568}])test(`compari
  for(const fraction of [.35,.7]){
   await scroller.evaluate((el,f)=>{el.scrollTop=(el.scrollHeight-el.clientHeight)*f;},fraction);
   const bounds=await scroller.boundingBox();
-  for(const heading of await scroller.locator('thead th').all()){
+  for(const heading of await scroller.locator(size.width<=680?'.pair-model-names':'thead th').all()){
    await expect.poll(async()=>(await heading.boundingBox())!.y).toBeGreaterThanOrEqual(bounds!.y-1);
    expect((await heading.boundingBox())!.y).toBeLessThanOrEqual(bounds!.y+2);
   }
  }
  await scroller.evaluate(el=>{el.scrollLeft=el.scrollWidth;});
- await expect(scroller.getByRole('columnheader',{name:'S12',exact:true})).toBeInViewport();
+ if(size.width<=680){
+  await expect(scroller.locator('.pair-model-names')).toContainText('S12');
+  expect(await scroller.evaluate(el=>el.scrollWidth<=el.clientWidth+1)).toBe(true);
+ }else await expect(scroller.getByRole('columnheader',{name:'S12',exact:true})).toBeInViewport();
  await page.screenshot({path:`work/comparison-sticky-${size.width}-${info.project.name}.png`});
  await scroller.getByRole('button',{name:'Розрахувати S12',exact:true}).click();
  await expect(page.locator('#calc-model')).toHaveValue('sahara-s12');

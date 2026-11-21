@@ -26,7 +26,7 @@ test('model previews reopen the chosen card and images support keyboard navigati
   await expect(card.getByRole('heading',{name:'S10',exact:true})).toBeInViewport();
 });
 
-test('comparison can be scrolled with the keyboard on a narrow screen',async({page})=>{
+test('three-model comparison fits a narrow screen without horizontal scrolling',async({page})=>{
   await page.setViewportSize({width:390,height:844});
   await page.goto('en/');
   await page.getByRole('button',{name:'Open model gallery',exact:true}).click();
@@ -35,7 +35,8 @@ test('comparison can be scrolled with the keyboard on a narrow screen',async({pa
   const table=page.getByRole('region',{name:'Specifications table',exact:true});
   await table.focus();
   await table.press('ArrowRight');
-  await expect.poll(()=>table.evaluate(el=>el.scrollLeft)).toBeGreaterThan(0);
+  expect(await table.evaluate(el=>el.scrollWidth<=el.clientWidth+1)).toBe(true);
+  await expect(table.locator('.pair-spec')).toHaveCount(18);
   await page.keyboard.press('Escape');
   await expect(page.getByRole('dialog',{name:'SAHARA models',exact:true})).toBeVisible();
 });
