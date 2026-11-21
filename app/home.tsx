@@ -241,11 +241,11 @@ export default function Home({
                 {t('Як працює сушарка', 'How the dryer works')}
                 <ArrowRight size={18} />
               </a>
-              <a className="button button-secondary" href="#products">
+              <a className="button" href="#products">
                 {t('Переглянути моделі', 'View models')}
                 <ArrowRight size={16} />
               </a>
-              <button type="button" className="text-link hero-calculator" aria-haspopup="dialog" onClick={event=>{event.currentTarget.focus();setCalculatorOpen(true);}}>{t('Розрахувати свій сезон','Calculate your season')}<ArrowUpRight size={18}/></button>
+              <button type="button" className="button hero-calculator" aria-haspopup="dialog" onClick={event=>{event.currentTarget.focus();setCalculatorOpen(true);}}>{t('Розрахувати свій сезон','Calculate your season')}<ArrowRight size={18}/></button>
             </div>
           </div>
           <figure className="hero-art">

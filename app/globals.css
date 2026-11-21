@@ -5717,7 +5717,7 @@ html:not(.dark) .photo-thumbnail .series-outline { filter:invert(1); }
 .hero-copy .hero-description { line-height:1.65; max-width:60ch; }
 .hero-copy .hero-links { align-items:center; gap:12px; }
 .hero-copy .hero-links > :is(a,button) { min-height:48px; }
-.hero-copy .hero-calculator { font:inherit; border:0; background:transparent; cursor:pointer; padding:10px 4px; color:var(--foreground); }
+.hero-copy .hero-calculator { cursor:pointer; }
 :is(.section-heading,.about-intro,.media-heading) h2,.faq-section > h2 { line-height:1.2; text-wrap:balance; }
 :is(.about-overview,.faq-topic) h3 { line-height:1.35; }
 .faq-groups { display:grid; gap:24px; max-width:960px; margin:28px auto 0; }
@@ -5763,3 +5763,12 @@ html:not(.dark) .photo-thumbnail .series-outline { filter:invert(1); }
 }
 .mobile-section-nav > :is(a,button):focus-visible,.technology-stage-nav button:focus-visible { outline:2px solid var(--primary); outline-offset:2px; }
 @media(max-height:450px) { .mobile-section-nav { display:none!important; } }
+
+
+/* The three hero actions share the text column and a single button treatment. */
+.hero .hero-copy > .hero-description,.hero .hero-copy > .hero-links { width:100%; max-width:600px; }
+.hero .hero-copy > .hero-links { display:grid; grid-template-columns:repeat(3,minmax(0,1fr)); align-items:stretch; gap:12px; }
+.hero .hero-copy > .hero-links > .button { width:100%; min-width:0; min-height:56px; height:100%; padding:12px; justify-content:center; font-size:14px; line-height:1.4; }
+.hero .hero-copy > .hero-links > .button svg { flex-shrink:0; width:18px; height:18px; }
+@media(max-width:1000px) { .hero .hero-copy > .hero-description,.hero .hero-copy > .hero-links { margin-inline:auto; } }
+@media(max-width:760px) { .hero .hero-copy > .hero-links { grid-template-columns:1fr; gap:10px; } }
