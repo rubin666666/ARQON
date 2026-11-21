@@ -5782,7 +5782,7 @@ html:not(.dark) .photo-thumbnail .series-outline { filter:invert(1); }
  .about-compact .about-intro > p:not(.eyebrow),
  .calculator-launch-card p:not(.eyebrow) { width:100%; max-width:none; margin-inline:auto; line-height:1.65; }
  .about-compact .about-intro > .eyebrow,
- .calculator-launch-card .eyebrow { max-width:none; width:100%; text-align:center; }
+ .calculator-launch-card .eyebrow { max-width:none; width:100%; text-align:center; justify-content:center; }
  .dryer-technology > .technology-next { width:100%; max-width:1280px; margin:24px auto 0; flex-direction:row; align-items:center; justify-content:space-between; gap:32px; }
  .technology-next p { flex:1; max-width:none; margin:0; text-align:left; }
  .technology-next > .button { flex-shrink:0; }
