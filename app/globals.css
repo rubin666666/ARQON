@@ -5804,3 +5804,30 @@ html:not(.dark) .photo-thumbnail .series-outline { filter:invert(1); }
  .about-compact .about-intro { margin-bottom:32px; }
  :is(.section-heading,.about-intro,.media-heading,.calculator-launch-card) h2 { max-width:100%; overflow-wrap:normal; word-break:normal; hyphens:none; }
 }
+
+/* Compact desktop specifications, consistent detail windows and footer layout. */
+@media(min-width:1001px) {
+ .model-drawer .model-specification-groups { gap:16px; margin-block:16px; }
+ .model-drawer .model-specification-group { padding:16px; }
+ .model-drawer .model-specification-group h3 { margin-bottom:10px; font-size:17px; }
+ .model-drawer .model-specification-group .model-specs > div { grid-template-columns:minmax(0,1.5fr) minmax(0,1fr); gap:16px; padding-block:9px; align-items:baseline; }
+ .model-drawer .model-specification-group .model-specs dd { text-align:right; font-variant-numeric:tabular-nums; }
+ .dryer-description-dialog[data-slot="dialog-content"] { width:min(1200px,calc(100vw - 48px))!important; max-width:1200px!important; height:min(780px,calc(100dvh - 48px)); max-height:calc(100dvh - 48px); border-radius:24px; }
+ .dryer-description-dialog .dryer-dialog-heading { padding:22px 76px 18px 24px; }
+ .dryer-description-dialog .dryer-dialog-heading .modal-close { top:20px; right:20px; }
+ .dryer-description-dialog .dryer-dialog-tablist { margin:0 24px 20px; }
+ .dryer-description-dialog .dryer-dialog-panel { padding:0 24px 24px; }
+ .site-footer { padding-block:32px 24px; row-gap:0; }
+ .site-footer .footer-main { width:100%; max-width:1280px; margin:0 auto; grid-template-columns:200px minmax(0,1fr) 48px; gap:24px 48px; align-items:start; }
+ .site-footer .footer-main .footer-nav { grid-column:2; grid-row:1; grid-template-columns:repeat(3,minmax(0,1fr)); column-gap:24px; row-gap:4px; }
+ .site-footer .footer-main .footer-top { grid-column:3; grid-row:1; margin-top:0; }
+ .site-footer .footer-main .footer-socials { grid-column:2; grid-row:2; margin:0; }
+ .site-footer .footer-meta { width:100%; max-width:1280px; margin:24px auto 0; padding-top:16px; }
+}
+.site-footer .footer-nav a { overflow-wrap:break-word; }
+@media(max-width:680px) {
+ .site-footer .footer-main { gap:16px; }
+ .site-footer .footer-main .footer-nav { column-gap:18px; row-gap:4px; }
+ .site-footer .footer-main .footer-top { margin-top:0; }
+ .site-footer .footer-meta { margin-top:20px; padding-top:16px; }
+}
