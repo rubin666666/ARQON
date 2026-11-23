@@ -5857,3 +5857,77 @@ html:not(.dark) .photo-thumbnail .series-outline { filter:invert(1); }
  .model-print-sheet th { width:65%; }
  .model-print-sheet td { width:35%; font-weight:600; }
 }
+
+/* Shared visual language: warm neutral surfaces, restrained orange actions. */
+html:not(.dark) {
+ --background:#fff5eb; --surface:#fffaf5; --surface-raised:#fff; --surface-input:#fff;
+ --foreground:#20252a; --muted:#505861; --border:#d1c9c0; --primary:#ac3b0b;
+ --section-surface:#fffaf5; --control-border:#81858b;
+ --ui-text:#20252a; --ui-muted:#505861; --ui-panel:#fffaf5; --ui-input:#fff; --ui-border:#d1c9c0;
+}
+html.dark {
+ --background:#17191b; --surface:#202326; --surface-raised:#282c30; --surface-input:#1b1e21;
+ --foreground:#f5f4f1; --muted:#b8bec5; --border:#444a50; --primary:#ff7a3d;
+ --section-surface:#1c1f22; --control-border:#7e8791;
+ --ui-text:#f5f4f1; --ui-muted:#b8bec5; --ui-panel:#202326; --ui-input:#1b1e21; --ui-border:#444a50;
+}
+:root { --action-fill:#ac3b0b; --action-hover:#923108; --control-radius:12px; --radius-card:16px; --type-section:clamp(28px,2.8vw,42px); }
+main .section h2 { font-weight:500; letter-spacing:-.025em; line-height:1.2; }
+main :is(.section-heading,.about-intro,.media-heading) h2 { margin-bottom:16px; }
+main :is(.section-heading,.about-intro,.media-heading) .eyebrow { font-weight:600; letter-spacing:.09em; }
+:is(.gallery-card-copy,.about-modal-card,.dryer-description-item,.calc-group) h3 { font-weight:600; line-height:1.35; }
+:is(.about-modal-card,.dryer-description-body,.model-preparation,.calculator-help) p { line-height:1.65; text-align:left; }
+html :is(.gallery-card,.about-modal-card,.dryer-description-item,.calc-group,.model-specification-group,.faq-topic) {
+ border-radius:var(--radius-card); border-color:var(--border); background-color:var(--surface); background-image:none;
+}
+html:not(.dark) :is(.arqon-dialog,.dryer-description-dialog,.calculator-window,.engineering-lead-dialog,.menu-dialog)[data-slot="dialog-content"] { background:var(--surface); color:var(--foreground); }
+html .button:not(.button-secondary),
+html:not(.dark) .calculator-wizard .engineering-result .button:not(.button-secondary) {
+ background:var(--action-fill); color:#fff; border-color:var(--action-fill); border-radius:var(--control-radius); font-weight:600; line-height:1.4;
+}
+html .button.button-secondary { background:var(--surface-raised); color:var(--foreground); border:1px solid var(--control-border); border-radius:var(--control-radius); }
+html :is(.button,.text-link,.description-entry-action) { transition:background-color 160ms,border-color 160ms,color 160ms,box-shadow 160ms; }
+html :is(.button,.text-link,.product-preview):is(:hover,:active),html :is(.button,.text-link):is(:hover,:active) svg { transform:none; translate:none; scale:none; }
+html .text-link { min-height:44px; }
+html :is(.button,.text-link,.modal-close,.model-photo-close):focus-visible { outline:2px solid var(--primary); outline-offset:3px; }
+html :is(.modal-close,.model-photo-close) { width:44px; height:44px; min-width:44px; border:1px solid var(--control-border); border-radius:12px; background:var(--surface-raised); color:var(--foreground); }
+html .button:disabled { opacity:.55; cursor:not-allowed; box-shadow:none; }
+@media(hover:hover) {
+ html .button:not(.button-secondary):hover:not(:disabled) { background:var(--action-hover); border-color:var(--action-hover); }
+ html .button.button-secondary:hover:not(:disabled) { background:var(--surface); border-color:var(--primary); }
+ html .text-link:hover { color:var(--primary); text-decoration:underline; text-underline-offset:4px; }
+}
+html .button:not(.button-secondary):active:not(:disabled) { background:var(--action-hover); }
+html .button.button-secondary:active:not(:disabled) { background:var(--surface); border-color:var(--primary); }
+.arqon-dialog .model-dialog-header h2,.dryer-dialog-heading h2,.calculator-window-heading h2 { font-size:clamp(20px,2vw,26px); line-height:1.3; letter-spacing:-.02em; }
+.arqon-dialog .model-dialog-header p,.dryer-dialog-heading p,.calculator-window-heading p { color:var(--muted); line-height:1.5; }
+.model-detail-actions,.calculator-wizard-footer { border-top:1px solid var(--border); background:var(--surface); }
+html .calculator-window .field > :is(label,span) { font-weight:500; line-height:1.45; }
+html .calculator-window .calculator-input-wrap { display:grid; grid-template-columns:minmax(0,1fr) auto; border:1px solid var(--control-border); border-radius:var(--control-radius); background:var(--surface-input); overflow:hidden; }
+html .calculator-window .calculator-input-wrap input { border:0; border-radius:0; background:transparent; color:var(--foreground); min-height:48px; padding:12px; box-shadow:none; }
+html .calculator-window .calculator-input-unit { position:static; padding:10px; border-left:1px solid var(--border); background:var(--surface-raised); color:var(--foreground); font-size:12px; }
+html .calculator-window .calculator-input-wrap:focus-within { border-color:var(--primary); outline:2px solid var(--primary); outline-offset:2px; }
+html .calculator-window .calculator-input-wrap:has(input[aria-invalid="true"]) { border-color:var(--danger); outline-color:var(--danger); }
+html .calculator-window .field select { background:var(--surface-input); color:var(--foreground); border-color:var(--control-border); border-radius:var(--control-radius); min-height:48px; }
+html .calculator-window .field input::placeholder { color:var(--muted); opacity:1; }
+.calculator-window .engineering-field-error { border-left:3px solid var(--danger); background:color-mix(in srgb,var(--danger) 8%,var(--surface)); border-radius:0 8px 8px 0; padding:8px 10px; margin-top:8px; color:var(--foreground); }
+.calculator-window .calc-group { padding:20px; }
+.calculator-window .calc-group > h3 { margin-bottom:16px; }
+.calculator-window .fields { gap:18px; }
+html .calculator-wizard .engineering-result {
+ --foreground:var(--ui-text); --muted:var(--ui-muted); --surface:var(--ui-panel); --surface-raised:var(--ui-input); --border:var(--ui-border);
+ color:var(--ui-text); background-color:var(--ui-panel);
+}
+html .calculator-wizard .engineering-result .engineering-outcomes dd { color:var(--foreground); font-variant-numeric:tabular-nums; line-height:1.2; }
+html .calculator-wizard .engineering-result .engineering-outcomes dd small { margin-top:6px; font-size:13px; font-weight:400; color:var(--muted); }
+.metric-state { display:block; margin-top:8px; color:var(--muted); font-size:12px; line-height:1.4; font-weight:500; letter-spacing:0; }
+html .calculator-wizard .engineering-result .engineering-outcomes [data-value-state="missing"] { border-style:dashed; background:var(--surface); }
+html .calculator-wizard .engineering-result .engineering-outcomes [data-value-state="negative"] { border-color:var(--danger); }
+html .calculator-wizard .engineering-result .engineering-outcomes [data-value-state="negative"] dd { color:var(--danger); }
+.calculator-window .engineering-status { padding:8px 12px; line-height:1.4; border-radius:10px; }
+@media(max-width:760px) {
+ .calculator-window .calc-group { padding:14px; }
+ .calculator-window .fields { gap:14px; }
+ .arqon-dialog .model-dialog-header h2,.dryer-dialog-heading h2,.calculator-window-heading h2 { font-size:20px; }
+}
+@media(prefers-reduced-motion:reduce) { html :is(.button,.text-link,.description-entry-action) { transition:none; } }

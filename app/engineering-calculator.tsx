@@ -255,7 +255,7 @@ export function Calculator({ en, model, onModelChange, open, onOpenChange, onBro
   function checkbox(key: 'serviceEnabled' | 'delayedSale', label: string) {
     return <label className="engineering-toggle"><input type="checkbox" checked={draft[key]} onChange={e=>set(key,e.target.checked)}/><span>{label}</span></label>;
   }
-  const metric = (label: string, value: number | null | undefined, unit: string, explanation?:string) => <div data-value-state={value == null ? "missing" : value < 0 ? "negative" : "available"}><dt>{label}</dt><dd>{format(value)} <small>{unit}</small>{explanation&&<span className="metric-explanation">{explanation}</span>}</dd></div>;
+  const metric = (label: string, value: number | null | undefined, unit: string, explanation?:string) => <div data-value-state={value == null ? "missing" : value < 0 ? "negative" : "available"}><dt>{label}</dt><dd>{format(value)} <small>{unit}</small>{value==null&&<span className="metric-state">{t("Недостатньо даних","Insufficient data")}</span>}{explanation&&<span className="metric-explanation">{explanation}</span>}</dd></div>;
   const financialMetric=(label:string,value:number|null|undefined,unit:string)=>value==null?null:metric(label,value,unit);
   function chooseModel(id:string) { if(id===model)return; setEditKey(null);rememberEdit('model',true); setHasSavedScenario(true); setEditing(null); onModelChange(id); }
   function comparison(m:EngineeringData['models'][number]):EngineeringResult { return calculateEngineering({...input,modelId:m.id,dryerPrice:number(modelPrices[m.id]??''),installation:null},data); }
