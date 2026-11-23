@@ -19,6 +19,7 @@ import {
   DialogClose,
 } from '@/components/ui/dialog';
 import { site, asset, localText, hasContacts, canSubmit } from '@/lib/site';
+import {FaqItem} from './faq-item';
 import { EnquiryForm } from './enquiry-form';
 export function ContentSections({ en }: { en: boolean }) {
   const t = (a: string, b: string) => (en ? b : a);
@@ -117,7 +118,7 @@ export function ContentSections({ en }: { en: boolean }) {
           <div className="faq-groups">
             {[{id:'technology',uk:'Технологія сушіння',en:'Drying technology',questions:site.faq.slice(0,1)},{id:'calculation',uk:'Розрахунок і збереження',en:'Calculation and saving',questions:site.faq.slice(1)}].map(group=>{
               const questions=group.questions.filter(f=>localText(f.question,en)&&localText(f.answer,en));
-              return questions.length>0&&<section className="faq-topic" key={group.id} aria-labelledby={'faq-topic-'+group.id}><h3 id={'faq-topic-'+group.id}>{en?group.en:group.uk}</h3><div className="faq-list">{questions.map(f=><details key={f.question.en}><summary>{localText(f.question,en)}</summary><p>{localText(f.answer,en)}</p></details>)}</div></section>;
+              return questions.length>0&&<section className="faq-topic" key={group.id} aria-labelledby={'faq-topic-'+group.id}><h3 id={'faq-topic-'+group.id}>{en?group.en:group.uk}</h3><div className="faq-list">{questions.map(f=><FaqItem key={f.question.en} question={f.question} answer={f.answer} en={en}/>)}</div></section>;
             })}
           </div>
         </section>
