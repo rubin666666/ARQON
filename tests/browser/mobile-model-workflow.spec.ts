@@ -11,7 +11,9 @@ for(const count of [2,3])for(const en of [false,true])test(`mobile comparison of
  for(const name of ['S9','S10','S12'].slice(0,count)){
   const checkbox=page.getByRole('checkbox',{name:`${en?'Compare':'До порівняння'} ${name}`,exact:true});
   const label=page.locator('.model-card-compare').filter({has:checkbox});
-  expect((await label.boundingBox())!.height).toBeGreaterThanOrEqual(52);
+  await expect(label).toHaveCSS('min-height','52px');
+  // Firefox can report 51.99994px for a 52px box at fractional coordinates.
+  expect((await label.boundingBox())!.height).toBeGreaterThanOrEqual(52 - 0.01);
   await label.click();
   await expect(checkbox).toBeChecked();
   await expect(page.locator('.gallery-card').filter({has:checkbox})).toHaveAttribute('data-selected','true');
