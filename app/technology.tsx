@@ -77,7 +77,7 @@ export function Technology({en}:{en:boolean}){
  <Dialog>
    <DialogTrigger className="dryer-description-launch">
      <span className="description-entry-icon" aria-hidden="true"><Factory size={42} strokeWidth={1.4} /></span><span className="dryer-description-label"><strong>{t('Докладніше про сушарку','More about the dryer')}</strong><small>{t('Етапи сушіння · Керування · Модульна конструкція','Drying stages · Controls · Modular design')}</small></span>
-     <span className="description-entry-art" aria-hidden="true"><Factory strokeWidth={0.7} /></span><span className="description-entry-action" aria-hidden="true">{t('Відкрити вікно','Open window')}<ArrowUpRight size={20}/></span>
+     <span className="description-entry-art" aria-hidden="true"><Factory strokeWidth={0.7} /></span><span className="description-entry-action" aria-hidden="true">{t('Про сушарку','About the dryer')}<ArrowUpRight size={20}/></span>
    </DialogTrigger>
    <DialogContent className="arqon-dialog dryer-description-dialog" showCloseButton={false}>
      <div className="dryer-dialog-heading">
