@@ -18,7 +18,7 @@ export function ModelPhoto({ name, src, en, onReturn, returnTo="models" }: { nam
   const move=(direction:number)=>setIndex(i=>(i+direction+images.length)%images.length);
   return <>
     <button type="button" className="model-photo" aria-label={`${en ? 'Enlarge image' : 'Збільшити зображення'} ${name}`} onClick={event => {event.currentTarget.focus();setIndex(0);setOpen(true);}}>
-      <Image width={1024} height={1024} src={previewSrc} alt={images[0].label} loading="lazy" />
+      <Image width={1024} height={1024} src={asset('/sahara-preview.webp')} alt={images[0].label} loading="lazy" />
       <span className="model-photo-caption">{images[0].label}</span>
       <span className="model-photo-hint" aria-hidden="true">↗</span>
     </button>

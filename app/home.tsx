@@ -2,6 +2,7 @@
 import { ModelExplorer, ModelDetails } from './model-explorer';
 import { useState, useEffect } from 'react';
 import Image from 'next/image';
+import StaticImage from '@/components/static-image';
 import { EnquiryForm } from './enquiry-form';
 import { Calculator } from './engineering-calculator';
 import { CompactDisclosure } from './compact-disclosure';
@@ -70,16 +71,6 @@ export default function Home({
     };
     update(); window.addEventListener('scroll',update,{passive:true}); window.addEventListener('resize',update);
     return ()=>{cancelAnimationFrame(frame);window.removeEventListener('scroll',update);window.removeEventListener('resize',update);};
-  },[]);
-  useEffect(()=>{
-    const elements=[...document.querySelectorAll<HTMLElement>('main > section, .hero, .benefits > div, .products article')];
-    if(!('IntersectionObserver' in window)){elements.forEach(el=>el.classList.add('is-visible'));return;}
-    elements.forEach(el=>el.classList.add('reveal-on-scroll'));
-    const observer=new IntersectionObserver(entries=>entries.forEach(entry=>{
-      if(entry.isIntersecting) entry.target.classList.add('is-visible');
-    }),{threshold:.12,rootMargin:'0px 0px -8%'});
-    elements.forEach(el=>observer.observe(el));
-    return ()=>observer.disconnect();
   },[]);
   useEffect(()=>{
     const revealModel=()=>{
@@ -275,7 +266,7 @@ export default function Home({
             <p>{localText(site.productIntro, en)}</p>
           </div>
           <div className="gallery-launch-panel">
-            <Image src={asset('/images/sahara-context-v2.webp')} alt={t('Сушарка SAHARA поруч із зерновим комплексом','SAHARA dryer alongside a grain facility')} width={1536} height={864} className="gallery-launch-image" loading="lazy" />
+            <StaticImage src={asset('/images/sahara-context-v2.webp')} srcSet={`${asset('/images/sahara-context-mobile.webp')} 768w, ${asset('/images/sahara-context-v2.webp')} 1536w`} sizes="(max-width: 760px) 100vw, 90vw" decoding="async" alt={t('Сушарка SAHARA поруч із зерновим комплексом','SAHARA dryer alongside a grain facility')} width={1536} height={864} className="gallery-launch-image" loading="lazy" />
             <div className="gallery-launch-copy">
               <span className="eyebrow">{t('Серія SAHARA','SAHARA series')}</span>
               <h3>{t('Оберіть сушарку для свого сезону','Choose the dryer for your season')}</h3>
@@ -284,7 +275,7 @@ export default function Home({
               <a className="text-link" href="#calculator" aria-haspopup="dialog" onClick={event=>{event.currentTarget.focus();setCalculatorOpen(true);}}>{t('Розрахувати окупність','Calculate payback')}<ArrowUpRight size={18}/></a>
             </div>
           </div>
-          <p className="model-comparison-context">{t('Порівняйте продуктивність за однакових умов: ','Compare capacity under the same conditions: ')}{localText(site.models[0].specifications[0].label,en)}. {t('т/год — кількість висушеного зерна за годину.','t/h means the amount of dried grain per hour.')}</p><div className="product-previews">{site.models.slice(0,3).map(m=><button key={m.id} type="button" className="product-preview" aria-label={t('Відкрити галерею продуктів: ','Open product gallery: ')+m.name} aria-expanded={galleryOpen} aria-controls="model-gallery" onClick={event=>{event.currentTarget.focus();setGalleryModel(m.id);setGalleryOpen(true);}}><Image src={asset('/sahara-contour.png')} width={240} height={240} alt={`${m.name} — ${t('технічна ілюстрація серії','technical series illustration')}`} loading="lazy"/><span>{m.name}<small className="preview-capacity">{localText(m.specifications[0].value,en)}</small></span><ArrowUpRight size={18}/></button>)}</div>
+          <p className="model-comparison-context">{t('Порівняйте продуктивність за однакових умов: ','Compare capacity under the same conditions: ')}{localText(site.models[0].specifications[0].label,en)}. {t('т/год — кількість висушеного зерна за годину.','t/h means the amount of dried grain per hour.')}</p><div className="product-previews">{site.models.slice(0,3).map(m=><button key={m.id} type="button" className="product-preview" aria-label={t('Відкрити галерею продуктів: ','Open product gallery: ')+m.name} aria-expanded={galleryOpen} aria-controls="model-gallery" onClick={event=>{event.currentTarget.focus();setGalleryModel(m.id);setGalleryOpen(true);}}><Image src={asset('/sahara-contour.webp')} width={240} height={240} alt={`${m.name} — ${t('технічна ілюстрація серії','technical series illustration')}`} loading="lazy"/><span>{m.name}<small className="preview-capacity">{localText(m.specifications[0].value,en)}</small></span><ArrowUpRight size={18}/></button>)}</div>
         </section>
         <ModelDetails en={en} id={detailModel} onClose={()=>setDetailModel(null)} onCalculate={calculateModel} />
         <Calculator en={en} onBrowseModels={()=>{setGalleryFromCalculator(true);setCalculatorOpen(false);setGalleryModel(null);setGalleryOpen(true);}} model={selectedModel} onModelChange={setSelectedModel} open={calculatorOpen} onOpenChange={setCalculatorOpen} />

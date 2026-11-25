@@ -4204,20 +4204,9 @@ html:not(.dark) :is(.company-grid article, .products article, .engineering-calcu
 }
 
 @media (prefers-reduced-motion: no-preference) {
-  .reveal-on-scroll {
-    opacity: 0;
-    transform: translateY(18px);
-    transition: opacity var(--motion-standard) var(--ease-standard), transform var(--motion-standard) var(--ease-standard);
-  }
-
-  .reveal-on-scroll.is-visible {
-    opacity: 1;
-    transform: none;
-  }
-
   .hero-art {
-    animation: arqon-float 10s ease-in-out infinite alternate;
-    will-change: transform;
+    animation: none;
+    will-change: auto;
   }
 
   .products article {
@@ -5975,4 +5964,13 @@ html:not(.dark) :is(.gallery-card,.about-overview,.description-entry,.product-pr
  .calculator-window .calculator-tools { margin-block:0; gap:8px; }
  .calculator-window .calculator-instructions { margin-bottom:8px; }
  .calculator-window .calculator-instructions > summary { padding-block:8px; min-height:44px; }
+}
+
+@media print {
+ .model-print-sheet { font-family:Arial,sans-serif; }
+ .model-print-sheet > p:first-child { color:#ac3b0b; font-size:14pt; font-weight:600; margin:0; padding:10px 8px; background:#fffaf5; border-bottom:2px solid #ac3b0b; print-color-adjust:exact; }
+ .model-print-sheet h1 { font-size:20pt; margin:16px 0 12px; }
+ .model-print-sheet h2 { color:#ac3b0b; }
+ .model-print-sheet th,.model-print-sheet td { border-color:#d1c9c0; color:#20252a; }
+ .model-print-sheet tr:nth-child(even) { background:#fffaf5; print-color-adjust:exact; }
 }

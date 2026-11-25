@@ -30,3 +30,19 @@ test('slow mobile first screen stays stable and defers PDF resources',async({pag
   expect(metrics.lcp).toBeLessThan(15000);
 });
 
+
+test('sections remain visible immediately after fast scrolling',async({page})=>{
+ await page.emulateMedia({reducedMotion:'no-preference'});
+ await page.goto('./');
+ await page.locator('.hero-calculator').waitFor();
+ for(const id of ['faq','products','technology','about','calculator']){
+  const visible=await page.locator('#'+id).evaluate(el=>{
+   el.scrollIntoView({behavior:'instant',block:'start'});
+   const style=getComputedStyle(el);
+   return {opacity:Number(style.opacity),visibility:style.visibility,height:el.getBoundingClientRect().height};
+  });
+  expect(visible.opacity).toBe(1);
+  expect(visible.visibility).toBe('visible');
+  expect(visible.height).toBeGreaterThan(0);
+ }
+});
