@@ -5912,3 +5912,28 @@ html:not(.dark) :is(.gallery-card,.about-overview,.description-entry,.product-pr
 
 .consent input[type="checkbox"] { width:18px; height:18px; accent-color:var(--primary); cursor:pointer; }
 .consent input[type="checkbox"]:focus-visible { outline:2px solid var(--primary); outline-offset:3px; }
+
+/* Consistent space from section introductions to their content. */
+main > .section { --intro-gap:28px; }
+main :is(.section-heading,.about-intro,.media-heading) { margin-bottom:var(--intro-gap); }
+main :is(.section-heading,.about-intro,.media-heading) .eyebrow,
+#faq > .eyebrow { margin-top:0; margin-bottom:12px; }
+main :is(.section-heading,.about-intro,.media-heading) h2 { margin-top:0; margin-bottom:12px; }
+:is(#technology,#products) > .section-heading h2 { margin-bottom:0; }
+.about-compact .about-overview { margin-top:0; }
+.faq-section > h2 { margin-top:0; margin-bottom:0; }
+.faq-groups { margin-top:var(--intro-gap); }
+.gallery-dialog .gallery-card { grid-template-rows:auto 1fr; align-content:stretch; }
+.gallery-dialog .gallery-card-copy { grid-template-rows:auto auto 1fr auto; }
+.gallery-dialog .model-card-actions { display:grid; width:100%; min-width:0; justify-self:stretch; gap:12px; grid-column:1 / -1; align-self:end; margin-top:12px; }
+.gallery-dialog .model-card-actions > .button { width:100%; min-height:52px; height:100%; margin:0; padding:12px; line-height:1.4; text-align:center; }
+.gallery-dialog .model-card-actions > .model-specifications-button { border-color:var(--primary); }
+@media(min-width:761px) {
+ .gallery-dialog .gallery-card-copy { grid-template-rows:auto 1fr auto; }
+ .gallery-dialog .model-card-actions { grid-template-columns:1fr 1fr; }
+ .gallery-dialog .model-card-actions > .button { font-size:13px; }
+}
+@media(max-width:760px) {
+ main > .section { --intro-gap:20px; }
+ .gallery-dialog .model-card-actions { gap:8px; }
+}
