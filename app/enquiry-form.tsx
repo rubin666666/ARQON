@@ -11,7 +11,6 @@ import {
 } from '@/components/ui/dialog';
 import type { Scenario } from '@/lib/scenario';
 import type { ReportData } from '@/lib/report';
-import { Checkbox } from '@/components/ui/checkbox';
 export function EnquiryForm({
   en,
   message = false,
@@ -238,10 +237,10 @@ export function EnquiryForm({
         </label>
       </div>
       <div className="consent">
-        <Checkbox
+        <input type="checkbox" data-slot="checkbox"
           id={id + 'consent'}
           checked={consent}
-          onCheckedChange={setConsent}
+          onChange={event=>setConsent(event.target.checked)}
           required
         />
         <label htmlFor={id + 'consent'}>
