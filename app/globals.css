@@ -5427,7 +5427,8 @@ html:not(.dark) .photo-thumbnail .series-outline { filter:invert(1); }
 .about-overview .about-directions { gap:12px; grid-template-rows:repeat(2,minmax(0,1fr)); }
 .about-directions li { border:0; padding:14px; border-radius:12px; background:color-mix(in srgb,var(--foreground) 4%,var(--surface)); align-items:flex-start; }
 .about-directions li > span { padding-top:3px; }
-.about-locations li { padding:14px 0; grid-template-columns:90px minmax(0,1fr); }
+.about-locations { gap:12px; }
+.about-locations li { padding:14px; border:0; border-radius:12px; background:color-mix(in srgb,var(--foreground) 4%,var(--surface)); grid-template-columns:90px minmax(0,1fr); }
 .about-locations li:first-child { border-top:0; }
 @media(max-width:1000px) {
  .first-screen { display:block; }
@@ -5453,7 +5454,7 @@ html:not(.dark) .photo-thumbnail .series-outline { filter:invert(1); }
 .model-comparison-context { max-width:88ch; margin:24px auto 20px; text-align:center; }
 .calculator-launch-card { flex-direction:column; align-items:center; text-align:center; padding:clamp(24px,4vw,48px); gap:24px; }
 .calculator-launch-card > div { width:100%; max-width:760px; }
-.calculator-launch-card p:not(.eyebrow) { max-width:68ch; margin-inline:auto; }
+.calculator-launch-card p:not(.eyebrow) { max-width:68ch; margin-inline:auto; text-wrap:balance; }
 .faq-section > :is(.eyebrow,h2) { text-align:center; }
 .faq-list { max-width:960px; margin-inline:auto; }
 .gallery-launch-copy { align-items:center; text-align:center; width:min(540px,55%); }
@@ -5473,7 +5474,7 @@ html:not(.dark) .photo-thumbnail .series-outline { filter:invert(1); }
 :is(#technology,#products) > .section-heading .eyebrow,
 .about-intro > .eyebrow,
 .calculator-launch-card .eyebrow,
-.faq-section > .eyebrow { width:100%; text-align:center; }
+.faq-section > .eyebrow { width:100%; text-align:center; justify-content:center; }
 
 @media(min-width:1001px) { .flow-scroll-hint { display:none; } }
 
@@ -5699,16 +5700,16 @@ html:not(.dark) .photo-thumbnail .series-outline { filter:invert(1); }
 
 /* Let desktop summaries use the section width instead of a narrow text column. */
 @media(min-width:1001px) {
- .dryer-technology > .dryer-description-closing,
- .about-compact .about-intro,
- .calculator-launch-card > div { width:100%; max-width:1280px; margin-inline:auto; }
+ .about-compact .about-intro { width:100%; max-width:1280px; margin-inline:auto; }
+ .dryer-technology > .dryer-description-closing { width:100%; max-width:1040px; margin-inline:auto; }
+ .calculator-launch-card > div { width:100%; max-width:960px; margin-inline:auto; }
  .dryer-technology > .dryer-description-closing p,
  .about-compact .about-intro > p:not(.eyebrow),
- .calculator-launch-card p:not(.eyebrow) { width:100%; max-width:none; margin-inline:auto; line-height:1.65; }
+ .calculator-launch-card p:not(.eyebrow) { width:100%; max-width:none; margin-inline:auto; line-height:1.65; text-wrap:balance; }
  .about-compact .about-intro > .eyebrow,
  .calculator-launch-card .eyebrow { max-width:none; width:100%; text-align:center; justify-content:center; }
- .dryer-technology > .technology-next { width:100%; max-width:1280px; margin:24px auto 0; flex-direction:row; align-items:center; justify-content:space-between; gap:32px; }
- .technology-next p { flex:1; max-width:none; margin:0; text-align:left; }
+ .dryer-technology > .technology-next { width:100%; max-width:1040px; margin:24px auto 0; flex-direction:column; align-items:center; justify-content:center; gap:20px; }
+ .technology-next p { max-width:100%; margin:0; text-align:center; text-wrap:balance; }
  .technology-next > .button { flex-shrink:0; }
  .calculator-launch-card { padding-block:36px; gap:20px; }
 }
